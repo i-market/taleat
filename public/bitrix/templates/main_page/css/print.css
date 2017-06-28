@@ -1,0 +1,44 @@
+#sber-blank{
+	display:table;
+}
+
+.headerBg {
+    display: none;
+}
+
+footer {
+    display: none;
+}
+
+header {
+    display: none;
+}
+
+.userbar{
+	display:none;
+}
+
+.sideleft{
+	display:none;
+}
+
+.bar {
+    display: none;
+}
+
+.print-hidden{
+	display:none;
+}
+
+h1{
+	display:none;
+}
+
+#wrapper {
+    min-width: 0 !important;
+    max-width: none !important;
+}
+
+#wrapper .wrap{
+	margin: 0 !important;
+}

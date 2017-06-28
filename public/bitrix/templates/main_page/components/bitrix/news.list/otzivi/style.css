@@ -1,0 +1,25 @@
+.otzivi-list{position:relative;}
+
+.company{font-weight:bold;
+    }
+    
+/*.otz_item{margin-bottom:20px;}*/
+
+.otz_text{margin-bottom:5px;}
+
+.admin_text{
+	margin: 5px 25px 0 25px;
+    padding: 5px 10px;
+}
+
+a.add_otz{
+    display: block;
+    padding: 10px 20px;
+    background:#09bb50;
+    color: #fff !important;
+    text-decoration: none !important;
+    border-radius: 10px;
+    position:absolute;
+    top:-40px;
+    right:20px;
+}

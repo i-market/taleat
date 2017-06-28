@@ -1,0 +1,3 @@
+<?
+$sSectionName="system.auth.authorize";
+?>

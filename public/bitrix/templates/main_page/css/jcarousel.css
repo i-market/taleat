@@ -1,0 +1,109 @@
+/*Modified 13.04.2013*/
+
+/*HORIZONTAL jsCarousel*/
+.jcarousel-skin-tango .jcarousel-container {
+  /*width: 880px;*/
+  padding: 0px 25px 0px 25px;
+  margin: 0px;
+  position: relative;
+}
+.jcarousel-skin-tango .jcarousel-direction-rtl {
+	direction: rtl;
+}
+.jcarousel-skin-tango .jcarousel-clip-horizontal {
+  width: 96.1%;
+  height: 212px;
+  padding: 4px 0px 1px 4px;
+  margin: 20px auto 40px auto;
+  overflow: hidden;
+}
+.jcarousel-skin-tango .jcarousel-item {
+  width: 163px !important;
+  height: 212px;
+  padding: 0px;
+  margin: 0px 15px 20px 0px;
+  overflow: visible;
+  float: left;
+  position: relative;
+  list-style: none;
+  border: 0px;
+}
+ul.catalog.pop.jcarousel-list .downLi {
+  background: #41538f;
+}
+/*.jcarousel-skin-tango .jcarousel-item .title {
+  margin-bottom: 25px;
+}
+.jcarousel-skin-tango .jcarousel-item a:link,
+.jcarousel-skin-tango .jcarousel-item a:visited {
+  color: #525353;
+  text-decoration: none;
+}
+.jcarousel-skin-tango .jcarousel-item a:hover .title {
+  text-decoration: underline;
+}
+.jcarousel-skin-tango .jcarousel-item img {
+  max-width: 158px;
+  max-height: 50px;
+}
+.jcarousel-skin-tango .jcarousel-item img.b,
+.jcarousel-skin-tango .jcarousel-item:hover img.a {
+  display: none;
+}
+.jcarousel-skin-tango .jcarousel-item:hover img.b {
+  margin: 0px auto;
+  display: block;
+}*/
+.jcarousel-skin-tango .jcarousel-prev-horizontal {
+  width: 14px;
+  height: 64px;
+  margin: -32px 0px 0px 0px;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  font-size: 0px;
+  text-decoration: none !important;
+  cursor: pointer;
+  background: url(../images/prev.png) no-repeat;
+  z-index: 3;
+}
+.jcarousel-skin-tango .jcarousel-next-horizontal {
+  width: 14px;
+  height: 64px;
+  margin: -32px 0px 0px 0px;
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  font-size: 0px;
+  text-decoration: none !important;
+  cursor: pointer;
+  background: url(../images/next.png) no-repeat;
+  z-index: 3;
+}
+.jcarousel-skin-tango .jcarousel-next-disabled-horizontal,
+.jcarousel-skin-tango .jcarousel-next-disabled-horizontal:hover,
+.jcarousel-skin-tango .jcarousel-next-disabled-horizontal:focus,
+.jcarousel-skin-tango .jcarousel-next-disabled-horizontal:active,
+.jcarousel-skin-tango .jcarousel-prev-disabled-horizontal,
+.jcarousel-skin-tango .jcarousel-prev-disabled-horizontal:hover,
+.jcarousel-skin-tango .jcarousel-prev-disabled-horizontal:focus,
+.jcarousel-skin-tango .jcarousel-prev-disabled-horizontal:active {
+  cursor: default;
+}
+.jcarousel-skin-tango .jcarousel-next-disabled-horizontal,
+.jcarousel-skin-tango .jcarousel-next-disabled-horizontal:hover,
+.jcarousel-skin-tango .jcarousel-next-disabled-horizontal:focus,
+.jcarousel-skin-tango .jcarousel-next-disabled-horizontal:active {
+  display: none !important;
+}
+.jcarousel-skin-tango .jcarousel-next-horizontal:hover,
+.jcarousel-skin-tango .jcarousel-prev-horizontal:hover {
+  background-position: 0px -64px;
+}
+.jcarousel-skin-tango .jcarousel-prev-disabled-horizontal:hover {
+  cursor: default;
+  background-position: 0px 0px;
+}
+/*end HORIZONTAL jsCarousel*/

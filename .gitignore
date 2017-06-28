@@ -8,6 +8,9 @@
 /public/bitrix/php_interface/dbconn.php
 /public/bitrix/php_interface/after_connect.php
 /public/bitrix/php_interface/after_connect_d7.php
+!/public/bitrix/templates/
+/public/bitrix/templates/*
+!/public/bitrix/templates/main_page
 /public/upload/
 
 # composer

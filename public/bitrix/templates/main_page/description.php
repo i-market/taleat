@@ -1,0 +1,1 @@
+<?$arTemplate = array("NAME"=>"taleat.ru", "DESCRIPTION"=>"taleat.ru");?>

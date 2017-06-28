@@ -9,52 +9,56 @@ $APPLICATION->SetTitle("Письмо");
 <?if($_REQUEST["LETTER"]=="Отправить"){
 	$arError=Array();
 	if(strlen(trim($_REQUEST["NAME"]))==0){
-		$arError[0]="Не заполнено контактное лицо!";
+		$arError[]="Не заполнено контактное лицо!";
 	}
 
 	if(strlen(trim($_REQUEST["EMAIL"]))==0){
-		$arError[1]="Не заполнен E-mail!";
+		$arError[]="Не заполнен E-mail!";
 	}elseif(!filter_var($_REQUEST["EMAIL"], FILTER_VALIDATE_EMAIL))
 	{
-		$arError[1]="Некорректный E-mail!";
+		$arError[]="Некорректный E-mail!";
 	}
-			if(!strlen($_REQUEST["captcha_word"])>0)
-				{ 
-				$arError[2]='Не введен защитный код!';
-				}
-			elseif(!$cptcha->CheckCode($_REQUEST["captcha_word"],$_REQUEST["captcha_sid"])){ 
-				$arError[2]= "Код с картинки заполнен не правильно!";    
-		}
+	if (!isset($_REQUEST['AGREED_PERSONAL_DATA'])) {
+		$arError[]="Согласие на обработку персональных данных обязательно!";
+	}
+	if(!strlen($_REQUEST["captcha_word"])>0)
+	{
+		$arError[]='Не введен защитный код!';
+	}
+	elseif(!$cptcha->CheckCode($_REQUEST["captcha_word"],$_REQUEST["captcha_sid"])){
+		$arError[]= "Код с картинки заполнен не правильно!";
+	}
 	if(count($arError)>0)
-		{
-			foreach($arError as $error){
-				?><div class="error"><?=$error?></div><?
-				
-			}
-			
+	{
+		foreach($arError as $error){
+			?><div class="error"><?=$error?></div><?
+
 		}
+
+	}
 	else{
-	
-			$arSendFields = array(
-				"NAME"=>$_REQUEST["NAME"],
-				"PHONE"=>$_REQUEST["PHONE"],
-				"EMAIL"=>$_REQUEST["EMAIL"],
-				"TEXT"=>$_REQUEST["TEXT"],
-				);							
-			$send=CEvent::Send("LETTER","s1", $arSendFields); 
-					
-			if($send)
-				{
-					?><div class="succes">Спасибо! Ваш письмо успешно отправлено!</div><?
-				}
-	
-	
+
+		$arSendFields = array(
+			"NAME"=>$_REQUEST["NAME"],
+			"PHONE"=>$_REQUEST["PHONE"],
+			"EMAIL"=>$_REQUEST["EMAIL"],
+			"TEXT"=>$_REQUEST["TEXT"],
+		);
+		$send=CEvent::Send("LETTER","s1", $arSendFields);
+
+		if($send)
+		{
+			?><div class="succes">Спасибо! Ваш письмо успешно отправлено!</div><?
+		}
+
+
 	}
 
 
 }?>
 <div <?if($send):?>style="display:none;"<?endif?>>
 <form action="/letter/" method="POST" >
+	<? $isInitial = $_SERVER['REQUEST_METHOD'] === 'GET' ?>
 	<table cellpadding="0" cellspacing="0" border="0">
 		<tr>
 			<td class="on_td">
@@ -86,6 +90,24 @@ $APPLICATION->SetTitle("Письмо");
 			<td colspan="2"> 
 				Текст сообщения:<br>
 				<textarea name="TEXT" class="textr"><?=htmlspecialchars($_REQUEST["TEXT"])?></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<? $key = 'AGREED_PERSONAL_DATA' ?>
+				<input id="personal-data" name="<?= $key ?>" type="checkbox"<?= isset($_REQUEST[$key]) || $isInitial ? ' checked' : '' ?>>
+				<label for="personal-data">
+					Я соглашаюсь на <a href="<?= SITE_DIR.'terms/personal-data/' ?>" target="_blank">обработку персональных данных</a>
+				</label>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<? $key = 'AGREED_ADS' ?>
+				<input id="ads" name="<?= $key ?>" type="checkbox"<?= isset($_REQUEST[$key]) || $isInitial ? ' checked' : '' ?>>
+				<label for="ads">
+					Я соглашаюсь на <a href="<?= SITE_DIR.'terms/ads/' ?>" target="_blank">получение рекламы</a>
+				</label>
 			</td>
 		</tr>
 			<tr>	<td class="on_td">

@@ -1,6 +1,9 @@
 <? $isInitial = $_SERVER['REQUEST_METHOD'] === 'GET' ?>
 
-<? // referenced in /bitrix/templates/main_page/components/imarket/sale.order.ajax/visual/template.php ?>
+<?
+// referenced in /bitrix/templates/main_page/components/imarket/sale.order.ajax/visual/template.php
+//               /bitrix/templates/main_page/components/bitrix/system.auth.registration/.default/template.php
+?>
 <? $key = 'AGREED_PERSONAL_DATA' ?>
 
 <div>

@@ -1,0 +1,30 @@
+<?require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
+switch($_REQUEST["mode"]):
+    case "cartUpdate":
+        $APPLICATION->IncludeComponent("bitrix:sale.basket.basket.line", "basket", Array(
+            "PATH_TO_BASKET" => SITE_DIR."personal/cart/",  // Страница корзины
+            "PATH_TO_PERSONAL" => SITE_DIR."personal/", // Персональный раздел
+            "SHOW_PERSONAL_LINK" => "N",    // Отображать ссылку на персональный раздел
+        ), false);
+    break;
+    
+    case "buy":
+        CModule::IncludeModule('catalog');
+        CModule::IncludeModule('sale');
+        $dbBasketItems = CSaleBasket::GetList(
+                Array(), Array( 
+                        "FUSER_ID" => CSaleBasket::GetBasketUserID(),
+                        "LID" => SITE_ID,
+                        "ORDER_ID" => "NULL",
+                        "DELAY" => "Y"
+                    ),
+            false, false, Array("ID")
+            );
+        while($dbBasketItem = $dbBasketItems->GetNext()):
+            CSaleBasket::Delete($dbBasketItem["ID"]);
+        endwhile;
+        echo Add2BasketByProductID($_REQUEST["id"]);
+    break;
+        
+    default: break;
+endswitch;

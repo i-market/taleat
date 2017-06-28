@@ -1,0 +1,25 @@
+<?
+$aMenuLinks = Array(
+	Array(
+		"Остатки", 
+		"/partneram/ostatki_V/ostatki_braun2.xls", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Заказ", 
+		"/partneram/zakaz/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Документация", 
+		"/partneram/de-longhi/doc/", 
+		Array(), 
+		Array(), 
+		"" 
+	)
+);
+?>

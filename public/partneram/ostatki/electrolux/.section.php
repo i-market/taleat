@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Electrolux";
+$arDirProperties = array(
+
+);
+?>

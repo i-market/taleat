@@ -1,0 +1,36 @@
+# intellij idea
+.idea/
+*.iml
+
+# bitrix
+/public/bitrix/*
+/public/upload/
+
+# composer
+/public/local/vendor/
+
+node_modules/
+.sass-cache/
+
+/public/local/reports/
+/public/local/templates/*/build/
+/public/local/scratch.php
+
+*.log
+
+# fabric/deploy
+
+__pycache__
+secrets.yml
+
+# temporary files
+
+~$*.xls*
+
+# project
+
+/tmp
+# TODO be more specific
+*.xls
+*.doc
+*.pdf

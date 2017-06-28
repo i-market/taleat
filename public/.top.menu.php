@@ -1,0 +1,60 @@
+<?
+$aMenuLinks = Array(
+	Array(
+		"Главная", 
+		"/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Интернет-магазин", 
+		"/catalog/", 
+		Array(), 
+		Array("class"=>"double-string"), 
+		"" 
+	),
+	Array(
+		"Оплата/доставка", 
+		"/buy/", 
+		Array(), 
+		Array("class"=>"double-string"), 
+		"" 
+	),
+	Array(
+		"Партнерам", 
+		"/partneram/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Сервисное обслуживание", 
+		"/region/", 
+		Array(), 
+		Array("class"=>"double-string"), 
+		"" 
+	),
+	Array(
+		"Новости", 
+		"/news/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Контакты", 
+		"/contacts/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Отзывы", 
+		"/otzivi/", 
+		Array(), 
+		Array(), 
+		"" 
+	)
+);
+?>

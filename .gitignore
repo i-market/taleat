@@ -4,6 +4,10 @@
 
 # bitrix
 /public/bitrix/*
+!/public/bitrix/php_interface
+/public/bitrix/php_interface/dbconn.php
+/public/bitrix/php_interface/after_connect.php
+/public/bitrix/php_interface/after_connect_d7.php
 /public/upload/
 
 # composer

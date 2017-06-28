@@ -55,14 +55,23 @@ else
 	{
 		?>
 		<script>
-		<!--	
+		<!--
 		function submitForm(val)
 		{
-			$('.bt3').prop('disabled','true');	
+		    var hasErrors = false;
+			$('.bt3').prop('disabled','true');
 		    $('#ORDER_FORM').find('.error-law').hide();
-		    if(val == 'Y' && !$('#ORDER_FORM').find('[name=law]').prop('checked')) {
+			var lawChecked = $('#ORDER_FORM').find('[name=law]').prop('checked');
+			var personalChecked = $('#ORDER_FORM').find('[name=AGREED_PERSONAL_DATA]').prop('checked');
+			if (!lawChecked || !personalChecked) {
+				hasErrors = true;
+			}
+		    if(val == 'Y' && hasErrors) {
                 val = 'N';
-                $('#ORDER_FORM').find('.error-law').show(); 
+				$('#ORDER_FORM').find('.error-personal-data').toggle(!personalChecked);
+				if (!lawChecked) {
+					$('#ORDER_FORM').find('.error-law').show();
+				}
 				$('.bt3').removeAttr('disabled');
 				
                 return false;

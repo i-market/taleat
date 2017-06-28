@@ -18,9 +18,7 @@ $APPLICATION->SetTitle("Письмо");
 	{
 		$arError[]="Некорректный E-mail!";
 	}
-	if (!isset($_REQUEST['AGREED_PERSONAL_DATA'])) {
-		$arError[]="Согласие на обработку персональных данных обязательно!";
-	}
+	$arError = array_merge($arError, Forms::validateTermsAgreement($_REQUEST));
 	if(!strlen($_REQUEST["captcha_word"])>0)
 	{
 		$arError[]='Не введен защитный код!';
@@ -94,20 +92,7 @@ $APPLICATION->SetTitle("Письмо");
 		</tr>
 		<tr>
 			<td colspan="2">
-				<? $key = 'AGREED_PERSONAL_DATA' ?>
-				<input id="personal-data" name="<?= $key ?>" type="checkbox"<?= isset($_REQUEST[$key]) || $isInitial ? ' checked' : '' ?>>
-				<label for="personal-data">
-					Я соглашаюсь на <a href="<?= SITE_DIR.'terms/personal-data/' ?>" target="_blank">обработку персональных данных</a>
-				</label>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<? $key = 'AGREED_ADS' ?>
-				<input id="ads" name="<?= $key ?>" type="checkbox"<?= isset($_REQUEST[$key]) || $isInitial ? ' checked' : '' ?>>
-				<label for="ads">
-					Я соглашаюсь на <a href="<?= SITE_DIR.'terms/ads/' ?>" target="_blank">получение рекламы</a>
-				</label>
+                <? include $_SERVER['DOCUMENT_ROOT'].'/local/partials/forms/terms.php' ?>
 			</td>
 		</tr>
 			<tr>	<td class="on_td">

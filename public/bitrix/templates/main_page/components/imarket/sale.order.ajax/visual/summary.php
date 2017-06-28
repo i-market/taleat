@@ -118,5 +118,7 @@
     <label>
         <input type="checkbox" name="law"<?if($_REQUEST["law"] == "on"):?> checked="checked"<?endif?>> Я подтверждаю, что ознакомился  с <a href="/law/" target="_blank">Политикой информационной безопасности интернет-магазина "Taleat.ru"</a>
     </label>
-    <div class="error-law">Вы обязательно должны ознакомиться с Политикой информационной безопасности!</div>
+	<? include $_SERVER['DOCUMENT_ROOT'].'/local/partials/forms/terms.php' ?>
+	<div class="error-law">Вы обязательно должны ознакомиться с Политикой информационной безопасности!</div>
+	<div class="error-msg error-personal-data" style="display: none"><?= Forms::PERSONAL_DATA_ERROR ?></div>
 </div>

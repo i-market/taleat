@@ -12,26 +12,26 @@ $APPLICATION->SetTitle("Отзывы");
 	$cptcha = new CCaptcha();
 	?>
 	<?
-		if($_REQUEST["otziv"]=='Добавить')
+	if($_REQUEST["otziv"]=='Добавить')
+	{
+		$arError=Array();
+		if(strlen(trim($_REQUEST["NAME"]))==0)
 		{
-			$arError=Array();
-			if(strlen(trim($_REQUEST["NAME"]))==0)
-				{
-					$arError[]='Вы не ввели свое имя!';
-				}
-			if(strlen(trim($_REQUEST["TEXT"]))==0)
-				{
-					$arError[]='Вы не ввели текст для отзыва!';
-				}
-				
-			if(!strlen($_REQUEST["captcha_word"])>0)
-				{ 
-				$arError[2]='Не введен защитный код!';
-				}
-			elseif(!$cptcha->CheckCode($_REQUEST["captcha_word"],$_REQUEST["captcha_sid"])){ 
-				$arError[2]= "Код с картинки заполнен не правильно!";    
+			$arError[]='Вы не ввели свое имя!';
 		}
-		
+		if(strlen(trim($_REQUEST["TEXT"]))==0)
+		{
+			$arError[]='Вы не ввели текст для отзыва!';
+		}
+		$arError = array_merge($arError, Forms::validateTermsAgreement($_REQUEST));
+		if(!strlen($_REQUEST["captcha_word"])>0)
+		{
+			$arError[]='Не введен защитный код!';
+		}
+		elseif(!$cptcha->CheckCode($_REQUEST["captcha_word"],$_REQUEST["captcha_sid"])){
+			$arError[]= "Код с картинки заполнен не правильно!";
+		}
+
 		if(count($arError)>0)
 			{
 				foreach($arError as $error){
@@ -107,6 +107,12 @@ $APPLICATION->SetTitle("Отзывы");
 			<td class="tw_td">
 				<textarea name="TEXT"><?=htmlspecialchars($_REQUEST["TEXT"])?></textarea>
 			</td>
+			</tr>
+            <tr>
+				<td class="on_td"></td>
+				<td>
+					<? include $_SERVER['DOCUMENT_ROOT'].'/local/partials/forms/terms.php' ?>
+                </td>
 			</tr>
 			<tr>	<td class="on_td">
 				Введите код:

@@ -403,4 +403,14 @@ function changeStatus(&$arFields) {
         endif;
     endif;
 }
+
+class Forms {
+    const PERSONAL_DATA_ERROR = 'Согласие на обработку персональных данных обязательно!';
+
+    static function validateTermsAgreement($params) {
+        return !isset($params['AGREED_PERSONAL_DATA'])
+            ? [self::PERSONAL_DATA_ERROR]
+            : [];
+    }
+}
 ?>

@@ -1724,6 +1724,10 @@ textarea.input-form{
     color: red;
     margin-top: 10px;
 }
+.error-msg {
+  color: red;
+  margin-top: 10px;
+}
 
 #buy-complete {
     background: #7586bd;

@@ -55,14 +55,15 @@ $(function(){
 				{
 					$arError[]='Вы не ввели логин!';
 				}
-				
-				
+
+            $arError = array_merge($arError, Forms::validateTermsAgreement($_REQUEST));
+
 				if(!strlen($_REQUEST["captcha_word"])>0)
 				{ 
-				$arError[count($arError)-1]='Не введен защитный код!';
+				$arError[]='Не введен защитный код!';
 				}
 			elseif(!$cptcha->CheckCode($_REQUEST["captcha_word"],$_REQUEST["captcha_sid"])){ 
-				$arError[count($arError)-1]= "Код с картинки заполнен не правильно!";    
+				$arError[]= "Код с картинки заполнен не правильно!";
 				}
 				
 		if(count($arError))
@@ -211,6 +212,12 @@ $(function(){
 			<td class="tw_td">
 				<input type="text" name="EMAIL" value="<?=htmlspecialchars($_REQUEST["EMAIL"])?>" /> 
 			</td>
+			</tr>
+            <tr>
+                <td class="on_td"></td>
+				<td>
+					<? include $_SERVER['DOCUMENT_ROOT'].'/local/partials/forms/terms.php' ?>
+				</td>
 			</tr>
 			<tr>
 				<td class="on_td">

@@ -1,3 +1,11 @@
-<? // TODO refactor: inline ?>
-<div><? include $_SERVER['DOCUMENT_ROOT'].'/local/partials/forms/terms_personal_data.php' ?></div>
-<div><? include $_SERVER['DOCUMENT_ROOT'].'/local/partials/forms/terms_ads.php' ?></div>
+<? $isInitial = $_SERVER['REQUEST_METHOD'] === 'GET' ?>
+
+<? // referenced in /bitrix/templates/main_page/components/imarket/sale.order.ajax/visual/template.php ?>
+<? $key = 'AGREED_PERSONAL_DATA' ?>
+
+<div>
+    <input id="personal-data" name="<?= $key ?>" type="checkbox"<?= isset($_REQUEST[$key]) || $isInitial ? ' checked' : '' ?>>
+    <label for="personal-data">
+        Я соглашаюсь на <a href="<?= SITE_DIR.'terms/privacy/' ?>" target="_blank">обработку персональных данных</a>
+    </label>
+</div>

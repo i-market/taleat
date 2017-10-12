@@ -21,6 +21,12 @@ class App extends \Core\App {
     function layoutContext() {
         $sentryConfig = _::get(Configuration::getValue('app'), 'sentry');
         return [
+            'auth' => [
+                'registerLink' => '/login/?register=yes&backurl=%2Flogin%2F',
+                'profileLink' => '/personal/?backurl=%2F',
+                'loginLink' => '#',
+                'logoutLink' => '/?logout=yes'
+            ],
             'sentry' => [
                 'enabled' => $sentryConfig['enabled'],
                 'env' => self::env(),

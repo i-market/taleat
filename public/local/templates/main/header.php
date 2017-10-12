@@ -1,4 +1,8 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+/**
+ * @global $APPLICATION
+ * @global $USER
+ */
 
 use App\App;
 use Bitrix\Main\Page\Asset;
@@ -46,9 +50,15 @@ if (App::useBitrixAsset()) {
         <div class="menu-hidden-close"></div>
         <div class="menu-hidden-inner">
             <div class="menu-hidden-sign-in">
-                <a href="#">Вход</a>
-                <span>/</span>
-                <a href="#">Регистрация</a>
+                <? if ($USER->IsAuthorized()): ?>
+                    <a href="<?= $auth['profileLink'] ?>">Личный кабинет</a>
+                    <span>/</span>
+                    <a href="<?= $auth['logoutLink'] ?>">Выйти</a>
+                <? else: ?>
+                    <a href="<?= $auth['loginLink'] ?>">Вход</a>
+                    <span>/</span>
+                    <a href="<?= $auth['registerLink'] ?>">Регистрация</a>
+                <? endif ?>
             </div>
             <ul>
                 <li><a href="#" class="active"><span>Оплата и доставка</span></a></li>
@@ -86,16 +96,23 @@ if (App::useBitrixAsset()) {
                     </ul>
                 </nav>
                 <div class="sig-in">
-                    <a class="sig-in-link" href="#">Вход</a>
-                    <span class="separator">/</span>
-                    <a class="sig-in-link" href="#">Регистрация</a>
+                    <? if ($USER->IsAuthorized()): ?>
+                        <? // TODO ux: show username or something ?>
+                        <a class="sig-in-link" href="<?= $auth['profileLink'] ?>">Личный кабинет</a>
+                        <span class="separator">/</span>
+                        <a class="sig-in-link" href="<?= $auth['logoutLink'] ?>">Выйти</a>
+                    <? else: ?>
+                        <a class="sig-in-link" href="<?= $auth['loginLink'] ?>">Вход</a>
+                        <span class="separator">/</span>
+                        <a class="sig-in-link" href="<?= $auth['registerLink'] ?>">Регистрация</a>
+                    <? endif ?>
                 </div>
             </div>
         </div>
     </div>
     <div class="header-middle">
         <div class="wrap">
-            <a class="logo" href="#">
+            <a class="logo" href="<?= v::path('/') ?>">
                 <img src="<?= v::asset('images/ico/logo.png') ?>" alt="">
             </a>
             <span class="open-header-form"></span>

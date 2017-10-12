@@ -1,4 +1,11 @@
 <?
+// composer
+require $_SERVER['DOCUMENT_ROOT'].'/local/vendor/autoload.php';
+
+use App\App;
+
+App::getInstance()->init();
+
 const IB_REPORTS = 10;
 CModule::IncludeModule('sale');
 CModule::IncludeModule('iblock');

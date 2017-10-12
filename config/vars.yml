@@ -1,0 +1,13 @@
+roles:
+  all:
+    sentry:
+      enabled: true
+  dev:
+    local: true
+    app_env: dev
+    hosts: [local]
+    sentry:
+      enabled: false
+  stage:
+    app_env: prod
+    hosts: [] # TODO

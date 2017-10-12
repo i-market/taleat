@@ -1,0 +1,113 @@
+<?php
+// {{ generated_message }}
+return array (
+  'utf_mode' => 
+  array (
+    'value' => true,
+    'readonly' => true,
+  ),
+  'default_charset' =>
+  array (
+    'value' => false,
+    'readonly' => false,
+  ),
+  'no_accelerator_reset' =>
+  array (
+    'value' => false,
+    'readonly' => false,
+  ),
+  'analytics_counter' =>
+  array (
+    'value' =>
+    array (
+      'enabled' => false,
+    ),
+  ),
+  'http_status' =>
+  array (
+    'value' => false,
+    'readonly' => false,
+  ),
+  'cache' =>
+  array (
+    'value' =>
+    array (
+      'type' => 'files',
+    ),
+    'readonly' => false,
+  ),
+  'cache_flags' =>
+  array (
+    'value' => 
+    array (
+      'config_options' => 3600,
+      'site_domain' => 3600,
+    ),
+    'readonly' => false,
+  ),
+  'cookies' => 
+  array (
+    'value' => 
+    array (
+      'secure' => false,
+      'http_only' => true,
+    ),
+    'readonly' => false,
+  ),
+  'exception_handling' => 
+  array (
+    'value' => 
+    array (
+      {% if app_env == 'dev' %}
+      'debug' => true,
+      {% else %}
+      'debug' => false,
+      {% endif %}
+      'handled_errors_types' => 4437 | E_USER_WARNING,
+      'exception_errors_types' => 4437,
+      'ignore_silence' => false,
+      'assertion_throws_exception' => true,
+      'assertion_error_type' => 256,
+      {% if app_env == 'dev' %}
+      'log' => null,
+      {% elif sentry.enabled %}
+      'log' => array(
+        'class_name' => '\\App\\ExceptionHandlerLog',
+        'settings' => array()
+      ),
+      {% else %}
+      'log' => '/var/www/taleat/data/www/taleat.ru/error.log',
+      {% endif %}
+    ),
+    'readonly' => false,
+  ),
+  'connections' => 
+  array (
+    'value' => 
+    array (
+      'default' => 
+      array (
+        'className' => '\\Bitrix\\Main\\DB\\MysqlConnection',
+        'host' => '{{ db.host }}',
+        'database' => '{{ db.name }}',
+        'login' => '{{ db.user }}',
+        'password' => '{{ db.password }}',
+        'options' => 2,
+      ),
+    ),
+    'readonly' => true,
+  ),
+  'app' => array(
+    'value' => array(
+      'env' => '{{ app_env }}',
+      {% if override_default_email_from is defined %}
+      'override_default_email_from' => '{{ override_default_email_from }}',
+      {% endif %}
+      'sentry' => array(
+        'enabled' => {{ 'true' if sentry.enabled else 'false' }},
+        'dsn' => '{{ sentry.dsn }}',
+        'public_dsn' => '{{ sentry.public_dsn }}',
+      ),
+    ),
+  ),
+);

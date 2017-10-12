@@ -16,7 +16,7 @@ AddEventHandler("iblock", "OnAfterIBlockElementAdd", Array("MyResizePicturesHand
 AddEventHandler("iblock", "OnAfterIBlockElementUpdate", Array("MyResizePicturesHandlers", "ClearTempElementProperty"));
 AddEventHandler("main", "OnAfterUserUpdate", Array("MyUpdateUser", "UpdateUserSendMessage"));
 
-AddEventHandler("main", "OnAfterUserAdd", "OnAfterUserRegisterHandler");
+AddEventHandler("main", "OnAfterUserAdd", "OnAfterUserAddHandler");
 AddEventHandler("main", "OnAfterUserRegister", "OnAfterUserRegisterHandler");
 
 AddEventHandler("main", "OnAdminListDisplay", "MyOnAdminListDisplay");
@@ -44,11 +44,37 @@ function MyOnAdminListDisplay(&$list)
 	}
 }
 
+function OnAfterUserAddHandler(&$arFields)
+{
+   if (0 < $arFields["ID"]){
+      /*$toSend = Array();
+        $holidayText = "";
+        $datetime2 = date_create(date("Y-m-d"));
+        $res = CUser::GetList($o, $b, array("ID_EQUAL_EXACT" => 1), array("SELECT"=>array("UF_HOLYDAY", "UF_HOLYDAY_TO")));
+        if ($ob = $res->Fetch()){
+            if ($ob["UF_HOLYDAY"] && strpos($arFields["NAME"], "_prt")!==false){
+                $arFields["NAME"] = str_replace("_prt", "", $arFields["NAME"]);
+                $holidayText = "<br><br>Ваша заявка на регистрацию будет рассмотрена <strong>".$ob["UF_HOLYDAY_TO"]."</strong><br><br>";
+            }
+        }
 
+      $toSend = array(
+      	'EMAIL' 	=> $arFields['EMAIL'],
+      	'LOGIN' 	=> $arFields['LOGIN'],
+      	'PASSWORD'  => $arFields['CONFIRM_PASSWORD'],
+      	'HOLIDAY'   => $holidayText
+	  );
+      
+      CEvent::Send("NEW_USER2", SITE_ID, $toSend, 'Y');*/
+      CUser::SendUserInfo($arFields["ID"], SITE_ID, "");
+   }
+   
+   return $arFields;
+}
 
 function OnAfterUserRegisterHandler(&$arFields)
 {
-   if (intval($arFields["ID"])>0 && $arFields["GROUP_ID"][0] == 5){
+   if (0 < $arFields["USER_ID"]){
       $toSend = Array();
         $holidayText = "";
         $datetime2 = date_create(date("Y-m-d"));
@@ -60,17 +86,16 @@ function OnAfterUserRegisterHandler(&$arFields)
             }
         }
 
-      $toSend["HOLIDAY"] = $holidayText;
-      $toSend["PASSWORD"] = $arFields["CONFIRM_PASSWORD"];
-      $toSend["EMAIL"] = $arFields["EMAIL"];
-      $toSend["USER_ID"] = $arFields["ID"];
-      $toSend["USER_IP"] = $arFields["USER_IP"];
-      $toSend["USER_HOST"] = $arFields["USER_HOST"];
-      $toSend["LOGIN"] = $arFields["LOGIN"];
-      $toSend["NAME"] = (trim ($arFields["NAME"]) == "")? $toSend["NAME"] = htmlspecialchars('<Не указано>'): $arFields["NAME"];
-      $toSend["LAST_NAME"] = (trim ($arFields["LAST_NAME"]) == "")? $toSend["LAST_NAME"] = htmlspecialchars('<Не указано>'): $arFields["LAST_NAME"];
-      CEvent::SendImmediate("NEW_USER2", SITE_ID, $toSend);
+      $toSend = array(
+      	'EMAIL' 	=> $arFields['EMAIL'],
+      	'LOGIN' 	=> $arFields['LOGIN'],
+      	'PASSWORD'  => $arFields['CONFIRM_PASSWORD'],
+      	'HOLIDAY'   => $holidayText
+	  );
+      
+      CEvent::Send("NEW_USER2", SITE_ID, $toSend, 'Y');
    }
+   
    return $arFields;
 }
 

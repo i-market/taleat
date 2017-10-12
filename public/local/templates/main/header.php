@@ -117,14 +117,31 @@ if (App::useBitrixAsset()) {
         <div class="wrap">
             <div class="header-bottom-left">
                 <span class="absurd"><span class="absurd-hidden"></span></span>
-                <a class="catalog-link" href="#">Каталог <span class="hidden">товаров</span></a>
+                <a class="catalog-link" href="<?= v::path('catalog') ?>">Каталог <span class="hidden">товаров</span></a>
             </div>
             <div class="header-bottom-right">
                 <a class="service-maintenance-link" href="#">Сервис<span class="hidden">ное обслуживание</span></a>
-                <a class="header-cart" href="#">
-                    <span class="header-cart-ico"></span>
-                    Ваша корзина пуста
-                </a>
+                <?$APPLICATION->IncludeComponent(
+                    "bitrix:sale.basket.basket.line",
+                    "header",
+                    array(
+                        "PATH_TO_BASKET" => SITE_DIR."personal/cart/",
+                        "PATH_TO_PERSONAL" => SITE_DIR."personal/",
+                        "SHOW_PERSONAL_LINK" => "N",
+                        "COMPONENT_TEMPLATE" => "basket",
+                        "PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
+                        "SHOW_NUM_PRODUCTS" => "Y",
+                        "SHOW_TOTAL_PRICE" => "Y",
+                        "SHOW_EMPTY_VALUES" => "Y",
+                        "SHOW_AUTHOR" => "N",
+                        "PATH_TO_REGISTER" => SITE_DIR."login/",
+                        "PATH_TO_PROFILE" => SITE_DIR."personal/",
+                        "SHOW_PRODUCTS" => "N",
+                        "POSITION_FIXED" => "N",
+                        "HIDE_ON_BASKET_PAGES" => "N"
+                    ),
+                    false
+                );?>
             </div>
         </div>
     </div>

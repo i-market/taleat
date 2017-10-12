@@ -40,6 +40,7 @@ if (App::useBitrixAsset()) {
     <![endif]-->
 </head>
 <body>
+<? $APPLICATION->ShowPanel() ?>
 <header class="header">
     <div class="menu-hidden">
         <div class="menu-hidden-close"></div>
@@ -131,127 +132,29 @@ if (App::useBitrixAsset()) {
 <main class="content">
     <div class="content-menu-block">
         <div class="wrap">
-            <div class="content-menu">
-                <span class="catalog-menu-close"></span>
-                <div class="accordeon">
-                    <div class="accordeon-item">
-                        <div class="accordeon-wrap-link">
-                            <a href="#" class="accordeon-link">Babyliss Paris</a>
-                            <span class="accordeon-title"></span>
-                            <div class="accordeon-inner">
-                                <ul>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordeon-item">
-                        <div class="accordeon-wrap-link">
-                            <a href="#" class="accordeon-link">Braun</a>
-                            <span class="accordeon-title"></span>
-                            <div class="accordeon-inner">
-                                <ul>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordeon-item">
-                        <div class="accordeon-wrap-link">
-                            <a href="#" class="accordeon-link">Delonghi</a>
-                            <span class="accordeon-title"></span>
-                            <div class="accordeon-inner">
-                                <ul>
-                                    <li><a href="#">Машинки/триммеры для стрижки волос</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordeon-item">
-                        <div class="accordeon-wrap-link">
-                            <a href="#" class="accordeon-link">Kenwood</a>
-                            <span class="accordeon-title"></span>
-                            <div class="accordeon-inner">
-                                <ul>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordeon-item">
-                        <div class="accordeon-wrap-link">
-                            <a href="#" class="accordeon-link">Moser</a>
-                            <span class="accordeon-title"></span>
-                            <div class="accordeon-inner">
-                                <ul>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordeon-item">
-                        <div class="accordeon-wrap-link">
-                            <a href="#" class="accordeon-link">Philips</a>
-                            <span class="accordeon-title"></span>
-                            <div class="accordeon-inner">
-                                <ul>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordeon-item">
-                        <div class="accordeon-wrap-link">
-                            <a href="#" class="accordeon-link">Masahi Irica</a>
-                            <span class="accordeon-title"></span>
-                            <div class="accordeon-inner">
-                                <ul>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordeon-item">
-                        <div class="accordeon-wrap-link">
-                            <a href="#" class="accordeon-link">solstick</a>
-                            <span class="accordeon-title"></span>
-                            <div class="accordeon-inner">
-                                <ul>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                    <li><a href="#">ссылка</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?$APPLICATION->IncludeComponent("bitrix:catalog.section.list", "header_menu", Array(
+                "IBLOCK_TYPE" => "catalog",	// Тип инфоблока
+                "IBLOCK_ID" => "3",	// Инфоблок
+                "SECTION_ID" => "",	// ID раздела
+                "SECTION_CODE" => "",	// Код раздела
+                "COUNT_ELEMENTS" => "N",	// Показывать количество элементов в разделе
+                "TOP_DEPTH" => "2",	// Максимальная отображаемая глубина разделов
+                "SECTION_FIELDS" => array(	// Поля разделов
+                    0 => "",
+                    1 => "",
+                ),
+                "SECTION_USER_FIELDS" => array(	// Свойства разделов
+                    0 => "",
+                    1 => "",
+                ),
+                "SECTION_URL" => "",	// URL, ведущий на страницу с содержимым раздела
+                "CACHE_TYPE" => "N",	// Тип кеширования
+                "CACHE_TIME" => "36000000",	// Время кеширования (сек.)
+                "CACHE_GROUPS" => "Y",	// Учитывать права доступа
+                "ADD_SECTIONS_CHAIN" => "N",	// Включать раздел в цепочку навигации
+            ),
+                false
+            );?>
             <div class="content-menu-items">
                 <a class="content-menu-item shop" href="#">
                     <strong class="title">Магазин</strong>

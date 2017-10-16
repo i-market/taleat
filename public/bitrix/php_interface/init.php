@@ -376,7 +376,9 @@ class MyResizePicturesHandlers
     function ClearTempElementProperty(&$arFields)
     {
         global $clWorkPicture;
-        $clWorkPicture->fn_delete_temp_picture();
+        if (isset($clWorkPicture) && is_object($clWorkPicture)) {
+            $clWorkPicture->fn_delete_temp_picture();
+        }
     }
 }
 

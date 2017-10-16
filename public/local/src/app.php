@@ -65,6 +65,9 @@ class View extends \Core\View {
 class Events {
 }
 
-class Iblocks {
+class Iblock {
     const CHECKBOX_TRUE_VALUE = 'да';
+
+    const CONTENT_TYPE = 'content';
+    const BRANDS = 'brands';
 }

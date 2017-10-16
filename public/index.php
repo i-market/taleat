@@ -4,54 +4,74 @@ $APPLICATION->SetPageProperty("keywords", "Сетки к бритвам, зуб�
 $APPLICATION->SetPageProperty("description", "Мы предлагаем широкий ассортимент аксессуаров  к бытовой технике  фирмы Braun (Браун)");
 $APPLICATION->SetTitle("Главная | TALEAT");
 
-use App\Iblocks;
+use App\Iblock;
 use App\View as v;
+use Bex\Tools\Iblock\IblockTools;
+
 ?>
 
 <?
 global $arFiltNew;
 
-$arFiltNew=array("PROPERTY_IS_FEATURED_VALUE" => Iblocks::CHECKBOX_TRUE_VALUE);
+$arFiltNew=array("PROPERTY_IS_FEATURED_VALUE" => Iblock::CHECKBOX_TRUE_VALUE);
 ?>
 
-<section class="wrap-labels-slider wrap-slider section">
-    <div class="wrap wrap--wp">
-        <span class="arrows prev"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-  <defs>
-    <style>
-      .cls-1 {
-          fill: #214385;
-          fill-rule: evenodd;
-      }
-    </style>
-  </defs>
-  <path id="arrow-left.svg" class="cls-1" d="M313,660l9-9h2l-9,9h-2Zm0,0,9,9h2l-9-9h-2Z" transform="translate(-313 -651)"/>
-</svg>
-</span>
-        <span class="arrows next">
-          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-  <defs>
-    <style>
-      .cls-1 {
-          fill: #214385;
-          fill-rule: evenodd;
-      }
-    </style>
-  </defs>
-  <path id="arrow-right.svg" class="cls-1" d="M1607,660l-9,9h-2l9-9h2Zm0,0-9-9h-2l9,9h2Z" transform="translate(-1596 -651)"/>
-</svg>
-
-        </span>
-        <div class="labels-slider slider">
-            <div class="slide"><a href="#"><img src="<?= v::asset('images/pic/labels/1.png') ?>" alt=""></a></div>
-            <div class="slide"><a href="#"><img src="<?= v::asset('images/pic/labels/2.png') ?>" alt=""></a></div>
-            <div class="slide"><a href="#"><img src="<?= v::asset('images/pic/labels/3.png') ?>" alt=""></a></div>
-            <div class="slide"><a href="#"><img src="<?= v::asset('images/pic/labels/4.png') ?>" alt=""></a></div>
-            <div class="slide"><a href="#"><img src="<?= v::asset('images/pic/labels/5.png') ?>" alt=""></a></div>
-            <div class="slide"><a href="#"><img src="<?= v::asset('images/pic/labels/2.png') ?>" alt=""></a></div>
-        </div>
-    </div>
-</section>
+<? $APPLICATION->IncludeComponent(
+    "bitrix:news.list",
+    "brands_slider",
+    Array(
+        "ACTIVE_DATE_FORMAT" => "j F Y",
+        "ADD_SECTIONS_CHAIN" => "N",
+        "AJAX_MODE" => "N",
+        "AJAX_OPTION_ADDITIONAL" => "",
+        "AJAX_OPTION_HISTORY" => "N",
+        "AJAX_OPTION_JUMP" => "N",
+        "AJAX_OPTION_STYLE" => "Y",
+        "CACHE_FILTER" => "N",
+        "CACHE_GROUPS" => "Y",
+        "CACHE_TIME" => "36000000",
+        "CACHE_TYPE" => "A",
+        "CHECK_DATES" => "Y",
+        "DETAIL_URL" => "",
+        "DISPLAY_BOTTOM_PAGER" => "Y",
+        "DISPLAY_DATE" => "Y",
+        "DISPLAY_NAME" => "Y",
+        "DISPLAY_PICTURE" => "Y",
+        "DISPLAY_PREVIEW_TEXT" => "Y",
+        "DISPLAY_TOP_PAGER" => "N",
+        "FIELD_CODE" => array("", ""),
+        "FILTER_NAME" => "",
+        "HIDE_LINK_WHEN_NO_DETAIL" => "N",
+        "IBLOCK_ID" => IblockTools::find(Iblock::CONTENT_TYPE, Iblock::BRANDS)->id(),
+        "IBLOCK_TYPE" => Iblock::CONTENT_TYPE,
+        "INCLUDE_IBLOCK_INTO_CHAIN" => "N",
+        "INCLUDE_SUBSECTIONS" => "Y",
+        "MESSAGE_404" => "",
+        "NEWS_COUNT" => PHP_INT_MAX,
+        "PAGER_BASE_LINK_ENABLE" => "N",
+        "PAGER_DESC_NUMBERING" => "N",
+        "PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
+        "PAGER_SHOW_ALL" => "N",
+        "PAGER_SHOW_ALWAYS" => "N",
+        "PAGER_TEMPLATE" => ".default",
+        "PAGER_TITLE" => '',
+        "PARENT_SECTION" => "",
+        "PARENT_SECTION_CODE" => "",
+        "PREVIEW_TRUNCATE_LEN" => "",
+        "PROPERTY_CODE" => array("", ""),
+        "SET_BROWSER_TITLE" => "N",
+        "SET_LAST_MODIFIED" => "N",
+        "SET_META_DESCRIPTION" => "N",
+        "SET_META_KEYWORDS" => "N",
+        "SET_STATUS_404" => "N",
+        "SET_TITLE" => "N",
+        "SHOW_404" => "N",
+        "SORT_BY1" => "SORT",
+        "SORT_BY2" => "DATE_CREATE",
+        "SORT_ORDER1" => "ASC",
+        "SORT_ORDER2" => "DESC"
+    )
+); ?>
 <?$APPLICATION->IncludeComponent(
     "bitrix:news.list",
     "featured_products",

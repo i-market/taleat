@@ -31,8 +31,7 @@ class App extends \Core\App {
                 'enabled' => $sentryConfig['enabled'],
                 'env' => self::env(),
                 'publicDsn' => $sentryConfig['public_dsn']
-            ],
-            'copyrightYear' => date('Y')
+            ]
         ];
     }
 
@@ -66,3 +65,6 @@ class View extends \Core\View {
 class Events {
 }
 
+class Iblocks {
+    const CHECKBOX_TRUE_VALUE = 'да';
+}

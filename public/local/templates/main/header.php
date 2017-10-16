@@ -117,8 +117,8 @@ if (App::useBitrixAsset()) {
             </a>
             <span class="open-header-form"></span>
             <div class="header-middle-info">
-                <form action="" method="post" id="" class="header-middle-serch">
-                    <input type="text" placeholder="Найти">
+                <form action="<?= v::path('search/index.php') ?>" method="get" id="" class="header-middle-serch">
+                    <input name="q" type="text" placeholder="Найти" autocomplete="off">
                     <button type="submit"></button>
                 </form>
                 <span class="header-re-call" data-modal="re-call">Написать нам</span>

@@ -11,7 +11,7 @@ extract(App::getInstance()->layoutContext(), EXTR_SKIP);
     <div class="footer-top">
         <div class="wrap">
             <div class="left">
-                <a href="#" class="footer-logo">
+                <a href="<?= v::path('/') ?>" class="footer-logo">
                     <img src="<?= v::asset('images/ico/footer-logo.png') ?>" alt="">
                 </a>
                 <div>
@@ -47,7 +47,7 @@ extract(App::getInstance()->layoutContext(), EXTR_SKIP);
     </div>
     <div class="footer-bottom">
         <div class="wrap">
-            <span class="copy">ООО «ТАЛЕАТ-СЕРВИС» Все права защищены © 2017 </span>
+            <span class="copy">ООО «ТАЛЕАТ-СЕРВИС» Все права защищены © <?= date('Y') ?> </span>
             <span class="create-by">Разработка сайта - <a href="https://i-market.ru" target="_blank">i-market.ru</a></span>
         </div>
     </div>

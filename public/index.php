@@ -4,13 +4,14 @@ $APPLICATION->SetPageProperty("keywords", "Сетки к бритвам, зуб�
 $APPLICATION->SetPageProperty("description", "Мы предлагаем широкий ассортимент аксессуаров  к бытовой технике  фирмы Braun (Браун)");
 $APPLICATION->SetTitle("Главная | TALEAT");
 
+use App\Iblocks;
 use App\View as v;
 ?>
 
 <?
 global $arFiltNew;
 
-$arFiltNew=array("PROPERTY_PROP_VALUE"=>"Новинки");
+$arFiltNew=array("PROPERTY_IS_FEATURED_VALUE" => Iblocks::CHECKBOX_TRUE_VALUE);
 ?>
 
 <section class="wrap-labels-slider wrap-slider section">
@@ -51,127 +52,101 @@ $arFiltNew=array("PROPERTY_PROP_VALUE"=>"Новинки");
         </div>
     </div>
 </section>
-<section class="wrap-items-slider wrap-slider section">
-    <div class="section-title">
-        <div class="wrap">
-            <div class="section-title-block">
-                <h2>Актуальные товары</h2>
-                <div class="section-title-link">|<a href="#">все <span class="hidden">товары</span></a></div>
-            </div>
-            <div class="dots"></div>
-        </div>
-    </div>
-    <div class="wrap">
-        <span class="arrows prev"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-  <defs>
-    <style>
-      .cls-1 {
-          fill: #214385;
-          fill-rule: evenodd;
-      }
-    </style>
-  </defs>
-  <path id="arrow-left.svg" class="cls-1" d="M313,660l9-9h2l-9,9h-2Zm0,0,9,9h2l-9-9h-2Z" transform="translate(-313 -651)"/>
-</svg>
-</span>
-        <span class="arrows next">
-          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-  <defs>
-    <style>
-      .cls-1 {
-          fill: #214385;
-          fill-rule: evenodd;
-      }
-    </style>
-  </defs>
-  <path id="arrow-right.svg" class="cls-1" d="M1607,660l-9,9h-2l9-9h2Zm0,0-9-9h-2l9,9h2Z" transform="translate(-1596 -651)"/>
-</svg>
-
-        </span>
-        <div class="items-slider slider">
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="<?= v::asset('images/pic/items/1.png') ?>" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="<?= v::asset('images/pic/items/2.png') ?>" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="<?= v::asset('images/pic/items/3.png') ?>" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="<?= v::asset('images/pic/items/4.png') ?>" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="<?= v::asset('images/pic/items/3.png') ?>" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-</section>
+<?$APPLICATION->IncludeComponent(
+    "bitrix:news.list",
+    "featured_products",
+    array(
+        "IBLOCK_TYPE" => "catalog",
+        "IBLOCK_ID" => "3",
+        "NEWS_COUNT" => "",
+        "SORT_BY1" => "SORT",
+        "SORT_ORDER1" => "DESC",
+        "SORT_BY2" => "SORT",
+        "SORT_ORDER2" => "ASC",
+        "FILTER_NAME" => "arFiltNew",
+        "FIELD_CODE" => array(
+            0 => "DETAIL_PICTURE",
+            1 => "",
+        ),
+        "PROPERTY_CODE" => array(
+            0 => "ARTNUMBER",
+            1 => "MANUFACTURER",
+            2 => "MATERIAL",
+            3 => "COLOR",
+            4 => "SPECIALOFFER",
+            5 => "NEWPRODUCT",
+            6 => "WIDTH",
+            7 => "LENGHT",
+            8 => "SIZE",
+            9 => "PROP",
+            10 => "STORAGE_COMPARTMENT",
+            11 => "HEIGHT",
+            12 => "DEPTH",
+            13 => "TITLE",
+            14 => "IN_MODEL",
+            15 => "IN_TYPE",
+            16 => "HOW_CHECK_URL",
+            17 => "KEYWORDS",
+            18 => "LIGHTS",
+            19 => "SHELVES",
+            20 => "META_DESCRIPTION",
+            21 => "POP_TOVAR",
+            22 => "OTHER_SITE_URL",
+            23 => "OLD_PRICE",
+            24 => "TYPE",
+            25 => "DISCOUNT",
+            26 => "CORNER",
+            27 => "SEATS",
+            28 => "MINIMUM_PRICE",
+            29 => "MAXIMUM_PRICE",
+            30 => "LINK",
+            31 => "space",
+            32 => "",
+        ),
+        "CHECK_DATES" => "N",
+        "DETAIL_URL" => "",
+        "AJAX_MODE" => "N",
+        "AJAX_OPTION_JUMP" => "N",
+        "AJAX_OPTION_STYLE" => "N",
+        "AJAX_OPTION_HISTORY" => "N",
+        "CACHE_TYPE" => "N",
+        "CACHE_TIME" => "3600",
+        "CACHE_FILTER" => "N",
+        "CACHE_GROUPS" => "Y",
+        "PREVIEW_TRUNCATE_LEN" => "",
+        "ACTIVE_DATE_FORMAT" => "d.m.Y",
+        "SET_TITLE" => "N",
+        "SET_STATUS_404" => "N",
+        "INCLUDE_IBLOCK_INTO_CHAIN" => "N",
+        "ADD_SECTIONS_CHAIN" => "N",
+        "HIDE_LINK_WHEN_NO_DETAIL" => "N",
+        "PARENT_SECTION" => "",
+        "PARENT_SECTION_CODE" => "",
+        "DISPLAY_TOP_PAGER" => "N",
+        "DISPLAY_BOTTOM_PAGER" => "N",
+        "PAGER_TITLE" => "",
+        "PAGER_SHOW_ALWAYS" => "N",
+        "PAGER_TEMPLATE" => "",
+        "PAGER_DESC_NUMBERING" => "N",
+        "PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
+        "PAGER_SHOW_ALL" => "N",
+        "DISPLAY_DATE" => "Y",
+        "DISPLAY_NAME" => "Y",
+        "DISPLAY_PICTURE" => "Y",
+        "DISPLAY_PREVIEW_TEXT" => "Y",
+        "AJAX_OPTION_ADDITIONAL" => "",
+        "COMPONENT_TEMPLATE" => "featured_products",
+        "SET_BROWSER_TITLE" => "N",
+        "SET_META_KEYWORDS" => "N",
+        "SET_META_DESCRIPTION" => "N",
+        "SET_LAST_MODIFIED" => "N",
+        "INCLUDE_SUBSECTIONS" => "Y",
+        "PAGER_BASE_LINK_ENABLE" => "N",
+        "SHOW_404" => "N",
+        "MESSAGE_404" => ""
+    ),
+    false
+);?>
 <section class="wrap-shops-slider wrap-slider section hidden">
     <div class="wrap">
         <span class="arrows prev"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">

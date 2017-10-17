@@ -70,4 +70,6 @@ class Iblock {
 
     const CONTENT_TYPE = 'content';
     const BRANDS = 'brands';
+    const CLIENTS = 'clients';
+    const CERTIFICATES = 'certificates';
 }

@@ -2,8 +2,9 @@
 
 use App\View as v;
 ?>
-<section class="wrap-labels-slider wrap-slider section">
-    <div class="wrap wrap--wp">
+<? if (!v::isEmpty($arResult['ITEMS'])): ?>
+    <section class="wrap-labels-slider wrap-slider section">
+        <div class="wrap wrap--wp">
         <span class="arrows prev"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
   <defs>
     <style>
@@ -16,7 +17,7 @@ use App\View as v;
   <path id="arrow-left.svg" class="cls-1" d="M313,660l9-9h2l-9,9h-2Zm0,0,9,9h2l-9-9h-2Z" transform="translate(-313 -651)"/>
 </svg>
 </span>
-        <span class="arrows next">
+            <span class="arrows next">
           <svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
   <defs>
     <style>
@@ -30,12 +31,13 @@ use App\View as v;
 </svg>
 
         </span>
-        <div class="labels-slider slider">
-            <? foreach ($arResult['ITEMS'] as $item): ?>
-                <div class="slide">
-                    <img src="<?= $item['PREVIEW_PICTURE']['SRC'] ?>" alt="<?= $item['PREVIEW_PICTURE']['ALT'] ?>" />
-                </div>
-            <? endforeach ?>
+            <div class="labels-slider slider">
+                <? foreach ($arResult['ITEMS'] as $item): ?>
+                    <div class="slide">
+                        <img src="<?= $item['PREVIEW_PICTURE']['SRC'] ?>" alt="<?= $item['PREVIEW_PICTURE']['ALT'] ?>" />
+                    </div>
+                <? endforeach ?>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+<? endif ?>

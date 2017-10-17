@@ -4,8 +4,7 @@ define('NOT_CHECK_PERMISSIONS', true);
 define('NO_AGENT_CHECK', true);
 $GLOBALS['DBType'] = 'mysql';
 $_SERVER['DOCUMENT_ROOT'] = realpath(__DIR__ . '/..');
-include($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.php');
-// manual saving of DB resource
+require $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.php';
 global $DB;
 $app = \Bitrix\Main\Application::getInstance();
 $con = $app->getConnection();
@@ -13,7 +12,7 @@ $DB->db_Conn = $con->getResource();
 // "authorizing" as admin
 $_SESSION['SESS_AUTH']['USER_ID'] = 1;
 
-$config = include realpath(__DIR__.'/../bitrix/.settings.php');
+$config = require realpath(__DIR__.'/../bitrix/.settings.php');
 $default = $config['connections']['value']['default'];
 
 return [

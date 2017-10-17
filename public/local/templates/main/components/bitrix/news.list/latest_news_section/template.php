@@ -17,9 +17,11 @@ use App\View as v;
                 <? foreach ($arResult['ITEMS'] as $item): ?>
                     <div class="col col-2">
                         <a href="<?= $item['DETAIL_PAGE_URL'] ?>" class="news-item">
-                            <div class="img">
-                                <img src="<?= $item['PREVIEW_PICTURE']['SRC'] ?>" alt="<?= $item['PREVIEW_PICTURE']['ALT'] ?>">
-                            </div>
+                            <? if (is_array($item['PREVIEW_PICTURE'])): ?>
+                                <div class="img">
+                                    <img src="<?= $item['PREVIEW_PICTURE']['SRC'] ?>" alt="<?= $item['PREVIEW_PICTURE']['ALT'] ?>">
+                                </div>
+                            <? endif ?>
                             <div class="info">
                                 <p class="date"><?= $item['DISPLAY_ACTIVE_FROM'] ?></p>
                                 <p class="title"><?= $item['NAME'] ?></p>

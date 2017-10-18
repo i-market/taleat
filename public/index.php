@@ -66,10 +66,10 @@ $arFiltNew=array("PROPERTY_IS_FEATURED_VALUE" => Iblock::CHECKBOX_TRUE_VALUE);
         "SET_STATUS_404" => "N",
         "SET_TITLE" => "N",
         "SHOW_404" => "N",
-        "SORT_BY1" => "SORT",
-        "SORT_BY2" => "DATE_CREATE",
-        "SORT_ORDER1" => "ASC",
-        "SORT_ORDER2" => "DESC"
+        "SORT_BY1" => "ACTIVE_FROM",
+        "SORT_BY2" => "SORT",
+        "SORT_ORDER1" => "DESC",
+        "SORT_ORDER2" => "ASC"
     )
 ); ?>
 <?$APPLICATION->IncludeComponent(
@@ -217,10 +217,10 @@ $arFiltNew=array("PROPERTY_IS_FEATURED_VALUE" => Iblock::CHECKBOX_TRUE_VALUE);
         "SET_STATUS_404" => "N",
         "SET_TITLE" => "N",
         "SHOW_404" => "N",
-        "SORT_BY1" => "SORT",
-        "SORT_BY2" => "DATE_CREATE",
-        "SORT_ORDER1" => "ASC",
-        "SORT_ORDER2" => "DESC"
+        "SORT_BY1" => "ACTIVE_FROM",
+        "SORT_BY2" => "SORT",
+        "SORT_ORDER1" => "DESC",
+        "SORT_ORDER2" => "ASC"
     )
 ); ?>
 <? $APPLICATION->IncludeComponent(
@@ -273,10 +273,10 @@ $arFiltNew=array("PROPERTY_IS_FEATURED_VALUE" => Iblock::CHECKBOX_TRUE_VALUE);
         "SET_STATUS_404" => "N",
         "SET_TITLE" => "N",
         "SHOW_404" => "N",
-        "SORT_BY1" => "SORT",
-        "SORT_BY2" => "DATE_CREATE",
-        "SORT_ORDER1" => "ASC",
-        "SORT_ORDER2" => "DESC"
+        "SORT_BY1" => "ACTIVE_FROM",
+        "SORT_BY2" => "SORT",
+        "SORT_ORDER1" => "DESC",
+        "SORT_ORDER2" => "ASC"
     )
 ); ?>
 <? $APPLICATION->IncludeComponent(

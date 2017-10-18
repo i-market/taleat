@@ -72,4 +72,21 @@ class Iblock {
     const BRANDS = 'brands';
     const CLIENTS = 'clients';
     const CERTIFICATES = 'certificates';
+    const ARTICLES = 'articles';
+    const VIDEOS = 'videos';
+}
+
+class Videos {
+    static function youtubeId($url) {
+        $matchesRef = [];
+        if (preg_match('~(?:v=|youtu\.be/|youtube\.com/embed/)([a-z0-9_-]+)~i', $url, $matchesRef)) {
+            return $matchesRef[1];
+        } else {
+            return null;
+        }
+    }
+
+    static function embedUrl($id) {
+        return "https://www.youtube.com/embed/{$id}?rel=0";
+    }
 }

@@ -43,7 +43,7 @@ if (App::useBitrixAsset()) {
     </style>
     <![endif]-->
 </head>
-<body>
+<body data-anchor="top">
 <? $APPLICATION->ShowPanel() ?>
 <header class="header">
     <div class="menu-hidden">
@@ -164,6 +164,7 @@ if (App::useBitrixAsset()) {
     </div>
 </header>
 <main class="content">
+    <span class="scroll-top" data-href="top"></span>
     <div class="content-menu-block">
         <div class="wrap">
             <?$APPLICATION->IncludeComponent("bitrix:catalog.section.list", "header_menu", Array(

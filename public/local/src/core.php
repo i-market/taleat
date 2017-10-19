@@ -487,6 +487,19 @@ class View {
             throw $e;
         }
     }
+
+    static function showForLayout($layout, $showFn) {
+        global $APPLICATION;
+        $APPLICATION->AddBufferContent(function () use ($layout, $showFn, &$APPLICATION) {
+            if ($APPLICATION->GetProperty('layout', 'default') === $layout) {
+                ob_start();
+                $showFn();
+                return ob_get_clean();
+            } else {
+                return '';
+            }
+        });
+    }
 }
 
 trait NewsListLike {

@@ -34,8 +34,7 @@ $showChild = function($section) {
     <?
 };
 ?>
-
-<div class="content-menu">
+<div class="content-menu <?= v::get($arParams, 'CLASS', '') ?>">
     <span class="catalog-menu-close"></span>
     <div class="accordeon">
         <?

@@ -1,6 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Каталог");
+
+use App\View as v;
+
 $page = $APPLICATION->GetCurPage();
 
 if ($page == "/catalog/"){
@@ -515,29 +518,9 @@ foreach($ex as $e){
 
 <?if($_REQUEST["block"]!='none'):?>
 
-		<?$APPLICATION->IncludeComponent("bitrix:catalog.section.list", "catalog1", Array(
-	"IBLOCK_TYPE" => "catalog",	// Тип инфоблока
-	"IBLOCK_ID" => $iblock_id,	// Инфоблок
-	"SECTION_ID" => $arSection["ID"],	// ID раздела
-	"SECTION_CODE" => "",	// Код раздела
-	"COUNT_ELEMENTS" => "N",	// Показывать количество элементов в разделе
-	"TOP_DEPTH" => "1",	// Максимальная отображаемая глубина разделов
-	"SECTION_FIELDS" => array(	// Поля разделов
-		0 => "",
-		1 => "",
-	),
-	"SECTION_USER_FIELDS" => array(	// Свойства разделов
-		0 => "",
-		1 => "",
-	),
-	"SECTION_URL" => "",	// URL, ведущий на страницу с содержимым раздела
-	"CACHE_TYPE" => "N",	// Тип кеширования
-	"CACHE_TIME" => "36000000",	// Время кеширования (сек.)
-	"CACHE_GROUPS" => "Y",	// Учитывать права доступа
-	"ADD_SECTIONS_CHAIN" => "N",	// Включать раздел в цепочку навигации
-	),
-	false
-);?>
+<? // brand page ?>
+<?= v::render('partials/catalog/brand.php') ?>
+
 <?endif?>
 
 

@@ -2,8 +2,9 @@
 
 use App\App;
 use App\View as v;
+use App\Layout;
 
-// TODO optimize: called twice for header and footer
+// TODO optimize: invoked twice for both header and footer
 extract(App::getInstance()->layoutContext(), EXTR_SKIP);
 ?>
 </main>

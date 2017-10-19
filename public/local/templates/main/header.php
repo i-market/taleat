@@ -7,6 +7,7 @@
 use App\App;
 use Bitrix\Main\Page\Asset;
 use App\View as v;
+use App\Layout;
 
 extract(App::getInstance()->layoutContext(), EXTR_SKIP);
 
@@ -49,17 +50,21 @@ if (App::useBitrixAsset()) {
     <div class="menu-hidden">
         <div class="menu-hidden-close"></div>
         <div class="menu-hidden-inner">
-            <div class="menu-hidden-sign-in">
-                <? if ($USER->IsAuthorized()): ?>
-                    <a href="<?= $auth['profileLink'] ?>">Личный кабинет</a>
-                    <span>/</span>
-                    <a href="<?= $auth['logoutLink'] ?>">Выйти</a>
-                <? else: ?>
+            <? if ($USER->IsAuthorized()): ?>
+                <div class="menu-hidden-registered">
+                    <? // TODO partner? username ?>
+                    <p class="name">Энергосбыт</p>
+                    <p class="link"><a href="<?= $auth['profileLink'] ?>">Личный кабинет</a></p>
+                    <p class="link"><a href="<?= $auth['logoutLink'] ?>">Выход</a></p>
+                </div>
+            <? else: ?>
+                <? // TODO .hidden? see mockup ?>
+                <div class="menu-hidden-sign-in">
                     <a href="<?= $auth['loginLink'] ?>">Вход</a>
                     <span>/</span>
                     <a href="<?= $auth['registerLink'] ?>">Регистрация</a>
-                <? endif ?>
-            </div>
+                </div>
+            <? endif ?>
             <ul>
                 <li><a href="#" class="active"><span>Оплата и доставка</span></a></li>
                 <li><a href="#"><span>Партнёрам</span></a></li>
@@ -95,18 +100,26 @@ if (App::useBitrixAsset()) {
                         <li><a href="#">Видео</a></li>
                     </ul>
                 </nav>
-                <div class="sig-in">
-                    <? if ($USER->IsAuthorized()): ?>
-                        <? // TODO ux: show username or something ?>
-                        <a class="sig-in-link" href="<?= $auth['profileLink'] ?>">Личный кабинет</a>
-                        <span class="separator">/</span>
-                        <a class="sig-in-link" href="<?= $auth['logoutLink'] ?>">Выйти</a>
-                    <? else: ?>
+                <? if ($USER->IsAuthorized()): ?>
+                    <div class="rigistered">
+                        <? // TODO username ?>
+                        <span class="name">Энергосбыт</span>
+                        <ul class="dd_rigistered">
+                            <li><a href="<?= $auth['profileLink'] ?>">Личный кабинет</a></li>
+                            <? // TODO links ?>
+                            <li><a href="#">Написать сообщение</a></li>
+                            <li><a href="#">Сменить пароль</a></li>
+                            <li><a href="<?= $auth['logoutLink'] ?>">Выход</a></li>
+                        </ul>
+                    </div>
+                <? else: ?>
+                    <? // TODO style=display:none? see mockup ?>
+                    <div class="sig-in">
                         <a class="sig-in-link" href="<?= $auth['loginLink'] ?>">Вход</a>
                         <span class="separator">/</span>
                         <a class="sig-in-link" href="<?= $auth['registerLink'] ?>">Регистрация</a>
-                    <? endif ?>
-                </div>
+                    </div>
+                <? endif ?>
             </div>
         </div>
     </div>
@@ -133,7 +146,10 @@ if (App::useBitrixAsset()) {
     <div class="header-bottom">
         <div class="wrap">
             <div class="header-bottom-left">
-                <span class="absurd"><span class="absurd-hidden"></span></span>
+                <span class="absurd">
+                  <span class="absurd-desktop"></span>
+                  <span class="absurd-hidden"></span>
+                </span>
                 <a class="catalog-link" href="<?= v::path('catalog') ?>">Каталог <span class="hidden">товаров</span></a>
             </div>
             <div class="header-bottom-right">
@@ -165,44 +181,9 @@ if (App::useBitrixAsset()) {
 </header>
 <main class="content">
     <span class="scroll-top" data-href="top"></span>
-    <div class="content-menu-block">
-        <div class="wrap">
-            <?$APPLICATION->IncludeComponent("bitrix:catalog.section.list", "header_menu", Array(
-                "IBLOCK_TYPE" => "catalog",	// Тип инфоблока
-                "IBLOCK_ID" => "3",	// Инфоблок
-                "SECTION_ID" => "",	// ID раздела
-                "SECTION_CODE" => "",	// Код раздела
-                "COUNT_ELEMENTS" => "N",	// Показывать количество элементов в разделе
-                "TOP_DEPTH" => "2",	// Максимальная отображаемая глубина разделов
-                "SECTION_FIELDS" => array(	// Поля разделов
-                    0 => "",
-                    1 => "",
-                ),
-                "SECTION_USER_FIELDS" => array(	// Свойства разделов
-                    0 => "",
-                    1 => "",
-                ),
-                "SECTION_URL" => "",	// URL, ведущий на страницу с содержимым раздела
-                "CACHE_TYPE" => "N",	// Тип кеширования
-                "CACHE_TIME" => "36000000",	// Время кеширования (сек.)
-                "CACHE_GROUPS" => "Y",	// Учитывать права доступа
-                "ADD_SECTIONS_CHAIN" => "N",	// Включать раздел в цепочку навигации
-            ),
-                false
-            );?>
-            <div class="content-menu-items">
-                <a class="content-menu-item shop" href="#">
-                    <strong class="title">Магазин</strong>
-                    <p class="text">Интернет-магазин для заказа запасных частей и аксеcсуаров к бытовой технике фирм Braun и Babyliss PARIS</p>
-                </a>
-                <a class="content-menu-item services" href="#">
-                    <strong class="title">Сервисное обслуживание</strong>
-                    <p class="text">Найти ближайший к Вам сервисный центр Braun или Babyliss PARIS</p>
-                </a>
-                <a class="content-menu-item reception-point" href="#">
-                    <strong class="title">Приемные пункты</strong>
-                    <p class="text">Наши приемные пункты в ремонт, а так же пункты продажи запасных частей и аксессуаров к бытовой технике фирм Braun и Babyliss PARIS</p>
-                </a>
-            </div>
-        </div>
-    </div>
+    <? v::showForLayout('default', function () { ?>
+        <? Layout::showMegaMenu('content-menu-block--pages') ?>
+    <? }) ?>
+    <? v::showForLayout('homepage', function () { ?>
+        <? Layout::showMegaMenu() ?>
+    <? }) ?>

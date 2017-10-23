@@ -1,14 +1,14 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
 use App\View as v;
+use App\Product;
 
 $showParent = function($section, $fragment) {
-    $href = fn_get_chainpath($section['IBLOCK_ID'], $section['ID']);
     ?>
     <? if ($fragment === 'header'): ?>
         <div class="accordeon-item" id="<?= v::addEditingActions($section, $this) ?>">
             <div class="accordeon-wrap-link">
-                <a href="<?= $href ?>" class="accordeon-link"><?= $section['NAME'] ?></a>
+                <a href="<?= Product::sectionUrl($section) ?>" class="accordeon-link"><?= $section['NAME'] ?></a>
     <? elseif ($fragment === 'footer'): ?>
             </div>
         </div>
@@ -28,9 +28,8 @@ $showChildrenWrap = function($fragment) {
     <?
 };
 $showChild = function($section) {
-    $href = fn_get_chainpath($section['IBLOCK_ID'], $section['ID']);
     ?>
-    <li><a href="<?= $href ?>"><?= $section['NAME'] ?></a></li>
+    <li><a href="<?= Product::sectionUrl($section) ?>"><?= $section['NAME'] ?></a></li>
     <?
 };
 ?>

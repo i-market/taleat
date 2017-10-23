@@ -17,6 +17,14 @@ class Product {
     const IMAGE_MEDIUM = [500, 500];
     const IMAGE_SMALL = [100, 100];
 
+    static function elementUrl($elem) {
+        return fn_get_chainpath($elem['IBLOCK_ID'], $elem['IBLOCK_SECTION_ID']).$elem['CODE'].'.html';
+    }
+
+    static function sectionUrl($section) {
+        return fn_get_chainpath($section['IBLOCK_ID'], $section['ID']);
+    }
+
     static function thumbnail($elem) {
         $arItem = $elem;
         // TODO what's the algorithm here?

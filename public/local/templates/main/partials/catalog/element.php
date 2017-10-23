@@ -1,6 +1,12 @@
 <?
+use App\Iblock;
 use App\Layout;
 use App\Components;
+
+/**
+ * @global $iblock_id
+ * @global $arItem
+ */
 ?>
 <? Layout::showCatalogWrapper('header') ?>
 <div class="catalog-pages-block">
@@ -14,7 +20,7 @@ use App\Components;
             "bitrix:catalog.element",
             "catalog",
             array(
-                "IBLOCK_TYPE" => "catalog",
+                "IBLOCK_TYPE" => Iblock::CATALOG_TYPE,
                 "IBLOCK_ID" => $iblock_id,
                 "ELEMENT_ID" => $arItem["ID"],
                 "ELEMENT_CODE" => "",
@@ -102,7 +108,7 @@ use App\Components;
                 "MESSAGE_404" => "",
                 "COMPATIBLE_MODE" => "Y",
                 "DISABLE_INIT_JS_IN_COMPONENT" => "N",
-                "SET_VIEWED_IN_COMPONENT" => "N"
+                "SET_VIEWED_IN_COMPONENT" => "Y" // see bitrix:catalog.products.viewed
             ),
             false
         );?>
@@ -117,247 +123,167 @@ use App\Components;
     </div>
 </div>
 <? Layout::showCatalogWrapper('footer') ?>
-<section class="wrap-items-slider wrap-slider section">
-    <div class="section-title">
-        <div class="wrap">
-            <div class="section-title-block">
-                <h2>Похожие товары</h2>
-                <div class="section-title-link">|<a href="#">все <span class="hidden">товары этой категории</span></a></div>
-            </div>
-            <div class="dots"></div>
-        </div>
-    </div>
-    <div class="wrap">
-        <span class="arrows prev"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-  <defs>
-    <style>
-      .cls-1 {
-          fill: #214385;
-          fill-rule: evenodd;
-      }
-    </style>
-  </defs>
-  <path id="arrow-left.svg" class="cls-1" d="M313,660l9-9h2l-9,9h-2Zm0,0,9,9h2l-9-9h-2Z" transform="translate(-313 -651)"/>
-</svg>
-</span>
-        <span class="arrows next">
-          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-  <defs>
-    <style>
-      .cls-1 {
-          fill: #214385;
-          fill-rule: evenodd;
-      }
-    </style>
-  </defs>
-  <path id="arrow-right.svg" class="cls-1" d="M1607,660l-9,9h-2l9-9h2Zm0,0-9-9h-2l9,9h2Z" transform="translate(-1596 -651)"/>
-</svg>
-
-        </span>
-        <div class="items-slider slider">
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="images/pic/items/1.png" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="images/pic/items/2.png" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="images/pic/items/3.png" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="images/pic/items/4.png" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="images/pic/items/3.png" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-</section>
-<? // TODO viewed (bitrix:catalog.products.viewed) ?>
-<section class="wrap-items-slider wrap-slider section">
-    <div class="section-title">
-        <div class="wrap">
-            <div class="section-title-block">
-                <h2>Вы недавно смотрели</h2>
-            </div>
-            <div class="dots"></div>
-        </div>
-    </div>
-    <div class="wrap">
-        <span class="arrows prev"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-  <defs>
-    <style>
-      .cls-1 {
-          fill: #214385;
-          fill-rule: evenodd;
-      }
-    </style>
-  </defs>
-  <path id="arrow-left.svg" class="cls-1" d="M313,660l9-9h2l-9,9h-2Zm0,0,9,9h2l-9-9h-2Z" transform="translate(-313 -651)"/>
-</svg>
-</span>
-        <span class="arrows next">
-          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-  <defs>
-    <style>
-      .cls-1 {
-          fill: #214385;
-          fill-rule: evenodd;
-      }
-    </style>
-  </defs>
-  <path id="arrow-right.svg" class="cls-1" d="M1607,660l-9,9h-2l9-9h2Zm0,0-9-9h-2l9,9h2Z" transform="translate(-1596 -651)"/>
-</svg>
-        </span>
-        <div class="items-slider slider">
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="images/pic/items/3.png" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="images/pic/items/4.png" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="images/pic/items/3.png" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="images/pic/items/1.png" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="images/pic/items/2.png" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-</section>
+<?$APPLICATION->IncludeComponent(
+	"bitrix:catalog.section",
+	"similar_products_section",
+	Array(
+		"ACTION_VARIABLE" => "action",
+		"ADD_PROPERTIES_TO_BASKET" => "Y",
+		"ADD_SECTIONS_CHAIN" => "N",
+		"ADD_TO_BASKET_ACTION" => "ADD",
+		"AJAX_MODE" => "N",
+		"AJAX_OPTION_ADDITIONAL" => "",
+		"AJAX_OPTION_HISTORY" => "N",
+		"AJAX_OPTION_JUMP" => "N",
+		"AJAX_OPTION_STYLE" => "Y",
+		"BACKGROUND_IMAGE" => "-",
+		"BASKET_URL" => "/personal/basket.php",
+		"BROWSER_TITLE" => "-",
+		"CACHE_FILTER" => "N",
+		"CACHE_GROUPS" => "Y",
+		"CACHE_TIME" => "36000000",
+		"CACHE_TYPE" => "A",
+		"COMPATIBLE_MODE" => "Y",
+		"CONVERT_CURRENCY" => "N",
+		"DETAIL_URL" => "",
+		"DISABLE_INIT_JS_IN_COMPONENT" => "N",
+		"DISPLAY_BOTTOM_PAGER" => "Y",
+		"DISPLAY_COMPARE" => "N",
+		"DISPLAY_TOP_PAGER" => "N",
+		"ELEMENT_SORT_FIELD" => "sort",
+		"ELEMENT_SORT_FIELD2" => "id",
+		"ELEMENT_SORT_ORDER" => "asc",
+		"ELEMENT_SORT_ORDER2" => "desc",
+		"ENLARGE_PRODUCT" => "STRICT",
+		"FILTER_NAME" => "arrFilter",
+		"HIDE_NOT_AVAILABLE" => "N",
+		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
+		"IBLOCK_ID" => $iblock_id,
+		"IBLOCK_TYPE" => Iblock::CATALOG_TYPE,
+		"INCLUDE_SUBSECTIONS" => "Y",
+		"LAZY_LOAD" => "N",
+		"LINE_ELEMENT_COUNT" => "3",
+		"LOAD_ON_SCROLL" => "N",
+		"MESSAGE_404" => "",
+		"MESS_BTN_ADD_TO_BASKET" => "В корзину",
+		"MESS_BTN_BUY" => "Купить",
+		"MESS_BTN_DETAIL" => "Подробнее",
+		"MESS_BTN_SUBSCRIBE" => "Подписаться",
+		"MESS_NOT_AVAILABLE" => "Нет в наличии",
+		"META_DESCRIPTION" => "-",
+		"META_KEYWORDS" => "-",
+		"OFFERS_LIMIT" => "5",
+		"PAGER_BASE_LINK_ENABLE" => "N",
+		"PAGER_DESC_NUMBERING" => "N",
+		"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
+		"PAGER_SHOW_ALL" => "N",
+		"PAGER_SHOW_ALWAYS" => "N",
+		"PAGER_TEMPLATE" => ".default",
+		"PAGER_TITLE" => "Товары",
+		"PAGE_ELEMENT_COUNT" => "18",
+		"PARTIAL_PRODUCT_PROPERTIES" => "N",
+		"PRICE_CODE" => array(),
+		"PRICE_VAT_INCLUDE" => "Y",
+		"PRODUCT_BLOCKS_ORDER" => "price,props,sku,quantityLimit,quantity,buttons,compare",
+		"PRODUCT_ID_VARIABLE" => "id",
+		"PRODUCT_PROPERTIES" => array(),
+		"PRODUCT_PROPS_VARIABLE" => "prop",
+		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
+		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
+		"PRODUCT_SUBSCRIPTION" => "Y",
+		"PROPERTY_CODE" => array("", ""),
+		"RCM_PROD_ID" => $arItem["ID"],
+		"RCM_TYPE" => "personal",
+		"SECTION_CODE" => "",
+		"SECTION_ID" => $arItem["IBLOCK_SECTION_ID"],
+		"SECTION_ID_VARIABLE" => "SECTION_ID",
+		"SECTION_URL" => "",
+		"SECTION_USER_FIELDS" => array("", ""),
+		"SEF_MODE" => "N",
+		"SET_BROWSER_TITLE" => "N",
+		"SET_LAST_MODIFIED" => "N",
+		"SET_META_DESCRIPTION" => "N",
+		"SET_META_KEYWORDS" => "N",
+		"SET_STATUS_404" => "N",
+		"SET_TITLE" => "N",
+		"SHOW_404" => "N",
+		"SHOW_ALL_WO_SECTION" => "N",
+		"SHOW_CLOSE_POPUP" => "N",
+		"SHOW_DISCOUNT_PERCENT" => "N",
+		"SHOW_FROM_SECTION" => "N",
+		"SHOW_MAX_QUANTITY" => "N",
+		"SHOW_OLD_PRICE" => "N",
+		"SHOW_PRICE_COUNT" => "1",
+		"SHOW_SLIDER" => "Y",
+		"TEMPLATE_THEME" => "blue",
+		"USE_ENHANCED_ECOMMERCE" => "N",
+		"USE_MAIN_ELEMENT_SECTION" => "N",
+		"USE_PRICE_COUNT" => "N",
+		"USE_PRODUCT_QUANTITY" => "N"
+	)
+);?>
+<?$APPLICATION->IncludeComponent(
+	"bitrix:catalog.products.viewed",
+	"section",
+	Array(
+		"ACTION_VARIABLE" => "action_cpv",
+		"ADDITIONAL_PICT_PROP_3" => "-",
+		"ADDITIONAL_PICT_PROP_4" => "-",
+		"ADD_PROPERTIES_TO_BASKET" => "Y",
+		"ADD_TO_BASKET_ACTION" => "ADD",
+		"BASKET_URL" => "/personal/basket.php",
+		"CACHE_GROUPS" => "Y",
+		"CACHE_TIME" => "3600",
+		"CACHE_TYPE" => "A",
+		"CART_PROPERTIES_3" => array("",""),
+		"CART_PROPERTIES_4" => array("",""),
+		"CONVERT_CURRENCY" => "N",
+		"DEPTH" => "2",
+		"DISPLAY_COMPARE" => "N",
+		"ENLARGE_PRODUCT" => "STRICT",
+		"HIDE_NOT_AVAILABLE" => "N",
+		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
+		"IBLOCK_ID" => "",
+		"IBLOCK_MODE" => "multi",
+		"IBLOCK_TYPE" => "catalog",
+		"LABEL_PROP_3" => array(),
+		"LABEL_PROP_POSITION" => "top-left",
+		"MESS_BTN_ADD_TO_BASKET" => "В корзину",
+		"MESS_BTN_BUY" => "Купить",
+		"MESS_BTN_DETAIL" => "Подробнее",
+		"MESS_BTN_SUBSCRIBE" => "Подписаться",
+		"MESS_NOT_AVAILABLE" => "Нет в наличии",
+		"OFFER_TREE_PROPS_4" => array(),
+		"PAGE_ELEMENT_COUNT" => "9",
+		"PARTIAL_PRODUCT_PROPERTIES" => "N",
+		"PRICE_CODE" => array(),
+		"PRICE_VAT_INCLUDE" => "Y",
+		"PRODUCT_BLOCKS_ORDER" => "price,props,sku,quantityLimit,quantity,buttons,compare",
+		"PRODUCT_ID_VARIABLE" => "id",
+		"PRODUCT_PROPS_VARIABLE" => "prop",
+		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
+		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
+		"PRODUCT_SUBSCRIPTION" => "Y",
+		"PROPERTY_CODE_3" => array("",""),
+		"PROPERTY_CODE_4" => array("",""),
+		"SECTION_CODE" => "",
+		"SECTION_ELEMENT_CODE" => "",
+		"SECTION_ELEMENT_ID" => $GLOBALS["CATALOG_CURRENT_ELEMENT_ID"],
+		"SECTION_ID" => $GLOBALS["CATALOG_CURRENT_SECTION_ID"],
+		"SHOW_CLOSE_POPUP" => "N",
+		"SHOW_DISCOUNT_PERCENT" => "N",
+		"SHOW_FROM_SECTION" => "N",
+		"SHOW_MAX_QUANTITY" => "N",
+		"SHOW_OLD_PRICE" => "N",
+		"SHOW_PRICE_COUNT" => "1",
+		"SHOW_PRODUCTS_3" => "N",
+		"SHOW_SLIDER" => "Y",
+		"TEMPLATE_THEME" => "blue",
+		"USE_ENHANCED_ECOMMERCE" => "N",
+		"USE_PRICE_COUNT" => "N",
+		"USE_PRODUCT_QUANTITY" => "N"
+	)
+);?>
 <? Components::showVideosSection() ?>
 <section class="about">
     <div class="section-title">

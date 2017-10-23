@@ -81,6 +81,8 @@ class Iblock {
     const CERTIFICATES = 'certificates';
     const ARTICLES = 'articles';
     const VIDEOS = 'videos';
+
+    const CATALOG_TYPE = 'catalog';
 }
 
 class Videos {

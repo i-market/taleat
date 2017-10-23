@@ -1,6 +1,5 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
-use App\Product;
 use App\View as v;
 ?>
 <? if (!v::isEmpty($arResult['ITEMS'])): ?>
@@ -8,8 +7,7 @@ use App\View as v;
         <div class="section-title">
             <div class="wrap">
                 <div class="section-title-block">
-                    <h2>Актуальные товары</h2>
-                    <div class="section-title-link">|<a href="<?= v::path('catalog') ?>">все <span class="hidden">товары</span></a></div>
+                    <h2>Вы недавно смотрели</h2>
                 </div>
                 <div class="dots"></div>
             </div>
@@ -39,7 +37,6 @@ use App\View as v;
   </defs>
   <path id="arrow-right.svg" class="cls-1" d="M1607,660l-9,9h-2l9-9h2Zm0,0-9-9h-2l9,9h2Z" transform="translate(-1596 -651)"/>
 </svg>
-
         </span>
             <div class="items-slider slider">
                 <? foreach ($arResult['ITEMS'] as $item): ?>

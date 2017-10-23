@@ -1,15 +1,15 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
-use App\Product;
 use App\View as v;
+use App\Product;
 ?>
 <? if (!v::isEmpty($arResult['ITEMS'])): ?>
     <section class="wrap-items-slider wrap-slider section">
         <div class="section-title">
             <div class="wrap">
                 <div class="section-title-block">
-                    <h2>Актуальные товары</h2>
-                    <div class="section-title-link">|<a href="<?= v::path('catalog') ?>">все <span class="hidden">товары</span></a></div>
+                    <h2>Похожие товары</h2>
+                    <div class="section-title-link">|<a href="<?= Product::sectionUrl($arResult) ?>">все <span class="hidden">товары этой категории</span></a></div>
                 </div>
                 <div class="dots"></div>
             </div>

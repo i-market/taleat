@@ -3,75 +3,30 @@ use App\Layout;
 ?>
 <? Layout::showCatalogWrapper('header') ?>
 <div class="catalog-pages-block">
-    <? // TODO breadcrumbs ?>
-    <ul class="bread-crumbs">
-        <li class="bread-crumbs-item"><a href="#" class="link">Каталог</a></li>
-        <li class="bread-crumbs-item"><span class="link">Braun</span></li>
-    </ul>
-    <div class="catalog-title">
-        <h2>Каталог Braun</h2>
-        <div class="catalog-title-img">
-            <img src="images/pic/labels/2.png" alt="">
-        </div>
-    </div>
-    <div class="ctalog-inner">
-        <div class="grid">
-            <a href="#" class="col col-3 ctalog-item-box">
-                <div class="img">
-                    <img src="images/pic/catalog-item/1.jpg" alt="">
-                </div>
-                <p class="title">блендеры</p>
-            </a>
-            <a href="#" class="col col-3 ctalog-item-box">
-                <div class="img">
-                    <img src="images/pic/catalog-item/2.jpg" alt="">
-                </div>
-                <p class="title">бритвы</p>
-            </a>
-            <a href="#" class="col col-3 ctalog-item-box">
-                <div class="img">
-                    <img src="images/pic/catalog-item/3.jpg" alt="">
-                </div>
-                <p class="title">Зубные щетки/Ирригаторы</p>
-            </a>
-            <a href="#" class="col col-3 ctalog-item-box">
-                <div class="img">
-                    <img src="images/pic/catalog-item/4.jpg" alt="">
-                </div>
-                <p class="title">Кофеварки/кофемолки</p>
-            </a>
-            <a href="#" class="col col-3 ctalog-item-box">
-                <div class="img">
-                    <img src="images/pic/catalog-item/5.jpg" alt="">
-                </div>
-                <p class="title">Кухонные комбаины</p>
-            </a>
-            <a href="#" class="col col-3 ctalog-item-box">
-                <div class="img">
-                    <img src="images/pic/catalog-item/6.jpg" alt="">
-                </div>
-                <p class="title">Машинки/триммеры</p>
-            </a>
-            <a href="#" class="col col-3 ctalog-item-box">
-                <div class="img">
-                    <img src="images/pic/catalog-item/7.jpg" alt="">
-                </div>
-                <p class="title">Миксеры</p>
-            </a>
-            <a href="#" class="col col-3 ctalog-item-box">
-                <div class="img">
-                    <img src="images/pic/catalog-item/8.jpg" alt="">
-                </div>
-                <p class="title">Мясорубки</p>
-            </a>
-            <a href="#" class="col col-3 ctalog-item-box">
-                <div class="img">
-                    <img src="images/pic/catalog-item/9.jpg" alt="">
-                </div>
-                <p class="title">Пароварки</p>
-            </a>
-        </div>
-    </div>
+    <? Layout::showBreadcrumbs() ?>
+    <?$APPLICATION->IncludeComponent("bitrix:catalog.section.list", "brand", Array(
+        "IBLOCK_TYPE" => "catalog",	// Тип инфоблока
+        "IBLOCK_ID" => $iblock_id,	// Инфоблок
+        "SECTION_ID" => $arSection["ID"],	// ID раздела
+        "SECTION_CODE" => "",	// Код раздела
+        "COUNT_ELEMENTS" => "N",	// Показывать количество элементов в разделе
+        "TOP_DEPTH" => "1",	// Максимальная отображаемая глубина разделов
+        "SECTION_FIELDS" => array(	// Поля разделов
+            0 => "",
+            1 => "",
+        ),
+        "SECTION_USER_FIELDS" => array(	// Свойства разделов
+            0 => "",
+            1 => "",
+        ),
+        "SECTION_URL" => "",	// URL, ведущий на страницу с содержимым раздела
+        "CACHE_TYPE" => "N",	// Тип кеширования
+        "CACHE_TIME" => "36000000",	// Время кеширования (сек.)
+        "CACHE_GROUPS" => "Y",	// Учитывать права доступа
+        "ADD_SECTIONS_CHAIN" => "N",	// Включать раздел в цепочку навигации
+    ),
+        false
+    );?>
 </div>
 <? Layout::showCatalogWrapper('footer') ?>
 <section class="wrap-items-slider wrap-slider section">

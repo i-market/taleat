@@ -3,31 +3,6 @@
 namespace App;
 
 class Layout {
-    static function showHeaderCart() {
-        global $APPLICATION;
-        $APPLICATION->IncludeComponent(
-            "bitrix:sale.basket.basket.line",
-            "header",
-            array(
-                "PATH_TO_BASKET" => SITE_DIR."personal/cart/",
-                "PATH_TO_PERSONAL" => SITE_DIR."personal/",
-                "SHOW_PERSONAL_LINK" => "N",
-                "COMPONENT_TEMPLATE" => "basket",
-                "PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
-                "SHOW_NUM_PRODUCTS" => "Y",
-                "SHOW_TOTAL_PRICE" => "Y",
-                "SHOW_EMPTY_VALUES" => "Y",
-                "SHOW_AUTHOR" => "N",
-                "PATH_TO_REGISTER" => SITE_DIR."login/",
-                "PATH_TO_PROFILE" => SITE_DIR."personal/",
-                "SHOW_PRODUCTS" => "N",
-                "POSITION_FIXED" => "N",
-                "HIDE_ON_BASKET_PAGES" => "N"
-            ),
-            false
-        );
-    }
-
     static function showMegaMenu($class = '') {
         ?>
         <div class="content-menu-block <?= $class ?>">
@@ -112,6 +87,44 @@ class Layout {
             "CLASS" => $class
         ),
             false
+        );
+    }
+
+    static function showHeaderCart() {
+        global $APPLICATION;
+        $APPLICATION->IncludeComponent(
+            "bitrix:sale.basket.basket.line",
+            "header",
+            array(
+                "PATH_TO_BASKET" => SITE_DIR."personal/cart/",
+                "PATH_TO_PERSONAL" => SITE_DIR."personal/",
+                "SHOW_PERSONAL_LINK" => "N",
+                "COMPONENT_TEMPLATE" => "basket",
+                "PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
+                "SHOW_NUM_PRODUCTS" => "Y",
+                "SHOW_TOTAL_PRICE" => "Y",
+                "SHOW_EMPTY_VALUES" => "Y",
+                "SHOW_AUTHOR" => "N",
+                "PATH_TO_REGISTER" => SITE_DIR."login/",
+                "PATH_TO_PROFILE" => SITE_DIR."personal/",
+                "SHOW_PRODUCTS" => "N",
+                "POSITION_FIXED" => "N",
+                "HIDE_ON_BASKET_PAGES" => "N"
+            ),
+            false
+        );
+    }
+
+    static function showBreadcrumbs() {
+        global $APPLICATION;
+        $APPLICATION->IncludeComponent(
+            "bitrix:breadcrumb",
+            "top",
+            array(
+                "PATH" => "",
+                "SITE_ID" => App::SITE_ID,
+                "START_FROM" => "1" // drop the homepage link
+            )
         );
     }
 }

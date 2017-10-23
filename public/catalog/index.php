@@ -416,15 +416,16 @@ foreach($ex as $e){
 
 
 <?if($arItem["ID"]):?>
+
     <? // element page ?>
     <? include Util::joinPath([$_SERVER['DOCUMENT_ROOT'], v::template('partials/catalog/element.php')]) ?>
-<?else:?>
 
+<?else:?>
 
 <?if($_REQUEST["block"]!='none'):?>
 
     <? // brand page ?>
-    <?= v::render('partials/catalog/brand.php') ?>
+    <? include Util::joinPath([$_SERVER['DOCUMENT_ROOT'], v::template('partials/catalog/brand.php')]) ?>
 
 <?endif?>
 

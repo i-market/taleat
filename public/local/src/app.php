@@ -19,13 +19,18 @@ class App extends \Core\App {
     }
 
     function layoutContext() {
+        // TODO memoize
         $sentryConfig = _::get(Configuration::getValue('app'), 'sentry');
         return [
             'auth' => [
                 'registerLink' => '/login/?register=yes&backurl=%2Flogin%2F',
                 'profileLink' => '/personal/?backurl=%2F',
+                // TODO login link
                 'loginLink' => '#',
                 'logoutLink' => '/?logout=yes'
+            ],
+            'catalog' => [
+                'checkoutLink' => '/personal/order/make/'
             ],
             'sentry' => [
                 'enabled' => $sentryConfig['enabled'],
@@ -46,6 +51,8 @@ class App extends \Core\App {
         );
         $scripts = array_map([View::class, 'asset'], [
             'js/main.js',
+            'js/app.js',
+            'js/legacy.js',
         ]);
         return [
             'styles' => $styles,

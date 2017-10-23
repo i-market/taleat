@@ -3,11 +3,36 @@
 namespace App;
 
 class Layout {
+    static function showHeaderCart() {
+        global $APPLICATION;
+        $APPLICATION->IncludeComponent(
+            "bitrix:sale.basket.basket.line",
+            "header",
+            array(
+                "PATH_TO_BASKET" => SITE_DIR."personal/cart/",
+                "PATH_TO_PERSONAL" => SITE_DIR."personal/",
+                "SHOW_PERSONAL_LINK" => "N",
+                "COMPONENT_TEMPLATE" => "basket",
+                "PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
+                "SHOW_NUM_PRODUCTS" => "Y",
+                "SHOW_TOTAL_PRICE" => "Y",
+                "SHOW_EMPTY_VALUES" => "Y",
+                "SHOW_AUTHOR" => "N",
+                "PATH_TO_REGISTER" => SITE_DIR."login/",
+                "PATH_TO_PROFILE" => SITE_DIR."personal/",
+                "SHOW_PRODUCTS" => "N",
+                "POSITION_FIXED" => "N",
+                "HIDE_ON_BASKET_PAGES" => "N"
+            ),
+            false
+        );
+    }
+
     static function showMegaMenu($class = '') {
         ?>
         <div class="content-menu-block <?= $class ?>">
             <div class="wrap">
-                <? Layout::showHeaderMenu() ?>
+                <? self::showHeaderMenu() ?>
                 <div class="content-menu-items">
                     <a class="content-menu-item shop" href="#">
                         <strong class="title">Магазин</strong>
@@ -31,10 +56,32 @@ class Layout {
         ?>
         <? if ($fragment === 'header'): ?>
             <section class="catalog-pages bg">
-            <div class="wrap">
-            <? self::showHeaderMenu('content-menu--pages') ?>
+                <div class="wrap">
+                    <? self::showHeaderMenu('content-menu--pages') ?>
         <? elseif ($fragment === 'footer'): ?>
-            </div>
+                </div>
+            </section>
+        <? endif ?>
+        <?
+    }
+
+    static function showDefaultPageWrapper($fragment) {
+        global $APPLICATION;
+        ?>
+        <? if ($fragment === 'header'): ?>
+            <section class="section">
+                <div class="section-title">
+                    <div class="wrap">
+                        <div class="section-title-block">
+                            <h2><?= $APPLICATION->GetTitle(false) ?></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrap">
+                    <div class="editable-area editable-area--full wrap-min">
+        <? elseif ($fragment === 'footer'): ?>
+                    </div>
+                </div>
             </section>
         <? endif ?>
         <?

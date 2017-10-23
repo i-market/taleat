@@ -9,7 +9,8 @@ use App\Iblock;
 
 class MockArticleSeeder extends AbstractSeed {
     function run() {
-        $text = 'Стиральные машины, пылесосы, обогреватели, кондиционеры, холодильники – далеко не полный перечень устройств, без которых жизнь современного горожанина превратилась бы в настоящий ад. Люди просто отвыкли обходиться без всего этого. Но бытовая техника периодически выходит из строя, и встает вопрос, что с ней делать.  Всем ли доступен ремонт бытовой техники? Давайте об этом поговорим.';
+        $longText = 'Стиральные машины, пылесосы, обогреватели, кондиционеры, холодильники – далеко не полный перечень устройств, без которых жизнь современного горожанина превратилась бы в настоящий ад. Люди просто отвыкли обходиться без всего этого. Но бытовая техника периодически выходит из строя, и встает вопрос, что с ней делать.  Всем ли доступен ремонт бытовой техники? Давайте об этом поговорим.';
+        $shortText = 'Стиральные машины, пылесосы, обогреватели, кондиционеры, холодильники – далеко не полный...';
         $conn = Application::getConnection();
         $conn->startTransaction();
         try {
@@ -19,6 +20,7 @@ class MockArticleSeeder extends AbstractSeed {
                 throw new \Exception("cant'f find iblock: {$iblockId}");
             }
             foreach (range(1, 7) as $n) {
+                $hasImg = $n <= 3;
                 $imgPath = Util::joinPath([$_SERVER['DOCUMENT_ROOT'], 'local/mockup/src/images/pic/pic-4.jpg']);
                 if (!file_exists($imgPath)) {
                     throw new \Exception("file doesn't exist: {$imgPath}");
@@ -28,9 +30,9 @@ class MockArticleSeeder extends AbstractSeed {
                     'IBLOCK_ID' => $iblockId,
                     'NAME' => "Пример статьи {$n}",
                     'SORT' => $n * 10,
-                    'PREVIEW_PICTURE' => CFile::MakeFileArray($imgPath),
-                    'PREVIEW_TEXT' => $text,
-                    'DETAIL_TEXT' => $text
+                    'PREVIEW_PICTURE' => $hasImg ? CFile::MakeFileArray($imgPath) : null,
+                    'PREVIEW_TEXT' => $hasImg ? $longText : $shortText,
+                    'DETAIL_TEXT' => $longText
                 ]);
                 if (!$result) {
                     throw new \Exception($el->LAST_ERROR);

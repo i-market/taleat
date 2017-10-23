@@ -3,6 +3,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Каталог");
 
 use App\View as v;
+use Core\Util;
 
 $page = $APPLICATION->GetCurPage();
 
@@ -415,111 +416,15 @@ foreach($ex as $e){
 
 
 <?if($arItem["ID"]):?>
-
-
-<?$APPLICATION->IncludeComponent(
-	"bitrix:catalog.element", 
-	"catalog", 
-	array(
-		"IBLOCK_TYPE" => "catalog",
-		"IBLOCK_ID" => $iblock_id,
-		"ELEMENT_ID" => $arItem["ID"],
-		"ELEMENT_CODE" => "",
-		"SECTION_ID" => "",
-		"SECTION_CODE" => "",
-		"PROPERTY_CODE" => array(
-			0 => "",
-			1 => "HOW_CHECK_URL",
-			2 => "OTHER_SITE_URL",
-			3 => "ARTNUMBER",
-			4 => "IN_MODEL",
-			5 => "IN_TYPE",
-			6 => "PROP",
-			7 => "DISCOUNT",
-			8 => "OLD_PRICE",
-			9 => "",
-		),
-		"OFFERS_LIMIT" => "0",
-		"SECTION_URL" => "",
-		"DETAIL_URL" => "",
-		"BASKET_URL" => "/personal/basket.php",
-		"ACTION_VARIABLE" => "action",
-		"PRODUCT_ID_VARIABLE" => "id",
-		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
-		"PRODUCT_PROPS_VARIABLE" => "prop",
-		"SECTION_ID_VARIABLE" => "SECTION_ID",
-		"CACHE_TYPE" => "N",
-		"CACHE_TIME" => "36000000",
-		"CACHE_GROUPS" => "Y",
-		"META_KEYWORDS" => "-",
-		"META_DESCRIPTION" => "-",
-		"BROWSER_TITLE" => "-",
-		"SET_TITLE" => "Y",
-		"SET_STATUS_404" => "N",
-		"ADD_SECTIONS_CHAIN" => "N",
-		"USE_ELEMENT_COUNTER" => "Y",
-		"PRICE_CODE" => array(
-			0 => "BASE",
-		),
-		"USE_PRICE_COUNT" => "Y",
-		"SHOW_PRICE_COUNT" => "1",
-		"PRICE_VAT_INCLUDE" => "Y",
-		"PRICE_VAT_SHOW_VALUE" => "Y",
-		"PRODUCT_PROPERTIES" => array(
-		),
-		"USE_PRODUCT_QUANTITY" => "Y",
-		"CONVERT_CURRENCY" => "Y",
-		"CURRENCY_ID" => "RUB",
-		"LINK_IBLOCK_TYPE" => "",
-		"LINK_IBLOCK_ID" => "",
-		"LINK_PROPERTY_SID" => "",
-		"LINK_ELEMENTS_URL" => "link.php?PARENT_ELEMENT_ID=#ELEMENT_ID#",
-		"COMPONENT_TEMPLATE" => "catalog",
-		"SHOW_DEACTIVATED" => "N",
-		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
-		"BACKGROUND_IMAGE" => "-",
-		"CHECK_SECTION_ID_VARIABLE" => "N",
-		"SEF_MODE" => "N",
-		"SET_CANONICAL_URL" => "N",
-		"SET_BROWSER_TITLE" => "Y",
-		"SET_META_KEYWORDS" => "Y",
-		"SET_META_DESCRIPTION" => "Y",
-		"SET_LAST_MODIFIED" => "N",
-		"USE_MAIN_ELEMENT_SECTION" => "N",
-		"STRICT_SECTION_CHECK" => "N",
-		"ADD_ELEMENT_CHAIN" => "N",
-		"DISPLAY_COMPARE" => "N",
-		"ADD_PROPERTIES_TO_BASKET" => "Y",
-		"PARTIAL_PRODUCT_PROPERTIES" => "N",
-		"USE_GIFTS_DETAIL" => "Y",
-		"USE_GIFTS_MAIN_PR_SECTION_LIST" => "Y",
-		"GIFTS_DETAIL_PAGE_ELEMENT_COUNT" => "3",
-		"GIFTS_DETAIL_HIDE_BLOCK_TITLE" => "N",
-		"GIFTS_DETAIL_BLOCK_TITLE" => "Выберите один из подарков",
-		"GIFTS_DETAIL_TEXT_LABEL_GIFT" => "Подарок",
-		"GIFTS_SHOW_DISCOUNT_PERCENT" => "Y",
-		"GIFTS_SHOW_OLD_PRICE" => "Y",
-		"GIFTS_SHOW_NAME" => "Y",
-		"GIFTS_SHOW_IMAGE" => "Y",
-		"GIFTS_MESS_BTN_BUY" => "Выбрать",
-		"GIFTS_MAIN_PRODUCT_DETAIL_PAGE_ELEMENT_COUNT" => "3",
-		"GIFTS_MAIN_PRODUCT_DETAIL_HIDE_BLOCK_TITLE" => "N",
-		"GIFTS_MAIN_PRODUCT_DETAIL_BLOCK_TITLE" => "Выберите один из товаров, чтобы получить подарок",
-		"SHOW_404" => "N",
-		"MESSAGE_404" => "",
-		"COMPATIBLE_MODE" => "Y",
-		"DISABLE_INIT_JS_IN_COMPONENT" => "N",
-		"SET_VIEWED_IN_COMPONENT" => "N"
-	),
-	false
-);?>
+    <? // element page ?>
+    <? include Util::joinPath([$_SERVER['DOCUMENT_ROOT'], v::template('partials/catalog/element.php')]) ?>
 <?else:?>
 
 
 <?if($_REQUEST["block"]!='none'):?>
 
-<? // brand page ?>
-<?= v::render('partials/catalog/brand.php') ?>
+    <? // brand page ?>
+    <?= v::render('partials/catalog/brand.php') ?>
 
 <?endif?>
 

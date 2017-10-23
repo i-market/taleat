@@ -3,6 +3,7 @@ use App\Layout;
 ?>
 <? Layout::showCatalogWrapper('header') ?>
 <div class="catalog-pages-block">
+    <? // TODO breadcrumbs ?>
     <ul class="bread-crumbs">
         <li class="bread-crumbs-item"><a href="#" class="link">Каталог</a></li>
         <li class="bread-crumbs-item"><span class="link">Braun</span></li>

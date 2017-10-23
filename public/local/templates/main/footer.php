@@ -4,9 +4,11 @@ use App\App;
 use App\View as v;
 use App\Layout;
 
-// TODO optimize: invoked twice for both header and footer
 extract(App::getInstance()->layoutContext(), EXTR_SKIP);
 ?>
+<? v::showForLayout('default', function () { ?>
+    <? Layout::showDefaultPageWrapper('footer') ?>
+<? }) ?>
 </main>
 <footer class="footer">
     <div class="footer-top">
@@ -53,6 +55,7 @@ extract(App::getInstance()->layoutContext(), EXTR_SKIP);
         </div>
     </div>
 </footer>
+<? $APPLICATION->ShowViewContent('modals') ?>
 <? if (!App::useBitrixAsset()): ?>
     <? foreach (App::assets()['scripts'] as $path): ?>
         <script src="<?= $path ?>"></script>

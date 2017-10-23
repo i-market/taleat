@@ -1,11 +1,10 @@
 <?require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
+
+use App\Layout;
+
 switch($_REQUEST["mode"]):
     case "cartUpdate":
-        $APPLICATION->IncludeComponent("bitrix:sale.basket.basket.line", "basket", Array(
-            "PATH_TO_BASKET" => SITE_DIR."personal/cart/",  // Страница корзины
-            "PATH_TO_PERSONAL" => SITE_DIR."personal/", // Персональный раздел
-            "SHOW_PERSONAL_LINK" => "N",    // Отображать ссылку на персональный раздел
-        ), false);
+        Layout::showHeaderCart();
     break;
     
     case "buy":

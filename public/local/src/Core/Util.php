@@ -16,7 +16,8 @@ class Util {
     static function inRange($x, $min, $max) {
         return $x >= $min && $x <= $max;
     }
-    
+
+    // TODO varargs
     static function joinPath(array $paths) {
         $trimmed = _::clean(array_map(function($path) {
             return trim($path, DIRECTORY_SEPARATOR);

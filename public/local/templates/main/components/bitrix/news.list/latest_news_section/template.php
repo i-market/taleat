@@ -25,10 +25,8 @@ use App\View as v;
                             <div class="info">
                                 <p class="date"><?= $item['DISPLAY_ACTIVE_FROM'] ?></p>
                                 <p class="title"><?= $item['NAME'] ?></p>
-                                <div class="text">
-                                    <div class="editable-area">
-                                        <?= $item['PREVIEW_TEXT'] ?>
-                                    </div>
+                                <div class="editable-area text">
+                                    <?= $item['PREVIEW_TEXT'] ?>
                                 </div>
                             </div>
                         </a>

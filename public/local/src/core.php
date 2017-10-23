@@ -166,7 +166,8 @@ class Underscore extends ArraysMethods {
         if (!is_array($array)) return false;
         return isset($array[0]);
     }
-    
+
+    /** @deprecated use underscore.php `group` */
     static function groupBy($array, $f) {
         $ret = [];
         foreach ($array as $x) {

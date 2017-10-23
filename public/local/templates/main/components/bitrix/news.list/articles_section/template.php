@@ -16,61 +16,34 @@ use App\View as v;
             <div class="left">
                 <div class="wrap-useful-slider">
                     <div class="useful-slider">
-                        <div class="slide">
-                            <div class="img">
-                                <img src="<?= v::asset('images/pic/pic-4.jpg') ?>" alt="">
+                        <? foreach ($arResult['SLIDER'] as $item): ?>
+                            <div class="slide">
+                                <div class="img">
+                                    <img src="<?= v::resize($item['PREVIEW_PICTURE'], 350, 350) ?>" alt="<?= $item['PREVIEW_PICTURE']['ALT'] ?>">
+                                </div>
+                                <div class="info">
+                                    <p class="title"><?= $item['NAME'] ?></p>
+                                    <div class="editable-area paragraph">
+                                        <?= $item['PREVIEW_TEXT'] ?>
+                                    </div>
+                                    <p class="more"><a href="<?= $item['DETAIL_PAGE_URL'] ?>">Подробнее...</a></p>
+                                </div>
                             </div>
-                            <div class="info">
-                                <p class="title">Безопасность при ремонте бытовых приборов и техники</p>
-                                <p class="paragraph">Стиральные машины, пылесосы, обогреватели, кондиционеры, холодильники – далеко не полный перечень устройств, без которых жизнь современного горожанина превратилась бы в настоящий ад. Люди просто отвыкли обходиться без всего этого. Но бытовая техника периодически выходит из строя, и встает вопрос, что с ней делать.  Всем ли доступен ремонт бытовой техники? Давайте об этом поговорим.</p>
-                                <p class="more"><a href="#">Подробнее...</a></p>
-                            </div>
-                        </div>
-                        <div class="slide">
-                            <div class="img">
-                                <img src="<?= v::asset('images/pic/pic-4.jpg') ?>" alt="">
-                            </div>
-                            <div class="info">
-                                <p class="title">Безопасность при ремонте бытовых приборов и техники</p>
-                                <p class="paragraph">Стиральные машины, пылесосы, обогреватели, кондиционеры, холодильники – далеко не полный перечень устройств, без которых жизнь современного горожанина превратилась бы в настоящий ад. Люди просто отвыкли обходиться без всего этого. Но бытовая техника периодически выходит из строя, и встает вопрос, что с ней делать.  Всем ли доступен ремонт бытовой техники? Давайте об этом поговорим.</p>
-                                <p class="more"><a href="#">Подробнее...</a></p>
-                            </div>
-                        </div>
-                        <div class="slide">
-                            <div class="img">
-                                <img src="<?= v::asset('images/pic/pic-4.jpg') ?>" alt="">
-                            </div>
-                            <div class="info">
-                                <p class="title">Безопасность при ремонте бытовых приборов и техники</p>
-                                <p class="paragraph">Стиральные машины, пылесосы, обогреватели, кондиционеры, холодильники – далеко не полный перечень устройств, без которых жизнь современного горожанина превратилась бы в настоящий ад. Люди просто отвыкли обходиться без всего этого. Но бытовая техника периодически выходит из строя, и встает вопрос, что с ней делать.  Всем ли доступен ремонт бытовой техники? Давайте об этом поговорим.</p>
-                                <p class="more"><a href="#">Подробнее...</a></p>
-                            </div>
-                        </div>
+                        <? endforeach ?>
                     </div>
                     <div class="dots"></div>
                 </div>
             </div>
             <div class="right">
-                <div class="useful-item">
-                    <p class="title">Бренды которые мы ремонтируем</p>
-                    <p class="paragraph">Стиральные машины, пылесосы, обогреватели, кондиционеры, холодильники – далеко не полный...</p>
-                    <p class="more"><a href="#">Подробнее...</a></p>
-                </div>
-                <div class="useful-item">
-                    <p class="title">Бренды которые мы ремонтируем</p>
-                    <p class="paragraph">Стиральные машины, пылесосы, обогреватели, кондиционеры, холодильники – далеко не полный...</p>
-                    <p class="more"><a href="#">Подробнее...</a></p>
-                </div>
-                <div class="useful-item">
-                    <p class="title">Бренды которые мы ремонтируем</p>
-                    <p class="paragraph">Стиральные машины, пылесосы, обогреватели, кондиционеры, холодильники – далеко не полный...</p>
-                    <p class="more"><a href="#">Подробнее...</a></p>
-                </div>
-                <div class="useful-item">
-                    <p class="title">Бренды которые мы ремонтируем</p>
-                    <p class="paragraph">Стиральные машины, пылесосы, обогреватели, кондиционеры, холодильники – далеко не полный...</p>
-                    <p class="more"><a href="#">Подробнее...</a></p>
-                </div>
+                <? foreach ($arResult['REST'] as $item): ?>
+                    <div class="useful-item">
+                        <p class="title"><?= $item['NAME'] ?></p>
+                        <div class="editable-area paragraph">
+                            <?= $item['PREVIEW_TEXT'] ?>
+                        </div>
+                        <p class="more"><a href="<?= $item['DETAIL_PAGE_URL'] ?>">Подробнее...</a></p>
+                    </div>
+                <? endforeach ?>
             </div>
         </div>
     </section>

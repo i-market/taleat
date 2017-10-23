@@ -154,27 +154,9 @@ if (App::useBitrixAsset()) {
             </div>
             <div class="header-bottom-right">
                 <a class="service-maintenance-link" href="#">Сервис<span class="hidden">ное обслуживание</span></a>
-                <?$APPLICATION->IncludeComponent(
-                    "bitrix:sale.basket.basket.line",
-                    "header",
-                    array(
-                        "PATH_TO_BASKET" => SITE_DIR."personal/cart/",
-                        "PATH_TO_PERSONAL" => SITE_DIR."personal/",
-                        "SHOW_PERSONAL_LINK" => "N",
-                        "COMPONENT_TEMPLATE" => "basket",
-                        "PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
-                        "SHOW_NUM_PRODUCTS" => "Y",
-                        "SHOW_TOTAL_PRICE" => "Y",
-                        "SHOW_EMPTY_VALUES" => "Y",
-                        "SHOW_AUTHOR" => "N",
-                        "PATH_TO_REGISTER" => SITE_DIR."login/",
-                        "PATH_TO_PROFILE" => SITE_DIR."personal/",
-                        "SHOW_PRODUCTS" => "N",
-                        "POSITION_FIXED" => "N",
-                        "HIDE_ON_BASKET_PAGES" => "N"
-                    ),
-                    false
-                );?>
+                <span id="mini-cart">
+                    <? Layout::showHeaderCart() ?>
+                </span>
             </div>
         </div>
     </div>
@@ -183,6 +165,7 @@ if (App::useBitrixAsset()) {
     <span class="scroll-top" data-href="top"></span>
     <? v::showForLayout('default', function () { ?>
         <? Layout::showMegaMenu('content-menu-block--pages') ?>
+        <? Layout::showDefaultPageWrapper('header') ?>
     <? }) ?>
     <? v::showForLayout('homepage', function () { ?>
         <? Layout::showMegaMenu() ?>

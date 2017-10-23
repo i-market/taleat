@@ -313,6 +313,11 @@ class Underscore extends ArraysMethods {
         }
         return parent::initial($array, $to);
     }
+
+    /** @deprecated use array_map */
+    static function zip(array ...$arrays) {
+        return array_map(null, ...$arrays);
+    }
 }
 
 class Nullable {

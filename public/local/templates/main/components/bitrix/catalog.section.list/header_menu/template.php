@@ -15,11 +15,11 @@ $showParent = function($section, $fragment) {
     <? endif ?>
     <?
 };
-$showChildrenWrap = function($fragment) {
+$showChildrenWrap = function($fragment, $isActive = false) {
     ?>
     <? if ($fragment === 'header'): ?>
-    <span class="accordeon-title"></span>
-    <div class="accordeon-inner">
+    <span class="accordeon-title <?= $isActive ? 'active' : '' ?>"></span>
+    <div class="accordeon-inner" style="display: <?= $isActive ? 'block' : 'none' ?>">
         <ul>
     <? elseif ($fragment === 'footer'): ?>
         </ul>
@@ -39,6 +39,7 @@ $showChild = function($section) {
         <?
         // TODO refactor
         $prevDepth = 1;
+        $isPrevActive = false;
         foreach ($arResult['SECTIONS'] as $idx => $section) {
             if ($section['DEPTH_LEVEL'] == 1) {
                 if ($idx !== 0) {
@@ -49,9 +50,11 @@ $showChild = function($section) {
                     $showParent([], 'footer');
                 }
                 $showParent($section, 'header');
+                $isPrevActive = Product::pathStartsWith(Product::sectionUrl($section), $APPLICATION->GetCurDir());
             } elseif ($section['DEPTH_LEVEL'] == 2) {
                 if ($prevDepth == 1) {
-                    $showChildrenWrap('header');
+                    $showChildrenWrap('header', $isPrevActive);
+                    $isPrevActive = false;
                 }
                 $showChild($section);
             }

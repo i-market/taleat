@@ -25,6 +25,23 @@ class Product {
         return fn_get_chainpath($section['IBLOCK_ID'], $section['ID']);
     }
 
+    // TODO refactor: we shouldn't need this when we fix all the paths
+    static function pathStartsWith($_prefix, $_subject) {
+        $path = function ($str) {
+            return array_filter(explode('/', $str), function ($s) {
+                return !str::isEmpty($s);
+            });
+        };
+        $prefix  = $path($_prefix);
+        $subject = $path($_subject);
+        $zipped = array_map(null, $prefix, $subject);
+        $matching = _::takeWhile($zipped, function ($pair) {
+            list($a, $d) = $pair;
+            return $a === $d;
+        });
+        return count($matching) === count($prefix);
+    }
+
     static function thumbnail($elem) {
         $arItem = $elem;
         // TODO what's the algorithm here?

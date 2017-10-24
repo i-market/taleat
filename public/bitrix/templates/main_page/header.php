@@ -7,7 +7,6 @@
 
 <title><?$APPLICATION->ShowTitle()?></title>
 <?$APPLICATION->ShowHead()?>
-<?//require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/templates/main_page/include/func.php"); ?>
 <link rel="stylesheet" type="text/css" href="/bitrix/templates/main_page/fancybox/jquery.fancybox.css" media="screen" />
 <?if ($APPLICATION->GetCurDir()=="/personal/order/bill/"){?>
 	<link rel="stylesheet" type="text/css" href="/bitrix/templates/main_page/css/print.css" media="print"> 

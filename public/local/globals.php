@@ -11,4 +11,5 @@ return [
 
     'iblock_id' => $iblock_id,
     'arItem' => $arItem,
+    'arSection' => $arSection,
 ];

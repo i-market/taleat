@@ -3,6 +3,7 @@
 namespace App;
 
 use Bitrix\Main\Loader;
+use Core\Env;
 use Core\NewsListLike;
 use Bitrix\Main\Config\Configuration;
 use Core\Underscore as _;
@@ -15,7 +16,18 @@ if (class_exists('Bitrix\Main\Loader')) {
 class App extends \Core\App {
     const SITE_ID = 's1';
 
-    function init() {
+    function init() {}
+
+    function assert($cond, $message = '') {
+        if ($cond) {
+            return;
+        }
+        if (self::env() === Env::DEV) {
+            throw new \Exception($message);
+        } else {
+            // TODO log to sentry
+            return;
+        }
     }
 
     function layoutContext() {
@@ -81,6 +93,7 @@ class Iblock {
     const CERTIFICATES = 'certificates';
     const ARTICLES = 'articles';
     const VIDEOS = 'videos';
+    const RESPONSIVE_BANNERS = 'responsive_banners';
 
     const CATALOG_TYPE = 'catalog';
 }

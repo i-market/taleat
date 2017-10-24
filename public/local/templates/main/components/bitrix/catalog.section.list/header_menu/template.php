@@ -19,7 +19,7 @@ $showChildrenWrap = function($fragment, $isActive = false) {
     ?>
     <? if ($fragment === 'header'): ?>
     <span class="accordeon-title <?= $isActive ? 'active' : '' ?>"></span>
-    <div class="accordeon-inner" style="display: <?= $isActive ? 'block' : 'none' ?>">
+    <div class="accordeon-inner" <?= $isActive ? 'style="display: block"' : '' ?>>
         <ul>
     <? elseif ($fragment === 'footer'): ?>
         </ul>

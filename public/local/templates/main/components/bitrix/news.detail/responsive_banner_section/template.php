@@ -4,7 +4,7 @@ use App\View as v;
 ?>
 <? $link = $arResult['PROPERTIES']['LINK']['VALUE'] ?>
 <? $phoneImg = $arResult['DISPLAY_PROPERTIES']['PHONE']['FILE_VALUE'] ?>
-<? list($tag, $attrs) = !v::isEmpty($link) ? ['a', 'href="'.$link.'"'] : ['div', ''] ?>
+<? list($tag, $attrs) = !v::isEmpty($link) ? ['a', 'href="'.$link.'" target="_blank"'] : ['div', ''] ?>
 <section class="banner">
     <div class="wrap">
         <<?= $tag ?> <?= $attrs ?> class="desktop">

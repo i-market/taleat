@@ -29,7 +29,7 @@ class Layout {
         <?
     }
 
-    static function showCatalogWrapper($fragment) {
+    static function showCatalogWrapper($fragment, callable $showContent = null) {
         ?>
         <? if ($fragment === 'header'): ?>
             <section class="catalog-pages bg">
@@ -37,6 +37,7 @@ class Layout {
                     <? self::showHeaderMenu('content-menu--pages') ?>
         <? elseif ($fragment === 'footer'): ?>
                 </div>
+                <? if (is_callable($showContent)) $showContent() ?>
             </section>
         <? endif ?>
         <?

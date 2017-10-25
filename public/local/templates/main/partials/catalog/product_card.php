@@ -1,11 +1,14 @@
 <?
+use App\View as v;
 use App\Product;
 ?>
 <? $thumbnail = Product::thumbnail($item) ?>
 <? $price = Product::basePrice($item['ID']) ?>
-<a href="<?= Product::elementUrl($item) ?>" class="item-box">
-    <div class="img">
-        <img src="<?= $thumbnail['SRC'] ?>" alt="<?= $thumbnail['ALT'] ?>">
+<a href="<?= Product::elementUrl($item) ?>" class="item-box <?= isset($class) ? $class : '' ?>">
+    <div class="img <?= v::isEmpty($thumbnail) ? 'no-img' : '' ?>">
+        <? if (!v::isEmpty($thumbnail)): ?>
+            <img src="<?= $thumbnail['SRC'] ?>" alt="<?= $thumbnail['ALT'] ?>">
+        <? endif ?>
     </div>
     <div class="info">
         <p class="label-unfo">

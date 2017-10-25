@@ -40,7 +40,7 @@ use App\View as v;
         </span>
             <div class="items-slider slider">
                 <? foreach ($arResult['ITEMS'] as $item): ?>
-                    <?= v::render('partials/catalog/product_slider_item.php', ['item' => $item]) ?>
+                    <?= v::render('partials/catalog/product_card.php', ['item' => $item]) ?>
                 <? endforeach ?>
             </div>
         </div>

@@ -4,7 +4,7 @@ use App\View as v;
 use App\Product;
 ?>
 <div class="catalog-title">
-    <h2><?= $arResult['NAME'] ?></h2>
+    <h2><?= $arResult['SECTION']['NAME'] ?></h2>
     <? // TODO brand image ?>
     <div class="TODO-mockup catalog-title-img">
         <img src="<?= v::asset('images/pic/labels/2.png') ?>" alt="">
@@ -15,7 +15,11 @@ use App\Product;
         <? foreach ($arResult['SECTIONS'] as $section): ?>
             <a href="<?= Product::sectionUrl($section) ?>" class="col col-3 ctalog-item-box">
                 <div class="img">
-                    <img src="<?= v::resize($section['PICTURE'], 270, 200, BX_RESIZE_IMAGE_EXACT) ?>" alt="<?= $section['NAME'] ?>">
+                    <? if (!v::isEmpty($section['PICTURE'])): ?>
+                        <img src="<?= v::resize($section['PICTURE'], 270, 200, BX_RESIZE_IMAGE_EXACT) ?>" alt="<?= $section['NAME'] ?>">
+                    <? else: ?>
+                        <div class="no-img-placeholder"><div class="content"></div></div>
+                    <? endif ?>
                 </div>
                 <p class="title"><?= $section['NAME'] ?></p>
             </a>

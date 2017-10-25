@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\View as v;
+
 class Layout {
     static function showMegaMenu($class = '') {
         ?>
@@ -9,15 +11,15 @@ class Layout {
             <div class="wrap">
                 <? self::showHeaderMenu() ?>
                 <div class="content-menu-items">
-                    <a class="content-menu-item shop" href="#">
+                    <a class="content-menu-item shop" href="<?= v::path('catalog') ?>">
                         <strong class="title">Магазин</strong>
                         <p class="text">Интернет-магазин для заказа запасных частей и аксеcсуаров к бытовой технике фирм Braun и Babyliss PARIS</p>
                     </a>
-                    <a class="content-menu-item services" href="#">
+                    <a class="content-menu-item services" href="<?= v::path('region') ?>">
                         <strong class="title">Сервисное обслуживание</strong>
                         <p class="text">Найти ближайший к Вам сервисный центр Braun или Babyliss PARIS</p>
                     </a>
-                    <a class="content-menu-item reception-point" href="#">
+                    <a class="content-menu-item reception-point" href="<?= v::path('priemnie-punkti') ?>">
                         <strong class="title">Приемные пункты</strong>
                         <p class="text">Наши приемные пункты в ремонт, а так же пункты продажи запасных частей и аксессуаров к бытовой технике фирм Braun и Babyliss PARIS</p>
                     </a>

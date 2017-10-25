@@ -6,8 +6,8 @@ use App\Product;
 <div class="catalog-title">
     <h2><?= $arResult['NAME'] ?></h2>
     <? // TODO brand image ?>
-    <div class="catalog-title-img">
-        <img src="images/pic/labels/2.png" alt="">
+    <div class="TODO-mockup catalog-title-img">
+        <img src="<?= v::asset('images/pic/labels/2.png') ?>" alt="">
     </div>
 </div>
 <div class="ctalog-inner">

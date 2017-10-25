@@ -7,12 +7,12 @@ use App\View as v;
 <form action="<?= POST_FORM_ACTION_URI ?>" method="post" enctype="multipart/form-data">
     <? // TODO template ?>
     <? // TODO back link ?>
-    <div class="back-link">
+    <div class="TODO-mockup back-link">
         <a href="#"><?= $arResult['NAME'] ?></a>
     </div>
     <div class="catalog-title hidden">
         <h2><?= $arResult['NAME'] ?></h2>
-        <div class="catalog-title-img">
+        <div class="TODO-mockup catalog-title-img">
             <? // TODO brand image, resize ?>
             <img src="<?= v::asset('images/pic/labels/2.png') ?>" alt="">
         </div>
@@ -83,10 +83,10 @@ use App\View as v;
                 </div>
             </div>
             <? // TODO ?>
-            <p class="check-out">Перед покупкой проверьте тип вашего изделия!</p>
+            <p class="TODO-mockup check-out">Перед покупкой проверьте тип вашего изделия!</p>
             <div class="catalog-item-doc">
                 <? // TODO ?>
-                <a class="table-link" href="#">Таблица соответствия</a>
+                <a class="TODO-mockup table-link" href="#">Таблица соответствия</a>
                 <? $howCheckUrl = $arResult['PROPERTIES']['HOW_CHECK_URL']['VALUE'] ?>
                 <? if (!v::isEmpty($howCheckUrl)): ?>
                     <a class="type-link" href="<?= $howCheckUrl ?>" target="_blank">Проверить тип изделия</a>
@@ -109,11 +109,9 @@ use App\View as v;
                 <div class="price">
                     <? // TODO (span (span price) currency) ?>
                     <span class="price-text"><span><?= $formatted ?></span></span>
-                    <?/*
-                    <span class="separator hidden">X</span>
+                    <span class="TODO-mockup separator hidden">X</span>
                     <? // TODO product qty ?>
                     <input name="quantity" type="number" class="hidden" min="1" value="1">
-                    */?>
                 </div>
                 <? if ($arResult['CAN_BUY']): ?>
                     <p class="catalog-item-stock">В наличии</p>

@@ -1,13 +1,14 @@
 <?
-use App\View as v;
-use App\Layout;
-use App\Iblock;
-use Bex\Tools\Iblock\IblockTools;
-
 /**
  * @global $iblock_id
  * @global $arSection
  */
+
+use App\Components;
+use App\View as v;
+use App\Layout;
+use App\Iblock;
+use Bex\Tools\Iblock\IblockTools;
 ?>
 <? Layout::showCatalogWrapper('header') ?>
 <div class="catalog-pages-block">
@@ -38,7 +39,7 @@ use Bex\Tools\Iblock\IblockTools;
 </div>
 <? Layout::showCatalogWrapper('footer') ?>
 <? // TODO recommended products ?>
-<section class="wrap-items-slider wrap-slider section">
+<section class="TODO-mockup wrap-items-slider wrap-slider section">
     <div class="section-title">
         <div class="wrap">
             <div class="section-title-block">
@@ -78,7 +79,7 @@ use Bex\Tools\Iblock\IblockTools;
         <div class="items-slider slider">
             <a href="#" class="item-box">
                 <div class="img">
-                    <img src="images/pic/items/1.png" alt="">
+                    <img src="<?= v::asset('images/pic/items/1.png') ?>" alt="">
                 </div>
                 <div class="info">
                     <p class="label-unfo">
@@ -94,7 +95,7 @@ use Bex\Tools\Iblock\IblockTools;
             </a>
             <a href="#" class="item-box">
                 <div class="img">
-                    <img src="images/pic/items/2.png" alt="">
+                    <img src="<?= v::asset('images/pic/items/2.png') ?>" alt="">
                 </div>
                 <div class="info">
                     <p class="label-unfo">
@@ -110,7 +111,7 @@ use Bex\Tools\Iblock\IblockTools;
             </a>
             <a href="#" class="item-box">
                 <div class="img">
-                    <img src="images/pic/items/3.png" alt="">
+                    <img src="<?= v::asset('images/pic/items/3.png') ?>" alt="">
                 </div>
                 <div class="info">
                     <p class="label-unfo">
@@ -126,7 +127,7 @@ use Bex\Tools\Iblock\IblockTools;
             </a>
             <a href="#" class="item-box">
                 <div class="img">
-                    <img src="images/pic/items/4.png" alt="">
+                    <img src="<?= v::asset('images/pic/items/4.png') ?>" alt="">
                 </div>
                 <div class="info">
                     <p class="label-unfo">
@@ -142,7 +143,7 @@ use Bex\Tools\Iblock\IblockTools;
             </a>
             <a href="#" class="item-box">
                 <div class="img">
-                    <img src="images/pic/items/3.png" alt="">
+                    <img src="<?= v::asset('images/pic/items/3.png') ?>" alt="">
                 </div>
                 <div class="info">
                     <p class="label-unfo">
@@ -215,55 +216,72 @@ use Bex\Tools\Iblock\IblockTools;
     <div class="section-title">
         <div class="wrap">
             <div class="section-title-block">
-                <h2>Поленое</h2>
-                <div class="section-title-link">|<a href="#">все статьи</a></div>
+                <h2>Полезное</h2>
+                <div class="section-title-link">|<a href="<?= v::path('articles') ?>">все статьи</a></div>
             </div>
         </div>
     </div>
     <div class="wrap useful-block">
         <div class="left">
-            <div class="wrap-useful-slider">
-                <div class="useful-slider">
-                    <div class="slide">
-                        <div class="img">
-                            <img src="<?= v::asset('images/pic/pic-4.jpg') ?>" alt="">
-                        </div>
-                        <div class="info">
-                            <p class="title">Безопасность при ремонте бытовых приборов и техники</p>
-                            <p class="paragraph">Стиральные машины, пылесосы, обогреватели, кондиционеры, холодильники – далеко не полный перечень устройств, без которых жизнь современного горожанина превратилась бы в настоящий ад. Люди просто отвыкли обходиться без всего этого. Но бытовая техника периодически выходит из строя, и встает вопрос, что с ней делать. Всем ли доступен ремонт бытовой техники? Давайте об этом поговорим.</p>
-                            <p class="more"><a href="#">Подробнее...</a></p>
-                        </div>
-                    </div>
-                    <div class="slide">
-                        <div class="img">
-                            <img src="<?= v::asset('images/pic/pic-4.jpg') ?>" alt="">
-                        </div>
-                        <div class="info">
-                            <p class="title">Безопасность при ремонте бытовых приборов и техники</p>
-                            <p class="paragraph">Стиральные машины, пылесосы, обогреватели, кондиционеры, холодильники – далеко не полный перечень устройств, без которых жизнь современного горожанина превратилась бы в настоящий ад. Люди просто отвыкли обходиться без всего этого. Но бытовая техника периодически выходит из строя, и встает вопрос, что с ней делать. Всем ли доступен ремонт бытовой техники? Давайте об этом поговорим.</p>
-                            <p class="more"><a href="#">Подробнее...</a></p>
-                        </div>
-                    </div>
-                    <div class="slide">
-                        <div class="img">
-                            <img src="<?= v::asset('images/pic/pic-4.jpg') ?>" alt="">
-                        </div>
-                        <div class="info">
-                            <p class="title">Безопасность при ремонте бытовых приборов и техники</p>
-                            <p class="paragraph">Стиральные машины, пылесосы, обогреватели, кондиционеры, холодильники – далеко не полный перечень устройств, без которых жизнь современного горожанина превратилась бы в настоящий ад. Люди просто отвыкли обходиться без всего этого. Но бытовая техника периодически выходит из строя, и встает вопрос, что с ней делать. Всем ли доступен ремонт бытовой техники? Давайте об этом поговорим.</p>
-                            <p class="more"><a href="#">Подробнее...</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="dots"></div>
-            </div>
+            <? Components::showArticlesSlider() ?>
         </div>
         <div class="right">
-            <div class="video-item">
-                <iframe src="https://www.youtube.com/embed/hj7ZYjVFDGI?rel=0" frameborder="0" allowfullscreen></iframe>
-                <p class="name">Ремонт бытовой техники на дому в Москве</p>
-                <a class="btn" href="#">Смотреть все видео</a>
-            </div>
+            <? $APPLICATION->IncludeComponent(
+                "bitrix:news.list",
+                "video_fragment",
+                Array(
+                    "ACTIVE_DATE_FORMAT" => "j F Y",
+                    "ADD_SECTIONS_CHAIN" => "N",
+                    "AJAX_MODE" => "N",
+                    "AJAX_OPTION_ADDITIONAL" => "",
+                    "AJAX_OPTION_HISTORY" => "N",
+                    "AJAX_OPTION_JUMP" => "N",
+                    "AJAX_OPTION_STYLE" => "Y",
+                    "CACHE_FILTER" => "N",
+                    "CACHE_GROUPS" => "Y",
+                    "CACHE_TIME" => "36000000",
+                    "CACHE_TYPE" => "A",
+                    "CHECK_DATES" => "Y",
+                    "DETAIL_URL" => "",
+                    "DISPLAY_BOTTOM_PAGER" => "Y",
+                    "DISPLAY_DATE" => "Y",
+                    "DISPLAY_NAME" => "Y",
+                    "DISPLAY_PICTURE" => "Y",
+                    "DISPLAY_PREVIEW_TEXT" => "Y",
+                    "DISPLAY_TOP_PAGER" => "N",
+                    "FIELD_CODE" => array("", ""),
+                    "FILTER_NAME" => "",
+                    "HIDE_LINK_WHEN_NO_DETAIL" => "N",
+                    "IBLOCK_ID" => IblockTools::find(Iblock::CONTENT_TYPE, Iblock::VIDEOS)->id(),
+                    "IBLOCK_TYPE" => Iblock::CONTENT_TYPE,
+                    "INCLUDE_IBLOCK_INTO_CHAIN" => "N",
+                    "INCLUDE_SUBSECTIONS" => "Y",
+                    "MESSAGE_404" => "",
+                    "NEWS_COUNT" => 1,
+                    "PAGER_BASE_LINK_ENABLE" => "N",
+                    "PAGER_DESC_NUMBERING" => "N",
+                    "PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
+                    "PAGER_SHOW_ALL" => "N",
+                    "PAGER_SHOW_ALWAYS" => "N",
+                    "PAGER_TEMPLATE" => ".default",
+                    "PAGER_TITLE" => '',
+                    "PARENT_SECTION" => "",
+                    "PARENT_SECTION_CODE" => "",
+                    "PREVIEW_TRUNCATE_LEN" => "",
+                    "PROPERTY_CODE" => array("URL"),
+                    "SET_BROWSER_TITLE" => "N",
+                    "SET_LAST_MODIFIED" => "N",
+                    "SET_META_DESCRIPTION" => "N",
+                    "SET_META_KEYWORDS" => "N",
+                    "SET_STATUS_404" => "N",
+                    "SET_TITLE" => "N",
+                    "SHOW_404" => "N",
+                    "SORT_BY1" => "ACTIVE_FROM",
+                    "SORT_BY2" => "SORT",
+                    "SORT_ORDER1" => "DESC",
+                    "SORT_ORDER2" => "ASC"
+                )
+            ); ?>
         </div>
     </div>
 </section>

@@ -1,12 +1,12 @@
 <?
-use App\Iblock;
-use App\Layout;
-use App\Components;
-
 /**
  * @global $iblock_id
  * @global $arItem
  */
+
+use App\Iblock;
+use App\Layout;
+use App\Components;
 ?>
 <? Layout::showCatalogWrapper('header') ?>
 <div class="catalog-pages-block">

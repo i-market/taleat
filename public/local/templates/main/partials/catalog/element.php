@@ -110,12 +110,7 @@ use App\Components;
         );?>
     </div>
     <div class="banner">
-        <a href="#" class="first">
-            <img src="images/pic/banner.jpg" alt="">
-        </a>
-        <a href="#" class="second">
-            <img src="images/pic/banner-2.jpg" alt="">
-        </a>
+        <? Components::showBanner('catalog-terms') ?>
     </div>
 </div>
 <? Layout::showCatalogWrapper('footer') ?>
@@ -281,7 +276,7 @@ use App\Components;
 	)
 );?>
 <? Components::showVideosSection() ?>
-<section class="about">
+<section class="TODO-mockup about">
     <div class="section-title">
         <div class="wrap">
             <div class="section-title-block">

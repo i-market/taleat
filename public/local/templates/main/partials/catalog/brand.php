@@ -160,58 +160,11 @@ use Bex\Tools\Iblock\IblockTools;
         </div>
     </div>
 </section>
-<?$APPLICATION->IncludeComponent(
-	"bitrix:news.detail",
-	"responsive_banner_section",
-	Array(
-		"ACTIVE_DATE_FORMAT" => "d.m.Y",
-		"ADD_ELEMENT_CHAIN" => "N",
-		"ADD_SECTIONS_CHAIN" => "N",
-		"AJAX_MODE" => "N",
-		"AJAX_OPTION_ADDITIONAL" => "",
-		"AJAX_OPTION_HISTORY" => "N",
-		"AJAX_OPTION_JUMP" => "N",
-		"AJAX_OPTION_STYLE" => "N",
-		"BROWSER_TITLE" => "-",
-		"CACHE_GROUPS" => "Y",
-		"CACHE_TIME" => "36000000",
-		"CACHE_TYPE" => "A",
-		"CHECK_DATES" => "Y",
-		"DETAIL_URL" => "",
-		"DISPLAY_BOTTOM_PAGER" => "Y",
-		"DISPLAY_DATE" => "Y",
-		"DISPLAY_NAME" => "Y",
-		"DISPLAY_PICTURE" => "Y",
-		"DISPLAY_PREVIEW_TEXT" => "Y",
-		"DISPLAY_TOP_PAGER" => "N",
-		"ELEMENT_CODE" => "catalog-terms",
-		"ELEMENT_ID" => "",
-		"FIELD_CODE" => array("PREVIEW_PICTURE"),
-		"IBLOCK_ID" => IblockTools::find(Iblock::CONTENT_TYPE, Iblock::RESPONSIVE_BANNERS)->id(),
-		"IBLOCK_TYPE" => Iblock::CONTENT_TYPE,
-		"IBLOCK_URL" => "",
-		"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
-		"MESSAGE_404" => "",
-		"META_DESCRIPTION" => "-",
-		"META_KEYWORDS" => "-",
-		"PAGER_BASE_LINK_ENABLE" => "N",
-		"PAGER_SHOW_ALL" => "N",
-		"PAGER_TEMPLATE" => ".default",
-		"PAGER_TITLE" => "Страница",
-		"PROPERTY_CODE" => array("LINK","PHONE"),
-		"SET_BROWSER_TITLE" => "N",
-		"SET_CANONICAL_URL" => "N",
-		"SET_LAST_MODIFIED" => "N",
-		"SET_META_DESCRIPTION" => "N",
-		"SET_META_KEYWORDS" => "N",
-		"SET_STATUS_404" => "N",
-		"SET_TITLE" => "N",
-		"SHOW_404" => "N",
-		"STRICT_SECTION_CHECK" => "N",
-		"USE_PERMISSIONS" => "N",
-		"USE_SHARE" => "N"
-	)
-);?>
+<section class="banner">
+    <div class="wrap">
+        <? Components::showBanner('catalog-terms') ?>
+    </div>
+</section>
 <section class="useful section">
     <div class="section-title">
         <div class="wrap">

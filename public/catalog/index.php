@@ -149,8 +149,18 @@ if ($page == "/catalog/"){
         }
         ?>
 
-        <? if ($arSection['DEPTH_LEVEL'] == 1): ?>
+        <?
+        // TODO refactor
+        $childrenCount = CIBlockSection::GetList([], [
+            'IBLOCK_ID' => $iblock_id,
+            'SECTION_ID' => $arSection['ID'],
+            'ACTIVE' => 'Y'
+        ])->SelectedRowsCount();
+        $isLeafSection = $childrenCount === 0;
+        ?>
+        <? if (!$isLeafSection): ?>
 
+            <? // TODO rename (brand -> section) ?>
             <? // brand page ?>
             <? include Util::joinPath([$_SERVER['DOCUMENT_ROOT'], v::template('partials/catalog/brand.php')]) ?>
 

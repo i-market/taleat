@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
   "devDependencies": {
     "browser-sync": "^2.18.12",
     "chokidar-cli": "^1.2.0",
@@ -15,8 +17,9 @@
   },
   "scripts": {
     "build:mockup": "./scripts/build-mockup.sh",
+    "build:vendor": "./scripts/build-vendor.sh",
     "build:copy": "cp -R assets/. ${npm_package_config_dist}",
-    "build": "npm run build:mockup && npm run build:copy",
+    "build": "npm run build:mockup && npm run build:vendor && npm run build:copy",
     "browsersync": "browser-sync start --proxy ${PROXY:-localhost} -f ${npm_package_config_dist}/css/*.css -f ${npm_package_config_dist}/js/*.js --no-open",
     "sass": "node-sass -o ${npm_package_config_dist}/css mockup/src/styles/scss",
     "watch:sass": "npm run sass && node-sass --watch -o ${npm_package_config_dist}/css mockup/src/styles/scss",

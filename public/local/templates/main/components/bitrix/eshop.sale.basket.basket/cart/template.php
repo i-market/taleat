@@ -32,7 +32,7 @@ $isCartEmpty = count(array_merge(...array_values($arResult['ITEMS']))) === 0;
         ); ?>
     </div>
 <? else: ?>
-    <form method="post" action="<?= POST_FORM_ACTION_URI ?>" name="basket_form">
+    <form class="cart-page" method="post" action="<?= v::path('personal/cart') ?>" name="basket_form">
         <section class="lk">
             <div class="section-title">
                 <div class="wrap">
@@ -83,7 +83,7 @@ $isCartEmpty = count(array_merge(...array_values($arResult['ITEMS']))) === 0;
                                     <div class="td">
                                         <div class="input-number" data-min="1" data-max="999">
                                             <span class="input-number-decrement" data-decrement></span>
-                                            <input name="<?= "QUANTITY[{$item['ID']}]" ?>" type="text" value="<?= $item['QUANTITY'] ?>">
+                                            <input name="<?= "QUANTITY[{$item['ID']}]" ?>" type="text" value="<?= $item['QUANTITY'] ?>" class="quantity">
                                             <span class="input-number-increment" data-increment></span>
                                         </div>
                                     </div>

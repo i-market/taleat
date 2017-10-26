@@ -1,4 +1,7 @@
+// depends on: lodash
+
 (function () {
+  // TODO refactor component update dependencies. see `cartUpdate` usages.
   function cartUpdate(){
     $.ajax({
       type: 'POST',
@@ -49,6 +52,8 @@
 
     cleanUpEditable($('.editable-area'));
 
+    // catalog
+
     $('.buy-button').on('click', function(evt){
       evt.preventDefault();
       $.ajax({
@@ -66,5 +71,25 @@
         }
       });
     });
+
+    function initCartPage($component) {
+      function updateCart() {
+        var formData = $component.serializeArray();
+        formData.push({name: 'mode', value: 'cart/index'});
+        $.post('/ajax/ajax.php', formData, function (html) {
+          var $new = $(html);
+          $component.replaceWith($new);
+          initCartPage($new);
+          cartUpdate();
+        });
+      }
+
+      $component.find('.quantity').on('change', _.debounce(updateCart, 500, true));
+    }
+
+    $('.cart-page').each(function () {
+      initCartPage($(this));
+    });
+
   });
 })();

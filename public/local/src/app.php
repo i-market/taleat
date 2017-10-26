@@ -63,6 +63,7 @@ class App extends \Core\App {
         );
         $scripts = array_map([View::class, 'asset'], [
             'js/main.js',
+            'js/vendor/lodash.js',
             'js/app.js',
             'js/legacy.js',
         ]);

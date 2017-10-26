@@ -2,12 +2,13 @@
 
 namespace App;
 
+use Bitrix\Iblock\Component\Tools;
 use CFile;
 use CIBlockSection;
-use CPrice;
 use Core\Nullable as nil;
-use Core\Underscore as _;
 use Core\Strings as str;
+use Core\Underscore as _;
+use CPrice;
 
 class Product {
     // `PROP` property values
@@ -43,15 +44,24 @@ class Product {
     }
 
     static function thumbnail($elem) {
-        $arItem = $elem;
+        App::getInstance()->assert(isset($elem['DETAIL_PICTURE']) && isset($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]),
+            'illegal argument');
         // TODO what's the algorithm here?
-        $rsFile = CFile::GetByID($arItem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][4]);
+        $rsFile = CFile::GetByID($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][4]);
         $arFile = $rsFile->Fetch();
         if($arFile["HEIGHT"]<131) {
-            return CFile::GetByID($arItem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][4])->Fetch();
+            return CFile::GetByID($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][4])->Fetch();
          } else {
-            $optPic = CFile::GetByID($arItem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][3])->Fetch();
-            return $optPic !== null ? $optPic : $elem['DETAIL_PICTURE'];
+            $optPic = CFile::GetByID($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][3])->Fetch();
+            if ($optPic !== null) {
+                return $optPic;
+            } else {
+                $elemRef = $elem;
+                if (is_numeric($elem['DETAIL_PICTURE'])) {
+                    Tools::getFieldImageData($elemRef, ['DETAIL_PICTURE'], Tools::IPROPERTY_ENTITY_ELEMENT, 'IPROPERTY_VALUES');
+                }
+                return $elemRef['DETAIL_PICTURE'];
+            }
          }
     }
 

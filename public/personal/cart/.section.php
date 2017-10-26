@@ -1,6 +1,6 @@
 <?
-$sSectionName = "Моя корзина";
+$sSectionName = "Корзина товаров";
 $arDirProperties = array(
-
+    'layout' => 'bare'
 );
 ?>

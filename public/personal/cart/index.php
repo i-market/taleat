@@ -1,9 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Корзина");
+$APPLICATION->SetTitle("Корзина товаров");
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:eshop.sale.basket.basket", 
-	".default", 
+	"cart",
 	array(
 		"COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
 		"COLUMNS_LIST" => array(
@@ -22,7 +22,7 @@ $APPLICATION->SetTitle("Корзина");
 		"QUANTITY_FLOAT" => "N",
 		"PRICE_VAT_SHOW_VALUE" => "Y",
 		"USE_PREPAYMENT" => "N",
-		"SET_TITLE" => "Y",
+		"SET_TITLE" => "N",
 		"AJAX_OPTION_ADDITIONAL" => "",
 		"COMPONENT_TEMPLATE" => ".default"
 	),

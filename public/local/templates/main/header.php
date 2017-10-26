@@ -167,6 +167,9 @@ if (App::useBitrixAsset()) {
         <? Layout::showMegaMenu('content-menu-block--pages') ?>
         <? Layout::showDefaultPageWrapper('header') ?>
     <? }) ?>
+    <? v::showForLayout('bare', function () { ?>
+        <? Layout::showMegaMenu('content-menu-block--pages') ?>
+    <? }) ?>
     <? v::showForLayout('homepage', function () { ?>
         <? Layout::showMegaMenu() ?>
     <? }) ?>

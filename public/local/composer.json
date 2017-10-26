@@ -3,7 +3,8 @@
         "anahkiasen/underscore-php": "^2.0",
         "sentry/sentry": "^1.6",
         "bitrix-expert/tools": "^1.5",
-        "robmorgan/phinx": "^0.8.0"
+        "robmorgan/phinx": "^0.8.0",
+        "nikic/iter": "^1.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7"

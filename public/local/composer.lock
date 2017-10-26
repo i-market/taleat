@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f0b1098e3f47e7e05fd1ed4220de6c86",
-    "content-hash": "11de7247e13adeac1d8aea5070735d14",
+    "hash": "d14243958504c7ed39c32a89afb33911",
+    "content-hash": "392be6cdd2d824cd86e3b1e5eed8ea66",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -167,6 +167,50 @@
                 "string"
             ],
             "time": "2015-11-06 14:35:42"
+        },
+        {
+            "name": "nikic/iter",
+            "version": "v1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/iter.git",
+                "reference": "7dd83c39c78dca34931f00618d4ff3008d8530a1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/iter/zipball/7dd83c39c78dca34931f00618d4ff3008d8530a1",
+                "reference": "7dd83c39c78dca34931f00618d4ff3008d8530a1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0|~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov",
+                    "email": "nikic@php.net"
+                }
+            ],
+            "description": "Iteration primitives using generators",
+            "keywords": [
+                "functional",
+                "generator",
+                "iterator"
+            ],
+            "time": "2017-04-26 18:58:05"
         },
         {
             "name": "patchwork/utf8",

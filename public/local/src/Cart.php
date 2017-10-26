@@ -26,7 +26,7 @@ class Cart {
 
     function index() {
         global $APPLICATION;
-        $this->runEffects(_::get($_POST, 'action'), $_POST);
+        $this->runEffects(_::get($_REQUEST, 'action'), $_REQUEST);
 
         $APPLICATION->IncludeComponent(
             "bitrix:eshop.sale.basket.basket",

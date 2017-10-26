@@ -12,10 +12,10 @@ use Core\Util;
  * ProdSubscribe - subscribe
  */
 $actions = Array(
-    "delete" => $APPLICATION->GetCurPage()."?action=delete&id=#ID#",
-    "shelve" => $APPLICATION->GetCurPage()."?action=shelve&id=#ID#",
-    "add" => $APPLICATION->GetCurPage()."?action=add&id=#ID#",
-    "deleteAll" => $APPLICATION->GetCurPage()."?action=deleteAll",
+    "delete" => "?action=delete&id=#ID#",
+    "shelve" => "?action=shelve&id=#ID#",
+    "add" => "?action=add&id=#ID#",
+    "deleteAll" => "?action=deleteAll",
 );
 $isCartEmpty = count(array_merge(...array_values($arResult['ITEMS']))) === 0;
 ?>

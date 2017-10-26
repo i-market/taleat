@@ -31,7 +31,24 @@
   }
 
   $(document).ready(function () {
+    var $globalLoader = $('#global-loader');
+    var delay = 200; // ms
+    var timer = null;
+    $(document)
+      .ajaxStart(function () {
+        timer = setTimeout(function () {
+          $globalLoader.show();
+        }, delay);
+      })
+      .ajaxStop(function () {
+        if (timer !== null) {
+          clearTimeout(timer);
+        }
+        $globalLoader.hide();
+      });
+
     cleanUpEditable($('.editable-area'));
+
     $('.buy-button').on('click', function(evt){
       evt.preventDefault();
       $.ajax({

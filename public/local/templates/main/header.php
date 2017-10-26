@@ -46,6 +46,7 @@ if (App::useBitrixAsset()) {
 </head>
 <body data-anchor="top">
 <? $APPLICATION->ShowPanel() ?>
+<div id="global-loader">Загрузка...</div>
 <header class="header">
     <div class="menu-hidden">
         <div class="menu-hidden-close"></div>

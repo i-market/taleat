@@ -1,7 +1,14 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Корзина товаров");
-?><?$APPLICATION->IncludeComponent(
+
+use App\Catalog;
+use App\View as v;
+?>
+
+<? (new Catalog)->dispatch(v::get($_REQUEST, 'action'), $_REQUEST) ?>
+
+<?$APPLICATION->IncludeComponent(
 	"bitrix:eshop.sale.basket.basket", 
 	"cart",
 	array(
@@ -27,4 +34,6 @@ $APPLICATION->SetTitle("Корзина товаров");
 		"COMPONENT_TEMPLATE" => ".default"
 	),
 	false
-);?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+);?>
+
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

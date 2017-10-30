@@ -2,6 +2,7 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Каталог");
 
+use App\Catalog;
 use App\View as v;
 use App\App;
 use Core\Util;
@@ -18,22 +19,16 @@ if ($page == "/catalog/"){
 <?} else {
 
     if ($_REQUEST['per_page']):
-        switch($_REQUEST["per_page"]):
-            case "8": $_SESSION['per_page'] = "8"; break;
-            case "16": $_SESSION['per_page'] = "16"; break;
-            case "24": $_SESSION['per_page'] = "24"; break;
-            case "all": $_SESSION['per_page'] = "500"; break;
-            default: $_SESSION['per_page'] = "8"; break;
-        endswitch;
+        $_SESSION['per_page'] = v::get(Catalog::$perPageOpts, $_REQUEST['per_page'], Catalog::$perPageDefault);
     endif;
 
     if (empty($_SESSION['per_page'])):
-        $per_page = "8";
+        $per_page = Catalog::$perPageDefault;
     else:
         $per_page = $_SESSION['per_page'];
     endif;
 
-    $iblock_id=3; // catalog -> furniture
+    $iblock_id=3;
     $arIBlock=GetIBlock($iblock_id);
     if (strlen($_REQUEST["SECTION_CODE"])>0)
     {

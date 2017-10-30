@@ -113,3 +113,14 @@ class Videos {
         return "https://www.youtube.com/embed/{$id}?rel=0";
     }
 }
+
+class Catalog {
+    static $perPageOpts = [
+        '12' => '12',
+        '24' => '24',
+        '50' => '50',
+        'all' => '500',
+    ];
+
+    static $perPageDefault = '12';
+}

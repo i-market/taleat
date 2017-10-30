@@ -91,5 +91,9 @@
       initCartPage($(this));
     });
 
+    $('.sort-block .per-page').on('change', function () {
+      location.replace('?per_page='+this.value);
+    });
+
   });
 })();

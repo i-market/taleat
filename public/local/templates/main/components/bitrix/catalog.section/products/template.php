@@ -2,6 +2,7 @@
 
 use App\View as v;
 use App\App;
+use App\Catalog;
 
 App::getInstance()->assert($arParams["SECTION_ID"]>0, 'legacy')
 ?>
@@ -16,8 +17,8 @@ App::getInstance()->assert($arParams["SECTION_ID"]>0, 'legacy')
     </div>
 </div>
 <? // TODO filter ?>
-<div class="TODO-mockup sort-block">
-    <div class="left">
+<div class="sort-block">
+    <div class="TODO-mockup left">
         <span class="text">Сортировать:</span>
         <select name="" id="">
             <option value="">по возрастанию цены</option>
@@ -28,11 +29,11 @@ App::getInstance()->assert($arParams["SECTION_ID"]>0, 'legacy')
     </div>
     <div class="right">
         <span class="text">Показывать по:</span>
-        <select name="" id="">
-            <option value="">12</option>
-            <option value="">24</option>
-            <option value="">50</option>
-            <option value="">ВСЕ</option>
+        <select name="per_page" class="per-page">
+            <? foreach (Catalog::$perPageOpts as $value => $count): ?>
+                <? $selected = $count == $arParams['PAGE_ELEMENT_COUNT']?>
+                <option value="<?= $value ?>" <?= $selected ? 'selected' : '' ?>><?= $value === 'all' ? 'ВСЕ' : $count ?></option>
+            <? endforeach ?>
         </select>
     </div>
 </div>

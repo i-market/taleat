@@ -37,7 +37,6 @@ $showChild = function($section) {
     <span class="catalog-menu-close"></span>
     <div class="accordeon">
         <?
-        // TODO refactor
         $prevDepth = 1;
         $isPrevActive = false;
         foreach ($arResult['SECTIONS'] as $idx => $section) {

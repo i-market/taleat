@@ -47,8 +47,5 @@ App::getInstance()->assert($arParams["SECTION_ID"]>0, 'legacy')
 </div>
 
 <? $this->SetViewTarget($arParams['PAGINATOR_VIEW']) ?>
-<? // TODO paginator ?>
-<div class="TODO-mockup">
 <?= $arResult['NAV_STRING'] ?>
-</div>
 <? $this->EndViewTarget() ?>

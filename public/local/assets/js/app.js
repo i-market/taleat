@@ -94,6 +94,9 @@
     $('.sort-block .per-page').on('change', function () {
       location.replace('?per_page='+this.value);
     });
+    $('.sort-block .sort').on('change', function () {
+      location.replace('?sort='+this.value);
+    });
 
   });
 })();

@@ -16,22 +16,29 @@ App::getInstance()->assert($arParams["SECTION_ID"]>0, 'legacy')
         <img src="<?= v::asset('images/pic/labels/2.png') ?>" alt="">
     </div>
 </div>
-<? // TODO filter ?>
 <div class="sort-block">
-    <div class="TODO-mockup left">
+    <div class="left">
         <span class="text">Сортировать:</span>
-        <select name="" id="">
-            <option value="">по возрастанию цены</option>
-            <option value="">по убыванию цены</option>
-            <option value="">по популярности</option>
-            <option value="">по дате добавления</option>
+        <select name="sort" class="sort">
+            <?
+            $opts = [
+                'price:asc' => 'по возрастанию цены',
+                'price:desc' => 'по убыванию цены',
+                'show_counter:desc' => 'по популярности',
+                'created:desc' => 'по дате добавления',
+            ]
+            ?>
+            <? foreach ($opts as $value => $text): ?>
+                <? $selected = $arParams['STATE']['params']['sort'] === $value ?>
+                <option value="<?= $value ?>" <?= $selected ? 'selected' : '' ?>><?= $text ?></option>
+            <? endforeach ?>
         </select>
     </div>
     <div class="right">
         <span class="text">Показывать по:</span>
         <select name="per_page" class="per-page">
             <? foreach (Catalog::$perPageOpts as $value => $count): ?>
-                <? $selected = $count == $arParams['PAGE_ELEMENT_COUNT']?>
+                <? $selected = $count == $arParams['PAGE_ELEMENT_COUNT'] ?>
                 <option value="<?= $value ?>" <?= $selected ? 'selected' : '' ?>><?= $value === 'all' ? 'ВСЕ' : $count ?></option>
             <? endforeach ?>
         </select>

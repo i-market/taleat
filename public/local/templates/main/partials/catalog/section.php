@@ -7,7 +7,9 @@
 
 use App\Components;
 use App\Layout;
+use App\Catalog;
 
+$state = Catalog::sectionState();
 ?>
 <? Layout::showCatalogWrapper('header') ?>
 <div class="catalog-pages-block">
@@ -25,8 +27,8 @@ use App\Layout;
                 0 => "",
                 1 => "",
             ),
-            "ELEMENT_SORT_FIELD" => "id",
-            "ELEMENT_SORT_ORDER" => "asc",
+            "ELEMENT_SORT_FIELD" => $state['sort']['field'],
+            "ELEMENT_SORT_ORDER" => $state['sort']['order'],
             "FILTER_NAME" => "arFilt",
             "FIELD_CODE" => array(
                 0 => "DETAIL_PICTURE",
@@ -101,7 +103,8 @@ use App\Layout;
             "PAGER_BASE_LINK_ENABLE" => "N",
             "SHOW_404" => "N",
             "MESSAGE_404" => "",
-            "PAGINATOR_VIEW" => $paginatorView
+            "PAGINATOR_VIEW" => $paginatorView,
+            "STATE" => $state
         ),
         false
     ); ?>

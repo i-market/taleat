@@ -14,7 +14,9 @@ class Product {
     // `PROP` property values
     const HAS_DISCOUNT = 'Со скидкой';
 
+    const BASE_PRICE = 'catalog_price_1';
     const CURRENCY = 'RUB';
+
     const IMAGE_MEDIUM = [500, 500];
     const IMAGE_SMALL = [100, 100];
 

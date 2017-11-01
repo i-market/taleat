@@ -121,6 +121,22 @@ class Catalog {
         '50' => '50',
         'all' => '500',
     ];
-
     static $perPageDefault = '12';
+
+    static function sectionState() {
+        $remember = ['sort'];
+        $defaults = ['sort' => 'show_counter:desc'];
+        $keys = array_keys($defaults);
+        $params = _::pick(array_merge($defaults, $_SESSION, $_REQUEST), $keys);
+        list($_field, $order) = explode(':', $params['sort']);
+        $field = $_field === 'price' ? Product::BASE_PRICE : $_field;
+        foreach ($remember as $k) {
+            // mutate
+            $_SESSION[$k] = $params[$k];
+        }
+        return [
+            'sort' => ['field' => $field, 'order' => $order],
+            'params' => $params
+        ];
+    }
 }

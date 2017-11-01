@@ -76,7 +76,7 @@ class Underscore extends ArraysMethods {
     }
 
     static function flattenDeep($array, callable $pred = null) {
-        $pred = $pred ?: self::complement('is_array');
+        $pred = $pred ?: self::negate('is_array');
         $reducer = function($acc, $x) use (&$reducer, $pred) {
             if ($pred($x)) {
                 return self::append($acc, $x);
@@ -252,7 +252,12 @@ class Underscore extends ArraysMethods {
         return self::isEmpty($args) ? $ret : $ret(...$args);
     }
 
+    /** @deprecated use `negate` */
     static function complement(callable $f) {
+        return self::negate($f);
+    }
+
+    static function negate(callable $f) {
         return function(...$args) use ($f) {
             return !$f(...$args);
         };

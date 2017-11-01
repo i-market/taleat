@@ -46,7 +46,7 @@ class Product {
     }
 
     static function thumbnail($elem) {
-        App::getInstance()->assert(isset($elem['DETAIL_PICTURE']) && isset($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]),
+        App::getInstance()->assert(array_key_exists('DETAIL_PICTURE', $elem) && isset($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]),
             'illegal argument');
         // TODO what's the algorithm here?
         $rsFile = CFile::GetByID($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][4]);

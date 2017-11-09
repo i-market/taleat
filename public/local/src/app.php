@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Bitrix\Main\Application;
 use Bitrix\Main\Loader;
 use Core\Env;
 use Core\NewsListLike;
@@ -16,7 +17,9 @@ if (class_exists('Bitrix\Main\Loader')) {
 class App extends \Core\App {
     const SITE_ID = 's1';
 
-    function init() {}
+    function init() {
+        EventHandlers::attach();
+    }
 
     function assert($cond, $message = '') {
         if ($cond) {
@@ -32,15 +35,12 @@ class App extends \Core\App {
 
     function layoutContext() {
         // TODO memoize
+        // TODO refactor deps: see usages
         $sentryConfig = _::get(Configuration::getValue('app'), 'sentry');
+        $server = Application::getInstance()->getContext()->getServer();
         return [
-            'auth' => [
-                'registerLink' => '/login/?register=yes&backurl=%2Flogin%2F',
-                'profileLink' => '/personal/?backurl=%2F',
-                // TODO login link
-                'loginLink' => '#',
-                'logoutLink' => '/?logout=yes'
-            ],
+            'isAjax' => $server->get('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest', // header set by jquery
+            'auth' => Auth::links(),
             'catalog' => [
                 'checkoutLink' => '/personal/order/make/'
             ],

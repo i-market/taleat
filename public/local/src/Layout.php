@@ -56,7 +56,7 @@ class Layout {
                     </div>
                 </div>
                 <div class="wrap">
-                    <div class="editable-area editable-area--full wrap-min">
+                    <div class="editable-area default-page wrap-min">
         <? elseif ($fragment === 'footer'): ?>
                     </div>
                 </div>

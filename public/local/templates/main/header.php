@@ -5,12 +5,22 @@
  */
 
 use App\App;
+use App\Auth;
 use Bitrix\Main\Page\Asset;
 use App\View as v;
 use App\Layout;
 
+// TODO move out of the template
+Auth::restrictAccess();
+App::getInstance()->assert(!($_REQUEST["auth"]=="Войти"), 'legacy');
+App::getInstance()->assert(!isset($_POST["AUTH_FORM_PARTNER"]), 'legacy');
+
 extract(App::getInstance()->layoutContext(), EXTR_SKIP);
 
+if ($isAjax) {
+    // skip the whole thing for ajax requests
+    return;
+}
 $assets = App::assets();
 $asset = Asset::getInstance();
 $asset->setJsToBody(true);
@@ -51,22 +61,8 @@ if (App::useBitrixAsset()) {
     <div class="menu-hidden">
         <div class="menu-hidden-close"></div>
         <div class="menu-hidden-inner">
-            <? if ($USER->IsAuthorized()): ?>
-                <div class="menu-hidden-registered">
-                    <? // TODO partner? username ?>
-                    <p class="name">Энергосбыт</p>
-                    <p class="link"><a href="<?= $auth['profileLink'] ?>">Личный кабинет</a></p>
-                    <p class="link"><a href="<?= $auth['logoutLink'] ?>">Выход</a></p>
-                </div>
-            <? else: ?>
-                <? // TODO .hidden? see mockup ?>
-                <div class="menu-hidden-sign-in">
-                    <a href="<?= $auth['loginLink'] ?>">Вход</a>
-                    <span>/</span>
-                    <a href="<?= $auth['registerLink'] ?>">Регистрация</a>
-                </div>
-            <? endif ?>
-            <ul>
+            <?= v::render('partials/layout/auth_phone.php', ['auth' => $auth]) ?>
+            <ul class="TODO-mockup">
                 <li><a href="#" class="active"><span>Оплата и доставка</span></a></li>
                 <li><a href="#"><span>Партнёрам</span></a></li>
                 <li><a href="#"><span>Новости</span></a></li>
@@ -75,12 +71,12 @@ if (App::useBitrixAsset()) {
                 <li><a href="#"><span>Полезное</span></a></li>
                 <li><a href="#"><span>Видео</span></a></li>
             </ul>
-            <span class="re-call"><span>Написать нам</span></span>
+            <span class="TODO-mockup re-call"><span>Написать нам</span></span>
             <div class="menu-hidden-phones">
                 <a href="tel:+7(495)437-23-29"><span>+7(495)</span>437-23-29</a>
                 <a href="tel:+7(495)437-23-29"><span>+7(495)</span>437-23-29</a>
             </div>
-            <div class="menu-hidden-info">
+            <div class="TODO-mockup menu-hidden-info">
                 <p>e-mail: asn@taleat.ru</p>
                 <p>Адрес фактический: 127473, г. Москва, ул. Селезневская,<br>д. 30 корп. 1</p>
             </div>
@@ -88,12 +84,12 @@ if (App::useBitrixAsset()) {
     </div>
     <div class="header-top">
         <div class="wrap">
-            <a class="service-center-link" href="#">Авторизированный сервисный центр</a>
+            <span class="service-center-link">Авторизированный сервисный центр</span>
             <div class="header-top-info">
-                <nav class="main-menu">
+                <nav class="TODO-mockup main-menu">
                     <ul>
                         <li><a href="#">Оплата и доставка</a></li>
-                        <li><a href="#">Партнёрам</a></li>
+                        <li><a href="/partneram/">Партнёрам</a></li>
                         <li><a href="#">Новости</a></li>
                         <li><a href="#">Отзывы</a></li>
                         <li><a href="#">Контакты</a></li>
@@ -101,26 +97,7 @@ if (App::useBitrixAsset()) {
                         <li><a href="#">Видео</a></li>
                     </ul>
                 </nav>
-                <? if ($USER->IsAuthorized()): ?>
-                    <div class="rigistered">
-                        <? // TODO username ?>
-                        <span class="name">Энергосбыт</span>
-                        <ul class="dd_rigistered">
-                            <li><a href="<?= $auth['profileLink'] ?>">Личный кабинет</a></li>
-                            <? // TODO links ?>
-                            <li><a href="#">Написать сообщение</a></li>
-                            <li><a href="#">Сменить пароль</a></li>
-                            <li><a href="<?= $auth['logoutLink'] ?>">Выход</a></li>
-                        </ul>
-                    </div>
-                <? else: ?>
-                    <? // TODO style=display:none? see mockup ?>
-                    <div class="sig-in">
-                        <a class="sig-in-link" href="<?= $auth['loginLink'] ?>">Вход</a>
-                        <span class="separator">/</span>
-                        <a class="sig-in-link" href="<?= $auth['registerLink'] ?>">Регистрация</a>
-                    </div>
-                <? endif ?>
+                <?= v::render('partials/layout/auth_desktop.php', ['auth' => $auth]) ?>
             </div>
         </div>
     </div>
@@ -130,7 +107,7 @@ if (App::useBitrixAsset()) {
                 <img src="<?= v::asset('images/ico/logo.png') ?>" alt="">
             </a>
             <span class="open-header-form"></span>
-            <div class="header-middle-info">
+            <div class="TODO-mockup header-middle-info">
                 <form action="<?= v::path('search/index.php') ?>" method="get" id="" class="header-middle-serch">
                     <input name="q" type="text" placeholder="Найти" autocomplete="off">
                     <button type="submit"></button>

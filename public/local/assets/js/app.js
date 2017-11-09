@@ -34,6 +34,10 @@
   }
 
   $(document).ready(function () {
+
+    // autofocus the first input field
+    $('.default-page, .modal').find('input:text:not([placeholder]):visible:first').focus();
+
     var $globalLoader = $('#global-loader');
     var delay = 200; // ms
     var timer = null;
@@ -51,6 +55,39 @@
       });
 
     cleanUpEditable($('.editable-area'));
+
+    (function () {
+      var $register = $('#register-modal');
+
+      function update(html) {
+        // TODO content selector
+        var $content = $(html);//.find('.sidecenter > *:gt(1)');
+        $register.find('.modal__content').html($content);
+        return $content;
+      }
+
+      function init($content) {
+        var $form = $content.find('form');
+        $form.on('submit', function (evt) {
+          evt.preventDefault();
+          $.ajax({
+            type: $form.attr('method') || 'POST',
+            url: $form.attr('action') || '',
+            data: $form.serialize(),
+            success: function (html) {
+              var $content = update(html);
+              init($content);
+            }
+          });
+        })
+      }
+
+      // TODO
+      $.get($register.attr('data-path'), function (html) {
+        var $content = update(html);
+        init($content);
+      });
+    })();
 
     // catalog
 

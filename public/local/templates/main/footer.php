@@ -5,12 +5,17 @@ use App\View as v;
 use App\Layout;
 
 extract(App::getInstance()->layoutContext(), EXTR_SKIP);
+
+if ($isAjax) {
+    // skip the whole thing for ajax requests
+    return;
+}
 ?>
 <? v::showForLayout('default', function () { ?>
     <? Layout::showDefaultPageWrapper('footer') ?>
 <? }) ?>
 </main>
-<footer class="footer">
+<footer class="TODO-mockup footer">
     <div class="footer-top">
         <div class="wrap">
             <div class="left">
@@ -55,6 +60,13 @@ extract(App::getInstance()->layoutContext(), EXTR_SKIP);
         </div>
     </div>
 </footer>
+<? // modals ?>
+<div class="modal" id="register-modal" data-path="<?= $auth['registerLink'] ?>">
+    <div class="block">
+        <span class="close close-modal">×</span>
+        <div class="modal__content"></div>
+    </div>
+</div>
 <? $APPLICATION->ShowViewContent('modals') ?>
 <? if (!App::useBitrixAsset()): ?>
     <? foreach (App::assets()['scripts'] as $path): ?>

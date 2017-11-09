@@ -10,4 +10,7 @@ roles:
       enabled: false
   stage:
     app_env: prod
-    hosts: [] # TODO
+    hosts: [imarket]
+  stage-tw:
+    app_env: prod
+    hosts: [tw]

@@ -39,7 +39,7 @@ $state = Catalog::sectionState();
             "PAGE_ELEMENT_COUNT" => $per_page,
             "LINE_ELEMENT_COUNT" => "2",
             "PROPERTY_CODE" => array(
-                0 => "",
+                0 => "OPT_DETAIL_PICTURE",
                 1 => "artikul",
                 2 => "",
             ),

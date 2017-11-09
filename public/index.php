@@ -123,7 +123,7 @@ $arFiltNew=array("PROPERTY_IS_FEATURED_VALUE" => Iblock::CHECKBOX_TRUE_VALUE);
             29 => "MAXIMUM_PRICE",
             30 => "LINK",
             31 => "space",
-            32 => "",
+            32 => "OPT_DETAIL_PICTURE",
         ),
         "CHECK_DATES" => "N",
         "DETAIL_URL" => "",

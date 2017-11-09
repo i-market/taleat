@@ -49,13 +49,12 @@ class Product {
         App::getInstance()->assert(array_key_exists('DETAIL_PICTURE', $elem) && isset($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]),
             'illegal argument');
         // TODO what's the algorithm here?
-        $rsFile = CFile::GetByID($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][4]);
-        $arFile = $rsFile->Fetch();
+        $arFile = CFile::GetFileArray($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][4]);
         if($arFile["HEIGHT"]<131) {
-            return CFile::GetByID($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][4])->Fetch();
+            return CFile::GetFileArray($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][4]);
          } else {
-            $optPic = CFile::GetByID($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][3])->Fetch();
-            if ($optPic !== null) {
+            $optPic = CFile::GetFileArray($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][3]);
+            if (is_array($optPic)) {
                 return $optPic;
             } else {
                 $elemRef = $elem;

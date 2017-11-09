@@ -16,7 +16,9 @@ use App\Product;
             <a href="<?= Product::sectionUrl($section) ?>" class="col col-3 ctalog-item-box">
                 <div class="img">
                     <? if (!v::isEmpty($section['PICTURE'])): ?>
-                        <img src="<?= v::resize($section['PICTURE'], 270, 200, BX_RESIZE_IMAGE_EXACT) ?>" alt="<?= $section['NAME'] ?>">
+                        <div style="background-image: url('<?= v::resize($section['PICTURE'], ...Product::IMAGE_MEDIUM) ?>')"
+                             class="img-inner"
+                             title="<?= $section['NAME'] ?>"></div>
                     <? else: ?>
                         <div class="no-img-placeholder"><div class="content"></div></div>
                     <? endif ?>

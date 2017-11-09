@@ -16,7 +16,12 @@ $showHiddenInputs = function () use ($arResult) {
 ?>
 <? $error = $arResult['strProfileError'] ?>
 <div class="data-center">
-    <div class="product-registration-edit" <?= !v::isEmpty($error) ? 'style="display: none"' : '' ?>>
+    <div class="product-registration-edit form" <?= !v::isEmpty($error) ? 'style="display: none"' : '' ?>>
+        <? if ($arResult['DATA_SAVED'] === 'Y'): ?>
+            <div class="form__message form__message--success">
+                Ваши изменения были сохранены
+            </div>
+        <? endif ?>
         <div class="top">
             <span>Контактные данные</span>
             <span class="edit-btn">редактировать данные</span>
@@ -33,7 +38,7 @@ $showHiddenInputs = function () use ($arResult) {
         </div>
     </div>
     <div class="product-registration-hidden" <?= !v::isEmpty($error) ? 'style="display: block"' : '' ?>>
-        <form class="form" method="post" name="form1" action="<?=$arResult["FORM_TARGET"]?>" enctype="multipart/form-data">
+        <form class="form validate" method="post" name="form1" action="<?=$arResult["FORM_TARGET"]?>" enctype="multipart/form-data">
             <? if (!v::isEmpty($error)): ?>
                 <div class="form__message form__message--error">
                     <?= $error ?>
@@ -43,7 +48,12 @@ $showHiddenInputs = function () use ($arResult) {
             <? $showHiddenInputs() ?>
             <? // TODO validate required fields ?>
             <? foreach ($arResult['FIELDS'] as $f): ?>
-                <input name="<?= $f['name'] ?>" type="text" class="input" placeholder="<?= $f['label'].':'.($f['required'] ? '*' : '') ?>" value="<?= $arResult['arUser'][$f['name']] ?>">
+                <input name="<?= $f['name'] ?>"
+                       type="text"
+                       class="input"
+                       placeholder="<?= $f['label'].':'.($f['required'] ? '*' : '') ?>"
+                       <?= $f['required'] ? 'required' : '' ?>
+                       value="<?= $arResult['arUser'][$f['name']] ?>">
             <? endforeach ?>
             <input name="save" type="submit" class="yellow-btn" value="Сохранить изменения">
         </form>

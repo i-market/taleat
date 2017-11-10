@@ -98,6 +98,9 @@ class Iblock {
     const RESPONSIVE_BANNERS = 'responsive_banners';
 
     const CATALOG_TYPE = 'catalog';
+
+    const PARTNER_TYPE = 'partner';
+    const DOCUMENTS = 'documents';
 }
 
 class Videos {

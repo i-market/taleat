@@ -2,15 +2,15 @@
 
 use Core\Underscore as _;
 
-$keys = ['name', 'required', 'label'];
+$keys = ['name', 'required', 'type', 'label'];
 $fields = array_map(_::partial('array_combine', $keys), [
-    ['LAST_NAME',    true,  'Фамилия'],
-    ['NAME',         true,  'Имя'],
-    ['SECOND_NAME',  false, 'Отчество'],
-    ['WORK_COMPANY', true,  'Компания'],
-    ['WORK_CITY',    true,  'Город'],
-    ['WORK_PHONE',   true,  'Телефон'],
-    ['EMAIL',        true,  'E-mail']
+    ['LAST_NAME',    true,  'text',  'Фамилия'],
+    ['NAME',         true,  'text',  'Имя'],
+    ['SECOND_NAME',  false, 'text',  'Отчество'],
+    ['WORK_COMPANY', true,  'text',  'Компания'],
+    ['WORK_CITY',    true,  'text',  'Город'],
+    ['WORK_PHONE',   true,  'tel',   'Телефон'],
+    ['EMAIL',        true,  'email', 'E-mail']
 ]);
 // from component.php
 $allFields = [

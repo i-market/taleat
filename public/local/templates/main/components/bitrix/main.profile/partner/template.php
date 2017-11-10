@@ -49,7 +49,7 @@ $showHiddenInputs = function () use ($arResult) {
             <? // TODO validate required fields ?>
             <? foreach ($arResult['FIELDS'] as $f): ?>
                 <input name="<?= $f['name'] ?>"
-                       type="text"
+                       type="<?= $f['type'] ?>"
                        class="input"
                        placeholder="<?= $f['label'].':'.($f['required'] ? '*' : '') ?>"
                        <?= $f['required'] ? 'required' : '' ?>

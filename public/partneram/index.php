@@ -8,15 +8,25 @@ $APPLICATION->SetPageProperty('layout', 'bare');
 use App\View as v;
 
 // TODO active tab
-$activeTab = 'account';
+$activeTab = 'stock';
 $tabs = [
     ['id' => 'account', 'name' => 'Данные сервисного центра'],
-    ['id' => 'ostatki', 'name' => 'Складские остатки'],
+    ['id' => 'stock', 'name' => 'Складские остатки'],
     ['id' => 'block-3', 'name' => 'Полезная информация'],
     ['id' => 'block-4', 'name' => 'Необходимые документы'],
 ];
 ?>
-
+<? // TODO tmp ?>
+    <style>
+        <? foreach ($tabs as $t): ?>
+            <?= '.'.$t['id'] ?> {
+                display: none;
+            }
+        <? endforeach ?>
+        <?= '.'.$activeTab ?> {
+            display: block !important;
+        }
+    </style>
 <section class="lk">
     <div class="section-title">
         <div class="wrap">
@@ -37,7 +47,7 @@ $tabs = [
             <span class="finger"></span>
         </div>
         <div class="tab_blocks">
-            <div data-tabContent="account">
+            <div class="account">
                 <div class="tabs-inner">
                     <? $APPLICATION->IncludeComponent(
                         "bitrix:main.profile",
@@ -57,19 +67,32 @@ $tabs = [
                     ); ?>
                 </div>
             </div>
-            <div data-tabContent="ostatki">
+            <div class="stock">
                 <div class="tabs-inner">
                     <div class="stock-balance">
-                        <p class="text">Обновление остатков склада происходит ежедневно в конце дня. Если у Вас возникли какие-либо вопросы, свяжитесь с нами:
-                            <span><a href="mailto:asn@taleat.ru">asn@taleat.ru</a></span> C уважением, "ООО Талеат-Сервис"</p>
-                        <p class="line"><a class="download-btn" href="#">Скачать остатки<span>BABYLISS</span></a></p>
-                        <p class="line"><a class="download-btn" href="#">Скачать остатки<span>BABYLISS</span></a></p>
-                        <p class="line"><a class="download-btn" href="#">Скачать остатки<span>braun</span></a></p>
-                        <p class="line"><a class="download-btn" href="#">Скачать остатки<span>BABYLISS</span></a></p>
+                        <div class="editable-area text">
+                            <? $APPLICATION->IncludeComponent(
+                                "bitrix:main.include",
+                                "",
+                                Array(
+                                    "AREA_FILE_SHOW" => "file",
+                                    "PATH" => v::includedArea('partneram/stock/text.php')
+                                )
+                            ); ?>
+                        </div>
+                        <? $files = [
+                            // uploaded by a third-party
+                            'Braun'     => '/partneram/ostatki_V/ostatki_braun1.xls',
+                            "De'Longhi" => '/partneram/ostatki_V/ostatki_braun2.xls',
+                            'Babyliss'  => '/partneram/ostatki_V/ostatki_babyliss.xls'
+                        ] ?>
+                        <? foreach ($files as $brand => $path): ?>
+                            <p class="line"><a class="download-btn" download href="<?= $path ?>">Скачать остатки<span><?= $brand ?></span></a></p>
+                        <? endforeach ?>
                     </div>
                 </div>
             </div>
-            <div data-tabContent="block-3">
+            <div class="block-3">
                 <div class="tabs-inner-sort">
                     <span class="text">Сортировать <span class="hidden">по брендам:</span></span>
                     <select name="" id="">
@@ -160,7 +183,7 @@ $tabs = [
                     </div>
                 </div>
             </div>
-            <div data-tabContent="block-4">
+            <div class="block-4">
                 <div class="tabs-inner-sort">
                     <span class="text">Сортировать <span class="hidden">по брендам:</span></span>
                     <select name="" id="">

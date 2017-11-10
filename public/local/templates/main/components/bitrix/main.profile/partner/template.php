@@ -27,14 +27,9 @@ $showHiddenInputs = function () use ($arResult) {
             <span class="edit-btn">редактировать данные</span>
         </div>
         <div class="bottom">
-            <p class="line"><?= $arResult['arUser']['LAST_NAME'] ?></p>
-            <p class="line"><?= $arResult['arUser']['NAME'] ?></p>
-            <p class="line"><?= $arResult['arUser']['SECOND_NAME'] ?></p>
-            <p class="line"><?= $arResult['arUser']['WORK_COMPANY'] ?></p>
-            <p class="line"><?= $arResult['arUser']['WORK_CITY'] ?></p>
-            <? // TODO phone link ?>
-            <p class="TODO-mockup line"><a href="tel:+7(495) 450-45-38"><?= $arResult['arUser']['WORK_PHONE'] ?></a></p>
-            <p class="line"><a href="<?= 'mailto:'.$arResult['arUser']['EMAIL'] ?>"><?= $arResult['arUser']['EMAIL'] ?></a></p>
+            <? foreach ($arResult['FIELDS'] as $f): ?>
+                <p class="line"><?= $arResult['arUser'][$f['name']] ?></p>
+            <? endforeach ?>
         </div>
     </div>
     <div class="product-registration-hidden" <?= !v::isEmpty($error) ? 'style="display: block"' : '' ?>>

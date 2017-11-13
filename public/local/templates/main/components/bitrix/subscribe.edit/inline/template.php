@@ -16,7 +16,12 @@ use Core\Util;
             <input type="submit" class="submit" name="confirm" value="Подтвердить" />
         </form>
     <? else: ?>
-        <form action="<?=$arResult["FORM_ACTION"]?>" method="post">
+        <form class="form" action="<?=$arResult["FORM_ACTION"]?>" method="post">
+            <? foreach ($arResult['ERROR'] as $msg): ?>
+                <div class="form__message form__message--error">
+                    <?= $msg ?>
+                </div>
+            <? endforeach ?>
             <?echo bitrix_sessid_post();?>
             <div class="wrap-checkbox">
                 <? $id = 'checkbox-'.Util::uniqueId() ?>

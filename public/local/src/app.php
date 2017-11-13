@@ -65,6 +65,7 @@ class App extends \Core\App {
             'js/main.js',
             'js/vendor/lodash.js',
             'js/vendor/jquery.validate.js',
+            'modules.js',
             'js/app.js',
             'js/legacy.js',
         ]);
@@ -78,15 +79,26 @@ class App extends \Core\App {
 class View extends \Core\View {
     use NewsListLike;
 
-    static function render($path, $data = []) {
-        return parent::render(Util::joinPath([$_SERVER['DOCUMENT_ROOT'], SITE_TEMPLATE_PATH, $path]), $data);
+    static function render($path, $data = [], $opts = []) {
+        return parent::render(Util::joinPath([$_SERVER['DOCUMENT_ROOT'], SITE_TEMPLATE_PATH, $path]), $data, $opts);
+    }
+
+    static function fileSize($path) {
+        return Util::humanFileSize(filesize(Util::joinPath([$_SERVER['DOCUMENT_ROOT'], $path])), [
+            'units' => explode(',', 'b,kb,mb,gb,tb,pb,eb,zb,yb')
+        ]);
+    }
+
+    static function docLinkAttrs($ext) {
+        $forceDownload = ['7z']; // some servers send the wrong content-type for these extensions
+        return array_merge(['target' => '_blank'], in_array($ext, $forceDownload) ? ['download' => ''] : []);
     }
 }
 
 class Events {
 }
 
-class Iblock {
+class Iblock extends \Core\Iblock {
     const CHECKBOX_TRUE_VALUE = 'да';
 
     const CONTENT_TYPE = 'content';

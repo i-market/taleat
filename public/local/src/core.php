@@ -480,10 +480,14 @@ class View {
         return _::get($collection, $key, $default);
     }
 
-    static function render($absPath, $data) {
+    static function render($absPath, $data, $_opts = []) {
+        $opts = array_merge(['buffer' => true], $_opts);
         extract($data);
         if (!file_exists($absPath)) {
             throw new \Exception("The template could not be found at {$absPath}.");
+        }
+        if (!$opts['buffer']) {
+            return include $absPath;
         }
         try {
             $level = ob_get_level();

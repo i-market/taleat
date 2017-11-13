@@ -131,7 +131,7 @@ if (App::useBitrixAsset()) {
                 <a class="catalog-link" href="<?= v::path('catalog') ?>">Каталог <span class="hidden">товаров</span></a>
             </div>
             <div class="header-bottom-right">
-                <a class="service-maintenance-link" href="#">Сервис<span class="hidden">ное обслуживание</span></a>
+                <a class="service-maintenance-link" href="<?= v::path('region') ?>">Сервис<span class="hidden">ное обслуживание</span></a>
                 <span id="mini-cart">
                     <? Layout::showHeaderCart() ?>
                 </span>

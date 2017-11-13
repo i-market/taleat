@@ -7,7 +7,7 @@ if (!$arResult['NavShowAlways']) {
 }
 ?>
 <div class="paginator">
-    <div class="wrap">
+    <div class="paginator__wrap">
         <div class="paginator-inner">
             <? if ($arResult['NAV']['PAGE_NUMBER'] > 1): ?>
                 <? $prevNum = $arResult['NAV']['PAGE_NUMBER'] - 1 ?>

@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "browser-sync": "^2.18.12",
+    "browserify": "^14.5.0",
     "chokidar-cli": "^1.2.0",
     "node-sass": "^4.5.3"
   },
@@ -19,6 +20,7 @@
   "scripts": {
     "build:mockup": "./scripts/build-mockup.sh",
     "build:vendor": "./scripts/build-vendor.sh",
+    "build:modules": "browserify modules.js -d --standalone modules > ${npm_package_config_dist}/modules.js",
     "build:copy": "cp -R assets/. ${npm_package_config_dist}",
     "build": "npm run build:mockup && npm run build:vendor && npm run build:copy",
     "browsersync": "browser-sync start --proxy ${PROXY:-localhost} -f ${npm_package_config_dist}/css/*.css -f ${npm_package_config_dist}/js/*.js --no-open",

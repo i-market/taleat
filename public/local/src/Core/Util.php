@@ -40,15 +40,18 @@ class Util {
         }, explode('[', $name)));
     }
 
-    static function humanFileSize($size, $precision = 0) {
-        $units = array('Б','КБ','МБ','ГБ','ТБ','ПБ','EB','ZB','YB');
+    static function humanFileSize($size, $_opts = []) {
+        $units = ['Б','КБ','МБ','ГБ','ТБ','ПБ','EB','ZB','YB'];
+        $opts = array_merge(array_merge(['precision' => 0], $_opts), [
+            'units' => array_merge($_opts['units'], _::drop($units, count($_opts['units'])))
+        ]);
         $step = 1024;
         $i = 0;
         while (($size / $step) > 0.9) {
             $size = $size / $step;
             $i++;
         }
-        return round($size, $precision).' '.$units[$i];
+        return round($size, $opts['precision']).' '.$opts['units'][$i];
     }
 
     static function monthRu($n) {

@@ -5,13 +5,13 @@ namespace Core;
 use CIBlockResult;
 
 class Iblock {
-    static function collect(CIBlockResult $result) {
+    static function iter(CIBlockResult $result) {
         while($x = $result->GetNext()) {
             yield $x;
         }
     }
 
-    static function collectElements(CIBlockResult $result) {
+    static function iterElements(CIBlockResult $result) {
         while($x = $result->GetNextElement()) {
             yield array_merge($x->GetFields(), [
                 'PROPERTIES' => $x->GetProperties()

@@ -8,12 +8,12 @@ $APPLICATION->SetPageProperty('layout', 'bare');
 use App\View as v;
 
 // TODO active tab
-$activeTab = 'stock';
+$activeTab = $_REQUEST['tab'] ?: 'account';
 $tabs = [
     ['id' => 'account', 'name' => 'Данные сервисного центра'],
     ['id' => 'stock', 'name' => 'Складские остатки'],
-    ['id' => 'block-3', 'name' => 'Полезная информация'],
-    ['id' => 'block-4', 'name' => 'Необходимые документы'],
+    ['id' => 'feed', 'name' => 'Полезная информация'],
+    ['id' => 'documents', 'name' => 'Необходимые документы'],
 ];
 ?>
 <? // TODO tmp ?>
@@ -68,6 +68,9 @@ $tabs = [
                 </div>
             </div>
             <div class="stock">
+                <?
+                use Core\Util;
+                ?>
                 <div class="tabs-inner">
                     <div class="stock-balance">
                         <div class="editable-area text">
@@ -76,7 +79,7 @@ $tabs = [
                                 "",
                                 Array(
                                     "AREA_FILE_SHOW" => "file",
-                                    "PATH" => v::includedArea('partneram/stock/text.php')
+                                    "PATH" => v::includedArea('partner/stock/text.php')
                                 )
                             ); ?>
                         </div>
@@ -87,14 +90,20 @@ $tabs = [
                             'Babyliss'  => '/partneram/ostatki_V/ostatki_babyliss.xls'
                         ] ?>
                         <? foreach ($files as $brand => $path): ?>
-                            <p class="line"><a class="download-btn" download href="<?= $path ?>">Скачать остатки<span><?= $brand ?></span></a></p>
+                            <? list($_, $ext) = Util::splitFileExtension($path) ?>
+                            <p class="line">
+                                <a class="download-btn"
+                                    <?= v::attrs(v::docLinkAttrs($ext)) ?>
+                                   href="<?= $path ?>">Скачать остатки<span><?= $brand ?></span></a>
+                            </p>
                         <? endforeach ?>
                     </div>
                 </div>
             </div>
-            <div class="block-3">
-                <div class="tabs-inner-sort">
-                    <span class="text">Сортировать <span class="hidden">по брендам:</span></span>
+            <div class="feed">
+                <div class="TODO-mockup tabs-inner-sort">
+                    <? // TODO styles ?>
+                    <span class="text" style="white-space: nowrap">Для бренда:</span>
                     <select name="" id="">
                         <option value="">Все бренды</option>
                         <option value="">Бренд 1</option>
@@ -183,113 +192,27 @@ $tabs = [
                     </div>
                 </div>
             </div>
-            <div class="block-4">
-                <div class="tabs-inner-sort">
-                    <span class="text">Сортировать <span class="hidden">по брендам:</span></span>
-                    <select name="" id="">
-                        <option value="">Все бренды</option>
-                        <option value="">Бренд 1</option>
-                        <option value="">Бренд 2</option>
-                        <option value="">Бренд 3</option>
-                        <option value="">Бренд 4</option>
-                    </select>
-                </div>
-                <div class="tabs-inner">
-                    <div class="required-documents">
-                        <a class="download-btn download-btn--small" href="#">Техническое заключение<span>BABYLISS</span></a>
-                        <div class="wrap-documents">
-                            <div class="item">
-                                <a href="#" class="item-link pdf">
-                                    <span class="size">960kb</span>
-                                    <span class="name">Договор на оказание услуг</span>
-                                </a>
-                                <a class="brand" href="#">Braun</a>
-                            </div>
-                            <div class="item">
-                                <a href="#" class="item-link doc">
-                                    <span class="size">960kb</span>
-                                    <span class="name">Договор на оказание услуг</span>
-                                </a>
-                                <a class="brand" href="#">Braun</a>
-                            </div>
-                            <div class="item">
-                                <a href="#" class="item-link xls">
-                                    <span class="size">960kb</span>
-                                    <span class="name">Договор на оказание услуг</span>
-                                </a>
-                                <a class="brand" href="#">Braun</a>
-                            </div>
-                            <div class="item">
-                                <a href="#" class="item-link rar">
-                                    <span class="size">960kb</span>
-                                    <span class="name">Договор на оказание услуг</span>
-                                </a>
-                                <a class="brand" href="#">Braun</a>
-                            </div>
-                            <div class="item">
-                                <a href="#" class="item-link zip">
-                                    <span class="size">960kb</span>
-                                    <span class="name">Договор на оказание услуг</span>
-                                </a>
-                                <a class="brand" href="#">Braun</a>
-                            </div>
-                            <div class="item">
-                                <a href="#" class="item-link pdf">
-                                    <span class="size">960kb</span>
-                                    <span class="name">Договор на оказание услуг</span>
-                                </a>
-                                <a class="brand" href="#">Braun</a>
-                            </div>
-                            <div class="item">
-                                <a href="#" class="item-link doc">
-                                    <span class="size">960kb</span>
-                                    <span class="name">Договор на оказание услуг</span>
-                                </a>
-                                <a class="brand" href="#">Braun</a>
-                            </div>
-                            <div class="item">
-                                <a href="#" class="item-link xls">
-                                    <span class="size">960kb</span>
-                                    <span class="name">Договор на оказание услуг</span>
-                                </a>
-                                <a class="brand" href="#">Braun</a>
-                            </div>
-                        </div>
-                        <div class="paginator">
-                            <div class="paginator-inner">
-                                <a class="prev" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-                                        <defs>
-                                            <style>
-                                                .cls-1 {
-                                                    fill: #214385;
-                                                    fill-rule: evenodd;
-                                                }
-                                            </style>
-                                        </defs>
-                                        <path id="arrow-left.svg" class="cls-1" d="M313,660l9-9h2l-9,9h-2Zm0,0,9,9h2l-9-9h-2Z" transform="translate(-313 -651)"/>
-                                    </svg></a>
-                                <ul>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#" class="active">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                </ul>
-                                <a class="next" href="#">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-                                        <defs>
-                                            <style>
-                                                .cls-1 {
-                                                    fill: #214385;
-                                                    fill-rule: evenodd;
-                                                }
-                                            </style>
-                                        </defs>
-                                        <path id="arrow-right.svg" class="cls-1" d="M1607,660l-9,9h-2l9-9h2Zm0,0-9-9h-2l9,9h2Z" transform="translate(-1596 -651)"/>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="documents">
+                <?
+                // TODO
+                use App\Iblock;
+                use Bex\Tools\Iblock\IblockTools;
+                use Core\Underscore as _;
+
+                $sectionId = $_REQUEST['SECTION_ID'];
+                $sections = iter\toArray(Iblock::iter(CIBlockSection::GetList([], [
+                    'IBLOCK_ID' => IblockTools::find(Iblock::PARTNER_TYPE, Iblock::DOCUMENTS)->id()
+                ])));
+                $section = _::find($sections, function ($sect) use ($sectionId) {
+                    return $sect['ID'] == $sectionId;
+                })
+                ?>
+                <? v::render('partials/partner/documents.php', [
+                    'section' => $section,
+                    'sectionOpts' => array_map(function ($sect) {
+                        return ['value' => $sect['ID'], 'text' => $sect['NAME']];
+                    }, $sections)
+                ], ['buffer' => false]) ?>
             </div>
         </div>
     </div>

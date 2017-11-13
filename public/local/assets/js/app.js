@@ -1,6 +1,7 @@
-// depends on: lodash
-
 (function () {
+  // see npm `build:modules` script
+  var queryString = modules['querystring'];
+
   $.extend($.validator.messages, {
     required: "Это поле необходимо заполнить.",
     remote: "Пожалуйста, введите правильное значение.",
@@ -20,6 +21,11 @@
     max: $.validator.format( "Пожалуйста, введите число, меньшее или равное {0}." ),
     min: $.validator.format( "Пожалуйста, введите число, большее или равное {0}." )
   });
+
+  function updateQuery(f) {
+    // drop leading "?"
+    return queryString.stringify(f(queryString.parse(location.search.substr(1))));
+  }
 
   // TODO refactor component update dependencies. see `cartUpdate` usages.
   function cartUpdate(){
@@ -111,6 +117,13 @@
       });
     })();
 
+    // partner
+
+    $('.brand-filter').on('change', function () {
+      // TODO url
+      location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', this.value));
+    });
+
     // catalog
 
     $('.buy-button').on('click', function(evt){
@@ -151,10 +164,10 @@
     });
 
     $('.sort-block .per-page').on('change', function () {
-      location.replace('?per_page='+this.value);
+      location.search = updateQuery(_.partialRight(_.set, 'per_page', this.value));
     });
     $('.sort-block .sort').on('change', function () {
-      location.replace('?sort='+this.value);
+      location.search = updateQuery(_.partialRight(_.set, 'sort', this.value));
     });
 
   });

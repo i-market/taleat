@@ -2,10 +2,12 @@
 
 namespace Core;
 
+use CDBResult;
 use CIBlockResult;
 
 class Iblock {
-    static function iter(CIBlockResult $result) {
+    // TODO not iblock specific
+    static function iter(CDBResult $result) {
         while($x = $result->GetNext()) {
             yield $x;
         }

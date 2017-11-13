@@ -7,11 +7,9 @@ switch($_REQUEST["mode"]):
     case "cartUpdate":
         Layout::showHeaderCart();
         break;
-
     case "cart/index":
         (new Cart)->index();
         break;
-
     case "buy":
         CModule::IncludeModule('catalog');
         CModule::IncludeModule('sale');
@@ -29,6 +27,5 @@ switch($_REQUEST["mode"]):
         endwhile;
         echo Add2BasketByProductID($_REQUEST["id"]);
         break;
-
     default: break;
 endswitch;

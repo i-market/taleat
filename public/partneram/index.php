@@ -48,23 +48,38 @@ $tabs = [
         </div>
         <div class="tab_blocks">
             <div class="account">
+                <?
+                use App\Components;
+                ?>
                 <div class="tabs-inner">
-                    <? $APPLICATION->IncludeComponent(
-                        "bitrix:main.profile",
-                        "partner",
-                        Array(
-                            "AJAX_MODE" => "N",
-                            "AJAX_OPTION_ADDITIONAL" => "",
-                            "AJAX_OPTION_HISTORY" => "N",
-                            "AJAX_OPTION_JUMP" => "N",
-                            "AJAX_OPTION_STYLE" => "N",
-                            "CHECK_RIGHTS" => "N",
-                            "SEND_INFO" => "N",
-                            "SET_TITLE" => "N",
-                            "USER_PROPERTY" => array(),
-                            "USER_PROPERTY_NAME" => ""
-                        )
-                    ); ?>
+                    <div class="data-center">
+                        <? $APPLICATION->IncludeComponent(
+                            "bitrix:main.profile",
+                            "partner",
+                            Array(
+                                "AJAX_MODE" => "N",
+                                "AJAX_OPTION_ADDITIONAL" => "",
+                                "AJAX_OPTION_HISTORY" => "N",
+                                "AJAX_OPTION_JUMP" => "N",
+                                "AJAX_OPTION_STYLE" => "N",
+                                "CHECK_RIGHTS" => "N",
+                                "SEND_INFO" => "N",
+                                "SET_TITLE" => "N",
+                                "USER_PROPERTY" => array(),
+                                "USER_PROPERTY_NAME" => ""
+                            )
+                        ); ?>
+                        <? Components::showNewsletterSub() ?>
+                        <div class="TODO-mockup">
+                            <span class="simple-btn change-password">Сменить пароль</span>
+                            <div class="change-password-hidden">
+                                <input type="password" class="input" placeholder="Старый пароль">
+                                <input type="password" class="input" placeholder="Новый пароль">
+                                <input type="password" class="input" placeholder="Новый пароль еще раз">
+                                <button class="yellow-btn">Сохранить изменения</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="stock">

@@ -2,10 +2,32 @@
 
 namespace App;
 
-use Bex\Tools\Iblock\IblockTools;
 use App\View as v;
+use Bex\Tools\Iblock\IblockTools;
 
 class Components {
+    static function showNewsletterSub() {
+        global $APPLICATION;
+        $APPLICATION->IncludeComponent(
+            "bitrix:subscribe.edit",
+            "inline",
+            Array(
+                "AJAX_MODE" => "N",
+                "SHOW_HIDDEN" => "N",
+                "ALLOW_ANONYMOUS" => "N",
+                "SHOW_AUTH_LINKS" => "Y",
+                "CACHE_TYPE" => "A",
+                "CACHE_TIME" => "36000000",
+                "SET_TITLE" => "N",
+                "AJAX_OPTION_SHADOW" => "Y",
+                "AJAX_OPTION_JUMP" => "N",
+                "AJAX_OPTION_STYLE" => "Y",
+                "AJAX_OPTION_HISTORY" => "N"
+            ),
+            false
+        );
+    }
+
     static function showArticlesSlider() {
         global $APPLICATION;
         $filterName = '_filter_articles_slider';

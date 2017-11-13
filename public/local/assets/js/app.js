@@ -119,6 +119,10 @@
 
     // partner
 
+    $('.newsletter-sub .toggle').on('change', function () {
+      $(this).closest('form').submit();
+    });
+
     $('.brand-filter').on('change', function () {
       // TODO url
       location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', this.value));

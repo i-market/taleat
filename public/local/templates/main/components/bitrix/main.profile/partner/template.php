@@ -1,6 +1,7 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
 use App\View as v;
+use Core\Util;
 
 $showHiddenInputs = function () use ($arResult) {
     ?>
@@ -29,6 +30,7 @@ $showHiddenInputs = function () use ($arResult) {
         <? foreach ($arResult['FIELDS'] as $f): ?>
             <p class="line"><?= $arResult['arUser'][$f['name']] ?></p>
         <? endforeach ?>
+        <p class="line" style="margin-top: 2em"><a href="javascript:void(0)" class="change-password-shortcut">Сменить пароль</a></p>
     </div>
 </div>
 <div class="product-registration-hidden" <?= !v::isEmpty($error) ? 'style="display: block"' : '' ?>>
@@ -49,6 +51,13 @@ $showHiddenInputs = function () use ($arResult) {
                 <?= $f['required'] ? 'required' : '' ?>
                    value="<?= $arResult['arUser'][$f['name']] ?>">
         <? endforeach ?>
+        <? $showBlock = !v::isEmpty(v::get($_REQUEST, 'NEW_PASSWORD')) ?>
+        <span class="simple-btn change-password" <?= $showBlock ? 'style="display: none"' : '' ?>>Сменить пароль</span>
+        <div class="change-password-hidden" <?= $showBlock ? 'style="display: block"' : '' ?>>
+            <? $id = 'password-'.Util::uniqueId() ?>
+            <input name="NEW_PASSWORD" id="<?= $id ?>" type="password" class="input" placeholder="Новый пароль">
+            <input name="NEW_PASSWORD_CONFIRM" data-rule-equalto="<?= '#'.$id ?>" type="password" class="input" placeholder="Новый пароль еще раз">
+        </div>
         <input name="save" type="submit" class="yellow-btn" value="Сохранить изменения">
     </form>
 </div>

@@ -40,7 +40,8 @@ $tabs = [
         <div class="tab_links finger-block" role="tablist">
             <? foreach ($tabs as $tab): ?>
                 <a data-toggle="tab"
-                   href="<?= v::path('./'.$tab['id']) ?>"
+                   <? // TODO tab links ?>
+                   href="<?= '?tab='.$tab['id'] /* v::path('./'.$tab['id']) */ ?>"
                    class="tab-link <?= $tab['id'] === $activeTab ? 'active' : '' ?>"
                    role="tab"><?= $tab['name'] ?></a>
             <? endforeach ?>
@@ -70,15 +71,6 @@ $tabs = [
                             )
                         ); ?>
                         <? Components::showNewsletterSub() ?>
-                        <div class="TODO-mockup">
-                            <span class="simple-btn change-password">Сменить пароль</span>
-                            <div class="change-password-hidden">
-                                <input type="password" class="input" placeholder="Старый пароль">
-                                <input type="password" class="input" placeholder="Новый пароль">
-                                <input type="password" class="input" placeholder="Новый пароль еще раз">
-                                <button class="yellow-btn">Сохранить изменения</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

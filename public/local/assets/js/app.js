@@ -119,10 +119,15 @@
 
     // partner
 
+    var $acc = $('.data-center');
+    $acc.find('.change-password-shortcut').on('click', function () {
+      // hack
+      $acc.find('.edit-btn').click();
+      $acc.find('.change-password').click();
+    });
     $('.newsletter-sub .toggle').on('change', function () {
       $(this).closest('form').submit();
     });
-
     $('.brand-filter').on('change', function () {
       // TODO url
       location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', this.value));
@@ -166,13 +171,11 @@
     $('.cart-page').each(function () {
       initCartPage($(this));
     });
-
     $('.sort-block .per-page').on('change', function () {
       location.search = updateQuery(_.partialRight(_.set, 'per_page', this.value));
     });
     $('.sort-block .sort').on('change', function () {
       location.search = updateQuery(_.partialRight(_.set, 'sort', this.value));
     });
-
   });
 })();

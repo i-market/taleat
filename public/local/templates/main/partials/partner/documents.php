@@ -1,6 +1,5 @@
 <?
 use App\Iblock;
-use Core\Strings as str;
 use Bex\Tools\Iblock\IblockTools;
 
 global $APPLICATION;
@@ -17,11 +16,7 @@ global $APPLICATION;
 </div>
 <div class="tabs-inner">
     <div class="required-documents">
-        <? // TODO refactor ?>
-        <? if (str::contains(str::lower($section['NAME']), 'babyliss')): ?>
-            <? // TODO additional babyliss section ?>
-            <a class="TODO-mockup download-btn download-btn--small" href="#">Техническое заключение<span>BABYLISS</span></a>
-        <? endif ?>
+        <a class="TODO-mockup download-btn download-btn--small" href="#">Техническое заключение<span>BABYLISS</span></a>
         <? $APPLICATION->IncludeComponent(
             "bitrix:news.list",
             "documents_fragment",

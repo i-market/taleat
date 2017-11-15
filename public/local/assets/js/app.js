@@ -132,6 +132,10 @@
       // TODO url
       location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', this.value));
     });
+    $('.wrap-documents .brand').on('click', function () {
+      // TODO url
+      location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', $(this).attr('data-id')));
+    });
 
     // catalog
 

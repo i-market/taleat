@@ -6,8 +6,7 @@ use Bex\Tools\Iblock\IblockTools;
 global $APPLICATION;
 ?>
 <div class="tabs-inner-sort">
-    <? // TODO styles ?>
-    <span class="text" style="white-space: nowrap">Для бренда:</span>
+    <span class="text text-nowrap">Для бренда:</span>
     <select class="brand-filter">
         <option value="">Все бренды</option>
         <? foreach ($sectionOpts as $opt): ?>

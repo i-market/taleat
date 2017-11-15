@@ -109,8 +109,7 @@ $tabs = [
             </div>
             <div class="feed">
                 <div class="TODO-mockup tabs-inner-sort">
-                    <? // TODO styles ?>
-                    <span class="text" style="white-space: nowrap">Для бренда:</span>
+                    <span class="text text-nowrap">Для бренда:</span>
                     <select name="" id="">
                         <option value="">Все бренды</option>
                         <option value="">Бренд 1</option>

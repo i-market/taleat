@@ -1,14 +1,15 @@
-<? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die(); 
+<? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
 use App\View as v;
 use App\Product;
 ?>
 <div class="catalog-title">
     <h2><?= $arResult['SECTION']['NAME'] ?></h2>
-    <? // TODO brand image ?>
-    <div class="TODO-mockup catalog-title-img">
-        <img src="<?= v::asset('images/pic/labels/2.png') ?>" alt="">
-    </div>
+    <? if (!v::isEmpty($arResult['SECTION']['PICTURE'])): ?>
+        <div class="catalog-title-img">
+            <img src="<?= $arResult['SECTION']['PICTURE']['SRC'] ?>" alt="<?= $arResult['SECTION']['NAME'] ?>">
+        </div>
+    <? endif ?>
 </div>
 <div class="ctalog-inner">
     <div class="grid">

@@ -21,7 +21,7 @@ use Bex\Tools\Iblock\IblockTools;
         "COUNT_ELEMENTS" => "N",	// Показывать количество элементов в разделе
         "TOP_DEPTH" => "1",	// Максимальная отображаемая глубина разделов
         "SECTION_FIELDS" => array(	// Поля разделов
-            0 => "",
+            0 => "PICTURE",
             1 => "",
         ),
         "SECTION_USER_FIELDS" => array(	// Свойства разделов

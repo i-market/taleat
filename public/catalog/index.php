@@ -8,27 +8,28 @@ use App\App;
 use Core\Util;
 
 $page = $APPLICATION->GetCurPage();
+$iblock_id=3;
+if ($_REQUEST['per_page']):
+    $_SESSION['per_page'] = v::get(Catalog::$perPageOpts, $_REQUEST['per_page'], Catalog::$perPageDefault);
+endif;
+if (empty($_SESSION['per_page'])):
+    $per_page = Catalog::$perPageDefault;
+else:
+    $per_page = $_SESSION['per_page'];
+endif;
 
 if ($page == "/catalog/"){
     $APPLICATION->SetPageProperty("keywords", "Сетки к бритвам, зубные насадки к электрическим зубным щеткам, запасные части к Браун, Braun, аксессуары к бытовой технике");
     $APPLICATION->SetPageProperty("description", "Мы предлагаем широкий ассортимент аксессуаров  к бытовой технике  фирмы Braun (Браун)");
     $APPLICATION->SetTitle("Магазин | TALEAT");?>
 
-    <? // TODO catalog index page ?>
+    <? $arSection = [] ?>
+    <? // index page ?>
+    <? include Util::joinPath([$_SERVER['DOCUMENT_ROOT'], v::template('partials/catalog/section.php')]) ?>
 
 <?} else {
 
-    if ($_REQUEST['per_page']):
-        $_SESSION['per_page'] = v::get(Catalog::$perPageOpts, $_REQUEST['per_page'], Catalog::$perPageDefault);
-    endif;
 
-    if (empty($_SESSION['per_page'])):
-        $per_page = Catalog::$perPageDefault;
-    else:
-        $per_page = $_SESSION['per_page'];
-    endif;
-
-    $iblock_id=3;
     $arIBlock=GetIBlock($iblock_id);
     if (strlen($_REQUEST["SECTION_CODE"])>0)
     {

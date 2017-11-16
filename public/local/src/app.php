@@ -135,8 +135,8 @@ class Catalog {
     static $perPageOpts = [
         '12' => '12',
         '24' => '24',
-        '50' => '50',
-        'all' => '500',
+        '48' => '48',
+        'all' => '1000',
     ];
     static $perPageDefault = '12';
 

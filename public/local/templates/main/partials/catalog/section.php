@@ -1,4 +1,5 @@
 <?
+// TODO refactor: globals usage
 /**
  * @global $iblock_id
  * @global $arSection
@@ -8,12 +9,16 @@
 use App\Components;
 use App\Layout;
 use App\Catalog;
+use Core\Underscore as _;
+use App\View as v;
 
 $state = Catalog::sectionState();
 ?>
 <? Layout::showCatalogWrapper('header') ?>
-<div class="catalog-pages-block">
-    <? Layout::showBreadcrumbs() ?>
+<div class="catalog-pages-block <?= v::isEmpty($arSection) ? 'catalog-pages-block--index' : '' ?>">
+    <? if (!v::isEmpty($arSection)): ?>
+        <? Layout::showBreadcrumbs() ?>
+    <? endif ?>
     <? $paginatorView = 'bitrix:catalog.section/products/paginator' ?>
     <? $APPLICATION->IncludeComponent(
         "bitrix:catalog.section",
@@ -21,7 +26,7 @@ $state = Catalog::sectionState();
         array(
             "IBLOCK_TYPE" => "catalog",
             "IBLOCK_ID" => $iblock_id,
-            "SECTION_ID" => $arSection["ID"],
+            "SECTION_ID" => _::get($arSection, 'ID', ''),
             "SECTION_CODE" => "",
             "SECTION_USER_FIELDS" => array(
                 0 => "",

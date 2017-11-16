@@ -64,12 +64,14 @@ use App\View as v;
                             <span class="value"><?= $discount ?></span>
                         </div>
                     <? endif ?>
-                    <div class="field">
-                        <span class="label">Описание:</span>
-                        <div class="editable-area value">
-                            <?= $arResult['DETAIL_TEXT'] ?>
+                    <? if (!v::isEmpty($arResult['DETAIL_TEXT'])): ?>
+                        <div class="field">
+                            <span class="label">Описание:</span>
+                            <div class="editable-area value">
+                                <?= $arResult['DETAIL_TEXT'] ?>
+                            </div>
                         </div>
-                    </div>
+                    <? endif ?>
                     <? $otherUrl = $arResult['PROPERTIES']['OTHER_SITE_URL']['VALUE'] ?>
                     <? if (!v::isEmpty($otherUrl)): ?>
                         <div class="field">

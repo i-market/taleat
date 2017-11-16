@@ -6,7 +6,7 @@ use App\Product;
 <div class="catalog-title">
     <h2><?= $arResult['SECTION']['NAME'] ?></h2>
     <?= v::render('partials/catalog/title_logo.php', [
-        'picture' => $arResult['SECTION']['PICTURE']
+        'picture' => $arResult['BRAND']['PICTURE']
     ]) ?>
 </div>
 <div class="ctalog-inner">

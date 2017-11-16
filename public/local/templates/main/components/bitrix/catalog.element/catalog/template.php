@@ -110,9 +110,8 @@ use App\View as v;
                 <div class="price">
                     <? // TODO (span (span price) currency) ?>
                     <span class="price-text"><span><?= $formatted ?></span></span>
-                    <span class="TODO-mockup separator hidden">X</span>
-                    <? // TODO product qty ?>
-                    <input name="quantity" type="number" class="hidden" min="1" value="1">
+                    <span class="separator hidden">X</span>
+                    <input name="quantity" type="number" class="quantity hidden" min="1" value="1">
                 </div>
                 <? if ($arResult['CAN_BUY']): ?>
                     <p class="catalog-item-stock">В наличии</p>

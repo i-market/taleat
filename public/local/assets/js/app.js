@@ -148,10 +148,10 @@
       $.ajax({
         type: 'POST',
         url: '/ajax/ajax.php',
-        // TODO product qty
         data: {
           mode: 'buy',
-          id: $(this).data('id')
+          id: $(this).data('id'),
+          quantity: $(this).closest('form').find('.quantity').val()
         },
         dataType: 'html',
         success: function (result) {

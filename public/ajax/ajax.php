@@ -25,7 +25,7 @@ switch($_REQUEST["mode"]):
         while($dbBasketItem = $dbBasketItems->GetNext()):
             CSaleBasket::Delete($dbBasketItem["ID"]);
         endwhile;
-        echo Add2BasketByProductID($_REQUEST["id"]);
+        echo Add2BasketByProductID($_REQUEST["id"], $_REQUEST["quantity"] ?: 1);
         break;
     default: break;
 endswitch;

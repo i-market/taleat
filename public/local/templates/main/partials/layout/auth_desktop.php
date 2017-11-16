@@ -16,6 +16,6 @@
     <div class="sig-in">
         <a class="sig-in-link" href="<?= $auth['loginLink'] ?>">Вход</a>
         <span class="separator">/</span>
-        <a data-modal="register-modal" class="sig-in-link" href="<?= $auth['registerLink'] ?>">Регистрация</a>
+        <a class="sig-in-link" href="<?= $auth['registerLink'] ?>">Регистрация</a>
     </div>
 <? endif ?>

@@ -11,6 +11,6 @@
     <div class="menu-hidden-sign-in">
         <a href="<?= $auth['loginLink'] ?>">Вход</a>
         <span>/</span>
-        <a data-modal="register-modal" href="<?= $auth['registerLink'] ?>">Регистрация</a>
+        <a href="<?= $auth['registerLink'] ?>">Регистрация</a>
     </div>
 <? endif ?>

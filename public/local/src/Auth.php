@@ -29,10 +29,9 @@ class Auth {
 
     static function links() {
         return [
-            // TODO register backurl
-            'registerLink' => '/login/?register=yes&backurl=%2Flogin%2F',
+            'registerLink' => '/login/?register=yes&backurl=%2F',
             'profileLink' => '/personal/',
-            'loginLink' => '/login/?login=yes',
+            'loginLink' => '/login/?login=yes&backurl=%2F',
             'logoutLink' => '/?logout=yes'
         ];
     }

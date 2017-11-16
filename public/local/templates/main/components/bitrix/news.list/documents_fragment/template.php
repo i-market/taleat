@@ -12,8 +12,10 @@ use Core\Util;
                 <span class="size"><?= v::fileSize($path) ?></span>
                 <span class="name"><?= $item['NAME'] ?></span>
             </a>
-            <? // TODO brand link ?>
-            <a class="brand" href="javascript:void(0)" data-id="<?= $item['SECTION']['ID'] ?>"><?= $item['SECTION']['NAME'] ?></a>
+            <? if (!v::isEmpty($item['SECTION'])): ?>
+                <? // TODO brand link ?>
+                <a class="brand" href="javascript:void(0)" data-id="<?= $item['SECTION']['ID'] ?>"><?= $item['SECTION']['NAME'] ?></a>
+            <? endif ?>
         </div>
     <? endforeach ?>
 </div>

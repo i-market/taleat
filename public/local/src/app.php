@@ -114,6 +114,7 @@ class Iblock extends \Core\Iblock {
 
     const PARTNER_TYPE = 'partner';
     const DOCUMENTS = 'documents';
+    const FEED = 'feed';
 }
 
 class Videos {

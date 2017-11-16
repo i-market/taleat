@@ -136,6 +136,10 @@
       // TODO url
       location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', $(this).attr('data-id')));
     });
+    $('.helpful-information .brand').on('click', function () {
+      // TODO url
+      location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', $(this).attr('data-id')));
+    });
 
     // catalog
 

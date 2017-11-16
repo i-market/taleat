@@ -108,113 +108,32 @@ $tabs = [
                 </div>
             </div>
             <div class="feed">
-                <div class="TODO-mockup tabs-inner-sort">
-                    <span class="text text-nowrap">Для бренда:</span>
-                    <select name="" id="">
-                        <option value="">Все бренды</option>
-                        <option value="">Бренд 1</option>
-                        <option value="">Бренд 2</option>
-                        <option value="">Бренд 3</option>
-                        <option value="">Бренд 4</option>
-                    </select>
-                </div>
-                <div class="tabs-inner">
-                    <div class="helpful-information">
-                        <div class="item">
-                            <p class="top">
-                                <span class="date">09.07.2017</span>
-                                <a href="#" class="brand">Braun</a>
-                            </p>
-                            <p class="text"><a href="#">Безопасность при ремонте бытовых приборов и техники</a></p>
-                        </div>
-                        <div class="item">
-                            <p class="top">
-                                <span class="date">09.07.2017</span>
-                                <a href="#" class="brand">Braun</a>
-                            </p>
-                            <p class="text"><a href="#">Безопасность при ремонте бытовых приборов и техники</a></p>
-                        </div>
-                        <div class="item">
-                            <p class="top">
-                                <span class="date">09.07.2017</span>
-                                <a href="#" class="brand">Braun</a>
-                            </p>
-                            <p class="text"><a href="#">Безопасность при ремонте бытовых приборов и техники</a></p>
-                        </div>
-                        <div class="item">
-                            <p class="top">
-                                <span class="date">09.07.2017</span>
-                                <a href="#" class="brand">Braun</a>
-                            </p>
-                            <p class="text"><a href="#">Безопасность при ремонте бытовых приборов и техники</a></p>
-                        </div>
-                        <div class="item">
-                            <p class="top">
-                                <span class="date">09.07.2017</span>
-                                <a href="#" class="brand">Braun</a>
-                            </p>
-                            <p class="text"><a href="#">Безопасность при ремонте бытовых приборов и техники</a></p>
-                        </div>
-                        <div class="item">
-                            <p class="top">
-                                <span class="date">09.07.2017</span>
-                                <a href="#" class="brand">Braun</a>
-                            </p>
-                            <p class="text"><a href="#">Безопасность при ремонте бытовых приборов и техники</a></p>
-                        </div>
-                    </div>
-                    <div class="paginator">
-                        <div class="paginator-inner">
-                            <a class="prev" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-                                    <defs>
-                                        <style>
-                                            .cls-1 {
-                                                fill: #214385;
-                                                fill-rule: evenodd;
-                                            }
-                                        </style>
-                                    </defs>
-                                    <path id="arrow-left.svg" class="cls-1" d="M313,660l9-9h2l-9,9h-2Zm0,0,9,9h2l-9-9h-2Z" transform="translate(-313 -651)"/>
-                                </svg></a>
-                            <ul>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#" class="active">2</a></li>
-                                <li><a href="#">3</a></li>
-                            </ul>
-                            <a class="next" href="#">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-                                    <defs>
-                                        <style>
-                                            .cls-1 {
-                                                fill: #214385;
-                                                fill-rule: evenodd;
-                                            }
-                                        </style>
-                                    </defs>
-                                    <path id="arrow-right.svg" class="cls-1" d="M1607,660l-9,9h-2l9-9h2Zm0,0-9-9h-2l9,9h2Z" transform="translate(-1596 -651)"/>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="documents">
                 <?
                 // TODO
                 use App\Iblock;
                 use Bex\Tools\Iblock\IblockTools;
-                use Core\Underscore as _;
 
-                $sectionId = $_REQUEST['SECTION_ID'];
+                $sections = iter\toArray(Iblock::iter(CIBlockSection::GetList([], [
+                    'IBLOCK_ID' => IblockTools::find(Iblock::PARTNER_TYPE, Iblock::FEED)->id()
+                ])));
+                ?>
+                <? v::render('partials/partner/feed.php', [
+                    'sectionId' => v::get($_REQUEST, 'SECTION_ID'),
+                    'sectionOpts' => array_map(function ($sect) {
+                        return ['value' => $sect['ID'], 'text' => $sect['NAME']];
+                    }, $sections)
+                ], ['buffer' => false]) ?>
+            </div>
+            <div class="documents">
+                <?
+                // TODO
+
                 $sections = iter\toArray(Iblock::iter(CIBlockSection::GetList([], [
                     'IBLOCK_ID' => IblockTools::find(Iblock::PARTNER_TYPE, Iblock::DOCUMENTS)->id()
                 ])));
-                $section = _::find($sections, function ($sect) use ($sectionId) {
-                    return $sect['ID'] == $sectionId;
-                })
                 ?>
                 <? v::render('partials/partner/documents.php', [
-                    'section' => $section,
+                    'sectionId' => v::get($_REQUEST, 'SECTION_ID'),
                     'sectionOpts' => array_map(function ($sect) {
                         return ['value' => $sect['ID'], 'text' => $sect['NAME']];
                     }, $sections)

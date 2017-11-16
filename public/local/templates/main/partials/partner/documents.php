@@ -9,7 +9,7 @@ global $APPLICATION;
     <select class="brand-filter">
         <option value="">Все бренды</option>
         <? foreach ($sectionOpts as $opt): ?>
-            <? $selected = $section['ID'] == $opt['value'] ?>
+            <? $selected = $sectionId == $opt['value'] ?>
             <option value="<?= $opt['value'] ?>" <?= $selected ? 'selected' : '' ?>><?= $opt['text'] ?></option>
         <? endforeach ?>
     </select>
@@ -56,7 +56,7 @@ global $APPLICATION;
                 "PAGER_SHOW_ALWAYS" => "N",
                 "PAGER_TEMPLATE" => ".default",
                 "PAGER_TITLE" => '',
-                "PARENT_SECTION" => $section['ID'],
+                "PARENT_SECTION" => $sectionId,
                 "PARENT_SECTION_CODE" => "",
                 "PREVIEW_TRUNCATE_LEN" => "",
                 "PROPERTY_CODE" => array("DOCUMENT"),

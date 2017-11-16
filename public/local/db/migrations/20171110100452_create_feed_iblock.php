@@ -36,21 +36,6 @@ class CreateFeedIblock extends AbstractMigration {
             if ($iblockId === false) {
                 throw new \Exception($iblock->LAST_ERROR);
             }
-            $prop = new CIBlockProperty();
-            $propRes = $prop->Add([
-                'NAME' => 'Бренд',
-                'CODE' => 'BRAND',
-                'PROPERTY_TYPE' => 'E',
-                'LINK_IBLOCK_ID' => 12, // brands
-                'IS_REQUIRED' => 'N',
-                'IBLOCK_ID' => $iblockId,
-                'SORT' => '500',
-                'FILTRABLE' => 'Y',
-                'ACTIVE' => 'Y'
-            ]);
-            if (!$propRes) {
-                throw new \Exception($prop->LAST_ERROR);
-            }
             $conn->commitTransaction();
         } catch (Exception $e) {
             $conn->rollbackTransaction();

@@ -6,6 +6,7 @@ use App\Catalog;
 use App\View as v;
 use App\App;
 use Core\Util;
+use Core\Underscore as _;
 
 $page = $APPLICATION->GetCurPage();
 $iblock_id=3;
@@ -71,7 +72,7 @@ if ($page == "/catalog/"){
                 $arItem = $ob->GetFields();
 
                 $APPLICATION->AddChainItem($arItem["NAME"], fn_get_chainpath($arItem["IBLOCK_ID"], $arItem["IBLOCK_SECTION_ID"]).$arItem["CODE"].".html");
-                $APPLICATION->SetPageProperty("title", $APPLICATION->GetPageProperty('title')." - ".$arItem["NAME"]);
+                $APPLICATION->SetPageProperty("title", join(' - ', _::clean([$APPLICATION->GetPageProperty('title'), $arItem["NAME"]])));
             }
 
         }

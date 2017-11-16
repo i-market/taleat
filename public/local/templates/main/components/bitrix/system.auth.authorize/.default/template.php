@@ -2,6 +2,7 @@
 
 use App\View as v;
 use App\View\FormMacros as m;
+use Core\Util;
 
 $APPLICATION->SetPageProperty('layout', 'bare');
 
@@ -18,9 +19,9 @@ $showHiddenInputs = function () use ($arResult) {
     <?
 };
 ?>
-<div class="modal-like form">
+<div class="modal-like">
     <div class="block">
-        <form name="form_auth" method="post" action="<?=$arResult["AUTH_URL"]?>">
+        <form class="form validate" name="form_auth" method="post" action="<?=$arResult["AUTH_URL"]?>">
             <div class="title">Войдите в аккаунт</div>
             <? $result = $arParams['~AUTH_RESULT'] ?>
             <? if (!v::isEmpty($result)): ?>
@@ -34,12 +35,12 @@ $showHiddenInputs = function () use ($arResult) {
                 </div>
             <? endif ?>
             <? $showHiddenInputs() ?>
-            <? m::showInput('USER_LOGIN', 'Логин или e-mail') ?>
-            <? m::showInput('USER_PASSWORD', 'Пароль', ['type' => 'password']) ?>
-            <? // TODO newsletter ?>
-            <div class="TODO-mockup wrap-checkbox">
-                <input type="checkbox" hidden="hidden" id="1">
-                <label for="1">Подписка на новости</label>
+            <? m::showInput('USER_LOGIN', 'Логин или e-mail', ['required' => true]) ?>
+            <? m::showInput('USER_PASSWORD', 'Пароль', ['required' => true, 'type' => 'password']) ?>
+            <div class="wrap-checkbox">
+                <? $id = 'remember-'.Util::uniqueId() ?>
+                <input type="checkbox" hidden="hidden" name="USER_REMEMBER" value="Y" id="<?= $id ?>">
+                <label for="<?= $id ?>">Запомнить меня</label>
                 <a class="forget" href="<?=$arResult["AUTH_FORGOT_PASSWORD_URL"]?>">Забыли пароль?</a>
             </div>
             <button type="submit" class="download-btn">Войти</button>

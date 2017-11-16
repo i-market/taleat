@@ -5,11 +5,9 @@ use App\Product;
 ?>
 <div class="catalog-title">
     <h2><?= $arResult['SECTION']['NAME'] ?></h2>
-    <? if (!v::isEmpty($arResult['SECTION']['PICTURE'])): ?>
-        <div class="catalog-title-img">
-            <img src="<?= $arResult['SECTION']['PICTURE']['SRC'] ?>" alt="<?= $arResult['SECTION']['NAME'] ?>">
-        </div>
-    <? endif ?>
+    <?= v::render('partials/catalog/title_logo.php', [
+        'picture' => $arResult['SECTION']['PICTURE']
+    ]) ?>
 </div>
 <div class="ctalog-inner">
     <div class="grid">

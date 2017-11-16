@@ -12,10 +12,9 @@ use App\View as v;
     </div>
     <div class="catalog-title hidden">
         <h2><?= $arResult['NAME'] ?></h2>
-        <div class="TODO-mockup catalog-title-img">
-            <? // TODO brand image, resize ?>
-            <img src="<?= v::asset('images/pic/labels/2.png') ?>" alt="">
-        </div>
+        <?= v::render('partials/catalog/title_logo.php', [
+            'picture' => $arResult['BRAND']['PICTURE']
+        ]) ?>
     </div>
     <div class="ctalog-inner" id="<?= v::addEditingActions($arResult, $this) ?>">
         <div class="wrap-slider-item">

@@ -17,8 +17,10 @@ class Product {
     const BASE_PRICE = 'catalog_price_1';
     const CURRENCY = 'RUB';
 
+    // image dimension constraints
     const IMAGE_MEDIUM = [500, 500];
     const IMAGE_SMALL = [100, 100];
+    const BRAND_LOGO = [300, 80];
 
     static function elementUrl($elem) {
         return fn_get_chainpath($elem['IBLOCK_ID'], $elem['IBLOCK_SECTION_ID']).$elem['CODE'].'.html';

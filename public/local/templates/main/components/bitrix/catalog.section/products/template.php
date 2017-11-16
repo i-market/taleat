@@ -9,10 +9,9 @@ use App\Catalog;
 <? if (!v::isEmpty(v::get($arResult, 'NAME'))): ?>
     <div class="catalog-title">
         <h2><?= $arResult['NAME'] ?></h2>
-        <? // TODO brand image ?>
-        <div class="TODO-mockup catalog-title-img">
-            <img src="<?= v::asset('images/pic/labels/2.png') ?>" alt="">
-        </div>
+        <?= v::render('partials/catalog/title_logo.php', [
+            'picture' => $arResult['BRAND']['PICTURE']
+        ]) ?>
     </div>
 <? endif ?>
 <div class="sort-block">

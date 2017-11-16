@@ -103,7 +103,6 @@ class Iblock extends \Core\Iblock {
     const CHECKBOX_TRUE_VALUE = 'да';
 
     const CONTENT_TYPE = 'content';
-    const BRANDS = 'brands';
     const CLIENTS = 'clients';
     const CERTIFICATES = 'certificates';
     const ARTICLES = 'articles';
@@ -111,6 +110,8 @@ class Iblock extends \Core\Iblock {
     const RESPONSIVE_BANNERS = 'responsive_banners';
 
     const CATALOG_TYPE = 'catalog';
+    /** products */
+    const FURNITURE = 'furniture';
 
     const PARTNER_TYPE = 'partner';
     const DOCUMENTS = 'documents';

@@ -6,9 +6,8 @@ use App\View as v;
 <? v::appendToView('modals', v::render('partials/catalog/product_added_to_cart_modal.php')) ?>
 <form action="<?= POST_FORM_ACTION_URI ?>" method="post" enctype="multipart/form-data">
     <? // TODO template ?>
-    <? // TODO back link ?>
-    <div class="TODO-mockup back-link">
-        <a href="#"><?= $arResult['NAME'] ?></a>
+    <div class="back-link">
+        <a href="javascript:history.go(-1)"><?= $arResult['NAME'] ?></a>
     </div>
     <div class="catalog-title hidden">
         <h2><?= $arResult['NAME'] ?></h2>
@@ -83,11 +82,10 @@ use App\View as v;
                     <? endif ?>
                 </div>
             </div>
-            <? // TODO ?>
-            <p class="TODO-mockup check-out">Перед покупкой проверьте тип вашего изделия!</p>
+            <?// <p class="check-out">Перед покупкой проверьте тип вашего изделия!</p> ?>
             <div class="catalog-item-doc">
                 <? // TODO ?>
-                <a class="TODO-mockup table-link" href="#">Таблица соответствия</a>
+                <?// <a class="TODO-mockup table-link" href="#">Таблица соответствия</a> ?>
                 <? $howCheckUrl = $arResult['PROPERTIES']['HOW_CHECK_URL']['VALUE'] ?>
                 <? if (!v::isEmpty($howCheckUrl)): ?>
                     <a class="type-link" href="<?= $howCheckUrl ?>" target="_blank">Проверить тип изделия</a>

@@ -48,24 +48,11 @@ class Product {
     }
 
     static function thumbnail($elem) {
-        App::getInstance()->assert(array_key_exists('DETAIL_PICTURE', $elem) && isset($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]),
-            'illegal argument');
-        // TODO what's the algorithm here?
-        $arFile = CFile::GetFileArray($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][4]);
-        if($arFile["HEIGHT"]<131) {
-            return CFile::GetFileArray($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][4]);
-         } else {
-            $optPic = CFile::GetFileArray($elem["PROPERTIES"]["OPT_DETAIL_PICTURE"]["VALUE"][3]);
-            if (is_array($optPic)) {
-                return $optPic;
-            } else {
-                $elemRef = $elem;
-                if (is_numeric($elem['DETAIL_PICTURE'])) {
-                    Tools::getFieldImageData($elemRef, ['DETAIL_PICTURE'], Tools::IPROPERTY_ENTITY_ELEMENT, 'IPROPERTY_VALUES');
-                }
-                return $elemRef['DETAIL_PICTURE'];
-            }
-         }
+        App::getInstance()->assert(array_key_exists('DETAIL_PICTURE', $elem), 'illegal argument');
+        $elemRef = $elem;
+        Tools::getFieldImageData($elemRef, ['DETAIL_PICTURE', 'PREVIEW_PICTURE'],
+            Tools::IPROPERTY_ENTITY_ELEMENT, 'IPROPERTY_VALUES');
+        return $elemRef['PREVIEW_PICTURE'] ?: $elemRef['DETAIL_PICTURE'];
     }
 
     static function basePrice($productId) {

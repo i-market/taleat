@@ -26,7 +26,6 @@ class Product {
     const BRAND_LOGO = [300, 80];
 
     static function recommended($section) {
-        // TODO sort
         $sect = CIBlockSection::GetList(['SORT' => 'ASC'], [
             'IBLOCK_ID' => $section['IBLOCK_ID'],
             'ID' => $section['ID']

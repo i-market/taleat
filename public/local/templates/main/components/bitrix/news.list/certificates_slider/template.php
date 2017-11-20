@@ -9,7 +9,6 @@ use App\View as v;
             <div class="wrap">
                 <div class="section-title-block">
                     <h2>Наши сертификаты</h2>
-                    <div class="section-title-link">|<a href="<?= v::path('certificates') ?>">все <span class="hidden">сертификаты</span></a></div>
                 </div>
                 <div class="dots"></div>
             </div>

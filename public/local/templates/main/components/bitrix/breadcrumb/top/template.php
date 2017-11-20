@@ -10,16 +10,9 @@ $showItemName = function($title) {
 $showItem = function($position, $link, $title, $isLast) use ($showItemName) {
     ?>
     <li class="bread-crumbs-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-        <? if (!$isLast): ?>
-            <a class="link" href="<?= $link ?>" itemprop="item">
-                <? $showItemName($title) ?>
-            </a>
-        <? else: ?>
-            <? // TODO add microdata url? ?>
-            <span class="link" itemprop="item">
-                <? $showItemName($title) ?>
-            </span>
-        <? endif ?>
+        <a class="link" href="<?= $link ?>" itemprop="item">
+            <? $showItemName($title) ?>
+        </a>
         <meta itemprop="position" content="<?= $position ?>" />
     </li>
     <?

@@ -1,6 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Каталог");
+$APPLICATION->SetPageProperty('layout', 'catalog');
 
 use App\Catalog;
 use App\View as v;

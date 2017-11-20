@@ -4,6 +4,20 @@ use App\Product;
 use App\View as v;
 ?>
 <? v::appendToView('modals', v::render('partials/catalog/product_added_to_cart_modal.php')) ?>
+
+<? $this->SetViewTarget('bitrix:catalog.element/catalog/additional_text') ?>
+<? $value = $arResult['PROPERTIES']['ADDITIONAL_TEXT']['~VALUE'] ?>
+<? if (!v::isEmpty($value)): ?>
+    <section class="catalog-about">
+        <div class="wrap">
+            <div class="editable-area wrap-min">
+                <?= $value['TEXT'] ?>
+            </div>
+        </div>
+    </section>
+<? endif ?>
+<? $this->EndViewTarget() ?>
+
 <form action="<?= POST_FORM_ACTION_URI ?>" method="post" enctype="multipart/form-data">
     <? // TODO template ?>
     <div class="back-link">

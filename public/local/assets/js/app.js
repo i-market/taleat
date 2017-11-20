@@ -195,5 +195,24 @@
     $('.sort-block .sort').on('change', function () {
       location.search = updateQuery(_.partialRight(_.set, 'sort', this.value));
     });
+
+    function align() {
+      // align with .section-title headings
+      $('.catalog-about').find('h2, .h2').each(function () {
+        var pageWidth = $('.catalog-about').parent().width();
+        if (pageWidth < 1024) { // see media query
+          return $(this).css('padding-left', 0);
+        }
+        var maxWidth = 1200;
+        var margin = (pageWidth - maxWidth) / 2;
+        var padding = 220;
+        var m = (pageWidth - $(this).parent().width()) / 2;
+        var left = margin + padding - m;
+        $(this).css('padding-left', Math.max(left, padding - m));
+      });
+    }
+
+    align();
+    $(window).on('resize', _.throttle(align, 1000 / 30));
   });
 })();

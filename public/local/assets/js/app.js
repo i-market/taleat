@@ -22,6 +22,11 @@
     min: $.validator.format( "Пожалуйста, введите число, большее или равное {0}." )
   });
 
+  $.validator.setDefaults({
+    // TODO don't ignore our fancy hidden checkboxes
+    ignore: ':hidden'
+  });
+
   function initComponents($scope) {
     Mockup.initComponents($scope);
   }

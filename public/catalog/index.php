@@ -9,7 +9,7 @@ use Core\Util;
 use Core\Underscore as _;
 
 $page = $APPLICATION->GetCurPage();
-$iblock_id=3;
+$iblock_id=3; // products
 if ($_REQUEST['per_page']):
     $_SESSION['per_page'] = v::get(Catalog::$perPageOpts, $_REQUEST['per_page'], Catalog::$perPageDefault);
 endif;

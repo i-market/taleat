@@ -4,6 +4,7 @@
  * @global $arSection
  */
 
+use App\Product;
 use App\Components;
 use App\View as v;
 use App\Layout;
@@ -38,128 +39,7 @@ use Bex\Tools\Iblock\IblockTools;
     );?>
 </div>
 <? Layout::showCatalogWrapper('footer') ?>
-<? // TODO recommended products ?>
-<section class="TODO-mockup wrap-items-slider wrap-slider section">
-    <div class="section-title">
-        <div class="wrap">
-            <div class="section-title-block">
-                <h2>Рекомендуемые товары</h2>
-                <div class="section-title-link">|<a href="#">все <span class="hidden">товары</span></a></div>
-            </div>
-            <div class="dots"></div>
-        </div>
-    </div>
-    <div class="wrap">
-        <span class="arrows prev"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-  <defs>
-    <style>
-      .cls-1 {
-          fill: #214385;
-          fill-rule: evenodd;
-      }
-    </style>
-  </defs>
-  <path id="arrow-left.svg" class="cls-1" d="M313,660l9-9h2l-9,9h-2Zm0,0,9,9h2l-9-9h-2Z" transform="translate(-313 -651)"/>
-</svg>
-</span>
-        <span class="arrows next">
-          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-  <defs>
-    <style>
-      .cls-1 {
-          fill: #214385;
-          fill-rule: evenodd;
-      }
-    </style>
-  </defs>
-  <path id="arrow-right.svg" class="cls-1" d="M1607,660l-9,9h-2l9-9h2Zm0,0-9-9h-2l9,9h2Z" transform="translate(-1596 -651)"/>
-</svg>
-
-        </span>
-        <div class="items-slider slider">
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="<?= v::asset('images/pic/items/1.png') ?>" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="<?= v::asset('images/pic/items/2.png') ?>" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="<?= v::asset('images/pic/items/3.png') ?>" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="<?= v::asset('images/pic/items/4.png') ?>" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="item-box">
-                <div class="img">
-                    <img src="<?= v::asset('images/pic/items/3.png') ?>" alt="">
-                </div>
-                <div class="info">
-                    <p class="label-unfo">
-                        <span class="articul">SX1045</span>
-                        <span class="label-name">Braun</span>
-                    </p>
-                    <p class="name">Колба для кофеварки Delonghi</p>
-                    <div class="price-info">
-                        <span class="price"><span>1680</span> руб.</span>
-                        <span class="cart"></span>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-</section>
+<?= v::render('partials/catalog/recommended.php', ['items' => Product::recommended($arSection)]) ?>
 <section class="banner">
     <div class="wrap">
         <? Components::showBanner('catalog-terms') ?>

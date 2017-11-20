@@ -3,6 +3,7 @@
 use App\View as v;
 use App\View\FormMacros as m;
 use Core\Util;
+use App\Auth;
 
 $APPLICATION->SetPageProperty('layout', 'bare');
 
@@ -45,7 +46,7 @@ $showHiddenInputs = function () use ($arResult) {
             </div>
             <button type="submit" class="download-btn">Войти</button>
             <p class="modal-text">Если у вас нет аккаунта, зарегистрируйтесь как <strong>покупатель</strong> или как <strong>сервисный центр</strong></p>
-            <a class="yellow-btn" href="<?=$arResult["AUTH_REGISTER_URL"]?>">Зарегистрироваться</a>
+            <a class="yellow-btn" href="<?= Auth::links()['registerLink'] ?>">Зарегистрироваться</a>
         </form>
     </div>
 </div>

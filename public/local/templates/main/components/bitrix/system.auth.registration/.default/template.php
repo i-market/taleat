@@ -24,7 +24,7 @@ $showHiddenInputs = function () use ($arResult) {
         <div class="title">Регистрация</div>
         <div class="modal-tab-links">
             <span data-tabLinks="customer" class="active">Я покупатель</span>
-            <span data-tabLinks="service-center">Сервисный центр</span>
+            <span class="TODO-mockup" data-tabLinks="service-center">Сервисный центр</span>
         </div>
         <div class="tab_blocks">
             <div data-tabContent="customer">
@@ -34,20 +34,19 @@ $showHiddenInputs = function () use ($arResult) {
                         <?= $result['MESSAGE'] ?>
                     </div>
                 <? endif ?>
-                <form method="post" action="<?=$arResult["AUTH_URL"]?>" name="bform" enctype="multipart/form-data">
+                <form class="validate" method="post" action="<?=$arResult["AUTH_URL"]?>" name="bform" enctype="multipart/form-data">
                     <? $showHiddenInputs() ?>
-                    <? // TODO validate name ?>
-                    <? m::showInput('USER_LAST_NAME', 'Фамилия *') ?>
-                    <? m::showInput('USER_NAME', 'Имя *') ?>
+                    <? m::showInput('USER_LAST_NAME', 'Фамилия *', ['required' => true]) ?>
+                    <? m::showInput('USER_NAME', 'Имя *', ['required' => true]) ?>
                     <? m::showInput('SECOND_NAME', 'Отчество') ?>
-                    <? m::showInput('USER_EMAIL', 'E-mail *') ?>
-                    <? m::showInput('USER_PASSWORD', 'Пароль', ['type' => 'password']) ?>
-                    <? m::showInput('USER_CONFIRM_PASSWORD', 'Повторите пароль', ['type' => 'password']) ?>
+                    <? m::showInput('USER_EMAIL', 'E-mail *', ['required' => true, 'type' => 'email']) ?>
+                    <? m::showInput('USER_PASSWORD', 'Пароль', ['required' => true, 'type' => 'password']) ?>
+                    <? m::showInput('USER_CONFIRM_PASSWORD', 'Повторите пароль', ['required' => true, 'type' => 'password']) ?>
                     <div class="TODO-mockup wrap-checkbox">
                         <? $id = 'input-'.Util::uniqueId() ?>
                         <? // TODO validate legal ?>
-                        <input type="checkbox" hidden="hidden" id="<?= $id ?>">
-                        <label for="<?= $id ?>">Даю согласие<br>на обработку персональных данных </label>
+                        <input class="checkbox" type="checkbox" hidden="hidden" id="<?= $id ?>">
+                        <label for="<?= $id ?>">Даю согласие<br>на <a href="<?= v::path('terms/privacy') ?>" target="_blank">обработку персональных данных</a></label>
                     </div>
                     <? // TODO captcha ?>
                     <div class="TODO-mockup captcha">
@@ -56,7 +55,7 @@ $showHiddenInputs = function () use ($arResult) {
                     <button type="submit" class="download-btn">Зарегистрироваться</button>
                 </form>
             </div>
-            <div data-tabContent="service-center">
+            <div class="TODO-mockup" data-tabContent="service-center">
                 <? // TODO register service center ?>
                 <input class="input" type="password" placeholder="Фамилия, Имя, Отчество">
                 <input class="input" type="password" placeholder="Компания">

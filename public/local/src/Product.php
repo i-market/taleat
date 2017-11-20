@@ -3,6 +3,8 @@
 namespace App;
 
 use Bitrix\Iblock\Component\Tools;
+use Bitrix\Iblock\ElementTable;
+use Bitrix\Main\UserFieldTable;
 use CFile;
 use CIBlockSection;
 use Core\Nullable as nil;
@@ -22,6 +24,19 @@ class Product {
     const IMAGE_MEDIUM = [500, 500];
     const IMAGE_SMALL = [100, 100];
     const BRAND_LOGO = [300, 80];
+
+    static function recommended($section) {
+        // TODO sort
+        $sect = CIBlockSection::GetList(['SORT' => 'ASC'], [
+            'IBLOCK_ID' => $section['IBLOCK_ID'],
+            'ID' => $section['ID']
+        ], false, ['UF_RECOMMENDED'])->GetNext();
+        // TODO optimize
+        $products = _::map($sect['UF_RECOMMENDED'], function ($id) {
+            return \CIBlockElement::GetByID($id)->GetNext();
+        });
+        return $products;
+    }
 
     static function elementUrl($elem) {
         return fn_get_chainpath($elem['IBLOCK_ID'], $elem['IBLOCK_SECTION_ID']).$elem['CODE'].'.html';

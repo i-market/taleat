@@ -70,8 +70,6 @@ if ($page == "/catalog/"){
 
             while($ob = $res->GetNextElement()){
                 $arItem = $ob->GetFields();
-
-                $APPLICATION->AddChainItem($arItem["NAME"], fn_get_chainpath($arItem["IBLOCK_ID"], $arItem["IBLOCK_SECTION_ID"]).$arItem["CODE"].".html");
                 $APPLICATION->SetPageProperty("title", join(' - ', _::clean([$APPLICATION->GetPageProperty('title'), $arItem["NAME"]])));
             }
 

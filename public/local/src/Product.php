@@ -91,7 +91,7 @@ class Product {
 
     static function galleryImages($elem) {
         $fileIds = _::get($elem, 'PROPERTIES.MORE_PHOTO.VALUE') ?: [];
-        $images = array_merge([$elem['DETAIL_PICTURE']], array_map([CFile::class, 'GetFileArray'], $fileIds));
+        $images = _::clean(array_merge([$elem['DETAIL_PICTURE']], array_map([CFile::class, 'GetFileArray'], $fileIds)));
         return array_map(function ($img) {
             if (!isset($img['ALT'])) {
                 $img['ALT'] = _::get($img, 'DESCRIPTION');

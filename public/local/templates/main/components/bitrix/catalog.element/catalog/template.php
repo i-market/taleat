@@ -19,14 +19,20 @@ use App\View as v;
         <div class="wrap-slider-item">
             <div class="slider-item-main">
                 <? $images = Product::galleryImages($arResult) ?>
-                <? foreach ($images as $img): ?>
-                    <? $resized = v::resize($img, ...Product::IMAGE_FULL) ?>
+                <? if (v::isEmpty($images)): ?>
                     <div class="slide">
-                        <a href="<?= $resized ?>" data-fancybox="product-gallery">
-                            <img src="<?= $resized ?>" alt="<?= $img['ALT'] ?>">
-                        </a>
+                        <div class="no-img-placeholder"><div class="content"></div></div>
                     </div>
-                <? endforeach ?>
+                <? else: ?>
+                    <? foreach ($images as $img): ?>
+                        <? $resized = v::resize($img, ...Product::IMAGE_FULL) ?>
+                        <div class="slide">
+                            <a href="<?= $resized ?>" data-fancybox="product-gallery">
+                                <img src="<?= $resized ?>" alt="<?= $img['ALT'] ?>">
+                            </a>
+                        </div>
+                    <? endforeach ?>
+                <? endif ?>
             </div>
             <div class="slider-item-thumbs">
                 <? foreach ($images as $img): ?>

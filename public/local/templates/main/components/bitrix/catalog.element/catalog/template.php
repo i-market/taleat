@@ -20,7 +20,11 @@ use App\View as v;
             <div class="slider-item-main">
                 <? $images = Product::galleryImages($arResult) ?>
                 <? foreach ($images as $img): ?>
-                    <div class="slide"><img src="<?= v::resize($img, ...Product::IMAGE_MEDIUM) ?>" alt="<?= $img['ALT'] ?>"></div>
+                    <div class="slide">
+                        <a href="<?= $img['SRC'] ?>" data-fancybox="product-gallery">
+                            <img src="<?= v::resize($img, ...Product::IMAGE_MEDIUM) ?>" alt="<?= $img['ALT'] ?>">
+                        </a>
+                    </div>
                 <? endforeach ?>
             </div>
             <div class="slider-item-thumbs">

@@ -39,8 +39,6 @@ $isCartEmpty = count(array_merge(...array_values($arResult['ITEMS']))) === 0;
                     <div class="section-title-block">
                         <h2><?= $APPLICATION->GetTitle(false) ?></h2>
                     </div>
-                    <? // TODO link ?>
-                    <a class="TODO-mockup simple-btn" href="#">Продолжить покупки</a>
                 </div>
             </div>
             <div class="wrap">

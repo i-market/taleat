@@ -20,9 +20,10 @@ use App\View as v;
             <div class="slider-item-main">
                 <? $images = Product::galleryImages($arResult) ?>
                 <? foreach ($images as $img): ?>
+                    <? $resized = v::resize($img, ...Product::IMAGE_FULL) ?>
                     <div class="slide">
-                        <a href="<?= $img['SRC'] ?>" data-fancybox="product-gallery">
-                            <img src="<?= v::resize($img, ...Product::IMAGE_MEDIUM) ?>" alt="<?= $img['ALT'] ?>">
+                        <a href="<?= $resized ?>" data-fancybox="product-gallery">
+                            <img src="<?= $resized ?>" alt="<?= $img['ALT'] ?>">
                         </a>
                     </div>
                 <? endforeach ?>
@@ -121,7 +122,7 @@ use App\View as v;
                     <p class="catalog-item-stock catalog-item-stock--out">Нет в наличии</p>
                 <? endif ?>
                 <? if ($arResult['CAN_BUY']): ?>
-                    <button class="buy-button catalog-cart-btn" data-id="<?= $arResult['ID'] ?>">
+                    <button type="button" class="buy-button catalog-cart-btn" data-id="<?= $arResult['ID'] ?>">
                         <span>В корзину</span>
                     </button>
                 <? endif ?>

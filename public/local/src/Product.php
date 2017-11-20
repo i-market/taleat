@@ -18,6 +18,7 @@ class Product {
     const CURRENCY = 'RUB';
 
     // image dimension constraints
+    const IMAGE_FULL = [1000, 1000];
     const IMAGE_MEDIUM = [500, 500];
     const IMAGE_SMALL = [100, 100];
     const BRAND_LOGO = [300, 80];

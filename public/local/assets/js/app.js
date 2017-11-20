@@ -22,12 +22,16 @@
     min: $.validator.format( "Пожалуйста, введите число, большее или равное {0}." )
   });
 
+  function initComponents($scope) {
+    Mockup.initComponents($scope);
+  }
+
   function updateQuery(f) {
     // drop leading "?"
     return queryString.stringify(f(queryString.parse(location.search.substr(1))));
   }
 
-  // TODO refactor component update dependencies. see `cartUpdate` usages.
+  // TODO refactor component dependencies. see `cartUpdate` usages.
   function cartUpdate(){
     $.ajax({
       type: 'POST',
@@ -170,6 +174,7 @@
           $component.replaceWith($new);
           initCartPage($new);
           cartUpdate();
+          initComponents($new);
         });
       }
 

@@ -1,0 +1,6 @@
+<figure class="img">
+    <div class="img">
+        <img src="/local/templates/main/build/assets/images/pic/news/2.jpg" alt="">
+    </div>
+    <figcaption>Текст...</figcaption>
+</figure>

@@ -3,6 +3,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords", "Сетки к бритвам, зубные насадки к электрическим зубным щеткам, запасные части к Браун, Braun, аксессуары к бытовой технике");
 $APPLICATION->SetPageProperty("description", "Мы предлагаем широкий ассортимент аксессуаров  к бытовой технике  фирмы Braun (Браун)");
 $APPLICATION->SetTitle("Официальная информация");
+$APPLICATION->SetPageProperty('layout', 'bare');
 
 $ex=explode("/", $APPLICATION->GetCurPage());
 
@@ -23,10 +24,10 @@ if($res->SelectedRowsCount()==0)
 		LocalRedirect('/404.php');
 	}
 }
-?><?$APPLICATION->IncludeComponent("bitrix:news", ".default", array(
+?><?$APPLICATION->IncludeComponent("bitrix:news", "news", array(
 	"IBLOCK_TYPE" => "news",
 	"IBLOCK_ID" => "1",
-	"NEWS_COUNT" => "10",
+	"NEWS_COUNT" => "11",
 	"USE_SEARCH" => "N",
 	"USE_RSS" => "N",
 	"NUM_NEWS" => "20",
@@ -91,7 +92,7 @@ if($res->SelectedRowsCount()==0)
 	"DISPLAY_BOTTOM_PAGER" => "Y",
 	"PAGER_TITLE" => "Новости",
 	"PAGER_SHOW_ALWAYS" => "N",
-	"PAGER_TEMPLATE" => "arrows",
+	"PAGER_TEMPLATE" => "",
 	"PAGER_DESC_NUMBERING" => "N",
 	"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000000",
 	"PAGER_SHOW_ALL" => "N",

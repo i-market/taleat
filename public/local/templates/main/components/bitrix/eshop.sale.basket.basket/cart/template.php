@@ -37,7 +37,7 @@ $isCartEmpty = count(array_merge(...array_values($arResult['ITEMS']))) === 0;
             <div class="section-title">
                 <div class="wrap">
                     <div class="section-title-block">
-                        <h2><?= $APPLICATION->GetTitle(false) ?></h2>
+                        <h2><? $APPLICATION->ShowTitle(false) ?></h2>
                     </div>
                 </div>
             </div>

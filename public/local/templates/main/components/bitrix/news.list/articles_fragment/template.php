@@ -2,7 +2,7 @@
 ?>
 <? foreach ($arResult['ITEMS'] as $item): ?>
     <div class="useful-item">
-        <p class="title"><?= $item['NAME'] ?></p>
+        <a href="<?= $item['DETAIL_PAGE_URL'] ?>"><p class="title"><?= $item['NAME'] ?></p></a>
         <div class="editable-area paragraph">
             <?= $item['PREVIEW_TEXT'] ?>
         </div>

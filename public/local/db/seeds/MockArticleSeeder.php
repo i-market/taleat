@@ -19,7 +19,7 @@ class MockArticleSeeder extends AbstractSeed {
             if (!is_numeric($iblockId)) {
                 throw new \Exception("cant'f find iblock: {$iblockId}");
             }
-            foreach (range(1, 7) as $n) {
+            foreach (range(1, 10) as $n) {
                 $hasImg = $n <= 3;
                 $imgPath = Util::joinPath([$_SERVER['DOCUMENT_ROOT'], 'local/mockup/src/images/pic/pic-4.jpg']);
                 if (!file_exists($imgPath)) {
@@ -29,10 +29,12 @@ class MockArticleSeeder extends AbstractSeed {
                 $result = $el->Add([
                     'IBLOCK_ID' => $iblockId,
                     'NAME' => "Пример статьи {$n}",
+                    'CODE' => 'primer-'.$n,
                     'SORT' => $n * 10,
                     'PREVIEW_PICTURE' => $hasImg ? CFile::MakeFileArray($imgPath) : null,
                     'PREVIEW_TEXT' => $hasImg ? $longText : $shortText,
-                    'DETAIL_TEXT' => $longText
+                    'DETAIL_TEXT' => file_get_contents(Util::joinPath([__DIR__, 'mock_post.html'])),
+                    'DETAIL_TEXT_TYPE' => 'html'
                 ]);
                 if (!$result) {
                     throw new \Exception($el->LAST_ERROR);

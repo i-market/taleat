@@ -10,7 +10,7 @@ use App\View as v;
                     <img src="<?= v::resize($item['PREVIEW_PICTURE'], 350, 350) ?>" alt="<?= $item['PREVIEW_PICTURE']['ALT'] ?>">
                 </div>
                 <div class="info">
-                    <p class="title"><?= $item['NAME'] ?></p>
+                    <a href="<?= $item['DETAIL_PAGE_URL'] ?>"><p class="title"><?= $item['NAME'] ?></p></a>
                     <div class="editable-area paragraph">
                         <?= $item['PREVIEW_TEXT'] ?>
                     </div>

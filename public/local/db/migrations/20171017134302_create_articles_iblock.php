@@ -36,6 +36,14 @@ class CreateArticlesIblock extends AbstractMigration {
             if ($iblockId === false) {
                 throw new \Exception($iblock->LAST_ERROR);
             }
+            $fields = CIBlock::GetFields($iblockId);
+            $fields['CODE']['IS_REQUIRED'] = 'Y';
+            $fields['CODE']['DEFAULT_VALUE'] = [
+                'UNIQUE' => 'Y',
+                'TRANSLITERATION' => 'Y',
+                // TODO transliteration settings
+            ];
+            CIBlock::SetFields($iblockId, $fields);
             $conn->commitTransaction();
         } catch (Exception $e) {
             $conn->rollbackTransaction();

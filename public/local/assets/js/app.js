@@ -2,6 +2,15 @@
   // see npm `build:modules` script
   var queryString = modules['querystring'];
 
+  // TODO better browser support
+  if (!window.history) {
+    // noinspection JSValidateTypes
+    window.history = {
+      pushState: _.noop,
+      replaceState: _.noop
+    };
+  }
+
   $.extend($.validator.messages, {
     required: "Это поле необходимо заполнить.",
     remote: "Пожалуйста, введите правильное значение.",

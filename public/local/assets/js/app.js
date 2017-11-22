@@ -164,7 +164,12 @@
         function replaceSection(url) {
           $.get(url, function(html) {
             var $new = $(html);
+
+            // keep scroll position
+            var x = $('.nav', $section).scrollLeft();
             $section.replaceWith($new);
+            $('.nav', $new).scrollLeft(x);
+
             // order matters: init jquery-validate first
             initComponents($new);
             init($new);
@@ -178,6 +183,7 @@
         $('.newsletter-sub', $section).each(function () {
           initNewsletter($(this));
         });
+        // ajaxify links
         $('.nav .tab-link', $section).on('click', function (evt) {
           evt.preventDefault();
           replaceSection($(this).attr('href'));

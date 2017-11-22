@@ -178,7 +178,8 @@
         $('.newsletter-sub', $section).each(function () {
           initNewsletter($(this));
         });
-        $('.nav .tab-link', $section).on('click', function (evt) {
+        // ajaxify links
+        $('.nav .tab-link, .paginator a', $section).on('click', function (evt) {
           evt.preventDefault();
           replaceSection($(this).attr('href'));
         });

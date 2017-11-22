@@ -31,8 +31,7 @@ $tabs = [
     <div class="section-title">
         <div class="wrap">
             <div class="section-title-block">
-                <? // TODO mockup: "Личный кабинет" ?>
-                <h2 class="TODO-mockup"><? $APPLICATION->ShowTitle(false) ?></h2>
+                <h2><? $APPLICATION->ShowTitle(false) ?></h2>
             </div>
         </div>
     </div>
@@ -40,8 +39,7 @@ $tabs = [
         <div class="tab_links finger-block" role="tablist">
             <? foreach ($tabs as $tab): ?>
                 <a data-toggle="tab"
-                   <? // TODO tab links ?>
-                   href="<?= '?tab='.$tab['id'] /* v::path('./'.$tab['id']) */ ?>"
+                   href="<?= v::path('partneram/'.$tab['id']) ?>"
                    class="tab-link <?= $tab['id'] === $activeTab ? 'active' : '' ?>"
                    role="tab"><?= $tab['name'] ?></a>
             <? endforeach ?>

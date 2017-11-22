@@ -13,8 +13,7 @@ use App\View as v;
                     <a href="javascript:void(0)" data-id="<?= $item['SECTION']['ID'] ?>" class="brand"><?= $item['SECTION']['NAME'] ?></a>
                 <? endif ?>
             </p>
-            <? // TODO detail page ?>
-            <p class="TODO-mockup text"><a href="<?= $item['DETAIL_PAGE_URL'] ?>"><?= $item['NAME'] ?></a></p>
+            <p class="text"><a href="<?= $item['DETAIL_PAGE_URL'] ?>"><?= $item['NAME'] ?></a></p>
         </div>
     <? endforeach ?>
 </div>

@@ -4,7 +4,7 @@ use App\Components;
 ?>
 <?$ElementID = $APPLICATION->IncludeComponent(
     "bitrix:news.detail",
-    "",
+    "post",
     Array(
         "DISPLAY_DATE" => $arParams["DISPLAY_DATE"],
         "DISPLAY_NAME" => $arParams["DISPLAY_NAME"],

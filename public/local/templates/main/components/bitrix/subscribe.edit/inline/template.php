@@ -27,7 +27,6 @@ use Core\Util;
                 <? $id = 'checkbox-'.Util::uniqueId() ?>
                 <? if ($arResult['STATE'] === 'no_subscription'): ?>
                     <input type="hidden" name="PostAction" value="Add" />
-                    <input type="hidden" name="ID" value="<?echo $arResult["SUBSCRIPTION"]["ID"];?>" />
                     <input type="hidden" name="EMAIL" value="<?= $USER->GetEmail() ?>">
                     <? // default sub format ?>
                     <input type="hidden" name="FORMAT" value="text">

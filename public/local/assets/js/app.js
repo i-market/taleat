@@ -29,6 +29,7 @@
 
   function initComponents($scope) {
     Mockup.initComponents($scope);
+    $('form.validate', $scope).validate();
   }
 
   function updateQuery(f) {
@@ -70,7 +71,7 @@
 
   $(document).ready(function () {
 
-    $('form.validate').validate();
+    initComponents($('body'));
 
     // autofocus the first input field
     $('.default-page, .modal').find('input:text:not([placeholder]):visible:first').focus();
@@ -93,61 +94,97 @@
 
     cleanUpEditable($('.editable-area'));
 
-    (function () {
-      var $register = $('#register-modal');
+    $('section.lk').each(function () {
+      var $section = $(this);
+      init($section);
 
-      function update(html) {
-        // TODO content selector
-        var $content = $(html);//.find('.sidecenter > *:gt(1)');
-        $register.find('.modal__content').html($content);
-        return $content;
-      }
-
-      function init($content) {
-        var $form = $content.find('form');
-        $form.on('submit', function (evt) {
-          evt.preventDefault();
-          $.ajax({
-            type: $form.attr('method') || 'POST',
-            url: $form.attr('action') || '',
-            data: $form.serialize(),
-            success: function (html) {
-              var $content = update(html);
-              init($content);
-            }
+      function init($section) {
+        function initProfile($profile) {
+          $profile.find('.change-password-shortcut').on('click', function () {
+            // hack
+            $profile.find('.edit-btn').click();
+            $profile.find('.change-password').click();
           });
-        })
+          var $form = $('form', $profile);
+          $form.data('validator').settings.submitHandler = function () {
+            var formData = $form.serializeArray();
+            formData.push({name: 'mode', value: 'partner/profile'});
+            $.post('/ajax/ajax.php', formData, function (html) {
+              var $new = $(html);
+              $profile.replaceWith($new);
+              // order matters: init jquery-validate first
+              initComponents($new);
+              initProfile($new);
+            });
+          };
+        }
+        function initNewsletter($component) {
+          var $form = $('form', $component);
+          $('.toggle', $component).on('change', function () {
+            $(this).closest('form').submit();
+          });
+          function onSubmit() {
+            var formData = $form.serializeArray();
+            formData.push({name: 'mode', value: 'partner/newsletter_sub'});
+            var attempt = 0;
+            $.post('/ajax/ajax.php', formData, function cb(html) {
+              attempt += 1;
+              if (attempt > 2) return;
+              if (html === '') {
+                // bitrix:subscribe.edit component will do a (malformed) redirect
+                // and there is nothing you can do about it ¯\_(ツ)_/¯
+                return $.get('/ajax/ajax.php', {mode: 'partner/newsletter_sub'}, cb);
+              }
+              var $new = $(html);
+              $component.replaceWith($new);
+              // order matters: init jquery-validate first
+              initComponents($new);
+              initNewsletter($new);
+            });
+          }
+          if (!_.isUndefined($form.data('validator'))) {
+            $form.data('validator').settings.submitHandler = onSubmit;
+          } else {
+            $form.on('submit', function (evt) {
+              evt.preventDefault();
+              onSubmit();
+            })
+          }
+        }
+
+        $('.profile', $section).each(function () {
+          initProfile($(this));
+        });
+        $('.newsletter-sub', $section).each(function () {
+          initNewsletter($(this));
+        });
+
+        $('.nav .tab-link', $section).on('click', function (evt) {
+          evt.preventDefault();
+          var href = $(this).attr('href');
+          $.get(href, function(html) {
+            var $new = $(html);
+            $section.replaceWith($new);
+            // order matters: init jquery-validate first
+            initComponents($new);
+            init($new);
+            history.replaceState({}, '', href);
+          });
+        });
+
+        $('.brand-filter', $section).on('change', function () {
+          // TODO url
+          location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', this.value));
+        });
+        $('.wrap-documents .brand', $section).on('click', function () {
+          // TODO url
+          location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', $(this).attr('data-id')));
+        });
+        $('.helpful-information .brand', $section).on('click', function () {
+          // TODO url
+          location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', $(this).attr('data-id')));
+        });
       }
-
-      // TODO
-      $.get($register.attr('data-path'), function (html) {
-        var $content = update(html);
-        init($content);
-      });
-    })();
-
-    // partner
-
-    var $acc = $('.data-center');
-    $acc.find('.change-password-shortcut').on('click', function () {
-      // hack
-      $acc.find('.edit-btn').click();
-      $acc.find('.change-password').click();
-    });
-    $('.newsletter-sub .toggle').on('change', function () {
-      $(this).closest('form').submit();
-    });
-    $('.brand-filter').on('change', function () {
-      // TODO url
-      location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', this.value));
-    });
-    $('.wrap-documents .brand').on('click', function () {
-      // TODO url
-      location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', $(this).attr('data-id')));
-    });
-    $('.helpful-information .brand').on('click', function () {
-      // TODO url
-      location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', $(this).attr('data-id')));
     });
 
     // catalog

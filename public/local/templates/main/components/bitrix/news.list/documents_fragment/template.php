@@ -3,8 +3,19 @@
 use App\View as v;
 use Core\Util;
 ?>
+<div class="desc">
+    <? foreach ($arResult['SECTIONS'] as $section): ?>
+        <? if (!v::isEmpty($section['DESCRIPTION'])): ?>
+            <div class="editable-area desc__item">
+                <h3><?= $section['NAME'] ?></h3>
+                <?= $section['DESCRIPTION'] ?>
+            </div>
+        <? endif ?>
+    <? endforeach ?>
+</div>
 <div class="wrap-documents">
     <? foreach ($arResult['ITEMS'] as $item): ?>
+        <? $section = v::get($arResult['SECTIONS'], $item['IBLOCK_SECTION_ID']) ?>
         <? $path = $item['DISPLAY_PROPERTIES']['DOCUMENT']['FILE_VALUE']['SRC'] ?>
         <? list($_, $ext) = Util::splitFileExtension($path) ?>
         <div class="item">
@@ -12,10 +23,10 @@ use Core\Util;
                 <span class="size"><?= v::fileSize($path) ?></span>
                 <span class="name"><?= $item['NAME'] ?></span>
             </a>
-            <? if (!v::isEmpty($item['SECTION'])): ?>
+            <? if (!v::isEmpty($section)): ?>
                 <a class="brand"
-                   href="<?= '?SECTION_ID='.$item['SECTION']['ID'] ?>"
-                   data-id="<?= $item['SECTION']['ID'] ?>"><?= $item['SECTION']['NAME'] ?></a>
+                   href="<?= '?SECTION_ID='.$section['ID'] ?>"
+                   data-id="<?= $section['ID'] ?>"><?= $section['NAME'] ?></a>
             <? endif ?>
         </div>
     <? endforeach ?>

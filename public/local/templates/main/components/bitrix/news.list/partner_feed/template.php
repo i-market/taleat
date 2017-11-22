@@ -10,7 +10,9 @@ use App\View as v;
                     ?: DateTime::createFromFormat('Y.m.d', $item['CREATED_DATE'])->format($arParams['ACTIVE_DATE_FORMAT']) ?>
                 <span class="date"><?= $date ?></span>
                 <? if (!v::isEmpty($item['SECTION'])): ?>
-                    <a href="javascript:void(0)" data-id="<?= $item['SECTION']['ID'] ?>" class="brand"><?= $item['SECTION']['NAME'] ?></a>
+                    <a class="brand"
+                       href="<?= '?SECTION_ID='.$item['SECTION']['ID'] ?>"
+                       data-id="<?= $item['SECTION']['ID'] ?>"><?= $item['SECTION']['NAME'] ?></a>
                 <? endif ?>
             </p>
             <p class="text"><a href="<?= $item['DETAIL_PAGE_URL'] ?>"><?= $item['NAME'] ?></a></p>

@@ -13,8 +13,9 @@ use Core\Util;
                 <span class="name"><?= $item['NAME'] ?></span>
             </a>
             <? if (!v::isEmpty($item['SECTION'])): ?>
-                <? // TODO brand link ?>
-                <a class="brand" href="javascript:void(0)" data-id="<?= $item['SECTION']['ID'] ?>"><?= $item['SECTION']['NAME'] ?></a>
+                <a class="brand"
+                   href="<?= '?SECTION_ID='.$item['SECTION']['ID'] ?>"
+                   data-id="<?= $item['SECTION']['ID'] ?>"><?= $item['SECTION']['NAME'] ?></a>
             <? endif ?>
         </div>
     <? endforeach ?>

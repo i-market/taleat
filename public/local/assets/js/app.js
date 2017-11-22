@@ -161,37 +161,35 @@
           }
         }
 
+        function replaceSection(url) {
+          $.get(url, function(html) {
+            var $new = $(html);
+            $section.replaceWith($new);
+            // order matters: init jquery-validate first
+            initComponents($new);
+            init($new);
+            history.replaceState({}, '', url);
+          });
+        }
+
         $('.profile', $section).each(function () {
           initProfile($(this));
         });
         $('.newsletter-sub', $section).each(function () {
           initNewsletter($(this));
         });
-
         $('.nav .tab-link', $section).on('click', function (evt) {
           evt.preventDefault();
-          var href = $(this).attr('href');
-          $.get(href, function(html) {
-            var $new = $(html);
-            $section.replaceWith($new);
-            // order matters: init jquery-validate first
-            initComponents($new);
-            init($new);
-            history.replaceState({}, '', href);
-          });
+          replaceSection($(this).attr('href'));
         });
-
         $('.brand-filter', $section).on('change', function () {
-          // TODO url
-          location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', this.value));
+          var query = '?'+updateQuery(_.partialRight(_.set, 'SECTION_ID', this.value));
+          replaceSection(query);
         });
-        $('.wrap-documents .brand', $section).on('click', function () {
-          // TODO url
-          location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', $(this).attr('data-id')));
-        });
-        $('.helpful-information .brand', $section).on('click', function () {
-          // TODO url
-          location.search = updateQuery(_.partialRight(_.set, 'SECTION_ID', $(this).attr('data-id')));
+        $('.wrap-documents .brand, .helpful-information .brand', $section).on('click', function (evt) {
+          evt.preventDefault();
+          var query = '?'+updateQuery(_.partialRight(_.set, 'SECTION_ID', $(this).attr('data-id')));
+          replaceSection(query);
         });
       }
     });

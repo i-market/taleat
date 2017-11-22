@@ -10,19 +10,21 @@ class Auth {
 
     static function restrictAccess() {
         global $APPLICATION, $USER;
-        $bypass = function () use (&$USER) {
-            return $USER->IsAdmin();
-        };
+        if ($USER->IsAdmin()) {
+            return;
+        }
         $dir = $APPLICATION->GetCurDir();
-        $authDir = '/partneram/auth/';
-        if (str::startsWith($dir, '/partneram/') && $dir !== $authDir) {
-            $isPartner =
-                $USER->IsAuthorized()
-                && in_array(self::PARTNER_GROUP, CUser::GetUserGroup($USER->GetID()));
-            if (!($isPartner || $bypass())) {
-                // TODO backurl?
-                // TODO bx-auth-note
-                LocalRedirect($authDir);
+        if (str::startsWith($dir, '/partneram/')) {
+            if (!$USER->IsAuthorized()) {
+                $APPLICATION->AuthForm('');
+            } else {
+                $isPartner = in_array(self::PARTNER_GROUP, CUser::GetUserGroup($USER->GetID()));
+                if (!$isPartner) {
+                    $APPLICATION->AuthForm([
+                        'TYPE' => 'ERROR',
+                        'MESSAGE' => 'Ваш аккаунт еще не подтвержден администратором'
+                    ]);
+                }
             }
         }
     }

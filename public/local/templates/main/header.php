@@ -10,8 +10,6 @@ use Bitrix\Main\Page\Asset;
 use App\View as v;
 use App\Layout;
 
-// TODO move out of the template
-Auth::restrictAccess();
 App::getInstance()->assert(!($_REQUEST["auth"]=="Войти"), 'legacy');
 App::getInstance()->assert(!isset($_POST["AUTH_FORM_PARTNER"]), 'legacy');
 
@@ -90,7 +88,7 @@ if (App::useBitrixAsset()) {
                     <ul>
                         <li><a href="#">Оплата и доставка</a></li>
                         <li><a href="/partneram/">Партнёрам</a></li>
-                        <li><a href="#">Новости</a></li>
+                        <li><a href="/news/">Новости</a></li>
                         <li><a href="#">Отзывы</a></li>
                         <li><a href="#">Контакты</a></li>
                         <li><a href="#">Полезное</a></li>
@@ -151,3 +149,6 @@ if (App::useBitrixAsset()) {
     <? v::showForLayout('homepage', function () { ?>
         <? Layout::showMegaMenu() ?>
     <? }) ?>
+
+    <? // important ?>
+    <? Auth::restrictAccess() ?>

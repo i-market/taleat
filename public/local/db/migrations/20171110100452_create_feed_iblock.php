@@ -36,6 +36,10 @@ class CreateFeedIblock extends AbstractMigration {
             if ($iblockId === false) {
                 throw new \Exception($iblock->LAST_ERROR);
             }
+            $fields = CIBlock::GetFields($iblockId);
+            $fields['ACTIVE_FROM']['IS_REQUIRED'] = 'Y';
+            $fields['ACTIVE_FROM']['DEFAULT_VALUE'] = '=now';
+            CIBlock::SetFields($iblockId, $fields);
             $conn->commitTransaction();
         } catch (Exception $e) {
             $conn->rollbackTransaction();

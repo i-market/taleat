@@ -22,7 +22,7 @@ $tabs = [
     ['id' => 'documents', 'name' => 'Необходимые документы'],
 ];
 if (!in_array($activeTab, _::pluck($tabs, 'id'))) {
-    LocalRedirect('/404.php'); // TODO idiomatic 404?
+    LocalRedirect('/404.php');
 }
 ?>
 <section class="lk">

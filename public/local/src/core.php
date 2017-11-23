@@ -222,6 +222,11 @@ class Underscore extends ArraysMethods {
         });
     }
 
+    /** @deprecated use array_replace_recursive */
+    static function merge(...$args) {
+        return array_replace_recursive(...$args);
+    }
+
     // TODO refactor: unwrap
     static function identity() {
         return function($x) {
@@ -451,6 +456,10 @@ class View {
             || $x === false
             || (is_array($x) && _::isEmpty($x))
             || (is_string($x) && Strings::isEmpty($x));
+    }
+
+    static function escAttr($str) {
+        return htmlspecialchars($str, ENT_QUOTES);
     }
     
     static function upper($str) {

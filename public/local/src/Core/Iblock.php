@@ -7,6 +7,7 @@ use CIBlockResult;
 
 class Iblock {
     // TODO not iblock specific
+    // TODO implement Countable
     static function iter(CDBResult $result) {
         while($x = $result->GetNext()) {
             yield $x;

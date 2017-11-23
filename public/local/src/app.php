@@ -35,6 +35,7 @@ class App extends \Core\App {
     }
 
     function layoutContext() {
+        global $APPLICATION;
         // TODO memoize
         // TODO refactor deps: see usages
         $sentryConfig = _::get(Configuration::getValue('app'), 'sentry');
@@ -49,7 +50,12 @@ class App extends \Core\App {
                 'enabled' => $sentryConfig['enabled'],
                 'env' => self::env(),
                 'publicDsn' => $sentryConfig['public_dsn']
-            ]
+            ],
+            'showBodyClass' => function () use (&$APPLICATION) {
+                $APPLICATION->AddBufferContent(function () use (&$APPLICATION) {
+                    return $APPLICATION->GetProperty('body_class', '');
+                });
+            }
         ];
     }
 
@@ -101,6 +107,11 @@ class Events {
 
 class Iblock extends \Core\Iblock {
     const CHECKBOX_TRUE_VALUE = 'да';
+
+    /** Региональные сервис-центры BRAUN */
+    const REGION_TYPE = 'region';
+    /** технические заключения */
+    const REPORTS_ID = 10;
 
     const CONTENT_TYPE = 'content';
     const CLIENTS = 'clients';

@@ -1,6 +1,7 @@
 <?
 use App\Iblock;
 use Bex\Tools\Iblock\IblockTools;
+use App\View as v;
 
 global $APPLICATION;
 ?>
@@ -17,7 +18,7 @@ global $APPLICATION;
     </div>
     <div class="tabs-inner">
         <div class="required-documents">
-            <a class="TODO-mockup download-btn download-btn--small" href="#">Техническое заключение<span>BABYLISS</span></a>
+            <a class="download-btn download-btn--small" href="<?= v::path('partneram/reports') ?>">Техническое заключение<span>BABYLISS</span></a>
             <? $APPLICATION->IncludeComponent(
                 "bitrix:news.list",
                 "documents_fragment",

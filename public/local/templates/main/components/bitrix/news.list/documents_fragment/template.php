@@ -7,7 +7,9 @@ use Core\Util;
     <? foreach ($arResult['SECTIONS'] as $section): ?>
         <? if (!v::isEmpty($section['DESCRIPTION'])): ?>
             <div class="editable-area desc__item">
-                <h3><?= $section['NAME'] ?></h3>
+                <? if (count($arResult['SECTIONS']) > 1): ?>
+                    <h3><?= $section['NAME'] ?></h3>
+                <? endif ?>
                 <?= $section['DESCRIPTION'] ?>
             </div>
         <? endif ?>

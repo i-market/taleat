@@ -52,7 +52,7 @@ if (App::useBitrixAsset()) {
     </style>
     <![endif]-->
 </head>
-<body data-anchor="top">
+<body data-anchor="top" class="<? $showBodyClass() ?>">
 <? $APPLICATION->ShowPanel() ?>
 <div id="global-loader">Загрузка...</div>
 <header class="header">

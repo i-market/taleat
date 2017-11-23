@@ -161,7 +161,8 @@
           }
         }
 
-        function replaceSection(url) {
+        function replaceSection(url, cb) {
+          cb = cb || _.noop;
           $.get(url, function(html) {
             var $new = $(html);
 
@@ -173,6 +174,7 @@
             // order matters: init jquery-validate first
             initComponents($new);
             init($new);
+            cb();
             history.replaceState({}, '', url);
           });
         }
@@ -187,6 +189,12 @@
         $('.nav .tab-link', $section).on('click', function (evt) {
           evt.preventDefault();
           replaceSection($(this).attr('href'));
+        });
+        $('.paginator a', $section).on('click', function (evt) {
+          evt.preventDefault();
+          replaceSection($(this).attr('href'), function () {
+            window.scrollTo(0, 0);
+          });
         });
         $('.brand-filter', $section).on('change', function () {
           var query = '?'+updateQuery(_.partialRight(_.set, 'SECTION_ID', this.value));

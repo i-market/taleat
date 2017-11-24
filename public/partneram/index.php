@@ -54,7 +54,8 @@ if (!in_array($activeTab, _::pluck($tabs, 'id'))) {
                     break;
                 case 'feed':
                     $sections = iter\toArray(Iblock::iter(CIBlockSection::GetList([], [
-                        'IBLOCK_ID' => IblockTools::find(Iblock::PARTNER_TYPE, Iblock::FEED)->id()
+                        'IBLOCK_ID' => IblockTools::find(Iblock::PARTNER_TYPE, Iblock::FEED)->id(),
+                        'ACTIVE' => 'Y'
                     ])));
                     v::render('partials/partner/feed.php', [
                         'sectionId' => v::get($_REQUEST, 'SECTION_ID'),
@@ -65,7 +66,8 @@ if (!in_array($activeTab, _::pluck($tabs, 'id'))) {
                     break;
                 case 'documents':
                     $sections = iter\toArray(Iblock::iter(CIBlockSection::GetList([], [
-                        'IBLOCK_ID' => IblockTools::find(Iblock::PARTNER_TYPE, Iblock::DOCUMENTS)->id()
+                        'IBLOCK_ID' => IblockTools::find(Iblock::PARTNER_TYPE, Iblock::DOCUMENTS)->id(),
+                        'ACTIVE' => 'Y'
                     ])));
                     v::render('partials/partner/documents.php', [
                         'sectionId' => v::get($_REQUEST, 'SECTION_ID'),

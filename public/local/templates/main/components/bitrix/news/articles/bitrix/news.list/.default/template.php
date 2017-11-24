@@ -16,7 +16,7 @@ use App\View as v;
                 <? $hasPic = is_array($item['PREVIEW_PICTURE']) ?>
                 <div class="col col-2">
                     <? if ($idx === 0): ?>
-                        <div class="first-new">
+                        <div class="first-new <?= !$hasImg ? 'first-new--without-img' : '' ?>">
                             <? if ($hasPic): ?>
                                 <div class="img">
                                     <img src="<?= $item['PREVIEW_PICTURE']['SRC'] ?>" alt="<?= $item['PREVIEW_PICTURE']['ALT'] ?>">

@@ -3,6 +3,7 @@
 use App\App;
 use App\View as v;
 use App\Layout;
+use Core\Env;
 
 extract(App::getInstance()->layoutContext(), EXTR_SKIP);
 
@@ -72,6 +73,15 @@ if ($isAjax) {
     <? foreach (App::assets()['scripts'] as $path): ?>
         <script src="<?= $path ?>"></script>
     <? endforeach ?>
+<? endif ?>
+<? if (App::env() === Env::DEV): ?>
+    <script>
+      $('img').one('error', function () {
+        console.error('using placeholder img for:', this);
+        // quickfix for the missing images
+        this.src = '/content-examples/placeholder.png';
+      });
+    </script>
 <? endif ?>
 </body>
 </html>

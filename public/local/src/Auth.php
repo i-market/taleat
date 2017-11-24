@@ -8,6 +8,10 @@ use CUser;
 class Auth {
     const PARTNER_GROUP = 9;
 
+    static function isPartner(CUser $user) {
+        return $user->IsAuthorized() && in_array(self::PARTNER_GROUP, CUser::GetUserGroup($user->GetID()));
+    }
+
     static function restrictAccess() {
         global $APPLICATION, $USER;
         if ($USER->IsAdmin()) {
@@ -18,8 +22,7 @@ class Auth {
             if (!$USER->IsAuthorized()) {
                 $APPLICATION->AuthForm('');
             } else {
-                $isPartner = in_array(self::PARTNER_GROUP, CUser::GetUserGroup($USER->GetID()));
-                if (!$isPartner) {
+                if (!self::isPartner($USER)) {
                     $APPLICATION->AuthForm([
                         'TYPE' => 'ERROR',
                         'MESSAGE' => 'Ваш аккаунт еще не подтвержден администратором'

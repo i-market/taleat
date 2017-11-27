@@ -26,7 +26,7 @@ class CreateFeedIblock extends AbstractMigration {
                 'CODE' => static::$data['CODE'],
                 'IBLOCK_TYPE_ID' => static::$data['TYPE'],
 
-                'GROUP_ID' => ['9' => 'R'], // partners
+                'GROUP_ID' => ['2' => 'R'],
                 'INDEX_ELEMENT' => 'Y',
                 'INDEX_SECTION' => 'N',
 

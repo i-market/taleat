@@ -34,10 +34,8 @@ class Util {
     }
 
     static function formInputNamePath($name) {
-        // remove empty strings
-        return _::clean(array_map(function($segment) {
-            return trim($segment, ']');
-        }, explode('[', $name)));
+        $segments = array_map(_::partialRight('trim', ']'), explode('[', $name));
+        return array_filter($segments, _::negate([str::class, 'isEmpty']));
     }
 
     static function humanFileSize($size, $_opts = []) {

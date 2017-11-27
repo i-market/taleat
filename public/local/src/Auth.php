@@ -6,6 +6,8 @@ use Core\Strings as str;
 use CUser;
 
 class Auth {
+    /** sentinel value */
+    const LOGIN_EQ_EMAIL = 'b96c3bbff883a82d6199f59ebcaaa601';
     const PARTNER_GROUP = 9;
 
     static function isPartner(CUser $user) {
@@ -25,7 +27,7 @@ class Auth {
                 if (!self::isPartner($USER)) {
                     $APPLICATION->AuthForm([
                         'TYPE' => 'ERROR',
-                        'MESSAGE' => 'Ваш аккаунт еще не подтвержден администратором'
+                        'MESSAGE' => 'Ваш партнерский аккаунт еще не подтвержден администратором'
                     ]);
                 }
             }

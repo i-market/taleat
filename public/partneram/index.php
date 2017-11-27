@@ -34,12 +34,10 @@ if (!in_array($activeTab, _::pluck($tabs, 'id'))) {
         </div>
     </div>
     <div class="wrap">
-        <div class="tab_links finger-block nav" role="tablist">
+        <div class="tab_links finger-block nav">
             <? foreach ($tabs as $tab): ?>
-                <a data-toggle="tab"
-                   href="<?= v::path('partneram/'.$tab['id']) ?>"
-                   class="tab-link <?= $tab['id'] === $activeTab ? 'active' : '' ?>"
-                   role="tab"><?= $tab['name'] ?></a>
+                <a href="<?= v::path('partneram/'.$tab['id']) ?>"
+                   class="tab-link <?= $tab['id'] === $activeTab ? 'active' : '' ?>"><?= $tab['name'] ?></a>
             <? endforeach ?>
             <span class="finger"></span>
         </div>

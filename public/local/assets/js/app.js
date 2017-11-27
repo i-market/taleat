@@ -2,7 +2,6 @@
   // see npm `build:modules` script
   var queryString = modules['querystring'];
 
-  // TODO better browser support
   if (!window.history) {
     // noinspection JSValidateTypes
     window.history = {
@@ -32,13 +31,38 @@
   });
 
   $.validator.setDefaults({
-    // TODO don't ignore our fancy hidden checkboxes
     ignore: ':hidden'
   });
 
   function initComponents($scope) {
     Mockup.initComponents($scope);
     $('form.validate', $scope).validate();
+
+    // tabs
+    $('[data-tab]').on('click', function () {
+      var $trigger = $(this);
+      var $tabs = $(this).siblings('[data-tab]').addBack();
+      var $target = $('#' + $(this).attr('data-tab'));
+      var $panes = $target.siblings('.tab-pane').addBack();
+      $tabs.each(function () {
+        $(this).toggleClass('active', $(this).is($trigger));
+      });
+      $panes.each(function () {
+        $(this).toggleClass('active', $(this).is($target));
+      });
+    });
+  }
+
+  function replaceElement($elem, url, init) {
+    init = init || _.noop;
+    $.get(url, function(html) {
+      var $new = $(html);
+      $elem.replaceWith($new);
+      // order matters: init jquery-validate first
+      initComponents($new);
+      init($new);
+      history.replaceState({}, '', url);
+    });
   }
 
   function updateQuery(f) {
@@ -80,7 +104,7 @@
 
   $(document).ready(function () {
 
-    initComponents($('body'));
+    initComponents($(document));
 
     // autofocus the first input field
     $('.default-page, .modal').find('input:text:not([placeholder]):visible:first').focus();
@@ -102,6 +126,19 @@
       });
 
     cleanUpEditable($('.editable-area'));
+
+    $('.signup-form').each(function () {
+      function init($component) {
+        $('.tab-link', $component).on('click', function (evt) {
+          evt.preventDefault();
+          replaceElement($component, $(this).attr('href'), init);
+        });
+      }
+
+      init($(this));
+    });
+
+    // partner
 
     $('section.lk').each(function () {
       var $section = $(this);

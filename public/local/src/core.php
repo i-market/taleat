@@ -324,7 +324,7 @@ class Underscore extends ArraysMethods {
         return parent::initial($array, $to);
     }
 
-    /** @deprecated use array_map */
+    /** @deprecated use array_map(null, ...) */
     static function zip(array ...$arrays) {
         return array_map(null, ...$arrays);
     }

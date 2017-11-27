@@ -13,7 +13,7 @@ class EventHandlers {
     }
 
     static function onBeforeUserRegister(&$fieldsRef) {
-        if (!isset($fieldsRef['LOGIN'])) {
+        if (!isset($fieldsRef['LOGIN']) || $fieldsRef['LOGIN'] === Auth::LOGIN_EQ_EMAIL) {
             // email as login
             $fieldsRef['LOGIN'] = $fieldsRef['EMAIL'];
         }

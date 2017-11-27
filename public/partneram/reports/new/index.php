@@ -7,6 +7,14 @@ $APPLICATION->SetPageProperty('body_class', 'bg');
 use App\Layout;
 use App\View as v;
 use App\Report;
+
+$result = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $result = Report::submit($_REQUEST);
+    if ($result['success']) {
+        LocalRedirect(v::path('partneram/reports'));
+    }
+}
 ?>
 
 <div class="wrap">
@@ -21,7 +29,7 @@ use App\Report;
 </section>
 <section class="technical-conclusion">
     <div class="wrap">
-        <?= v::render('partials/partner/reports/form.php', Report::context($_REQUEST)) ?>
+        <?= v::render('partials/partner/reports/form.php', Report::context($_REQUEST, $result)) ?>
     </div>
 </section>
 

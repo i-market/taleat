@@ -4,12 +4,20 @@ use Core\Util;
 ?>
 
 <? $placeholderOpt = '<option value="" hidden>Выбрать...</option>' ?>
+<? $datePlaceholder = '01.01.'.date('Y') ?>
 
-<? // TODO inputs masks ?>
+<? // TODO validate everything ?>
 <? // TODO validate required checkboxes, radios ?>
+
+<? // TODO input masks ?>
 <? // TODO hidden inputs ?>
-<? // TODO date placeholders ?>
-<form action="" method="post" id="" class="validate technical-conclusion-form">
+<form action="" method="post" id="" novalidate<?/* <- TODO*/?> class="TODO_validate form technical-conclusion-form">
+    <? $message = v::get($result, 'message') ?>
+    <? if (!v::isEmpty($message)): ?>
+        <div class="form__message <?= v::get($message, 'type') === 'error' ? 'form__message--error' : '' ?>">
+            <?= $message['text'] ?>
+        </div>
+    <? endif ?>
     <? $sc = v::get($fields, 'SC') ?>
     <div class="item">
         <div class="left">Выдано сервисным центром:</div>
@@ -20,7 +28,7 @@ use Core\Util;
     <div class="item">
         <div class="left">Дата выдачи заключения:</div>
         <div class="right">
-            <input name="SC[DATA_ZAKL]" value="<?= v::get($sc, 'DATA_ZAKL') ?>" required type="text" class="input">
+            <input name="SC[DATA_ZAKL]" value="<?= v::get($sc, 'DATA_ZAKL') ?>" required type="text" class="input" placeholder="<?= $datePlaceholder ?>">
         </div>
     </div>
     <div class="item">
@@ -65,28 +73,30 @@ use Core\Util;
     <h3>II. Данные об изделии</h3>
     <? $product = v::get($fields, 'IZDEL') ?>
     <? $productId = v::get($product, 'NAME') ?>
-    <div class="item">
-        <div class="left">Наименование:</div>
-        <div class="right">
-            <select name="IZDEL[NAME]" required>
-                <?= $placeholderOpt ?>
-                <? foreach ($products as $p): ?>
-                    <? $selected = $p['ID'] == $productId ?>
-                    <option value="<?= $p['ID'] ?>" <?= $selected ? 'selected' : '' ?>><?= $p['NAME'] ?></option>
-                <? endforeach ?>
-            </select>
+    <div class="model-dependencies">
+        <div class="item">
+            <div class="left">Наименование:</div>
+            <div class="right">
+                <select name="IZDEL[NAME]" class="product-name" required>
+                    <?= $placeholderOpt ?>
+                    <? foreach ($products as $p): ?>
+                        <? $selected = $p['ID'] == $productId ?>
+                        <option value="<?= $p['ID'] ?>" <?= $selected ? 'selected' : '' ?>><?= $p['NAME'] ?></option>
+                    <? endforeach ?>
+                </select>
+            </div>
         </div>
-    </div>
-    <div class="item">
-        <div class="left">Модель:</div>
-        <div class="right">
-            <select name="IZDEL[MODEL]" required <?= v::isEmpty($models) ? 'disabled' : '' ?>>
-                <?= $placeholderOpt ?>
-                <? foreach ($models as $m): ?>
-                    <? $selected = $m['VALUE'] == v::get($product, 'MODEL') ?>
-                    <option value="<?= $m['VALUE'] ?>" <?= $selected ? 'selected' : '' ?>><?= $m['VALUE_ENUM'] ?></option>
-                <? endforeach ?>
-            </select>
+        <div class="item">
+            <div class="left">Модель:</div>
+            <div class="right">
+                <select name="IZDEL[MODEL]" required <?= v::isEmpty($models) ? 'disabled' : '' ?>>
+                    <?= $placeholderOpt ?>
+                    <? foreach ($models as $m): ?>
+                        <? $selected = $m['VALUE'] == v::get($product, 'MODEL') ?>
+                        <option value="<?= $m['VALUE'] ?>" <?= $selected ? 'selected' : '' ?>><?= $m['VALUE_ENUM'] ?></option>
+                    <? endforeach ?>
+                </select>
+            </div>
         </div>
     </div>
     <div class="item">
@@ -104,7 +114,7 @@ use Core\Util;
     <div class="item">
         <div class="left">Дата продажи:</div>
         <div class="right">
-            <input name="IZDEL[DATA_PRODAJI]" value="<?= v::get($product, 'DATA_PRODAJI') ?>" type="text" class="input">
+            <input name="IZDEL[DATA_PRODAJI]" value="<?= v::get($product, 'DATA_PRODAJI') ?>" type="text" class="input" placeholder="<?= $datePlaceholder ?>">
         </div>
     </div>
     <div class="item item--col">
@@ -133,7 +143,7 @@ use Core\Util;
     <div class="item">
         <div class="left">Дата поступления в сервисный центр:</div>
         <div class="right">
-            <input name="IZDEL[DATA_POSTUP]" value="<?= v::get($product, 'DATA_POSTUP') ?>" required type="text" class="input">
+            <input name="IZDEL[DATA_POSTUP]" value="<?= v::get($product, 'DATA_POSTUP') ?>" required type="text" class="input" placeholder="<?= $datePlaceholder ?>">
         </div>
     </div>
     <div class="item">
@@ -171,95 +181,58 @@ use Core\Util;
                 <? $checked = v::get($data, 'DEFEKT') == $id ?>
                 <? $elemId = 'defect-'.Util::uniqueId(); ?>
                 <div class="wrap-radio">
-                    <input type="radio" name="DAN[DEFEKT]" value="<?= $id ?>" required id="<?= $elemId ?>" hidden="hidden" <?= $checked ? 'checked' : '' ?>>
+                    <input class="defect" type="radio" name="DAN[DEFEKT]" value="<?= $id ?>" required id="<?= $elemId ?>" hidden="hidden" <?= $checked ? 'checked' : '' ?>>
                     <label for="<?= $elemId ?>"><?= $name ?></label>
                 </div>
             <? endforeach ?>
-            <div class="label_textarea">
+            <div class="defect-description label_textarea">
                 <textarea name="DAN[DEFEKT3_DESCR]" <?= !$hasDefectDescription ? 'disabled' : '' ?>><?= v::get($data, 'DEFEKT3_DESCR') ?></textarea>
             </div>
         </div>
     </div>
 
-    <? // TODO waiting for requirements ?>
-    <div class="TODO-mockup" style="display: none">
-        <p class="text">Запчасти, необходимые для восстановления:</p>
-        <? // TODO see legacy, unused? research $zap business logic ?>
-        <div class="parts-in-stock">
-            <div class="parts-in-stock-item hidden">
-                <div class="wrap-stock-input">
-                    <div class="wrap-stock-item">
-                        <p class="text center">Название запчасти</p>
-                    </div>
-                    <div class="wrap-stock-item">
-                        <p class="text center">Артикул</p>
-                    </div>
+    <p class="text">Запчасти, необходимые для восстановления:</p>
+    <? $parts = v::get($fields, 'ZAP', []) ?>
+    <input type="hidden" name="ZAP_COUNT" value="<?= count($parts) ?: 3 ?>" />
+    <div class="parts-in-stock">
+        <div class="parts-in-stock-item hidden">
+            <div class="wrap-stock-input">
+                <div class="wrap-stock-item">
+                    <p class="text center">Название запчасти</p>
                 </div>
-                <div class="stock">
-                    <p class="text center">Наличие на складе</p>
+                <div class="wrap-stock-item">
+                    <p class="text center">Артикул</p>
                 </div>
             </div>
-            <div class="parts-in-stock-item">
-                <div class="wrap-stock-input">
-                    <div class="wrap-stock-item">
-                        <input type="text" disabled placeholder="Не заполнять!" class="input">
-                    </div>
-                    <div class="wrap-stock-item">
-                        <input type="text" disabled placeholder="Не заполнять!" class="input">
-                    </div>
-                </div>
-                <div class="stock">
-                    <div class="wrap-radio">
-                        <input type="radio" name="family-2" id="1123" hidden="hidden">
-                        <label for="1123">Да</label>
-                    </div>
-                    <div class="wrap-radio">
-                        <input type="radio" name="family-2" id="12234" hidden="hidden" checked>
-                        <label for="12234">Нет</label>
-                    </div>
-                </div>
-            </div>
-            <div class="parts-in-stock-item">
-                <div class="wrap-stock-input">
-                    <div class="wrap-stock-item">
-                        <input type="text" disabled placeholder="Не заполнять!" class="input">
-                    </div>
-                    <div class="wrap-stock-item">
-                        <input type="text" disabled placeholder="Не заполнять!" class="input">
-                    </div>
-                </div>
-                <div class="stock">
-                    <div class="wrap-radio">
-                        <input type="radio" name="family-4" id="15223" hidden="hidden">
-                        <label for="15223">Да</label>
-                    </div>
-                    <div class="wrap-radio">
-                        <input type="radio" name="family-4" id="234234" hidden="hidden" checked>
-                        <label for="234234">Нет</label>
-                    </div>
-                </div>
-            </div>
-            <div class="parts-in-stock-item">
-                <div class="wrap-stock-input">
-                    <div class="wrap-stock-item">
-                        <input type="text" disabled placeholder="Не заполнять!" class="input">
-                    </div>
-                    <div class="wrap-stock-item">
-                        <input type="text" disabled placeholder="Не заполнять!" class="input">
-                    </div>
-                </div>
-                <div class="stock">
-                    <div class="wrap-radio">
-                        <input type="radio" name="family-5" id="67" hidden="hidden">
-                        <label for="67">Да</label>
-                    </div>
-                    <div class="wrap-radio">
-                        <input type="radio" name="family-5" id="68" hidden="hidden" checked>
-                        <label for="68">Нет</label>
-                    </div>
-                </div>
+            <div class="stock">
+                <p class="text center">Наличие на складе</p>
             </div>
         </div>
+        <? foreach (range(0, 2) as $idx): ?>
+            <div class="parts-in-stock-item">
+                <div class="wrap-stock-input">
+                    <div class="wrap-stock-item">
+                        <input name="<?= "ZAP[{$idx}][NAME]" ?>" value="<?= v::get($parts, [$idx, 'NAME']) ?>" disabled="" placeholder="Не заполнять!" type="text" class="input" />
+                    </div>
+                    <div class="wrap-stock-item">
+                        <input name="<?= "ZAP[{$idx}][ART]" ?>" value="<?= v::get($parts, [$idx, 'ART']) ?>" disabled="" placeholder="Не заполнять!" type="text" class="input" />
+                    </div>
+                </div>
+                <div class="stock">
+                    <div class="wrap-radio">
+                        <? $value = v::get($parts, [$idx, 'SKLAD']) ?>
+                        <? $id = 'parts-'.Util::uniqueId() ?>
+                        <input type="radio" name="<?= "ZAP[{$idx}][SKLAD]" ?>" value="1" disabled="" id="<?= $id ?>" hidden="hidden" <?= $value == 1 ? 'checked' : '' ?>>
+                        <label for="<?= $id ?>">Да</label>
+                    </div>
+                    <div class="wrap-radio">
+                        <? $id = 'parts-'.Util::uniqueId() ?>
+                        <input type="radio" name="<?= "ZAP[{$idx}][SKLAD]" ?>" value="0" disabled="" id="<?= $id ?>" hidden="hidden" <?= $value == 0 ? 'checked' : '' ?>>
+                        <label for="<?= $id ?>">Нет</label>
+                    </div>
+                </div>
+            </div>
+        <? endforeach ?>
     </div>
 
     <h3>IV. Причина невозможности ремонта</h3>
@@ -284,9 +257,9 @@ use Core\Util;
 
     <? // TODO validate: require file ?>
     <h3>Прикрепить скан гарантийного талона или чека</h3>
-    <div class="wrap-file"><input type="file"></div>
-    <div class="wrap-file"><input type="file"></div>
-    <div class="wrap-file"><input type="file"></div>
+    <div class="wrap-file"><input type="file" name="img1" accept="image/*"></div>
+    <div class="wrap-file"><input type="file" name="img2" accept="image/*"></div>
+    <div class="wrap-file"><input type="file" name="img3" accept="image/*"></div>
     <div class="bottom">
         <p class="text"><b>Все поля обязательны для заполнения</b></p>
         <button type="submit" class="btn">Отправить заключение</button>

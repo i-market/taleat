@@ -36,7 +36,15 @@
 
   function initComponents($scope) {
     Mockup.initComponents($scope);
-    $('form.validate', $scope).validate();
+    $('form.validate', $scope).validate({
+      errorPlacement: function(error, element) {
+        if (element.hasClass('fs-dropdown-element')) {
+          error.insertAfter(element.siblings('.fs-dropdown-selected'));
+        } else {
+          error.insertAfter(element);
+        }
+      }
+    });
 
     // tabs
     $('[data-tab]').on('click', function () {
@@ -243,6 +251,37 @@
           replaceSection(query);
         });
       }
+    });
+
+    // partner report
+
+    $('.technical-conclusion-form').each(function () {
+      var $form = $(this);
+
+      (function () {
+        // model deps
+        function init($deps) {
+          $('.product-name', $deps).on('change', function () {
+            $.get('', $form.serializeArray(), function (html) {
+              var $new = $(html).find('.model-dependencies');
+              $deps.replaceWith($new);
+              initComponents($new);
+              init($new);
+            });
+          });
+        }
+        $('.model-dependencies', $form).each(function () {
+          init($(this));
+        });
+      })();
+
+      // defect description
+      $('.defect', $form).on('change', function () {
+        $.get('', $form.serializeArray(), function (html) {
+          var $new = $(html).find('.defect-description');
+          $('.defect-description', $form).replaceWith($new);
+        });
+      });
     });
 
     // catalog

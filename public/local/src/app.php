@@ -3,6 +3,7 @@
 namespace App;
 
 use Bitrix\Main\Application;
+use Bitrix\Main\Config\Option;
 use Bitrix\Main\Loader;
 use Core\Env;
 use Core\NewsListLike;
@@ -88,6 +89,13 @@ class View extends \Core\View {
 
     static function render($path, $data = [], $opts = []) {
         return parent::render(Util::joinPath([$_SERVER['DOCUMENT_ROOT'], SITE_TEMPLATE_PATH, $path]), $data, $opts);
+    }
+
+    static function genericErrorMessageHtml() {
+        return self::render('partials/generic_error.php', [
+            'reported' => _::get(Configuration::getValue('app'), 'sentry.enabled', false),
+            'email' => Option::get('main', 'email_from', null)
+        ]);
     }
 
     static function fileSize($path) {

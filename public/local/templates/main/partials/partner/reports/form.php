@@ -10,8 +10,7 @@ use Core\Util;
 <? // TODO validate required checkboxes, radios ?>
 
 <? // TODO input masks ?>
-<? // TODO hidden inputs ?>
-<form action="" method="post" id="" novalidate<?/* <- TODO*/?> class="TODO_validate form technical-conclusion-form">
+<form action="" method="post" class="validate form technical-conclusion-form">
     <? $message = v::get($result, 'message') ?>
     <? if (!v::isEmpty($message)): ?>
         <div class="form__message <?= v::get($message, 'type') === 'error' ? 'form__message--error' : '' ?>">
@@ -130,6 +129,7 @@ use Core\Util;
                             <input type="checkbox"
                                    name="IZDEL[KOMPLEKT][]"
                                    value="<?= $comp['ID'] ?>"
+                                   required
                                    <?= $checked ? 'checked' : '' ?>
                                    id="<?= $id ?>"
                                    hidden="hidden">

@@ -31,22 +31,34 @@
   });
 
   $.validator.setDefaults({
-    ignore: ':hidden'
+    ignore: ':hidden:parent:not(.wrap-radio)',
+    errorPlacement: function($error, $el) {
+      if ($el.closest('.right .grid').length) {
+        return $error.insertAfter($el.closest('.right .grid'));
+      }
+
+      if (_.includes(['radio', 'checkbox'], $el.attr('type'))) {
+        var name = $el.attr('name');
+        if (name) {
+          // mutate. for a group of radios/checkboxes target the last one.
+          $el = $('[name="'+name+'"]:last');
+        }
+      }
+
+      if ($el.hasClass('fs-dropdown-element')) {
+        $error.insertAfter($el.siblings('.fs-dropdown-selected'));
+      } else if ($el.parent().is('.wrap-radio, .wrap-checkbox')) {
+        $error.insertAfter($el.parent());
+      } else {
+        $error.insertAfter($el);
+      }
+    }
   });
 
   function initComponents($scope) {
     Mockup.initComponents($scope);
-    $('form.validate', $scope).validate({
-      errorPlacement: function(error, element) {
-        if (element.hasClass('fs-dropdown-element')) {
-          error.insertAfter(element.siblings('.fs-dropdown-selected'));
-        } else {
-          error.insertAfter(element);
-        }
-      }
-    });
+    $('form.validate', $scope).validate();
 
-    // tabs
     $('[data-tab]').on('click', function () {
       var $trigger = $(this);
       var $tabs = $(this).siblings('[data-tab]').addBack();
@@ -113,9 +125,6 @@
   $(document).ready(function () {
 
     initComponents($(document));
-
-    // autofocus the first input field
-    $('.default-page, .modal').find('input:text:not([placeholder]):visible:first').focus();
 
     var $globalLoader = $('#global-loader');
     var delay = 200; // ms
@@ -186,7 +195,6 @@
               if (attempt > 2) return;
               if (html === '') {
                 // bitrix:subscribe.edit component will do a (malformed) redirect
-                // and there is nothing you can do about it ¯\_(ツ)_/¯
                 return $.get('/ajax/ajax.php', {mode: 'partner/newsletter_sub'}, cb);
               }
               var $new = $(html);
@@ -211,7 +219,6 @@
           $.get(url, function(html) {
             var $new = $(html);
 
-            // keep scroll position
             var x = $('.nav', $section).scrollLeft();
             $section.replaceWith($new);
             $('.nav', $new).scrollLeft(x);
@@ -259,7 +266,6 @@
       var $form = $(this);
 
       (function () {
-        // model deps
         function init($deps) {
           $('.product-name', $deps).on('change', function () {
             $.get('', $form.serializeArray(), function (html) {
@@ -275,7 +281,6 @@
         });
       })();
 
-      // defect description
       $('.defect', $form).on('change', function () {
         $.get('', $form.serializeArray(), function (html) {
           var $new = $(html).find('.defect-description');

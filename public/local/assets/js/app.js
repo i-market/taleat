@@ -47,7 +47,7 @@
 
       if ($el.hasClass('fs-dropdown-element')) {
         $error.insertAfter($el.siblings('.fs-dropdown-selected'));
-      } else if ($el.parent().is('.wrap-radio, .wrap-checkbox')) {
+      } else if ($el.parent().is('.wrap-radio, .wrap-checkbox, .label_textarea')) {
         $error.insertAfter($el.parent());
       } else {
         $error.insertAfter($el);

@@ -1,6 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Новое техническое заключение");
+$APPLICATION->SetTitle("Редактирование");
 $APPLICATION->SetPageProperty('layout', 'bare');
 $APPLICATION->SetPageProperty('body_class', 'bg');
 
@@ -8,13 +8,21 @@ use App\Layout;
 use App\View as v;
 use App\Report;
 
+if (!isset($_REQUEST['id'])) {
+    LocalRedirect('/404.php');
+}
 $result = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $result = Report::create($_REQUEST);
+    $result = Report::update($_REQUEST);
     if ($result['success']) {
         LocalRedirect(v::path('partneram/reports'));
     }
 }
+$element = Report::element($_REQUEST['id']);
+$context = Report::context(Report::elementFields($element), $_REQUEST, $result, [
+    'mode' => 'edit',
+    'element' => $element
+]);
 ?>
 
 <div class="wrap">
@@ -23,13 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <section class="section-title">
     <div class="wrap">
         <div class="section-title-block">
-            <h2>Техническое заключение на изделие Babyliss</h2>
+            <h2>Техническое заключение на изделие Babyliss <?= '№'.$element['PROPERTY_NUMER_VALUE'] ?></h2>
         </div>
     </div>
 </section>
 <section class="technical-conclusion">
     <div class="wrap">
-        <?= v::render('partials/partner/reports/form.php', Report::context([], $_REQUEST, $result)) ?>
+        <?= v::render('partials/partner/reports/form.php', $context) ?>
     </div>
 </section>
 

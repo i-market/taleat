@@ -6,11 +6,12 @@ use Core\Util;
 <? $placeholderOpt = '<option value="" hidden>Выбрать...</option>' ?>
 <? $datePlaceholder = '01.01.'.date('Y') ?>
 
-<? // TODO validate everything ?>
-<? // TODO validate required checkboxes, radios ?>
-
 <? // TODO input masks ?>
 <form action="" method="post" class="validate form technical-conclusion-form">
+    <? if ($mode === 'edit'): ?>
+        <input type="hidden" name="id" value="<?= $element['ID'] ?>" />
+        <input type="hidden" name="NUMER" value="<?= $element['PROPERTY_NUMER_VALUE'] ?>" />
+    <? endif ?>
     <? $message = v::get($result, 'message') ?>
     <? if (!v::isEmpty($message)): ?>
         <div class="form__message <?= v::get($message, 'type') === 'error' ? 'form__message--error' : '' ?>">
@@ -41,7 +42,7 @@ use Core\Util;
     <div class="item">
         <div class="left">Телефон СЦ:</div>
         <div class="right">
-            <? // TODO should auto prepend +7 when it's missing ?>
+            <? // TODO should auto prepend +7 when it's missing (mask) ?>
             <input name="SC[PHONE]" value="<?= v::get($sc, 'PHONE') ?>" required type="tel" class="input">
         </div>
     </div>
@@ -117,7 +118,6 @@ use Core\Util;
         </div>
     </div>
     <div class="item item--col">
-        <? // TODO validate: require ?>
         <div class="left">Комплектность:</div>
         <div class="right">
             <div class="grid">
@@ -255,13 +255,13 @@ use Core\Util;
         </div>
     <? endforeach ?>
 
+    <? // TODO edit: render files ?>
     <? // TODO validate: require file ?>
     <h3>Прикрепить скан гарантийного талона или чека</h3>
     <div class="wrap-file"><input type="file" name="img1" accept="image/*"></div>
     <div class="wrap-file"><input type="file" name="img2" accept="image/*"></div>
     <div class="wrap-file"><input type="file" name="img3" accept="image/*"></div>
     <div class="bottom">
-        <p class="text"><b>Все поля обязательны для заполнения</b></p>
         <button type="submit" class="btn">Отправить заключение</button>
     </div>
 </form>

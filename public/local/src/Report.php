@@ -13,34 +13,43 @@ use Core\Strings as str;
 use iter;
 use PHPExcel_IOFactory;
 use Core\Util;
+use Core\Env;
 
 class Report {
+    // TODO refactor: normalize fields, params, element structure. it's a mess.
+
     const STATUS_APPROVED = 60;
     const STATUS_REJECTED = 61;
 
-    static function context($params, $result) {
+    // TODO refactor args for different modes (new, edit)
+    static function context($initial, $params, $result, $opts = []) {
         global $USER;
+        if (!_::isEmpty($initial)) App::getInstance()->assert(self::validate($initial));
+
         $user = CUser::GetByID($USER->GetID())->GetNext();
+        $today = date('d.m.Y');
+        $suggestions = !_::get($params, 'suggest', true) ? [] : [
+            'SC' => [
+                'NAME' => $user['~WORK_COMPANY'],
+                'DATA_ZAKL' => $today,
+                'ADRES' => self::addressSuggestion($user),
+                'PHONE' => $user['~WORK_PHONE']
+            ],
+            'IZDEL' => [
+                'DATA_POSTUP' => $today
+            ]
+        ];
+        // deep merge
+        $fields = array_replace_recursive($suggestions, $initial, $params);
         $products = iter\toArray(Iblock::iter(CIBlockElement::GetList([], ["IBLOCK_ID"=>11, "ACTIVE"=>"Y"], false, false, ["ID", "NAME"])));
-        $productId = _::get($params, 'IZDEL.NAME');
+        $productId = _::get($fields, 'IZDEL.NAME');
         // TODO ux: natural sorting of models
         $models = is_numeric($productId)
             ? iter\toArray(Iblock::iter(CIBlockElement::GetProperty(11, $productId, "VALUE_ENUM", "asc", array("CODE"=>"MODELS"))))
             : [];
         $completeness = iter\toArray(Iblock::iter(CIBlockPropertyEnum::GetList(Array("SORT"=>"ASC"), Array("IBLOCK_ID"=>10, "CODE"=>"ITEM_COMPLECT"))));
-        $today = date('d.m.Y');
-        $fields = array_replace_recursive($params, !_::get($params, 'suggest', true) ? [] : [
-            'SC' => [
-                'NAME' => _::get($params, 'SC.NAME', $user['~WORK_COMPANY']),
-                'DATA_ZAKL' => _::get($params, 'SC.DATA_ZAKL', $today),
-                'ADRES' => _::get($params, 'SC.ADRES', self::addressSuggestion($user)),
-                'PHONE' => _::get($params, 'SC.PHONE', $user['~WORK_PHONE'])
-            ],
-            'IZDEL' => [
-                'DATA_POSTUP' => _::get($params, 'IZDEL.DATA_POSTUP', $today)
-            ]
-        ]);
-        return [
+        $defaults = [
+            'mode' => 'new',
             'result' => $result,
             'fields' => self::escapeRec($fields),
             'products' => $products,
@@ -52,7 +61,7 @@ class Report {
                 63 => 'Механические повреждения',
                 64 => 'Нарушение правил эксплуатации',
             ],
-            'hasDefectDescription' => _::get($params, 'DAN.DEFEKT') == 64,
+            'hasDefectDescription' => _::get($fields, 'DAN.DEFEKT') == 64,
             'reasons' => [
                 65 => 'Распоряжение фирмы-изготовителя',
                 66 => 'Отказ владельца от ремонта в соответствии с «Законом о защите прав потребителей»',
@@ -63,6 +72,141 @@ class Report {
                 69 => 'Оставлено в сервисном центре на ответственное хранение',
             ]
         ];
+        return array_merge($defaults, $opts);
+    }
+
+    static function isEditingDisallowed($elem) {
+        global $USER;
+        return $elem["PROPERTY_STATUS_ENUM_ID"] != self::STATUS_REJECTED || $elem["PROPERTY_USER_VALUE"] != $USER->GetID();
+    }
+
+    static function validate($fields) {
+        // recursively check for keys
+        $validate = function ($x, $spec) use (&$validate) {
+            if (!is_array($x)) {
+                return false;
+            }
+            if (is_string($spec)) {
+                return array_key_exists($spec, $x);
+            } else {
+                return _::reduce($spec, function ($acc, $v, $k) use ($x, &$validate) {
+                    $result = is_string($v) ? $validate($x, $v) : $validate(_::get($x, $k), $v);
+                    return $acc && $result;
+                }, true);
+            }
+        };
+        return $validate($fields, [
+            'SC' => [
+                'NAME',
+                'DATA_ZAKL',
+                'ADRES',
+                'PHONE',
+            ],
+            'VLADELEC' => [
+                'FIO',
+                'PHONE',
+                'ADRES',
+            ],
+            'IZDEL' => [
+                'NAME',
+                'MODEL',
+                'TYPE',
+                'DATA_PROIZV',
+                'DATA_PRODAJI',
+                'KOMPLEKT',
+                'DATA_POSTUP',
+                'PRIZNAKI_NEISPR',
+                'SVEDINIYA',
+            ],
+            'DAN' => array_merge([
+                'VIEV_DEFEKT',
+                'DEFEKT',
+            ], _::get($fields, 'DAN.DEFEKT') == 64) ? ['DEFEKT3_DESCR'] : [],
+            'PRICHINA',
+            'ITEM_PLACE'
+        ]);
+    }
+
+    static function element($id) {
+        $arSelect = Array(
+            "ID",
+            "PROPERTY_NUMER",
+            "PROPERTY_USER",
+            "PROPERTY_SC_NAME",
+            "PROPERTY_SC_PHONE",
+            "PROPERTY_SC_ADDRESS",
+            "PROPERTY_OWNER_TITLE",
+            "PROPERTY_OWNER_PHONE",
+            "PROPERTY_OWNER_ADDRESS",
+            "PROPERTY_ITEM_NAME",
+            "PROPERTY_ITEM_TYPE",
+            "PROPERTY_ITEM_CREATED",
+            "PROPERTY_ITEM_FAULT",
+            "PROPERTY_MODEL",
+            "PROPERTY_ITEM_REPAIRS",
+            "PROPERTY_ITEM_REAL_FAULT",
+            "PROPERTY_PRODUCT",
+            "PROPERTY_ITEM_DATE_SALE",
+            "PROPERTY_ITEM_DATE_GET",
+            "PROPERTY_ITEM_COMPLECT",
+            "PROPERTY_DATE_REPORT",
+            "PROPERTY_USER_IMGS",
+            "PROPERTY_REPORT_FAULT",
+            "PROPERTY_USER_FAULT",
+            "PROPERTY_REASON_FAIL_REPAIR",
+            "PROPERTY_ITEM_PLACE",
+            "PROPERTY_STATUS",
+            "PROPERTY_USER"
+        );
+        return CIBlockElement::GetList(Array(), Array("IBLOCK_ID"=>IB_REPORTS, "ID"=>$id), false, false, $arSelect)->GetNext();
+    }
+
+    static function elementFields($elem) {
+        $arItem = $elem;
+        $filter = Array("IBLOCK_ID"=>11, "ACTIVE"=>"Y", 'NAME' => $arItem["PROPERTY_PRODUCT_VALUE"]);
+        $product = CIBlockElement::GetList(Array(), $filter, false, false, Array("ID"))->GetNext();
+        if ($product) {
+            $models = Iblock::iter(CIBlockElement::GetProperty(11, $product['ID'], "sort", "asc", array("CODE"=>"MODELS")));
+            $model = iter\search(function ($m) use ($arItem) {
+                return $arItem["PROPERTY_MODEL_VALUE"] == $m["VALUE_ENUM"];
+            }, $models);
+        } else {
+            $model = null;
+        }
+        $ret = [
+            'SC' => [
+                'NAME' => $arItem["PROPERTY_SC_NAME_VALUE"],
+                'DATA_ZAKL' => $arItem["PROPERTY_DATE_REPORT_VALUE"],
+                'ADRES' => $arItem["PROPERTY_SC_ADDRESS_VALUE"],
+                'PHONE' => $arItem["PROPERTY_SC_PHONE_VALUE"],
+            ],
+            'VLADELEC' => [
+                'FIO' => $arItem["PROPERTY_OWNER_TITLE_VALUE"],
+                'PHONE' => $arItem["PROPERTY_OWNER_PHONE_VALUE"],
+                'ADRES' => $arItem["PROPERTY_OWNER_ADDRESS_VALUE"],
+            ],
+            'IZDEL' => [
+                'NAME' => $product['ID'],
+                'MODEL' => $model['VALUE'],
+                'TYPE' => $arItem["PROPERTY_ITEM_TYPE_VALUE"],
+                'DATA_PROIZV' => $arItem["PROPERTY_ITEM_CREATED_VALUE"],
+                'DATA_PRODAJI' => $arItem["PROPERTY_ITEM_DATE_SALE_VALUE"],
+                'KOMPLEKT' => array_keys($arItem["PROPERTY_ITEM_COMPLECT_VALUE"]),
+                'DATA_POSTUP' => $arItem["PROPERTY_ITEM_DATE_GET_VALUE"],
+                'PRIZNAKI_NEISPR' => $arItem["PROPERTY_ITEM_FAULT_VALUE"],
+                'SVEDINIYA' => $arItem["PROPERTY_ITEM_REPAIRS_VALUE"],
+            ],
+            'DAN' => array_merge([
+                'VIEV_DEFEKT' => $arItem["PROPERTY_ITEM_REAL_FAULT_VALUE"],
+                'DEFEKT' => $arItem["PROPERTY_REPORT_FAULT_ENUM_ID"],
+            ], $arItem["PROPERTY_REPORT_FAULT_ENUM_ID"] == 64
+                ? ['DEFEKT3_DESCR' => $arItem["PROPERTY_USER_FAULT_VALUE"]]
+                : []),
+            'PRICHINA' => $arItem["PROPERTY_REASON_FAIL_REPAIR_ENUM_ID"],
+            'ITEM_PLACE' => $arItem["PROPERTY_ITEM_PLACE_ENUM_ID"]
+        ];
+        App::getInstance()->assert(self::validate($ret));
+        return $ret;
     }
 
     static function escapeRec($x) {
@@ -104,6 +248,18 @@ class Report {
         }, []));
     }
 
+    private static function templatePath() {
+        $path =  Util::joinPath([$_SERVER['DOCUMENT_ROOT'], 'partneram/babyliss/tech-form/zakl_new1.xls']);
+        // just in case someone deletes the file by accident
+        $backup = Util::joinPath([$_SERVER['DOCUMENT_ROOT'], 'local/resources/reports/template.xls']);
+        return file_exists($path) ? $path : $backup;
+    }
+
+    private static function filePath($num) {
+        $tmpDir = ini_get('upload_tmp_dir') ?: sys_get_temp_dir();
+        return Util::joinPath([$tmpDir, "new_tz_".date("y")."_".$num.".xls"]);
+    }
+
     static function create($params) {
         try {
             if (!self::_create($params)) {
@@ -111,6 +267,32 @@ class Report {
             }
             return ['success' => true];
         } catch (\Exception $e) {
+            if (App::env() === Env::DEV) {
+                throw $e;
+            }
+            // TODO send exception data to sentry
+            App::getInstance()->assert(false);
+            return [
+                'success' => false,
+                'message' => [
+                    'type' => 'error',
+                    'text' => View::genericErrorMessageHtml()
+                ]
+            ];
+        }
+    }
+
+    static function update($params) {
+        try {
+            if (!self::_update($params)) {
+                throw new \Exception();
+            }
+            return ['success' => true]; // TODO flash message
+        } catch (\Exception $e) {
+            if (App::env() === Env::DEV) {
+                throw $e;
+            }
+            // TODO send exception data to sentry
             App::getInstance()->assert(false);
             return [
                 'success' => false,
@@ -123,15 +305,11 @@ class Report {
     }
 
     private static function _create($params) {
-        global $USER;
+        global $USER, $_FILES;
+        App::getInstance()->assert(self::validate($params));
+        App::getInstance()->assert(isset($params['ZAP']));
 
         require_once $_SERVER["DOCUMENT_ROOT"].'/local/legacy/phpexcel/PHPExcel/IOFactory.php';
-
-        $templatePath = Util::joinPath([$_SERVER['DOCUMENT_ROOT'], 'partneram/babyliss/tech-form/zakl_new1.xls']);
-        $filePath = function ($num) {
-            $tmpDir = ini_get('upload_tmp_dir') ?: sys_get_temp_dir();
-            return Util::joinPath([$tmpDir, "new_tz_".date("y")."_".$num.".xls"]);
-        };
 
         $SC         = $params['SC'];
         $VLADELEC   = $params['VLADELEC'];
@@ -148,7 +326,7 @@ class Report {
         $arPropModel = CIBlockPropertyEnum::GetByID($params["IZDEL"]["MODEL"]);
         $model = $arPropModel["VALUE"];
 
-        $book = PHPExcel_IOFactory::load($templatePath);
+        $book = PHPExcel_IOFactory::load(self::templatePath());
 
         $date = date("Y")."-01-01";
         $filter = array(
@@ -253,7 +431,7 @@ class Report {
         CModule::IncludeModule("iblock");
         $el = new CIBlockElement;
 
-        $objWriter->save($filePath($num));
+        $objWriter->save(self::filePath($num));
 
         $PROP = array();
         $imgs = array();
@@ -279,12 +457,12 @@ class Report {
         }
         $PROP["USER_IMGS"] = $imgs;
         $PROP["NUMER"] = date("y")."/".$num;
-        $PROP["FORMA"] = CFile::MakeFileArray($filePath($num));
+        $PROP["FORMA"] = CFile::MakeFileArray(self::filePath($num));
 
         $PROP["USER"] = $USER->GetID();
         $PROP["SC_NAME"] = htmlspecialcharsBack($SC["NAME"]);
         $PROP["PRODUCT"] = $product;
-        $PROP["ITEM_COMPLECT"] = $_POST["IZDEL"]["KOMPLEKT"];
+        $PROP["ITEM_COMPLECT"] = $IZDEL["KOMPLEKT"];
         $PROP["STATUS"] = Array("VALUE" => 59);
         $PROP["DATE_REPORT"] = $SC["DATA_ZAKL"];
         $PROP["SC_PHONE"] = $SC["PHONE"];
@@ -335,9 +513,122 @@ class Report {
             $OK = false;
         }
 
-        unlink($filePath($num));
-
         App::getInstance()->assert($OK);
         return $OK;
+    }
+
+    private static function _update($params) {
+        global $_FILES;
+        App::getInstance()->assert(isset($params['id']) && isset($params['NUMER']), 'illegal argument');
+        App::getInstance()->assert(self::validate($params));
+
+        require_once $_SERVER["DOCUMENT_ROOT"].'/local/legacy/phpexcel/PHPExcel/IOFactory.php';
+
+        $itemID = $params["id"];
+        $arProduct = CIBlockElement::GetByID($params["IZDEL"]["NAME"]);
+        $product = $arProduct->GetNext()["NAME"];
+        $arPropModel = CIBlockPropertyEnum::GetByID($params["IZDEL"]["MODEL"]);
+        $model = $arPropModel["VALUE"];
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("SC_NAME"=>$params["SC"]["NAME"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("DATE_REPORT"=>$params["SC"]["DATA_ZAKL"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("SC_ADDRESS"=>$params["SC"]["ADRES"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("SC_PHONE"=>$params["SC"]["PHONE"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("OWNER_TITLE"=>$params["VLADELEC"]["FIO"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("OWNER_PHONE"=>$params["VLADELEC"]["PHONE"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("OWNER_ADDRESS"=>$params["VLADELEC"]["ADRES"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("PRODUCT"=>$product));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("MODEL"=>$model));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("ITEM_TYPE"=>$params["IZDEL"]["TYPE"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("ITEM_CREATED"=>$params["IZDEL"]["DATA_PROIZV"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("ITEM_DATE_SALE"=>$params["IZDEL"]["DATA_PRODAJI"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("ITEM_COMPLECT"=>$params["IZDEL"]["KOMPLEKT"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("ITEM_DATE_GET"=>$params["IZDEL"]["DATA_POSTUP"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("ITEM_FAULT"=>$params["IZDEL"]["PRIZNAKI_NEISPR"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("ITEM_REAL_FAULT"=>$params["DAN"]["VIEV_DEFEKT"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("REPORT_FAULT"=>$params["DAN"]["DEFEKT"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("ITEM_PLACE"=>$params["ITEM_PLACE"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("ITEM_REPAIRS"=>$params["IZDEL"]["SVEDINIYA"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("USER_FAULT"=>$params["DAN"]["DEFEKT3_DESCR"]));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("REASON_FAIL_REPAIR"=>$params["PRICHINA"]));
+        $arFiles = Array();
+        foreach($_FILES["images"]["tmp_name"] as $key=>$fileName):
+            if($_FILES["images"]["error"][$key] == 4) continue;
+            $arrFile = Array(
+                "name" => $_FILES["images"]["name"][$key],
+                "size" => $_FILES["images"]["size"][$key],
+                "tmp_name" => $_FILES["images"]["tmp_name"][$key],
+                "type" => $_FILES["images"]["type"][$key],
+                "del" => "N",
+                "MODULE_ID" => "iblock"
+            );
+
+            $arTmpFile = CFile::MakeFileArray($fileName);
+            $arTmpFile["name"] = $_FILES["images"]["name"][$key];
+            $arFiles[] = Array(
+                "VALUE" => $arTmpFile,
+                "DESCRIPTION" => $_FILES["images"]["name"][$key],
+            );
+        endforeach;
+        if (count($arFiles)):
+            CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, array("USER_IMGS" => $arFiles));
+        endif;
+
+        $book = PHPExcel_IOFactory::load(self::templatePath());
+        $book->getActiveSheet()->setCellValue('A1', "Техническое заключение на изделие BABYLISS №".$params["NUMER"]);
+        $book->getActiveSheet()->setCellValue('A4', $params["SC"]["NAME"]);
+        $book->getActiveSheet()->setCellValue('F3', $params["SC"]["DATA_ZAKL"]);
+        $book->getActiveSheet()->setCellValue('A8', $params["SC"]["ADRES"]);
+        $book->getActiveSheet()->setCellValue('D7', $params["SC"]["PHONE"]);
+
+        $book->getActiveSheet()->setCellValue('B10', $params["VLADELEC"]["FIO"]);
+        $book->getActiveSheet()->setCellValue('H10', $params["VLADELEC"]["PHONE"]);
+        $book->getActiveSheet()->setCellValue('A11', $params["VLADELEC"]["ADRES"]);
+
+        $book->getActiveSheet()->setCellValue('C13', $product);
+        $book->getActiveSheet()->setCellValue('C14', $model);
+        $book->getActiveSheet()->setCellValue('H12', $params["IZDEL"]["TYPE"]);
+        $book->getActiveSheet()->setCellValue('I14', $params["IZDEL"]["DATA_PROIZV"]);
+        $book->getActiveSheet()->setCellValue('C15', $params["IZDEL"]["DATA_PRODAJI"]);
+
+        $COMPLECT = '';
+        foreach ($params["IZDEL"]["KOMPLEKT"] as $key=>$propID):
+            $arComplect = CIBlockPropertyEnum::GetByID($propID);
+            if($key > 0) $COMPLECT .= ", ";
+            $COMPLECT .= $arComplect["VALUE"];
+        endforeach;
+
+        $book->getActiveSheet()->setCellValue('C16', $COMPLECT);
+        $book->getActiveSheet()->setCellValue('E17', $params["IZDEL"]["DATA_POSTUP"]);
+        $book->getActiveSheet()->setCellValue('A19', $params["IZDEL"]["PRIZNAKI_NEISPR"]);
+        $book->getActiveSheet()->setCellValue('E20', $params["IZDEL"]["SVEDINIYA"]);
+        $book->getActiveSheet()->setCellValue('D23', $params["DAN"]["VIEV_DEFEKT"]);
+
+        $arPropReportFault = CIBlockPropertyEnum::GetByID($params["DAN"]["DEFEKT"]);
+        $book->getActiveSheet()->setCellValue('F24', $arPropReportFault["VALUE"]);
+        if($params["REPORT_FAULT"] == "64"):
+            $book->getActiveSheet()->setCellValue('A25', $params["DAN"]["DEFEKT3_DESCR"]);
+        endif;
+
+        $arPropReasonFailRepair = CIBlockPropertyEnum::GetByID($params["PRICHINA"]);
+        $book->getActiveSheet()->setCellValue('A34', $arPropReasonFailRepair["VALUE"]);
+
+        $arPropItemPlace = CIBlockPropertyEnum::GetByID($params["ITEM_PLACE"]);
+        $book->getActiveSheet()->setCellValue('A36', $arPropItemPlace["VALUE"]);
+
+        $objWriter = PHPExcel_IOFactory::createWriter($book, 'Excel5');
+        list($_, $num) = explode('/', $params["NUMER"]);
+        $objWriter->save(self::filePath($num));
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("FORMA"=>CFile::MakeFileArray(self::filePath($num))));
+
+        CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, array("STATUS" => 70));
+        $arEventFields = array(
+            "NOMER"             => $params["NUMER"],
+            "DATA_OTPR"         => date("d.m.Y"),
+            "URL"               => "http://".SITE_SERVER_NAME."/bitrix/admin/iblock_element_edit.php?IBLOCK_ID=10&type=region&ID=".$itemID."&lang=ru&find_section_section=0&WF=Y"
+        );
+        $item = CIBlockElement::GetList(Array(), [], false, Array("nTopCount"=>1), Array("ID", "PROPERTY_FORMA"))->GetNext();
+        CEvent::Send("TEH_ZAKL_EDIT", "s1", $arEventFields, "N", "", array($item["PROPERTY_FORMA_VALUE"]));
+
+        return true;
     }
 }

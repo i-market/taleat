@@ -65,7 +65,6 @@ $fancyboxItems = function ($images) {
                 <? endif ?>
             </div>
             <? if ($statusId == Report::STATUS_REJECTED): ?>
-                <? // TODO editing page ?>
                 <a class="edit simple-btn" href="<?= v::path('partneram/reports/edit').'?id='.$item['ID'] ?>">Редактировать</a>
             <? endif ?>
         </div>

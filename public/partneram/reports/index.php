@@ -6,6 +6,8 @@ $APPLICATION->SetPageProperty('body_class', 'bg');
 
 use App\Layout;
 use App\View as v;
+use App\App;
+use Core\Env;
 ?>
 
 <div class="wrap">
@@ -15,81 +17,61 @@ use App\View as v;
     <div class="wrap">
         <div class="block">
             <a class="btn" href="<?= v::path('partneram/reports/new') ?>">Заполнить техническое заключение</a>
-            <div class="TODO-mockup wrap-technical-conclusion-item">
-                <div class="technical-conclusion-item">
-                    <div class="top">
-                        <div class="left">
-                            <span class="date">12.12.2017</span>
-                            <span class="code">Заказ № 16/000537</span>
-                        </div>
-                        <div class="right">
-                            <span class="confirmed yes">Подтверждено</span>
-                        </div>
-                    </div>
-                    <div class="hidden-block">
-                        <p class="visible-text">Замечания...</p>
-                        <p class="hidden-text">Задача организации, в особенности же сложившаяся структура организации представляет собой интересный эксперимент проверки новых предложений. Разнообразный и богатый опыт рамки и место обучения кадров играет важную роль в формировании систем массового участия. Товарищи! консультация с широким активом играет важную роль в формировании систем массового участия.</p>
-                    </div>
-                    <div class="bottom">
-                        <p><a class="link" href="#">Скачать форму</a></p>
-                        <p><a class="link status" href="#">Чек или гарантийный талон</a></p>
-                        <p><a class="link status" href="#">Скриншот</a></p>
-                    </div>
-                </div>
-                <div class="technical-conclusion-item">
-                    <div class="top">
-                        <div class="left">
-                            <span class="date">12.12.2017</span>
-                            <span class="code">Заказ № 16/000537</span>
-                        </div>
-                        <div class="right">
-                            <span class="confirmed no">Не подтверждено</span>
-                        </div>
-                    </div>
-                    <div class="hidden-block">
-                        <p class="visible-text">Замечания...</p>
-                        <p class="hidden-text">Задача организации, в особенности же сложившаяся структура организации представляет собой интересный эксперимент проверки новых предложений. Разнообразный и богатый опыт рамки и место обучения кадров играет важную роль в формировании систем массового участия. Товарищи! консультация с широким активом играет важную роль в формировании систем массового участия.</p>
-                    </div>
-                    <div class="bottom">
-                        <p><a class="link" href="#">Скачать форму</a></p>
-                        <p><a class="link" href="#">Чек или гарантийный талон</a></p>
-                        <p><a class="link" href="#">Скриншот</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="TODO-mockup paginator">
-                <div class="paginator-inner">
-                    <a class="prev" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-                            <defs>
-                                <style>
-                                    .cls-1 {
-                                        fill: #214385;
-                                        fill-rule: evenodd;
-                                    }
-                                </style>
-                            </defs>
-                            <path id="arrow-left.svg" class="cls-1" d="M313,660l9-9h2l-9,9h-2Zm0,0,9,9h2l-9-9h-2Z" transform="translate(-313 -651)"/>
-                        </svg></a>
-                    <ul>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#" class="active">2</a></li>
-                        <li><a href="#">3</a></li>
-                    </ul>
-                    <a class="next" href="#">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="18" viewBox="0 0 11 18">
-                            <defs>
-                                <style>
-                                    .cls-1 {
-                                        fill: #214385;
-                                        fill-rule: evenodd;
-                                    }
-                                </style>
-                            </defs>
-                            <path id="arrow-right.svg" class="cls-1" d="M1607,660l-9,9h-2l9-9h2Zm0,0-9-9h-2l9,9h2Z" transform="translate(-1596 -651)"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
+            <?
+            global $filter;
+            $filter = App::env() === Env::DEV && v::get($_REQUEST, 'all')
+                ? []
+                : array("PROPERTY_USER"=>$USER->GetID());
+            ?>
+            <? $APPLICATION->IncludeComponent(
+                "bitrix:news.list",
+                "partner_reports",
+                Array(
+                    "DISPLAY_DATE" => "N",
+                    "DISPLAY_NAME" => "N",
+                    "DISPLAY_PICTURE" => "Y",
+                    "DISPLAY_PREVIEW_TEXT" => "N",
+                    "AJAX_MODE" => "N",
+                    "IBLOCK_TYPE" => "region",
+                    "IBLOCK_ID" => "10",
+                    "NEWS_COUNT" => "20",
+                    "SORT_BY1" => "ID",
+                    "SORT_ORDER1" => "DESC",
+                    "SORT_BY2" => "",
+                    "SORT_ORDER2" => "",
+                    "FILTER_NAME" => "filter",
+                    "FIELD_CODE" => Array(""),
+                    "PROPERTY_CODE" => Array("NUMER", "APPROVED", "FORMA", "STATUS", "SC_NAME", "USER_IMGS"),
+                    "CHECK_DATES" => "N",
+                    "DETAIL_URL" => "",
+                    "PREVIEW_TRUNCATE_LEN" => "",
+                    "ACTIVE_DATE_FORMAT" => "d.m.Y",
+                    "SET_TITLE" => "N",
+                    "SET_STATUS_404" => "N",
+                    "INCLUDE_IBLOCK_INTO_CHAIN" => "N",
+                    "ADD_SECTIONS_CHAIN" => "N",
+                    "HIDE_LINK_WHEN_NO_DETAIL" => "N",
+                    "PARENT_SECTION" => "",
+                    "PARENT_SECTION_CODE" => "",
+                    "INCLUDE_SUBSECTIONS" => "N",
+                    "CACHE_TYPE" => "N",
+                    "CACHE_TIME" => "3600",
+                    "CACHE_FILTER" => "Y",
+                    "CACHE_GROUPS" => "Y",
+                    "DISPLAY_TOP_PAGER" => "N",
+                    "DISPLAY_BOTTOM_PAGER" => "Y",
+                    "PAGER_TITLE" => "",
+                    "PAGER_SHOW_ALWAYS" => "N",
+                    "PAGER_TEMPLATE" => "",
+                    "PAGER_DESC_NUMBERING" => "N",
+                    "PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
+                    "PAGER_SHOW_ALL" => "N",
+                    "AJAX_OPTION_JUMP" => "N",
+                    "AJAX_OPTION_STYLE" => "N",
+                    "AJAX_OPTION_HISTORY" => "N",
+                    "AJAX_OPTION_ADDITIONAL" => ""
+                )
+            ); ?>
         </div>
     </div>
 </section>

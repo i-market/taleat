@@ -59,6 +59,12 @@
     Mockup.initComponents($scope);
     $('form.validate', $scope).validate();
 
+    $('[data-fancybox-items]').on('click', function (evt) {
+      evt.preventDefault();
+      var items = JSON.parse($(this).attr('data-fancybox-items'));
+      $.fancybox.open(items);
+    });
+
     $('[data-tab]').on('click', function () {
       var $trigger = $(this);
       var $tabs = $(this).siblings('[data-tab]').addBack();

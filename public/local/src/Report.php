@@ -14,9 +14,10 @@ use iter;
 use PHPExcel_IOFactory;
 use Core\Util;
 
-require_once $_SERVER["DOCUMENT_ROOT"].'/local/legacy/phpexcel/PHPExcel/IOFactory.php';
-
 class Report {
+    const STATUS_APPROVED = 60;
+    const STATUS_REJECTED = 61;
+
     static function context($params, $result) {
         global $USER;
         $user = CUser::GetByID($USER->GetID())->GetNext();
@@ -123,6 +124,8 @@ class Report {
 
     static function runEffects($params) {
         global $USER;
+
+        require_once $_SERVER["DOCUMENT_ROOT"].'/local/legacy/phpexcel/PHPExcel/IOFactory.php';
 
         $templatePath = Util::joinPath([$_SERVER['DOCUMENT_ROOT'], 'partneram/babyliss/tech-form/zakl_new1.xls']);
         $filePath = function ($num) {

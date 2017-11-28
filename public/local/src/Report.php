@@ -104,9 +104,9 @@ class Report {
         }, []));
     }
 
-    static function submit($params) {
+    static function create($params) {
         try {
-            if (!Report::runEffects($params)) {
+            if (!self::_create($params)) {
                 throw new \Exception();
             }
             return ['success' => true];
@@ -122,7 +122,7 @@ class Report {
         }
     }
 
-    static function runEffects($params) {
+    private static function _create($params) {
         global $USER;
 
         require_once $_SERVER["DOCUMENT_ROOT"].'/local/legacy/phpexcel/PHPExcel/IOFactory.php';

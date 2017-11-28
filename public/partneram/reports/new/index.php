@@ -10,7 +10,7 @@ use App\Report;
 
 $result = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $result = Report::submit($_REQUEST);
+    $result = Report::create($_REQUEST);
     if ($result['success']) {
         LocalRedirect(v::path('partneram/reports'));
     }

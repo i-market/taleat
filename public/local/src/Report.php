@@ -322,7 +322,6 @@ class Report {
     private static function _create($params) {
         global $USER, $_FILES;
         App::getInstance()->assert(self::validate($params));
-        App::getInstance()->assert(isset($params['ZAP']));
 
         require_once $_SERVER["DOCUMENT_ROOT"].'/local/legacy/phpexcel/PHPExcel/IOFactory.php';
 

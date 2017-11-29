@@ -42,7 +42,6 @@ use Core\Nullable as nil;
     <div class="item">
         <div class="left">Телефон СЦ:</div>
         <div class="right">
-            <? // TODO should auto prepend +7 when it's missing (mask) ?>
             <input name="SC[PHONE]" value="<?= v::get($sc, 'PHONE') ?>" required type="tel" class="input">
         </div>
     </div>

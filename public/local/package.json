@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "jquery-validation": "^1.17.0",
+    "jquery.maskedinput": "^1.4.1",
     "lodash": "^4.17.4"
   },
   "devDependencies": {

@@ -7,7 +7,6 @@ use Core\Nullable as nil;
 <? $placeholderOpt = '<option value="" hidden>Выбрать...</option>' ?>
 <? $datePlaceholder = '01.01.'.date('Y') ?>
 
-<? // TODO input masks ?>
 <form action="" method="post" class="validate form technical-conclusion-form" enctype="multipart/form-data">
     <? if ($mode === 'edit'): ?>
         <input type="hidden" name="id" value="<?= $element['ID'] ?>" />
@@ -257,7 +256,7 @@ use Core\Nullable as nil;
 
     <h3>Прикрепить скан гарантийного талона или чека</h3>
     <? if ($mode === 'edit'): ?>
-        <p class="text red">
+        <p class="text" style="color: #dd4b39">
             Внимание! При замене хотя бы одной из фотографий, остальные будут удалены!<br />
             Необходимо заменять сразу все фотографии! Будьте внимательны!
         </p>

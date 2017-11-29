@@ -16,7 +16,7 @@ if ($isAjax) {
     <? Layout::showDefaultPageWrapper('footer') ?>
 <? }) ?>
 </main>
-<footer class="TODO-mockup footer">
+<footer class="footer">
     <div class="footer-top">
         <div class="wrap">
             <div class="left">
@@ -24,19 +24,28 @@ if ($isAjax) {
                     <img src="<?= v::asset('images/ico/footer-logo.png') ?>" alt="">
                 </a>
                 <div>
-                    <a class="footer-partners" href="#">Партнерам</a>
+                    <a class="footer-partners" href="<?= v::path('partneram') ?>">Партнерам</a>
                 </div>
             </div>
             <div class="right">
                 <ul>
-                    <li class="footer-links">
-                        <p><a href="#">Babyliss Paris</a></p>
-                        <p><a href="#">Babyliss Paris</a></p>
-                        <p><a href="#">Delonghi</a></p>
-                        <p><a href="#">Kenwood</a></p>
-                        <p><a href="#">Moser</a></p>
-                    </li>
-                    <li class="footer-service">
+                    <? $APPLICATION->IncludeComponent(
+                        "bitrix:menu",
+                        "footer",
+                        Array(
+                            "ALLOW_MULTI_SELECT" => "N",
+                            "CHILD_MENU_TYPE" => "left",
+                            "DELAY" => "N",
+                            "MAX_LEVEL" => "1",
+                            "MENU_CACHE_GET_VARS" => array(""),
+                            "MENU_CACHE_TIME" => "3600",
+                            "MENU_CACHE_TYPE" => "N",
+                            "MENU_CACHE_USE_GROUPS" => "Y",
+                            "ROOT_MENU_TYPE" => "top",
+                            "USE_EXT" => "Y"
+                        )
+                    ); ?>
+                    <li class="TODO-mockup footer-service">
                         <p class="footer-title">сервисное обслуживание</p>
                         <div class="footer-line"></div>
                         <div class="footer-links">

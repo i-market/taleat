@@ -264,22 +264,35 @@ if(!$USER->IsAdmin()){
 		  </div>
         </div>
 		<div class="sidecenter">
-		
-		<?$APPLICATION->IncludeComponent("bitrix:menu", "top", Array(
-	"ROOT_MENU_TYPE" => "top",	// Тип меню для первого уровня
-	"MENU_CACHE_TYPE" => "Y",	// Тип кеширования
-	"MENU_CACHE_TIME" => "36000000",	// Время кеширования (сек.)
-	"MENU_CACHE_USE_GROUPS" => "Y",	// Учитывать права доступа
-	"MENU_CACHE_GET_VARS" => "",	// Значимые переменные запроса
-	"MAX_LEVEL" => "1",	// Уровень вложенности меню
-	"CHILD_MENU_TYPE" => "left",	// Тип меню для остальных уровней
-	"USE_EXT" => "N",	// Подключать файлы с именами вида .тип_меню.menu_ext.php
-	"DELAY" => "N",	// Откладывать выполнение шаблона меню
-	"ALLOW_MULTI_SELECT" => "N",	// Разрешить несколько активных пунктов одновременно
-	),
-	false
-);?>
-
+            <? // relpaced menu component with html so that we can change .top.menu.php freely ?>
+            <div class="bar">
+                <ul>
+                    <li class="active">
+                        <a href="/">Главная</a>
+                    </li>
+                    <li class="sep"></li><li>
+                        <a class="double-string" href="/catalog/">Интернет-магазин</a>
+                    </li>
+                    <li class="sep"></li><li>
+                        <a class="double-string" href="/buy/">Оплата/доставка</a>
+                    </li>
+                    <li class="sep"></li><li>
+                        <a href="/partneram/">Партнерам</a>
+                    </li>
+                    <li class="sep"></li><li>
+                        <a class="double-string" href="/region/">Сервисное обслуживание</a>
+                    </li>
+                    <li class="sep"></li><li>
+                        <a href="/news/">Новости</a>
+                    </li>
+                    <li class="sep"></li><li>
+                        <a href="/contacts/">Контакты</a>
+                    </li>
+                    <li class="sep"></li><li>
+                        <a href="/otzivi/">Отзывы</a>
+                    </li>
+                </ul>
+            </div>
 	<?if($APPLICATION->GetcurDir()!="/"):?>
 			<h1><?$APPLICATION->ShowTitle(false);?></h1>
 	<?endif?>

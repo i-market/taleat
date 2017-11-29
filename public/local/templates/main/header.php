@@ -60,15 +60,22 @@ if (App::useBitrixAsset()) {
         <div class="menu-hidden-close"></div>
         <div class="menu-hidden-inner">
             <?= v::render('partials/layout/auth_phone.php', ['auth' => $auth]) ?>
-            <ul class="TODO-mockup">
-                <li><a href="#" class="active"><span>Оплата и доставка</span></a></li>
-                <li><a href="#"><span>Партнёрам</span></a></li>
-                <li><a href="#"><span>Новости</span></a></li>
-                <li><a href="#"><span>Отзывы</span></a></li>
-                <li><a href="#"><span>Контакты</span></a></li>
-                <li><a href="#"><span>Полезное</span></a></li>
-                <li><a href="#"><span>Видео</span></a></li>
-            </ul>
+            <? $APPLICATION->IncludeComponent(
+                "bitrix:menu",
+                "mobile",
+                Array(
+                    "ALLOW_MULTI_SELECT" => "N",
+                    "CHILD_MENU_TYPE" => "left",
+                    "DELAY" => "N",
+                    "MAX_LEVEL" => "1",
+                    "MENU_CACHE_GET_VARS" => array(""),
+                    "MENU_CACHE_TIME" => "3600",
+                    "MENU_CACHE_TYPE" => "N",
+                    "MENU_CACHE_USE_GROUPS" => "Y",
+                    "ROOT_MENU_TYPE" => "top",
+                    "USE_EXT" => "Y"
+                )
+            ); ?>
             <span class="TODO-mockup re-call"><span>Написать нам</span></span>
             <div class="menu-hidden-phones">
                 <a href="tel:+7(495)437-23-29"><span>+7(495)</span>437-23-29</a>
@@ -84,16 +91,24 @@ if (App::useBitrixAsset()) {
         <div class="wrap">
             <span class="service-center-link">Авторизированный сервисный центр</span>
             <div class="header-top-info">
-                <nav class="TODO-mockup main-menu">
-                    <ul>
-                        <li><a href="#">Оплата и доставка</a></li>
-                        <li><a href="/partneram/">Партнёрам</a></li>
-                        <li><a href="/news/">Новости</a></li>
-                        <li><a href="#">Отзывы</a></li>
-                        <li><a href="#">Контакты</a></li>
-                        <li><a href="#">Полезное</a></li>
-                        <li><a href="#">Видео</a></li>
-                    </ul>
+                <nav class="main-menu">
+                    <? $APPLICATION->IncludeComponent(
+                        "bitrix:menu",
+                        "header",
+                        Array(
+                            "ALLOW_MULTI_SELECT" => "N",
+                            "CHILD_MENU_TYPE" => "left",
+                            "DELAY" => "N",
+                            "MAX_LEVEL" => "1",
+                            "MENU_CACHE_GET_VARS" => array(""),
+                            "MENU_CACHE_TIME" => "3600",
+                            "MENU_CACHE_TYPE" => "N",
+                            "MENU_CACHE_USE_GROUPS" => "Y",
+                            "ROOT_MENU_TYPE" => "top",
+                            "USE_EXT" => "Y"
+                        )
+                    ); ?>
+
                 </nav>
                 <?= v::render('partials/layout/auth_desktop.php', ['auth' => $auth]) ?>
             </div>

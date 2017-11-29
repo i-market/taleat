@@ -6,6 +6,7 @@ use Core\Nullable as nil;
 
 <? $placeholderOpt = '<option value="" hidden>Выбрать...</option>' ?>
 <? $datePlaceholder = '01.01.'.date('Y') ?>
+<? $requiredOptMsg = 'Пожалуйста, выберите вариант.' ?>
 
 <form action="" method="post" class="validate form technical-conclusion-form" enctype="multipart/form-data">
     <? if ($mode === 'edit'): ?>
@@ -76,7 +77,7 @@ use Core\Nullable as nil;
         <div class="item">
             <div class="left">Наименование:</div>
             <div class="right">
-                <select name="IZDEL[NAME]" class="product-name" required>
+                <select name="IZDEL[NAME]" class="product-name" required data-msg-required="Пожалуйста, выберите наименование.">
                     <?= $placeholderOpt ?>
                     <? foreach ($products as $p): ?>
                         <? $selected = $p['ID'] == $productId ?>
@@ -88,7 +89,7 @@ use Core\Nullable as nil;
         <div class="item">
             <div class="left">Модель:</div>
             <div class="right">
-                <select name="IZDEL[MODEL]" required <?= v::isEmpty($models) ? 'disabled' : '' ?>>
+                <select name="IZDEL[MODEL]" required <?= v::isEmpty($models) ? 'disabled' : '' ?> data-msg-required="Пожалуйста, выберите модель.">
                     <?= $placeholderOpt ?>
                     <? foreach ($models as $m): ?>
                         <? $selected = $m['VALUE'] == v::get($product, 'MODEL') ?>
@@ -129,6 +130,7 @@ use Core\Nullable as nil;
                                    name="IZDEL[KOMPLEKT][]"
                                    value="<?= $comp['ID'] ?>"
                                    required
+                                   data-msg-required="<?= $requiredOptMsg ?>"
                                    <?= $checked ? 'checked' : '' ?>
                                    id="<?= $id ?>"
                                    hidden="hidden">
@@ -180,7 +182,15 @@ use Core\Nullable as nil;
                 <? $checked = v::get($data, 'DEFEKT') == $id ?>
                 <? $elemId = 'defect-'.Util::uniqueId(); ?>
                 <div class="wrap-radio">
-                    <input class="defect" type="radio" name="DAN[DEFEKT]" value="<?= $id ?>" required id="<?= $elemId ?>" hidden="hidden" <?= $checked ? 'checked' : '' ?>>
+                    <input class="defect"
+                           type="radio"
+                           name="DAN[DEFEKT]"
+                           value="<?= $id ?>"
+                           required
+                           data-msg-required="<?= $requiredOptMsg ?>"
+                           id="<?= $elemId ?>"
+                           hidden="hidden"
+                           <?= $checked ? 'checked' : '' ?>>
                     <label for="<?= $elemId ?>"><?= $name ?></label>
                 </div>
             <? endforeach ?>
@@ -248,7 +258,14 @@ use Core\Nullable as nil;
         <? $checked = v::get($fields, 'ITEM_PLACE') == $id ?>
         <? $elemId = 'place-'.Util::uniqueId(); ?>
         <div class="wrap-radio">
-            <input type="radio" name="ITEM_PLACE" value="<?= $id ?>" required id="<?= $elemId ?>" hidden="hidden" <?= $checked ? 'checked' : '' ?>>
+            <input type="radio"
+                   name="ITEM_PLACE"
+                   value="<?= $id ?>"
+                   required
+                   data-msg-required="<?= $requiredOptMsg ?>"
+                   id="<?= $elemId ?>"
+                   hidden="hidden"
+                   <?= $checked ? 'checked' : '' ?>>
             <label for="<?= $elemId ?>"><?= $name ?></label>
         </div>
     <? endforeach ?>
@@ -296,6 +313,7 @@ use Core\Nullable as nil;
                            name="agreed"
                            value="1"
                            required
+                           data-msg-required="Пожалуйста, отметьте, если вы готовы отправить изменения на проверку."
                            id="<?= $id ?>"
                            hidden="hidden">
                     <label for="<?= $id ?>">Отправить на проверку (дальнейшее редактирование будет не возможно)</label>

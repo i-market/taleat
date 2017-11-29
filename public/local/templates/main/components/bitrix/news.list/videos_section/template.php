@@ -8,7 +8,7 @@ use App\View as v;
         <div class="section-title">
             <div class="wrap">
                 <div class="section-title-block">
-                    <h2>Видеоуроки</h2>
+                    <h2>Полезное видео</h2>
                     <div class="section-title-link">|<a href="<?= v::path('videos') ?>">все <span class="hidden">видеоуроки</span></a></div>
                 </div>
             </div>

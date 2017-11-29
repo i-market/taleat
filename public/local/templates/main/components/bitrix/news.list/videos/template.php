@@ -1,0 +1,30 @@
+<? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+
+use App\Videos;
+use App\View as v;
+?>
+<section class="videos videos--pages section">
+    <div class="section-title">
+        <div class="wrap">
+            <div class="section-title-block">
+                <h2><? $APPLICATION->ShowTitle(false) ?></h2>
+            </div>
+        </div>
+    </div>
+    <div class="wrap border">
+        <div class="wrap-min">
+            <div class="grid">
+                <? foreach ($arResult['ITEMS'] as $item): ?>
+                    <? $url = Videos::embedUrl(Videos::youtubeId($item['PROPERTIES']['URL']['VALUE'])) ?>
+                    <div class="col col-3 video-item">
+                        <iframe src="<?= $url ?>" frameborder="0" allowfullscreen></iframe>
+                        <p class="name"><?= $item['NAME'] ?></p>
+                    </div>
+                <? endforeach ?>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <?= $arResult['NAV_STRING'] ?>
+</section>

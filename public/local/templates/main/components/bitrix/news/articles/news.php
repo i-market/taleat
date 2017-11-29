@@ -55,4 +55,3 @@ use App\Components;
     ),
     $component
 );?>
-<? Components::showArticleVideoSection() ?>

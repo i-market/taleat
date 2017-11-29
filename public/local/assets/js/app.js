@@ -65,13 +65,13 @@
     Mockup.initComponents($scope);
     $('form.validate', $scope).validate();
 
-    $('[data-fancybox-items]').on('click', function (evt) {
+    $('[data-fancybox-items]', $scope).on('click', function (evt) {
       evt.preventDefault();
       var items = JSON.parse($(this).attr('data-fancybox-items'));
       $.fancybox.open(items);
     });
 
-    $('[data-tab]').on('click', function () {
+    $('[data-tab]', $scope).on('click', function () {
       var $trigger = $(this);
       var $tabs = $(this).siblings('[data-tab]').addBack();
       var $target = $('#' + $(this).attr('data-tab'));
@@ -81,6 +81,27 @@
       });
       $panes.each(function () {
         $(this).toggleClass('active', $(this).is($target));
+      });
+    });
+
+    $('.image-uploads .image-uploads__item', $scope).each(function () {
+      var $item = $(this);
+      $item.find('input[type=file]').on('change', function () {
+        if (this.files) {
+          var mb = 1000 * 1000;
+          if (window.FileReader && this.files[0].size < 5 * mb) {
+            // thumbnail
+            var reader = new FileReader();
+            reader.readAsDataURL(this.files[0]);
+            reader.onload = function (evt) {
+              $item.find('.image-uploads__item-img').css('background-image', 'url('+evt.target.result+')');
+            };
+          } else {
+            $item.find('.image-uploads__item-img')
+              .text(this.files[0].name)
+              .addClass('has-text');
+          }
+        }
       });
     });
   }

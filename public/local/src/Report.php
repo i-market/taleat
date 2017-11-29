@@ -304,6 +304,21 @@ class Report {
         }
     }
 
+    private static function userImagesValue($files) {
+        $arFiles = Array();
+        foreach($files["tmp_name"] as $key=>$fileName):
+            if($files["error"][$key] == 4) continue;
+
+            $arTmpFile = CFile::MakeFileArray($fileName);
+            $arTmpFile["name"] = $files["name"][$key];
+            $arFiles[] = Array(
+                "VALUE" => $arTmpFile,
+                "DESCRIPTION" => $files["name"][$key],
+            );
+        endforeach;
+        return $arFiles;
+    }
+
     private static function _create($params) {
         global $USER, $_FILES;
         App::getInstance()->assert(self::validate($params));
@@ -434,28 +449,7 @@ class Report {
         $objWriter->save(self::filePath($num));
 
         $PROP = array();
-        $imgs = array();
-        $is_image = CFile::IsImage($_FILES["img1"]["name"], $_FILES["img1"]["type"]);
-        if ($is_image){
-            $img1 = CFile::SaveFile($_FILES["img1"], "tech-zakl-imgs");
-            $img1 = CFile::MakeFileArray($img1);
-            $imgs[] = $img1;
-        }
-
-        $is_image = CFile::IsImage($_FILES["img2"]["name"], $_FILES["img2"]["type"]);
-        if ($is_image){
-            $img2 = CFile::SaveFile($_FILES["img2"], "tech-zakl-imgs");
-            $img2 = CFile::MakeFileArray($img2);
-            $imgs[] = $img2;
-        }
-
-        $is_image = CFile::IsImage($_FILES["img3"]["name"], $_FILES["img3"]["type"]);
-        if ($is_image){
-            $img3 = CFile::SaveFile($_FILES["img3"], "tech-zakl-imgs");
-            $img3 = CFile::MakeFileArray($img3);
-            $imgs[] = $img3;
-        }
-        $PROP["USER_IMGS"] = $imgs;
+        $PROP["USER_IMGS"] = self::userImagesValue($_FILES["images"]);
         $PROP["NUMER"] = date("y")."/".$num;
         $PROP["FORMA"] = CFile::MakeFileArray(self::filePath($num));
 
@@ -550,25 +544,7 @@ class Report {
         CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("ITEM_REPAIRS"=>$params["IZDEL"]["SVEDINIYA"]));
         CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("USER_FAULT"=>$params["DAN"]["DEFEKT3_DESCR"]));
         CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, Array("REASON_FAIL_REPAIR"=>$params["PRICHINA"]));
-        $arFiles = Array();
-        foreach($_FILES["images"]["tmp_name"] as $key=>$fileName):
-            if($_FILES["images"]["error"][$key] == 4) continue;
-            $arrFile = Array(
-                "name" => $_FILES["images"]["name"][$key],
-                "size" => $_FILES["images"]["size"][$key],
-                "tmp_name" => $_FILES["images"]["tmp_name"][$key],
-                "type" => $_FILES["images"]["type"][$key],
-                "del" => "N",
-                "MODULE_ID" => "iblock"
-            );
-
-            $arTmpFile = CFile::MakeFileArray($fileName);
-            $arTmpFile["name"] = $_FILES["images"]["name"][$key];
-            $arFiles[] = Array(
-                "VALUE" => $arTmpFile,
-                "DESCRIPTION" => $_FILES["images"]["name"][$key],
-            );
-        endforeach;
+        $arFiles = self::userImagesValue($_FILES["images"]);
         if (count($arFiles)):
             CIBlockElement::SetPropertyValuesEx($itemID, IB_REPORTS, array("USER_IMGS" => $arFiles));
         endif;

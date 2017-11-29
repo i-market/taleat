@@ -31,7 +31,7 @@ $fancyboxItems = function ($images) {
                     <span class="code"><?= 'Заказ № '.$item['PROPERTIES']['NUMER']['VALUE'] ?></span>
                 </div>
                 <div class="right">
-                    <? $class = $isApproved ? 'confirmed yes' : ($statusId == Report::STATUS_REJECTED ? 'confirmed no' : '') ?>
+                    <? $class = $isApproved ? 'confirmed yes' : ($statusId == Report::STATUS_REJECTED ? 'confirmed no' : 'confirmed neither') ?>
                     <span class="<?= $class ?>"><?= $status['VALUE'] ?></span>
                 </div>
             </div>

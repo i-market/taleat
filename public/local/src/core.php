@@ -335,7 +335,7 @@ class Nullable {
         return $nullable === null ? $default : $nullable;
     }
 
-    static public function map($nullable, $f) {
+    static public function map($nullable, callable $f) {
         return $nullable !== null ? $f($nullable) : $nullable;
     }
 

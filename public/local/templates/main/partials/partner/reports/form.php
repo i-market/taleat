@@ -1,13 +1,14 @@
 <?
 use App\View as v;
 use Core\Util;
+use Core\Nullable as nil;
 ?>
 
 <? $placeholderOpt = '<option value="" hidden>Выбрать...</option>' ?>
 <? $datePlaceholder = '01.01.'.date('Y') ?>
 
 <? // TODO input masks ?>
-<form action="" method="post" class="validate form technical-conclusion-form">
+<form action="" method="post" class="validate form technical-conclusion-form" enctype="multipart/form-data">
     <? if ($mode === 'edit'): ?>
         <input type="hidden" name="id" value="<?= $element['ID'] ?>" />
         <input type="hidden" name="NUMER" value="<?= $element['PROPERTY_NUMER_VALUE'] ?>" />
@@ -254,20 +255,40 @@ use Core\Util;
         </div>
     <? endforeach ?>
 
-    <? // TODO edit: render files ?>
     <h3>Прикрепить скан гарантийного талона или чека</h3>
-    <? foreach (range(1, 3) as $n):  ?>
-        <div class="wrap-file">
-            <input type="file"
-                   name="<?= 'img'.$n ?>"
-                   accept="image/*"
-                   class="img-group"
-                   data-rule-require_from_group="[1, '.img-group']"
-                   data-msg-require_from_group="Пожалуйста, прикрепите хотя бы один файл."
-                   data-error-container="#img-group-error">
-        </div>
-    <? endforeach ?>
+    <? if ($mode === 'edit'): ?>
+        <p class="text red">
+            Внимание! При замене хотя бы одной из фотографий, остальные будут удалены!<br />
+            Необходимо заменять сразу все фотографии! Будьте внимательны!
+        </p>
+    <? endif ?>
+    <div class="image-uploads">
+        <? $validate = $mode !== 'edit' ?>
+        <? foreach (range(0, 2) as $idx):  ?>
+            <div class="image-uploads__item">
+                <? $img = $mode === 'edit' ? nil::map(v::get($element, ['PROPERTY_USER_IMGS_VALUE', $idx]), [CFile::class, 'GetFileArray']) : null ?>
+                <div class="image-uploads__item-img" <?= !v::isEmpty($img) ? 'style="background-image: url(\''.v::resize($img, 200, 200).'\')"' : '' ?>></div>
+                <? $id = 'image-'.Util::uniqueId() ?>
+                <label for="<?= $id ?>" class="simple-btn">
+                    <span><?= v::isEmpty($img) ? 'Выбрать' : 'Заменить' ?></span>
+                    <input type="file"
+                           style="display: none"
+                           name="images[]"
+                           accept="image/*"
+                           class="img-group"
+                           id="<?= $id ?>"
+                        <? if ($validate): ?>
+                            data-rule-require_from_group='[1, ".img-group"]'
+                            data-msg-require_from_group="Пожалуйста, прикрепите хотя бы один файл."
+                            data-error-container="#img-group-error"
+                        <? endif ?>
+                    >
+                </label>
+            </div>
+        <? endforeach ?>
+    </div>
     <div id="img-group-error"></div>
+
     <div class="bottom">
         <button type="submit" class="btn">Отправить заключение</button>
     </div>

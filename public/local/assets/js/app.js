@@ -373,10 +373,12 @@
       location.search = updateQuery(_.partialRight(_.set, 'sort', this.value));
     });
 
+    var $headings = $('.catalog-about .editable-area').children('h1, h2, .h1, .h2');
+    var $parent = $('.catalog-about').parent();
     function align() {
       // align with .section-title headings
-      $('.catalog-about .editable-area').children('h1, h2, .h1, .h2').each(function () {
-        var pageWidth = $('.catalog-about').parent().width();
+      $headings.each(function () {
+        var pageWidth = $parent.width();
         if (pageWidth < 1024) { // see media query
           return $(this).css('padding-left', 0);
         }

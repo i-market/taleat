@@ -13,6 +13,7 @@ use App\Layout;
 App::getInstance()->assert(!($_REQUEST["auth"]=="Войти"), 'legacy');
 App::getInstance()->assert(!isset($_POST["AUTH_FORM_PARTNER"]), 'legacy');
 
+// bring context variables into scope
 extract(App::getInstance()->layoutContext(), EXTR_SKIP);
 
 if ($isAjax) {
@@ -78,12 +79,24 @@ if (App::useBitrixAsset()) {
             ); ?>
             <span class="TODO-mockup re-call"><span>Написать нам</span></span>
             <div class="menu-hidden-phones">
-                <a href="tel:+7(495)437-23-29"><span>+7(495)</span>437-23-29</a>
-                <a href="tel:+7(495)437-23-29"><span>+7(495)</span>437-23-29</a>
+                <? $APPLICATION->IncludeComponent(
+                    "bitrix:main.include",
+                    "",
+                    Array(
+                        "AREA_FILE_SHOW" => "file",
+                        "PATH" => v::includedArea('contact_info/header_mobile_tel.php')
+                    )
+                ); ?>
             </div>
-            <div class="TODO-mockup menu-hidden-info">
-                <p>e-mail: asn@taleat.ru</p>
-                <p>Адрес фактический: 127473, г. Москва, ул. Селезневская,<br>д. 30 корп. 1</p>
+            <div class="menu-hidden-info">
+                <? $APPLICATION->IncludeComponent(
+                    "bitrix:main.include",
+                    "",
+                    Array(
+                        "AREA_FILE_SHOW" => "file",
+                        "PATH" => v::includedArea('contact_info/header_mobile_info.php')
+                    )
+                ); ?>
             </div>
         </div>
     </div>
@@ -127,8 +140,14 @@ if (App::useBitrixAsset()) {
                 </form>
                 <span class="header-re-call" data-modal="re-call">Написать нам</span>
                 <div class="header-middle-phones">
-                    <a href="tel:+7(495)437-23-29"><span>+7(495)</span>437-23-29</a>
-                    <a href="tel:+7(495)437-23-29"><span>+7(495)</span>437-23-29</a>
+                    <? $APPLICATION->IncludeComponent(
+                        "bitrix:main.include",
+                        "",
+                        Array(
+                            "AREA_FILE_SHOW" => "file",
+                            "PATH" => v::includedArea('contact_info/header_desktop_tel.php')
+                        )
+                    ); ?>
                 </div>
             </div>
             <span class="header-middle-hamburger"></span>

@@ -5,6 +5,7 @@ use App\View as v;
 use App\Layout;
 use Core\Env;
 
+// bring context variables into scope
 extract(App::getInstance()->layoutContext(), EXTR_SKIP);
 
 if ($isAjax) {
@@ -56,8 +57,14 @@ if ($isAjax) {
                     </li>
                     <li class="footer-contacts">
                         <p class="footer-title">Контакты</p>
-                        <p class="footer-contacts-line">e-mail: <a href="mailto:asn@taleat.ru">asn@taleat.ru</a></p>
-                        <p class="footer-contacts-line">Адрес фактический: <br>127473, г. Москва, <br>ул. Селезневская, д. 30 корп. 1</p>
+                        <? $APPLICATION->IncludeComponent(
+                            "bitrix:main.include",
+                            "",
+                            Array(
+                                "AREA_FILE_SHOW" => "file",
+                                "PATH" => v::includedArea('contact_info/footer.php')
+                            )
+                        ); ?>
                     </li>
                 </ul>
             </div>
@@ -65,18 +72,19 @@ if ($isAjax) {
     </div>
     <div class="footer-bottom">
         <div class="wrap">
-            <span class="copy">ООО «ТАЛЕАТ-СЕРВИС» Все права защищены © <?= date('Y') ?> </span>
+            <span class="copy"><? $APPLICATION->IncludeComponent(
+                    "bitrix:main.include",
+                    "",
+                    Array(
+                        "AREA_FILE_SHOW" => "file",
+                        "PATH" => v::includedArea('layout/copyright.php')
+                    )
+                ); ?></span>
             <span class="create-by">Разработка сайта - <a href="https://i-market.ru" target="_blank">i-market.ru</a></span>
         </div>
     </div>
 </footer>
 <? // modals ?>
-<div class="modal" id="register-modal" data-path="<?= $auth['registerLink'] ?>">
-    <div class="block">
-        <span class="close close-modal">×</span>
-        <div class="modal__content"></div>
-    </div>
-</div>
 <? $APPLICATION->ShowViewContent('modals') ?>
 <? if (!App::useBitrixAsset()): ?>
     <? foreach (App::assets()['scripts'] as $path): ?>

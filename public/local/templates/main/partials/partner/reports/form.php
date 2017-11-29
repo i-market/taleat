@@ -313,7 +313,7 @@ use Core\Nullable as nil;
                            name="agreed"
                            value="1"
                            required
-                           data-msg-required="Пожалуйста, отметьте, если вы готовы отправить изменения на проверку."
+                           data-msg-required="Отметьте, если вы готовы отправить изменения на проверку."
                            id="<?= $id ?>"
                            hidden="hidden">
                     <label for="<?= $id ?>">Отправить на проверку (дальнейшее редактирование будет не возможно)</label>

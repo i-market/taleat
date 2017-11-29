@@ -12,7 +12,7 @@ use App\Iblock;
 use Bex\Tools\Iblock\IblockTools;
 
 if (v::isEmpty(v::get($_REQUEST, 'tab'))) {
-    LocalRedirect(v::path('partneram/account'));
+    LocalRedirect(v::path('partneram/feed'));
 }
 $activeTab = $_REQUEST['tab'];
 $tabs = [

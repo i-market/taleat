@@ -290,6 +290,20 @@ use Core\Nullable as nil;
     <div id="img-group-error"></div>
 
     <div class="bottom">
+        <? if ($mode === 'edit'): ?>
+            <div class="section">
+                <div class="wrap-checkbox">
+                    <? $id = 'agree-'.Util::uniqueId() ?>
+                    <input type="checkbox"
+                           name="agreed"
+                           value="1"
+                           required
+                           id="<?= $id ?>"
+                           hidden="hidden">
+                    <label for="<?= $id ?>">Отправить на проверку (дальнейшее редактирование будет не возможно)</label>
+                </div>
+            </div>
+        <? endif ?>
         <button type="submit" class="btn">Отправить заключение</button>
     </div>
 </form>

@@ -193,7 +193,6 @@ use Core\Util;
 
     <p class="text">Запчасти, необходимые для восстановления:</p>
     <? $parts = v::get($fields, 'ZAP', []) ?>
-    <input type="hidden" name="ZAP_COUNT" value="<?= count($parts) ?: 3 ?>" />
     <div class="parts-in-stock">
         <div class="parts-in-stock-item hidden">
             <div class="wrap-stock-input">
@@ -256,11 +255,19 @@ use Core\Util;
     <? endforeach ?>
 
     <? // TODO edit: render files ?>
-    <? // TODO validate: require file ?>
     <h3>Прикрепить скан гарантийного талона или чека</h3>
-    <div class="wrap-file"><input type="file" name="img1" accept="image/*"></div>
-    <div class="wrap-file"><input type="file" name="img2" accept="image/*"></div>
-    <div class="wrap-file"><input type="file" name="img3" accept="image/*"></div>
+    <? foreach (range(1, 3) as $n):  ?>
+        <div class="wrap-file">
+            <input type="file"
+                   name="<?= 'img'.$n ?>"
+                   accept="image/*"
+                   class="img-group"
+                   data-rule-require_from_group="[1, '.img-group']"
+                   data-msg-require_from_group="Пожалуйста, прикрепите хотя бы один файл."
+                   data-error-container="#img-group-error">
+        </div>
+    <? endforeach ?>
+    <div id="img-group-error"></div>
     <div class="bottom">
         <button type="submit" class="btn">Отправить заключение</button>
     </div>

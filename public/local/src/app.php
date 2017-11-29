@@ -73,6 +73,7 @@ class App extends \Core\App {
             'js/main.js',
             'js/vendor/lodash.js',
             'js/vendor/jquery.validate.js',
+            'js/vendor/additional-methods.js',
             'modules.js',
             'js/app.js',
             'js/legacy.js',

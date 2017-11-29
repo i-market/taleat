@@ -22,17 +22,23 @@
     creditcard: "Пожалуйста, введите правильный номер кредитной карты.",
     equalTo: "Пожалуйста, введите такое же значение ещё раз.",
     extension: "Пожалуйста, выберите файл с правильным расширением.",
-    maxlength: $.validator.format( "Пожалуйста, введите не больше {0} символов." ),
-    minlength: $.validator.format( "Пожалуйста, введите не меньше {0} символов." ),
-    rangelength: $.validator.format( "Пожалуйста, введите значение длиной от {0} до {1} символов." ),
-    range: $.validator.format( "Пожалуйста, введите число от {0} до {1}." ),
-    max: $.validator.format( "Пожалуйста, введите число, меньшее или равное {0}." ),
-    min: $.validator.format( "Пожалуйста, введите число, большее или равное {0}." )
+    maxlength: $.validator.format("Пожалуйста, введите не больше {0} символов."),
+    minlength: $.validator.format("Пожалуйста, введите не меньше {0} символов."),
+    rangelength: $.validator.format("Пожалуйста, введите значение длиной от {0} до {1} символов."),
+    range: $.validator.format("Пожалуйста, введите число от {0} до {1}."),
+    max: $.validator.format("Пожалуйста, введите число, меньшее или равное {0}."),
+    min: $.validator.format("Пожалуйста, введите число, большее или равное {0}."),
+    // additional-methods.js rules
+    require_from_group: $.validator.format("Пожалуйста, заполните как минимум {0} из этих полей.")
   });
 
   $.validator.setDefaults({
     ignore: ':hidden:parent:not(.wrap-radio)',
     errorPlacement: function($error, $el) {
+      if ($el.attr('data-error-container')) {
+        var sel = $el.attr('data-error-container');
+        return $(sel).html($error);
+      }
       if ($el.closest('.right .grid').length) {
         return $error.insertAfter($el.closest('.right .grid'));
       }
@@ -47,7 +53,7 @@
 
       if ($el.hasClass('fs-dropdown-element')) {
         $error.insertAfter($el.siblings('.fs-dropdown-selected'));
-      } else if ($el.parent().is('.wrap-radio, .wrap-checkbox, .label_textarea')) {
+      } else if ($el.parent().is('.wrap-radio, .wrap-checkbox, .wrap-file, .label_textarea')) {
         $error.insertAfter($el.parent());
       } else {
         $error.insertAfter($el);

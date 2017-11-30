@@ -271,8 +271,9 @@ class Report {
             if (App::env() === Env::DEV) {
                 throw $e;
             }
-            // TODO send exception data to sentry
-            App::getInstance()->assert(false);
+            App::getInstance()->withRaven(function (\Raven_Client $raven) use ($e) {
+                return $raven->captureException($e);
+            });
             return [
                 'success' => false,
                 'message' => [
@@ -299,8 +300,9 @@ class Report {
             if (App::env() === Env::DEV) {
                 throw $e;
             }
-            // TODO send exception data to sentry
-            App::getInstance()->assert(false);
+            App::getInstance()->withRaven(function (\Raven_Client $raven) use ($e) {
+                return $raven->captureException($e);
+            });
             return [
                 'success' => false,
                 'message' => [

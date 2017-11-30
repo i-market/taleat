@@ -419,6 +419,23 @@ class App {
     }
 }
 
+class Session {
+    static $flash = [];
+
+    static function addFlash(array $message) {
+        $_SESSION['flash_messages'][] = $message;
+    }
+
+    static function getFlash() {
+        return self::$flash;
+    }
+
+    static function process() {
+        self::$flash = $_SESSION['flash_messages'];
+        $_SESSION['flash_messages'] = [];
+    }
+}
+
 class View {
     static function asset($path) {
         return SITE_TEMPLATE_PATH.'/build/assets/'.$path;

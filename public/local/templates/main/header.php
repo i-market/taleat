@@ -9,12 +9,15 @@ use App\Auth;
 use Bitrix\Main\Page\Asset;
 use App\View as v;
 use App\Layout;
+use Core\Session;
 
 App::getInstance()->assert(!($_REQUEST["auth"]=="Войти"), 'legacy');
 App::getInstance()->assert(!isset($_POST["AUTH_FORM_PARTNER"]), 'legacy');
 
 // bring context variables into scope
 extract(App::getInstance()->layoutContext(), EXTR_SKIP);
+
+Session::process();
 
 if ($isAjax) {
     // skip the whole thing for ajax requests
@@ -56,6 +59,9 @@ if (App::useBitrixAsset()) {
 <body data-anchor="top" class="<? $showBodyClass() ?>">
 <? $APPLICATION->ShowPanel() ?>
 <div id="global-loader">Загрузка...</div>
+<? foreach (Session::getFlash() as $msg): ?>
+    <div class="flash-message <?= v::get($msg, 'type') ?>"><?= $msg['text'] ?></div>
+<? endforeach ?>
 <header class="header">
     <div class="menu-hidden">
         <div class="menu-hidden-close"></div>

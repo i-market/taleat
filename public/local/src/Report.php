@@ -288,7 +288,13 @@ class Report {
             if (!self::_update($params)) {
                 throw new \Exception();
             }
-            return ['success' => true]; // TODO flash message
+            return [
+                'success' => true,
+                'message' => [
+                    'type' => 'success',
+                    'text' => 'Изменения успешно сохранены и отправлены на проверку'
+                ]
+            ];
         } catch (\Exception $e) {
             if (App::env() === Env::DEV) {
                 throw $e;

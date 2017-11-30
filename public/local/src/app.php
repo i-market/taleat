@@ -10,6 +10,7 @@ use Core\NewsListLike;
 use Bitrix\Main\Config\Configuration;
 use Core\Underscore as _;
 use Core\Util;
+use Core\Session;
 
 if (class_exists('Bitrix\Main\Loader')) {
     Loader::includeModule('iblock');

@@ -7,6 +7,7 @@ $APPLICATION->SetPageProperty('body_class', 'bg');
 use App\Layout;
 use App\View as v;
 use App\Report;
+use Core\Session;
 
 if (!isset($_REQUEST['id'])) {
     LocalRedirect('/404.php');
@@ -15,6 +16,7 @@ $result = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = Report::update($_REQUEST);
     if ($result['success']) {
+        Session::addFlash($result['message']);
         LocalRedirect(v::path('partneram/reports'));
     }
 }

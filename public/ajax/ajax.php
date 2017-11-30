@@ -11,11 +11,18 @@ switch($_REQUEST['mode']):
     case 'partner/newsletter_sub':
         Components::showNewsletterSub();
         break;
-    case 'cartUpdate':
+    case 'header_cart':
         Layout::showHeaderCart();
         break;
     case 'cart/index':
         (new Cart)->index();
+        break;
+    case 'cartUpdate':
+        $APPLICATION->IncludeComponent("bitrix:sale.basket.basket.line", "basket", Array(
+            "PATH_TO_BASKET" => SITE_DIR."personal/cart/",  // Страница корзины
+            "PATH_TO_PERSONAL" => SITE_DIR."personal/", // Персональный раздел
+            "SHOW_PERSONAL_LINK" => "N",    // Отображать ссылку на персональный раздел
+        ), false);
         break;
     case 'buy':
         CModule::IncludeModule('catalog');

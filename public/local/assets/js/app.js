@@ -63,6 +63,7 @@
 
   function initComponents($scope) {
     Mockup.initComponents($scope);
+    cleanUpEditable($('.editable-area', $scope));
     $('form.validate', $scope).validate();
 
     $('[data-fancybox-items]', $scope).on('click', function (evt) {
@@ -129,7 +130,7 @@
       type: 'POST',
       url: '/ajax/ajax.php',
       data: {
-        mode: 'cartUpdate'
+        mode: 'header_cart'
       },
       dataType: 'html',
       success: function (result) {
@@ -175,8 +176,6 @@
         $globalLoader.hide();
       });
 
-    cleanUpEditable($('.editable-area'));
-
     $('.signup-form').each(function () {
       function init($component) {
         $('.tab-link', $component).on('click', function (evt) {
@@ -186,6 +185,28 @@
       }
 
       init($(this));
+    });
+
+    // region
+
+    $('.regional-service-centers').each(function () {
+      var $section = $(this);
+      function selectedValue($selects) {
+        return $selects
+          .filter(function () { return $(this).val() !== ''; })
+          .map(function () {
+            return $(this).attr('data-brand')+':'+this.value;
+          }).get().join(',');
+      }
+      function init($section) {
+        $section.find('.rsc-item').matchHeight();
+        $section.find('.city').on('change', function () {
+          var selected = selectedValue($section.find('.city'));
+          var query = '?'+updateQuery(_.partialRight(_.set, 'selected', selected));
+          replaceElement($section, query, init)
+        });
+      }
+      init($section);
     });
 
     // partner

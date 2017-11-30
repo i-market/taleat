@@ -1,0 +1,1 @@
+<div class="rsc-allert red center">Для того, чтоб найти ближайший официальный сервисный центр BRAUN (Браун), BABYLISS Paris (Бэбилис), DELONGHI (Делонги), KENWOOD (Кенвуд), выберите необходимый раздел и город.</div>

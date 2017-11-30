@@ -4,6 +4,7 @@ use App\App;
 use App\View as v;
 use App\Layout;
 use Core\Env;
+use App\View\FormMacros as m;
 
 // bring context variables into scope
 extract(App::getInstance()->layoutContext(), EXTR_SKIP);
@@ -85,7 +86,23 @@ if ($isAjax) {
     </div>
 </footer>
 <? // modals ?>
+
 <? $APPLICATION->ShowViewContent('modals') ?>
+
+<div class="modal" id="contact-modal">
+    <div class="block">
+        <span class="close close-modal">×</span>
+        <p class="title">Напишите нам</p>
+        <form action="/ajax/ajax.php?no_js=1" class="validate">
+            <input type="hidden" name="mode" value="contact_form">
+            <? m::showInput('NAME', 'Имя *', ['required' => true]) ?>
+            <? m::showInput('PHONE', 'Контактный телефон *', ['required' => true]) ?>
+            <? m::showInput('EMAIL', 'Контактный e-mail *', ['required' => true]) ?>
+            <textarea name="MESSAGE" placeholder="Сообщение"><?= v::escAttr(v::get($_REQUEST, 'MESSAGE')) ?></textarea>
+            <button type="submit" class="download-btn">Отправить</button>
+        </form>
+    </div>
+</div>
 <? if (!App::useBitrixAsset()): ?>
     <? foreach (App::assets()['scripts'] as $path): ?>
         <script src="<?= $path ?>"></script>

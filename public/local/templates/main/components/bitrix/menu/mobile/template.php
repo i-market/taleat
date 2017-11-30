@@ -4,7 +4,7 @@ use App\View as v;
 ?>
 <ul>
     <? foreach ($arResult as $item): ?>
-        <? $class = $item['SELECTED'] ? 'active' : '' ?>
+        <? $class = v::get($item, 'PARAMS.class', '') . ($item['SELECTED'] ? ' active' : '') ?>
         <li><a class="<?= $class ?>" href="<?= $item['LINK'] ?>"><span><?= $item['TEXT'] ?></span></a></li>
     <? endforeach ?>
 </ul>

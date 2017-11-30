@@ -83,7 +83,7 @@ if (App::useBitrixAsset()) {
                     "USE_EXT" => "Y"
                 )
             ); ?>
-            <span class="TODO-mockup re-call"><span>Написать нам</span></span>
+            <span class="re-call" data-modal="contact-modal"><span>Написать нам</span></span>
             <div class="menu-hidden-phones">
                 <? $APPLICATION->IncludeComponent(
                     "bitrix:main.include",
@@ -127,7 +127,6 @@ if (App::useBitrixAsset()) {
                             "USE_EXT" => "Y"
                         )
                     ); ?>
-
                 </nav>
                 <?= v::render('partials/layout/auth_desktop.php', ['auth' => $auth]) ?>
             </div>
@@ -139,12 +138,12 @@ if (App::useBitrixAsset()) {
                 <img src="<?= v::asset('images/ico/logo.png') ?>" alt="">
             </a>
             <span class="open-header-form"></span>
-            <div class="TODO-mockup header-middle-info">
-                <form action="<?= v::path('search/index.php') ?>" method="get" id="" class="header-middle-serch">
+            <div class="header-middle-info">
+                <form action="<?= v::path('search/index.php') ?>" method="get" id="" class="TODO-mockup header-middle-serch">
                     <input name="q" type="text" placeholder="Найти" autocomplete="off">
                     <button type="submit"></button>
                 </form>
-                <span class="header-re-call" data-modal="re-call">Написать нам</span>
+                <span class="header-re-call" data-modal="contact-modal">Написать нам</span>
                 <div class="header-middle-phones">
                     <? $APPLICATION->IncludeComponent(
                         "bitrix:main.include",

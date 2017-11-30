@@ -256,6 +256,7 @@ class Report {
     }
 
     private static function filePath($num) {
+        // TODO app-wide tmp dir
         $tmpDir = ini_get('upload_tmp_dir') ?: sys_get_temp_dir();
         return Util::joinPath([$tmpDir, "new_tz_".date("y")."_".$num.".xls"]);
     }

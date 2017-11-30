@@ -16,7 +16,7 @@ use Core\Env;
 <section class="technical-conclusion-2">
     <div class="wrap">
         <div class="block">
-            <a class="btn" href="<?= v::path('partneram/reports/new') ?>">Заполнить техническое заключение</a>
+            <a class="btn" href="<?= v::path('partneram/reports/new') ?>">Заполнить<span class="hidden"> техническое заключение</span></a>
             <?
             global $filter;
             $filter = App::env() === Env::DEV && v::get($_REQUEST, 'all')

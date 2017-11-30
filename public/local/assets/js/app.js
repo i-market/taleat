@@ -190,7 +190,6 @@
     // region
 
     $('.regional-service-centers').each(function () {
-      var $section = $(this);
       function selectedValue($selects) {
         return $selects
           .filter(function () { return $(this).val() !== ''; })
@@ -206,7 +205,21 @@
           replaceElement($section, query, init)
         });
       }
-      init($section);
+      init($(this));
+    });
+
+    // reviews
+
+    $('.reviews').each(function () {
+      var $section = $(this);
+      $section.find('.reviews-item').each(function () {
+        var $item = $(this);
+        var $text = $item.find('.paragraph');
+        var isOverflowing = $text[0].scrollHeight > $text[0].clientHeight;
+        if (isOverflowing) {
+          $item.find('.reviews-item-link').show();
+        }
+      });
     });
 
     // partner

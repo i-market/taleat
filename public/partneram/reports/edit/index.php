@@ -28,17 +28,25 @@ $context = Report::context(Report::elementFields($element), $_REQUEST, $result, 
 <div class="wrap">
     <? Layout::showBreadcrumbs() ?>
 </div>
-<section class="section-title">
+<? if (Report::isEditingDisallowed($element)): ?>
     <div class="wrap">
-        <div class="section-title-block">
-            <h2>Техническое заключение на изделие Babyliss <?= '№'.$element['PROPERTY_NUMER_VALUE'] ?></h2>
+        <div class="empty-state-page">
+            <div class="h3">Эту заявку невозможно отредактировать</div>
         </div>
     </div>
-</section>
-<section class="technical-conclusion">
-    <div class="wrap">
-        <?= v::render('partials/partner/reports/form.php', $context) ?>
-    </div>
-</section>
+<? else: ?>
+    <section class="section-title">
+        <div class="wrap">
+            <div class="section-title-block">
+                <h2>Техническое заключение на изделие Babyliss <?= '№'.$element['PROPERTY_NUMER_VALUE'] ?></h2>
+            </div>
+        </div>
+    </section>
+    <section class="technical-conclusion">
+        <div class="wrap">
+            <?= v::render('partials/partner/reports/form.php', $context) ?>
+        </div>
+    </section>
+<? endif ?>
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

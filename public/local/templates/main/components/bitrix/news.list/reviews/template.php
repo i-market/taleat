@@ -22,4 +22,4 @@ use App\View as v;
         </div>
     <? endforeach ?>
 </div>
-<?= $arResult['NAV_STRING'] ?>>
+<?= $arResult['NAV_STRING'] ?>

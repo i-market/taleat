@@ -267,7 +267,7 @@ if(!$USER->IsAdmin()){
             <? // relpaced menu component with html so that we can change .top.menu.php freely ?>
             <div class="bar">
                 <ul>
-                    <li class="active">
+                    <li>
                         <a href="/">Главная</a>
                     </li>
                     <li class="sep"></li><li>

@@ -28,6 +28,7 @@ class ExceptionHandlerLog extends \Bitrix\Main\Diag\ExceptionHandlerLog {
     }
 
     public function initialize(array $options) {
+        // TODO refactor: use `App` raven client instance
         $appConfig = Configuration::getValue('app');
         $this->enabled = _::get($appConfig, 'sentry.enabled', false);
         if ($this->enabled) {

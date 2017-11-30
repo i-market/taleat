@@ -10,7 +10,7 @@ use Core\NewsListLike;
 use Bitrix\Main\Config\Configuration;
 use Core\Underscore as _;
 use Core\Util;
-use Core\Session;
+use Raven_Client;
 
 if (class_exists('Bitrix\Main\Loader')) {
     Loader::includeModule('iblock');
@@ -20,8 +20,24 @@ class App extends \Core\App {
     const SITE_ID = 's1';
     const NEWSLETTER_ID = 1;
 
+    /** @var Raven_Client */
+    private $raven = null;
+
     function init() {
         EventHandlers::attach();
+    }
+
+    function withRaven(callable $f) {
+        if ($this->raven === null) {
+            $dsn = _::get(Configuration::getValue('app'), 'sentry.dsn');
+            $this->raven = new Raven_Client($dsn, [
+                'environment' => self::env()
+            ]);
+        }
+        if (function_exists('curl_init')) {
+            return $f($this->raven);
+        }
+        return null;
     }
 
     function assert($cond, $message = '') {
@@ -31,15 +47,15 @@ class App extends \Core\App {
         if (self::env() === Env::DEV) {
             throw new \Exception($message);
         } else {
-            // TODO log to sentry
-            return;
+            self::withRaven(function (Raven_Client $raven) use ($message) {
+                return $raven->captureMessage($message, [], [], true);
+            });
         }
     }
 
     function layoutContext() {
         global $APPLICATION;
         // TODO memoize
-        // TODO refactor deps: see usages
         $sentryConfig = _::get(Configuration::getValue('app'), 'sentry');
         $server = Application::getInstance()->getContext()->getServer();
         return [

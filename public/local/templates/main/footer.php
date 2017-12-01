@@ -47,14 +47,15 @@ if ($isAjax) {
                             "USE_EXT" => "Y"
                         )
                     ); ?>
-                    <li class="TODO-mockup footer-service">
-                        <p class="footer-title">сервисное обслуживание</p>
-                        <div class="footer-line"></div>
-                        <div class="footer-links">
-                            <p><a href="#">Babyliss Paris</a></p>
-                            <p><a href="#">Babyliss Paris</a></p>
-                            <p><a href="#">Delonghi</a></p>
-                        </div>
+                    <li class="footer-service">
+                        <? $APPLICATION->IncludeComponent(
+                            "bitrix:main.include",
+                            "",
+                            Array(
+                                "AREA_FILE_SHOW" => "file",
+                                "PATH" => v::includedArea('layout/footer_links.php')
+                            )
+                        ); ?>
                     </li>
                     <li class="footer-contacts">
                         <p class="footer-title">Контакты</p>

@@ -196,6 +196,7 @@ else{
 $objWriter = PHPExcel_IOFactory::createWriter($book, 'Excel5');
 $arNum = explode('/', $num);
 $fileName = 'new_tz_'.$arNum[0].'_'.$arNum[1].'.xls';
+// TODO use a temporary directory
 $objWriter->save($_SERVER["DOCUMENT_ROOT"]."/partneram/babyliss/tech-form/".$fileName);
 CIBlockElement::SetPropertyValuesEx($ID, IB_REPORTS, Array("FORMA"=>CFile::MakeFileArray($_SERVER["DOCUMENT_ROOT"]."/partneram/babyliss/tech-form/".$fileName)));
 LocalRedirect('https://taleat.ru/bitrix/admin/iblock_list_admin.php?IBLOCK_ID=10&type=region&lang=ru&find_section_section=0');

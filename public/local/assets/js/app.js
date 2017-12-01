@@ -180,9 +180,8 @@
 
     $('#contact-modal').each(function () {
       var $modal = $(this);
-      $modal.find('form').on('submit', function (evt) {
-        var $form = $(this);
-        evt.preventDefault();
+      var $form = $modal.find('form');
+      attachOnSubmit($form, function () {
         var formData = $form.serializeArray();
         formData.push({name: 'is_ajax', value: '1'});
         $.post('/ajax/ajax.php', formData, function (html) {
@@ -240,6 +239,18 @@
 
     //
 
+    // TODO bind jquery `this` element to the handler
+    function attachOnSubmit($form, handler) {
+      if (!_.isUndefined($form.data('validator'))) {
+        $form.data('validator').settings.submitHandler = handler;
+      } else {
+        $form.on('submit', function (evt) {
+          evt.preventDefault();
+          handler();
+        })
+      }
+    }
+
     function initAccount(type, $section) {
       function initProfile($profile) {
         $profile.find('.change-password-shortcut').on('click', function () {
@@ -283,14 +294,7 @@
             initNewsletter($new);
           });
         }
-        if (!_.isUndefined($form.data('validator'))) {
-          $form.data('validator').settings.submitHandler = onSubmit;
-        } else {
-          $form.on('submit', function (evt) {
-            evt.preventDefault();
-            onSubmit();
-          })
-        }
+        attachOnSubmit($form, onSubmit);
       }
       $('.profile', $section).each(function () {
         initProfile($(this));

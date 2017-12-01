@@ -222,65 +222,80 @@
       });
     });
 
+    //
+
+    function initAccount(type, $section) {
+      function initProfile($profile) {
+        $profile.find('.change-password-shortcut').on('click', function () {
+          // hack
+          $profile.find('.edit-btn').click();
+          $profile.find('.change-password').click();
+        });
+        var $form = $('form', $profile);
+        $form.data('validator').settings.submitHandler = function () {
+          var formData = $form.serializeArray();
+          formData.push({name: 'mode', value: type+'/profile'});
+          $.post('/ajax/ajax.php', formData, function (html) {
+            var $new = $(html);
+            $profile.replaceWith($new);
+            // order matters: init jquery-validate first
+            initComponents($new);
+            initProfile($new);
+          });
+        };
+      }
+      function initNewsletter($component) {
+        var $form = $('form', $component);
+        $('.toggle', $component).on('change', function () {
+          $(this).closest('form').submit();
+        });
+        function onSubmit() {
+          var formData = $form.serializeArray();
+          formData.push({name: 'mode', value: 'newsletter_sub'});
+          var attempt = 0;
+          $.post('/ajax/ajax.php', formData, function cb(html) {
+            attempt += 1;
+            if (attempt > 2) return;
+            if (html === '') {
+              // bitrix:subscribe.edit component will do a (malformed) redirect
+              return $.get('/ajax/ajax.php', {mode: 'newsletter_sub'}, cb);
+            }
+            var $new = $(html);
+            $component.replaceWith($new);
+            // order matters: init jquery-validate first
+            initComponents($new);
+            initNewsletter($new);
+          });
+        }
+        if (!_.isUndefined($form.data('validator'))) {
+          $form.data('validator').settings.submitHandler = onSubmit;
+        } else {
+          $form.on('submit', function (evt) {
+            evt.preventDefault();
+            onSubmit();
+          })
+        }
+      }
+      $('.profile', $section).each(function () {
+        initProfile($(this));
+      });
+      $('.newsletter-sub', $section).each(function () {
+        initNewsletter($(this));
+      });
+    }
+
+    // personal
+
+    $('.lk--personal').each(function () {
+      initAccount('personal', $(this));
+    });
+
     // partner
 
-    $('section.lk').each(function () {
-      var $section = $(this);
-      init($section);
+    $('.lk--partner').each(function () {
+      init($(this));
 
       function init($section) {
-        function initProfile($profile) {
-          $profile.find('.change-password-shortcut').on('click', function () {
-            // hack
-            $profile.find('.edit-btn').click();
-            $profile.find('.change-password').click();
-          });
-          var $form = $('form', $profile);
-          $form.data('validator').settings.submitHandler = function () {
-            var formData = $form.serializeArray();
-            formData.push({name: 'mode', value: 'partner/profile'});
-            $.post('/ajax/ajax.php', formData, function (html) {
-              var $new = $(html);
-              $profile.replaceWith($new);
-              // order matters: init jquery-validate first
-              initComponents($new);
-              initProfile($new);
-            });
-          };
-        }
-        function initNewsletter($component) {
-          var $form = $('form', $component);
-          $('.toggle', $component).on('change', function () {
-            $(this).closest('form').submit();
-          });
-          function onSubmit() {
-            var formData = $form.serializeArray();
-            formData.push({name: 'mode', value: 'partner/newsletter_sub'});
-            var attempt = 0;
-            $.post('/ajax/ajax.php', formData, function cb(html) {
-              attempt += 1;
-              if (attempt > 2) return;
-              if (html === '') {
-                // bitrix:subscribe.edit component will do a (malformed) redirect
-                return $.get('/ajax/ajax.php', {mode: 'partner/newsletter_sub'}, cb);
-              }
-              var $new = $(html);
-              $component.replaceWith($new);
-              // order matters: init jquery-validate first
-              initComponents($new);
-              initNewsletter($new);
-            });
-          }
-          if (!_.isUndefined($form.data('validator'))) {
-            $form.data('validator').settings.submitHandler = onSubmit;
-          } else {
-            $form.on('submit', function (evt) {
-              evt.preventDefault();
-              onSubmit();
-            })
-          }
-        }
-
         function replaceSection(url, cb) {
           cb = cb || _.noop;
           $.get(url, function(html) {
@@ -298,12 +313,8 @@
           });
         }
 
-        $('.profile', $section).each(function () {
-          initProfile($(this));
-        });
-        $('.newsletter-sub', $section).each(function () {
-          initNewsletter($(this));
-        });
+        initAccount('partner', $section);
+
         // ajaxify links
         $('.nav .tab-link', $section).on('click', function (evt) {
           evt.preventDefault();

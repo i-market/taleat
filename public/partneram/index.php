@@ -25,7 +25,7 @@ if (!in_array($activeTab, _::pluck($tabs, 'id'))) {
     LocalRedirect('/404.php');
 }
 ?>
-<section class="lk">
+<section class="lk lk--partner">
     <div class="section-title">
         <div class="wrap">
             <div class="section-title-block">

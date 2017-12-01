@@ -5,10 +5,13 @@ use App\Cart;
 use App\Components;
 
 switch($_REQUEST['mode']):
+    case 'personal/profile':
+        Components::showPersonalProfile();
+        break;
     case 'partner/profile':
         Components::showPartnerProfile();
         break;
-    case 'partner/newsletter_sub':
+    case 'newsletter_sub':
         Components::showNewsletterSub();
         break;
     case 'header_cart':

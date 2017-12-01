@@ -3,6 +3,7 @@
 namespace App;
 
 use App\View as v;
+use Core\Strings as str;
 
 class Layout {
     static function showMegaMenu($class = '') {
@@ -58,6 +59,40 @@ class Layout {
                 <div class="wrap">
                     <div class="editable-area default-page wrap-min">
         <? elseif ($fragment === 'footer'): ?>
+                    </div>
+                </div>
+            </section>
+        <? endif ?>
+        <?
+    }
+
+    static function showPersonalPageWrapper($fragment) {
+        global $APPLICATION;
+        ?>
+        <? if ($fragment === 'header'): ?>
+            <section class="lk lk--personal">
+                <div class="section-title">
+                    <div class="wrap">
+                        <div class="section-title-block">
+                            <h2><? $APPLICATION->ShowTitle(false) ?></h2>
+                            <div class="wrap-track-departure">
+                                <a class="track-departure" href="https://www.pochta.ru/tracking" target="_blank">Отследить отправление</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrap">
+                    <div class="tab_links tab_links--personal finger-block">
+                        <? // hack ?>
+                        <? $isOrderPage = str::startsWith($APPLICATION->GetCurDir(), '/personal/order/') ?>
+                        <a href="<?= v::path('personal') ?>" class="tab-link <?= !$isOrderPage ? 'active' : '' ?>">Контактные данные</a>
+                        <a href="<?= v::path('personal/order') ?>" class="tab-link <?= $isOrderPage ? 'active' : '' ?>">Мои заказы</a>
+                        <a href="" class="finger"></a>
+                    </div>
+                    <div class="tab_blocks">
+                        <div>
+        <? elseif ($fragment === 'footer'): ?>
+                        </div>
                     </div>
                 </div>
             </section>

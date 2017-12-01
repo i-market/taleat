@@ -85,6 +85,26 @@ class Components {
         <?
     }
 
+    static function showPersonalProfile() {
+        global $APPLICATION;
+        $APPLICATION->IncludeComponent(
+            "bitrix:main.profile",
+            "personal",
+            Array(
+                "AJAX_MODE" => "N",
+                "AJAX_OPTION_ADDITIONAL" => "",
+                "AJAX_OPTION_HISTORY" => "N",
+                "AJAX_OPTION_JUMP" => "N",
+                "AJAX_OPTION_STYLE" => "N",
+                "CHECK_RIGHTS" => "N",
+                "SEND_INFO" => "N",
+                "SET_TITLE" => "N",
+                "USER_PROPERTY" => array(),
+                "USER_PROPERTY_NAME" => ""
+            )
+        );
+    }
+
     static function showPartnerProfile() {
         global $APPLICATION;
         $APPLICATION->IncludeComponent(

@@ -11,6 +11,7 @@ use App\Review;
 use App\App;
 use Bitrix\Main\Application;
 use Bitrix\Main\Web\Uri;
+use Core\Util;
 
 $withParams = function ($params) {
     $uri = Application::getInstance()->getContext()->getRequest()->getRequestUri();
@@ -113,14 +114,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label class="label_textarea">
                             <textarea name="TEXT" required placeholder="Ваш отзыв"><?= v::escAttr(v::get($_REQUEST, 'TEXT')) ?></textarea>
                         </label>
-                        <div class="TODO-mockup wrap-checkbox">
-                            <input type="checkbox" hidden="hidden" id="01" checked>
-                            <label for="01">Я согласен на обработку <a href="#">персональных данных</a></label>
+                        <div class="wrap-checkbox">
+                            <? $id = 'input-'.Util::uniqueId() ?>
+                            <input class="checkbox"
+                                   type="checkbox"
+                                   name="legal"
+                                   value="1"
+                                   required
+                                   data-msg-required="Пожалуйста, дайте согласие на обработку персональных данных."
+                                   checked
+                                   hidden="hidden"
+                                   id="<?= $id ?>">
+                            <label for="<?= $id ?>">Я согласен на обработку <a href="#">персональных данных</a></label>
                         </div>
                         <button type="submit" class="download-btn">Отправить отзыв</button>
                     <? endif ?>
                     <p class="reviews-allert">Если у Вас остались вопросы по поводу ремонта вашей техники, Вы можете написать их директору компании</p>
-                    <span class="TODO-mockup download-btn" data-modal="">Написать письмо директору</span>
+                    <span class="download-btn" data-modal="contact-modal">Написать письмо директору</span>
                 </form>
             </div>
         </div>

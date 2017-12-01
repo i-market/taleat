@@ -366,8 +366,6 @@
         });
       });
 
-      $('input[name="SC[PHONE]"], input[name="VLADELEC[PHONE]"]', $form)
-        .mask('+7 (999) 999-99-99', {autoclear: false});
       $('input[name="SC[DATA_ZAKL]"], input[name="IZDEL[DATA_PRODAJI]"], input[name="IZDEL[DATA_POSTUP]"]', $form)
         .mask('99.99.9999', {autoclear: false});
     });

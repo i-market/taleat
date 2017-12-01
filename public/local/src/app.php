@@ -28,6 +28,30 @@ class App extends \Core\App {
         EventHandlers::attach();
     }
 
+    function layoutContext() {
+        global $APPLICATION;
+        // TODO memoize
+        $sentryConfig = _::get(Configuration::getValue('app'), 'sentry');
+        $server = Application::getInstance()->getContext()->getServer();
+        return [
+            'isAjax' => $server->get('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest', // header set by jquery
+            'auth' => Auth::links(),
+            'catalog' => [
+                'checkoutLink' => '/personal/order/make/'
+            ],
+            'sentry' => [
+                'enabled' => $sentryConfig['enabled'],
+                'env' => self::env(),
+                'publicDsn' => $sentryConfig['public_dsn']
+            ],
+            'showBodyClass' => function () use (&$APPLICATION) {
+                $APPLICATION->AddBufferContent(function () use (&$APPLICATION) {
+                    return $APPLICATION->GetProperty('body_class', '');
+                });
+            }
+        ];
+    }
+
     function withRaven(callable $f) {
         if ($this->raven === null) {
             $dsn = _::get(Configuration::getValue('app'), 'sentry.dsn');
@@ -52,30 +76,6 @@ class App extends \Core\App {
                 return $raven->captureMessage($message, [], [], true);
             });
         }
-    }
-
-    function layoutContext() {
-        global $APPLICATION;
-        // TODO memoize
-        $sentryConfig = _::get(Configuration::getValue('app'), 'sentry');
-        $server = Application::getInstance()->getContext()->getServer();
-        return [
-            'isAjax' => $server->get('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest', // header set by jquery
-            'auth' => Auth::links(),
-            'catalog' => [
-                'checkoutLink' => '/personal/order/make/'
-            ],
-            'sentry' => [
-                'enabled' => $sentryConfig['enabled'],
-                'env' => self::env(),
-                'publicDsn' => $sentryConfig['public_dsn']
-            ],
-            'showBodyClass' => function () use (&$APPLICATION) {
-                $APPLICATION->AddBufferContent(function () use (&$APPLICATION) {
-                    return $APPLICATION->GetProperty('body_class', '');
-                });
-            }
-        ];
     }
 
     static function assets() {

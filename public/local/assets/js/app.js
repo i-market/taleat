@@ -64,7 +64,9 @@
   function initComponents($scope) {
     Mockup.initComponents($scope);
     cleanUpEditable($('.editable-area', $scope));
-    $('form.validate', $scope).validate();
+    $('form.validate', $scope).each(function () {
+      $(this).validate();
+    });
 
     $('[data-fancybox-items]', $scope).on('click', function (evt) {
       evt.preventDefault();

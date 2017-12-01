@@ -1,10 +1,14 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
 use App\View as v;
+use Core\Underscore as _;
 
 $showItemName = function($title) {
+    $xform = ini_get('mbstring.func_overload') == 2
+        ? _::partialRight('TruncateText', 50)
+        : _::identity();
     ?>
-    <span itemprop="name"><?= TruncateText($title, 50) ?></span>
+    <span itemprop="name"><?= $xform($title) ?></span>
     <?
 };
 $showItem = function($position, $link, $title, $isLast) use ($showItemName) {

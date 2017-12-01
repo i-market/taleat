@@ -2,11 +2,13 @@
 
 namespace App;
 
+use Bex\Tools\Iblock\IblockTools;
 use Bitrix\Main\Application;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\Loader;
 use Bitrix\Main\Config\Configuration;
-use Bitrix\Main\Web\Uri;
+use CEvent;
+use CIBlockElement;
 use Core\Env;
 use Core\NewsListLike;
 use Core\Underscore as _;
@@ -103,6 +105,26 @@ class App extends \Core\App {
             'scripts' => $scripts
         ];
     }
+
+    static function submitContactForm($params) {
+        // TODO error handling
+        $fields = _::pick($params, ['NAME', 'PHONE', 'EMAIL', 'MESSAGE'], true);
+        $el = new CIBlockElement();
+        $isAdded = $el->Add([
+            'IBLOCK_ID' => IblockTools::find(Iblock::INBOX_TYPE, Iblock::CONTACT_FORM)->id(),
+            'NAME' => $fields['NAME'].' - '.date('d.m.Y'),
+            'PROPERTY_VALUES' => $fields
+        ]);
+        self::getInstance()->assert($isAdded);
+        $emailTo = Option::get('main', 'email_from');
+        self::getInstance()->assert($emailTo);
+        $isSent = CEvent::Send(Events::CONTACT_FORM, App::SITE_ID, array_merge($fields, [
+            'EMAIL_TO' => $emailTo
+        ]));
+        if (self::env() !== Env::DEV) {
+            self::getInstance()->assert($isSent);
+        }
+    }
 }
 
 class View extends \Core\View {
@@ -132,6 +154,7 @@ class View extends \Core\View {
 }
 
 class Events {
+    const CONTACT_FORM = 'CONTACT_FORM';
 }
 
 class Iblock extends \Core\Iblock {
@@ -159,6 +182,9 @@ class Iblock extends \Core\Iblock {
 
     const NEWS_TYPE = 'news';
     const NEWS = 'news';
+
+    const INBOX_TYPE = 'inbox';
+    const CONTACT_FORM = 'contact_form';
 }
 
 class Videos {

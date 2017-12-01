@@ -93,15 +93,17 @@ if ($isAjax) {
 <div class="modal" id="contact-modal">
     <div class="block">
         <span class="close close-modal">×</span>
-        <p class="title">Напишите нам</p>
-        <form action="/ajax/ajax.php?no_js=1" class="validate">
-            <input type="hidden" name="mode" value="contact_form">
-            <? m::showInput('NAME', 'Имя *', ['required' => true]) ?>
-            <? m::showInput('PHONE', 'Контактный телефон *', ['required' => true]) ?>
-            <? m::showInput('EMAIL', 'Контактный e-mail *', ['required' => true]) ?>
-            <textarea name="MESSAGE" placeholder="Сообщение"><?= v::escAttr(v::get($_REQUEST, 'MESSAGE')) ?></textarea>
-            <button type="submit" class="download-btn">Отправить</button>
-        </form>
+        <div class="content">
+            <p class="title">Напишите нам</p>
+            <form action="/ajax/ajax.php" class="validate">
+                <input type="hidden" name="mode" value="contact_form">
+                <? m::showInput('NAME', 'Имя *', ['required' => true]) ?>
+                <? m::showInput('PHONE', 'Контактный телефон *', ['required' => true]) ?>
+                <? m::showInput('EMAIL', 'Контактный e-mail *', ['required' => true]) ?>
+                <textarea name="MESSAGE" placeholder="Сообщение"><?= v::escAttr(v::get($_REQUEST, 'MESSAGE')) ?></textarea>
+                <button type="submit" class="download-btn">Отправить</button>
+            </form>
+        </div>
     </div>
 </div>
 <? if (!App::useBitrixAsset()): ?>

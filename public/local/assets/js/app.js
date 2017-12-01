@@ -178,6 +178,20 @@
         $globalLoader.hide();
       });
 
+    $('#contact-modal').each(function () {
+      var $modal = $(this);
+      $modal.find('form').on('submit', function (evt) {
+        var $form = $(this);
+        evt.preventDefault();
+        var formData = $form.serializeArray();
+        formData.push({name: 'is_ajax', value: '1'});
+        $.post('/ajax/ajax.php', formData, function (html) {
+          var $new = $(html);
+          $modal.find('.content').replaceWith($new);
+        });
+      });
+    });
+
     $('.signup-form').each(function () {
       function init($component) {
         $('.tab-link', $component).on('click', function (evt) {

@@ -3,8 +3,20 @@
 use App\Layout;
 use App\Cart;
 use App\Components;
+use App\App;
+use Core\Session;
+use Core\Underscore as _;
 
 switch($_REQUEST['mode']):
+    case 'contact_form':
+        App::submitContactForm($_REQUEST);
+        $msg = 'Ваше сообщение отправлено';
+        if (!_::get($_REQUEST, 'is_ajax')) { // fallback
+            Session::addFlash(['type' => 'success', 'text' => $msg]);
+            LocalRedirect('/');
+        }
+        echo '<p class="title">'.$msg.'</p>'; // TODO
+        break;
     case 'personal/profile':
         Components::showPersonalProfile();
         break;

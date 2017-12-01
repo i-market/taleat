@@ -139,7 +139,7 @@ if (App::useBitrixAsset()) {
             </a>
             <span class="open-header-form"></span>
             <div class="header-middle-info">
-                <form action="<?= v::path('search/index.php') ?>" method="get" id="" class="TODO-mockup header-middle-serch">
+                <form action="<?= v::path('search') ?>" method="get" class="header-middle-serch">
                     <input name="q" type="text" placeholder="Найти" autocomplete="off">
                     <button type="submit"></button>
                 </form>

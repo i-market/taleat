@@ -39,6 +39,8 @@ secrets.yml
 /tmp
 # TODO be more specific
 *.xls
+!/public/partneram/babyliss/tech-form/zakl_new1.xls
+!/public/local/resources/reports/template.xls
 *.doc
 *.pdf
 *.7z

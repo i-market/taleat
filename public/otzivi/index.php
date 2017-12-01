@@ -9,10 +9,23 @@ use App\View\FormMacros as m;
 use App\View as v;
 use App\Review;
 use App\App;
+use Bitrix\Main\Application;
+use Bitrix\Main\Web\Uri;
+
+$withParams = function ($params) {
+    $uri = Application::getInstance()->getContext()->getRequest()->getRequestUri();
+    return (new Uri($uri))->addParams($params)->getUri();
+};
 
 $result = [];
+// TODO refactor
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = Review::create($_REQUEST);
+    if ($result['success']) {
+        LocalRedirect($withParams(['success' => '1']), false, '303 See Other');
+    }
+} elseif (v::get($_REQUEST, 'success')) {
+    $result = Review::successResult();
 }
 ?>
 

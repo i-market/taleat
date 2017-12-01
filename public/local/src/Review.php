@@ -6,6 +6,16 @@ use CEvent;
 use CIBlockElement;
 
 class Review {
+    static function successResult() {
+        return [
+            'success' => true,
+            'message' => [
+                'type' => 'success',
+                'text' => 'Спасибо! Ваш отзыв появится после проверки модератором.'
+            ]
+        ];
+    }
+
     static function create($params) {
         // TODO error handling
         $el = new CIBlockElement;
@@ -26,12 +36,6 @@ class Review {
             );
             CEvent::Send("ADD_OTZIV", "s1", $arSendFields);
         }
-        return [
-            'success' => true,
-            'message' => [
-                'type' => 'success',
-                'text' => 'Спасибо! Ваш отзыв появится после проверки модератором.'
-            ]
-        ];
+        return self::successResult();
     }
 }

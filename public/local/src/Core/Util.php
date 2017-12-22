@@ -123,4 +123,14 @@ class Util {
             return self::descendants($children, $childrenFn, array_merge($ret, $children));
         }
     }
+
+    static function parseLatLong($str) {
+        $matchesRef = [];
+        if (preg_match('/(\-?\d+(?:\.\d+)?),\s*(\-?\d+(?:\.\d+)?)/', $str, $matchesRef)) {
+            list($_, $lat, $long) = $matchesRef;
+            return ['lat' => floatval($lat), 'long' => floatval($long)];
+        } else {
+            return null;
+        }
+    }
 }

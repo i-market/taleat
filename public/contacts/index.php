@@ -2,43 +2,117 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords", "Сетки к бритвам, зубные насадки к электрическим зубным щеткам, запасные части к Браун, Braun, аксессуары к бытовой технике");
 $APPLICATION->SetPageProperty("description", "Мы предлагаем широкий ассортимент аксессуаров  к бытовой технике  фирмы Braun (Браун)");
-$APPLICATION->SetTitle("Контакты");
-?><strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">ООО «ТАЛЕАТ-СЕРВИС» </span><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;"> </span><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;">
-ИНН/КПП </span></strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">7731196457/773101001</span><strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;"> </span><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;">
-ОГРН </span></strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">1027739750972</span><strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;"> </span><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;">
-Адрес юридический:&nbsp;</span></strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">121357, г. Москва, ул. Инициативная, д. 16, к. 4, кв. 31&nbsp;</span><strong><span style="color: #ff0000; font-family: 'Times New Roman', Times; font-size: 14pt;">(По данному адресу магазина нет)&nbsp;</span><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;">
-Адрес фактический:</span></strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;"><span style="font-family: 'Times New Roman', Times;">&nbsp;127473, г. Москва, ул. Селезневская, д. 30 корп. 1</span></span><span style="font-family: 'Times New Roman', Times; font-size: 14pt; color: #ff0000;"><b><br>
- <span style="font-family: 'Times New Roman', Times;"> </span></b></span><span style="font-family: 'Times New Roman', Times; font-size: 14pt;"><span style="font-family: 'Times New Roman', Times;"><b><span style="color: #0000ff;">Пункты приема техники в ремонт и продажи запчастей</span></b> <b><span style="color: #0000ff;"><a href="http://www.taleat.ru/priemnie-punkti/">Т</a></span></b></span><span style="font-family: 'Times New Roman', Times;"><b><span style="color: #0000ff;"><a href="http://www.taleat.ru/priemnie-punkti/">УТ</a></span></b></span></span><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;"> </span><strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">Банковские реквизиты: </span></strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">ПАО «Сбербанк России» Московский банк Сбербанка России, г. Москва</span><strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;"> </span><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;">
-Р/С: </span></strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">4070 2810 8381 9010 3989</span><strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;"> </span><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;">
-К/С: &nbsp;</span></strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">3010 1810 4000 0000 0225</span><strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;"> </span><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;">
-БИК: </span></strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">044525225</span><strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;"> </span><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;">
-Ген. директор: </span></strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">Другов А.Н.</span><strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;"> </span><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;">
-Гл. бухгалтер: </span></strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">Слуцкая Ю.В.</span><strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;"> </span><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;"> </span><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;">
-e-mail: </span></strong><a href="mailto:asn@taleat.ru"><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">asn@taleat.ru</span></a><span style="font-size: 18.6667px;"><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;"> </span></span><b><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">Телефон</span></b><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">: +7 (495) 437-23-29</span><strong><br>
- <span style="font-family: 'Times New Roman', Times; font-size: 14pt;">
-Сайт в интернете: </span></strong><a href="http://www.taleat.ru"><span style="font-family: 'Times New Roman', Times; font-size: 14pt;">www.taleat.ru</span></a><strong><span style="font-family: 'Times New Roman', Times; font-size: 14pt;"> </span></strong><strong><br>
- &nbsp; &nbsp;</strong>
-<div>
- <span style="font-family: &quot;Times New Roman&quot;, Times; font-size: 14pt; color: #0000ff;"> </span><span style="font-family: &quot;Times New Roman&quot;, Times; font-size: 14pt; color: #0000ff;"> </span>
-</div>
-<div>
- <br>
-</div>
-<div>
- <br>
-</div>
- <br><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+$APPLICATION->SetPageProperty("layout", "bare");
+$APPLICATION->SetTitle("Контакты. Приемные пункты техники");
+
+use App\Iblock;
+use Bex\Tools\Iblock\IblockTools;
+use App\View as v;
+?>
+
+<section class="contacts">
+    <div class="section-title">
+        <div class="wrap">
+            <div class="section-title-block">
+                <h2><? $APPLICATION->ShowTitle(false) ?></h2>
+            </div>
+        </div>
+    </div>
+    <div class="wrap">
+        <? $APPLICATION->IncludeComponent(
+            "bitrix:news.list",
+            "our_locations",
+            Array(
+                "ACTIVE_DATE_FORMAT" => "j F Y",
+                "ADD_SECTIONS_CHAIN" => "N",
+                "AJAX_MODE" => "N",
+                "AJAX_OPTION_ADDITIONAL" => "",
+                "AJAX_OPTION_HISTORY" => "N",
+                "AJAX_OPTION_JUMP" => "N",
+                "AJAX_OPTION_STYLE" => "Y",
+                "CACHE_FILTER" => "N",
+                "CACHE_GROUPS" => "Y",
+                "CACHE_TIME" => "36000000",
+                "CACHE_TYPE" => "A",
+                "CHECK_DATES" => "Y",
+                "DETAIL_URL" => "",
+                "DISPLAY_BOTTOM_PAGER" => "Y",
+                "DISPLAY_DATE" => "Y",
+                "DISPLAY_NAME" => "Y",
+                "DISPLAY_PICTURE" => "Y",
+                "DISPLAY_PREVIEW_TEXT" => "Y",
+                "DISPLAY_TOP_PAGER" => "N",
+                "FIELD_CODE" => array("", ""),
+                "FILTER_NAME" => "",
+                "HIDE_LINK_WHEN_NO_DETAIL" => "N",
+                "IBLOCK_ID" => IblockTools::find(Iblock::CONTENT_TYPE, Iblock::OUR_LOCATIONS)->id(),
+                "IBLOCK_TYPE" => Iblock::CONTENT_TYPE,
+                "INCLUDE_IBLOCK_INTO_CHAIN" => "N",
+                "INCLUDE_SUBSECTIONS" => "Y",
+                "MESSAGE_404" => "",
+                "NEWS_COUNT" => PHP_INT_MAX,
+                "PAGER_BASE_LINK_ENABLE" => "N",
+                "PAGER_DESC_NUMBERING" => "N",
+                "PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
+                "PAGER_SHOW_ALL" => "N",
+                "PAGER_SHOW_ALWAYS" => "N",
+                "PAGER_TEMPLATE" => ".default",
+                "PAGER_TITLE" => '',
+                "PARENT_SECTION" => "",
+                "PARENT_SECTION_CODE" => "",
+                "PREVIEW_TRUNCATE_LEN" => "",
+                "PROPERTY_CODE" => array("LAT_LONG", "DESCRIPTION", "DIRECTIONS"),
+                "SET_BROWSER_TITLE" => "N",
+                "SET_LAST_MODIFIED" => "N",
+                "SET_META_DESCRIPTION" => "N",
+                "SET_META_KEYWORDS" => "N",
+                "SET_STATUS_404" => "N",
+                "SET_TITLE" => "N",
+                "SHOW_404" => "N",
+                "SORT_BY1" => "ACTIVE_FROM",
+                "SORT_BY2" => "SORT",
+                "SORT_ORDER1" => "DESC",
+                "SORT_ORDER2" => "ASC"
+            )
+        ); ?>
+    </div>
+</section>
+<section class="service-centers">
+    <div class="wrap">
+        <div class="inner">
+            <? $APPLICATION->IncludeComponent(
+                "bitrix:main.include",
+                "",
+                Array(
+                    "AREA_FILE_SHOW" => "file",
+                    "PATH" => v::includedArea('contact/block_with_button.php')
+                )
+            ); ?>
+        </div>
+    </div>
+</section>
+<section class="questions-remained">
+    <div class="wrap">
+        <div class="wrap-min">
+            <div class="grid">
+                <div class="col col-2">
+                    <? $APPLICATION->IncludeComponent(
+                        "bitrix:main.include",
+                        "",
+                        Array(
+                            "AREA_FILE_SHOW" => "file",
+                            "PATH" => v::includedArea('contact/contact_us.php')
+                        )
+                    ); ?>
+                    <span class="btn" data-modal="contact-modal">Написать письмо директору</span>
+                </div>
+                <div class="TODO-mockup col col-2">
+                    <p class="text blue">Наши реквизиты вы можете скачать кликнув по кнопке ниже</p>
+                    <a class="btn" href="#">Скачать реквизиты</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

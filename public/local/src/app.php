@@ -171,6 +171,7 @@ class Iblock extends \Core\Iblock {
     const ARTICLES = 'articles';
     const VIDEOS = 'videos';
     const RESPONSIVE_BANNERS = 'responsive_banners';
+    const OUR_LOCATIONS = 'our_locations';
 
     const CATALOG_TYPE = 'catalog';
     /** products */

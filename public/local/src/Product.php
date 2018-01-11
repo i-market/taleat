@@ -45,7 +45,7 @@ class Product {
         return fn_get_chainpath($section['IBLOCK_ID'], $section['ID']);
     }
 
-    // TODO refactor: we shouldn't need this when we fix all the paths
+    // TODO refactor: we won't need this when we fix all the paths
     static function pathStartsWith($_prefix, $_subject) {
         $path = function ($str) {
             return array_filter(explode('/', $str), function ($s) {
@@ -97,5 +97,25 @@ class Product {
             }
             return $img;
         }, $images);
+    }
+
+    private static function updateCurrency($price, $trimWhitespace, callable $f) {
+        $ws = $trimWhitespace ? '\s*' : '';
+        return preg_replace_callback('/'.$ws.'\b\pL+\.?$/u', function ($m) use ($f, $trimWhitespace) {
+            $text = $trimWhitespace ? trim($m[0]) : $m[0];
+            return $f($text);
+        }, $price);
+    }
+
+    static function wrapCurrency($price, $trimWhitespace = false) {
+        return self::updateCurrency($price, $trimWhitespace, function ($text) {
+            return "<span>{$text}</span>";
+        });
+    }
+
+    static function wrapAmount($price, $trimWhitespace = false) {
+        return '<span>'.self::updateCurrency($price, $trimWhitespace, function ($text) {
+            return "</span>{$text}";
+        });
     }
 }

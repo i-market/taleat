@@ -105,8 +105,10 @@ $isCartEmpty = count(array_merge(...array_values($arResult['ITEMS']))) === 0;
                 <div class="cart-table-total">
                     <div class="top">
                         <? $quantity = count($arResult['ITEMS']['AnDelCanBuy']) ?>
-                        <? // TODO (span (span price) currency) ?>
-                        <p>Итого: <?= $quantity.' '.Util::units($quantity, 'товар', 'товара', 'товаров') ?>, <span class="new-line">на сумму<span class="price"><?= $arResult['allSum_FORMATED'] ?></span></span></p>
+                        <p>
+                            Итого: <?= $quantity.' '.Util::units($quantity, 'товар', 'товара', 'товаров') ?>,
+                            <span class="new-line">на сумму<span class="price"><?= Product::wrapCurrency($arResult['allSum_FORMATED'], true) ?></span></span>
+                        </p>
                     </div>
                     <div class="bottom">
                         <div class="editable-area text">

@@ -188,6 +188,10 @@ if (App::useBitrixAsset()) {
     <? v::showForLayout('homepage', function () { ?>
         <? Layout::showMegaMenu() ?>
     <? }) ?>
+    <? v::showForLayout('personal', function () { ?>
+        <? Layout::showMegaMenu('content-menu-block--pages') ?>
+        <? Layout::showPersonalPageWrapper('header') ?>
+    <? }) ?>
 
     <? // important ?>
     <? Auth::restrictAccess() ?>

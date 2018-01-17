@@ -6,7 +6,7 @@ use App\Product;
 
 $showEverything = false && App::env() === \Core\Env::DEV;
 
-$showWrapper = function ($fragment) use ($arResult) {
+$showWrapper = function ($fragment) use ($arResult, &$APPLICATION) {
     ?>
     <? if ($fragment === 'header'): ?>
         <div class="product-registration-info">
@@ -15,7 +15,16 @@ $showWrapper = function ($fragment) use ($arResult) {
                 <input type="hidden" name="profile_change" id="profile_change" value="N">
                 <input type="hidden" name="is_ajax_post" id="is_ajax_post" value="Y">
                 <?= bitrix_sessid_post() ?>
-                <p class="TODO-mockup paragraph red">Работаем только по 100% предоплате!<br>Необходимо указать ФИО получателя заказа и адрес доставки.</p>
+                <div class="editable-area paragraph">
+                    <? $APPLICATION->IncludeComponent(
+                        "bitrix:main.include",
+                        "",
+                        Array(
+                            "AREA_FILE_SHOW" => "file",
+                            "PATH" => v::includedArea('personal/order/checkout_text.php')
+                        )
+                    ); ?>
+                </div>
                 <div id="order_form_content">
                     <? // ajax response goes here ?>
     <? elseif ($fragment === 'footer'): ?>
@@ -98,7 +107,11 @@ else
 			BX.ajax.submitComponentForm(orderForm, 'order_form_content', true);
 			BX.submit(orderForm);
 
-			return true;
+          BX.addCustomEvent('onAjaxSuccess', function () {
+            App.initComponents($('#order_form_content'));
+          });
+
+          return true;
 		}
 		function SetContact(profileId)
 		{

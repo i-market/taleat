@@ -5,6 +5,7 @@ namespace App;
 use Bitrix\Iblock\Component\Tools;
 use Bitrix\Iblock\ElementTable;
 use Bitrix\Main\UserFieldTable;
+use CCurrencyLang;
 use CFile;
 use CIBlockSection;
 use Core\Nullable as nil;

@@ -17,6 +17,9 @@ if ($isAjax) {
 <? v::showForLayout('default', function () { ?>
     <? Layout::showDefaultPageWrapper('footer') ?>
 <? }) ?>
+<? v::showForLayout('personal', function () { ?>
+    <? Layout::showPersonalPageWrapper('footer') ?>
+<? }) ?>
 </main>
 <footer class="footer">
     <div class="footer-top">

@@ -37,7 +37,7 @@ class Auth {
     static function links() {
         return [
             'registerLink' => '/login/?register=yes&backurl=%2F',
-            'profileLink' => '/personal/',
+            'profileLink' => '/personal/order/',
             'loginLink' => '/login/?login=yes&backurl=%2F',
             'logoutLink' => '/?logout=yes'
         ];

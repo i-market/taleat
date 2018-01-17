@@ -229,3 +229,42 @@ class Catalog {
         ];
     }
 }
+
+class OrderStatus {
+    const COMPLETED = 'F';
+    const OUT_OF_STOCK = 'O';
+    /*
+    array (
+      'N' =>
+      array (
+        'ID' => 'N',
+        'NAME' => 'Заказ в обработке',
+      ),
+      'O' =>
+      array (
+        'ID' => 'O',
+        'NAME' => 'Нет на складе',
+      ),
+      'A' =>
+      array (
+        'ID' => 'A',
+        'NAME' => 'Принят, ожидается оплата',
+      ),
+      'S' =>
+      array (
+        'ID' => 'S',
+        'NAME' => 'Товар поступил на склад',
+      ),
+      'P' =>
+      array (
+        'ID' => 'P',
+        'NAME' => 'Оплачен',
+      ),
+      'F' =>
+      array (
+        'ID' => 'F',
+        'NAME' => 'Отправлен',
+      ),
+    )
+    */
+}

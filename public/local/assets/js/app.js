@@ -2,6 +2,8 @@
   // see npm `build:modules` script
   var queryString = modules['querystring'];
 
+  window.App = {initComponents: initComponents};
+
   if (!window.history) {
     // noinspection JSValidateTypes
     window.history = {

@@ -8,11 +8,10 @@ use App\App;
 <?
 if(!empty($arResult["ORDER_PROP"]["USER_PROFILES"]))
 {
-    App::getInstance()->assert(false, 'unexpected code path');
 	if ($arParams["ALLOW_NEW_PROFILE"] == "Y")
 	{
 	?>
-		<?=GetMessage("SOA_TEMPL_PROP_CHOOSE")?><br />
+		<div class="text-block"><?=GetMessage("SOA_TEMPL_PROP_CHOOSE")?></div>
 		<select name="PROFILE_ID" id="ID_PROFILE_ID" onChange="SetContact(this.value)">
 			<option value="0"><?=GetMessage("SOA_TEMPL_PROP_NEW_PROFILE")?></option>
 			<?
@@ -24,8 +23,6 @@ if(!empty($arResult["ORDER_PROP"]["USER_PROFILES"]))
 			}
 			?>
 		</select>
-		<br />
-		<br />
 	<?
 	}
 	else
@@ -54,10 +51,8 @@ if(!empty($arResult["ORDER_PROP"]["USER_PROFILES"]))
 	<?
 	}
 }
-
 ?>
-<? // TODO ?>
-<div style="display:none;">
+<div style="display:none;"> <? // see `old_version` template ?>
 <?
 	$APPLICATION->IncludeComponent(
 		"bitrix:sale.ajax.locations",

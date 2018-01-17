@@ -38,12 +38,14 @@ $showHiddenInputs = function () use ($arResult) {
             <? $showHiddenInputs() ?>
             <? m::showInput('USER_LOGIN', 'Логин или e-mail', ['required' => true]) ?>
             <? m::showInput('USER_PASSWORD', 'Пароль', ['required' => true, 'type' => 'password']) ?>
-            <div class="wrap-checkbox">
-                <? $id = 'remember-'.Util::uniqueId() ?>
-                <input type="checkbox" hidden="hidden" name="USER_REMEMBER" value="Y" id="<?= $id ?>">
-                <label for="<?= $id ?>">Запомнить меня</label>
-                <a class="forget" href="<?=$arResult["AUTH_FORGOT_PASSWORD_URL"]?>">Забыли пароль?</a>
-            </div>
+            <? if ($arResult['STORE_PASSWORD'] === 'Y'): ?>
+                <div class="wrap-checkbox">
+                    <? $id = 'remember-'.Util::uniqueId() ?>
+                    <input type="checkbox" hidden="hidden" name="USER_REMEMBER" value="Y" id="<?= $id ?>">
+                    <label for="<?= $id ?>">Запомнить меня</label>
+                    <a class="forget" href="<?=$arResult["AUTH_FORGOT_PASSWORD_URL"]?>">Забыли пароль?</a>
+                </div>
+            <? endif ?>
             <button type="submit" class="download-btn">Войти</button>
             <p class="modal-text">Если у вас нет аккаунта, зарегистрируйтесь как <strong>покупатель</strong> или как <strong>сервисный центр</strong></p>
             <a class="yellow-btn" href="<?= Auth::links()['registerLink'] ?>">Зарегистрироваться</a>

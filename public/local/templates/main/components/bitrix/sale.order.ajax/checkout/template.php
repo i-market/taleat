@@ -10,7 +10,7 @@ $showWrapper = function ($fragment) use ($arResult, &$APPLICATION) {
     ?>
     <? if ($fragment === 'header'): ?>
         <div class="product-registration-info">
-            <form class="inner" action="" method="POST" name="ORDER_FORM" id="ORDER_FORM" enctype="multipart/form-data">
+            <form class="inner form" action="" method="POST" name="ORDER_FORM" id="ORDER_FORM" enctype="multipart/form-data">
                 <input type="hidden" name="confirmorder" id="confirmorder" value="Y">
                 <input type="hidden" name="profile_change" id="profile_change" value="N">
                 <input type="hidden" name="is_ajax_post" id="is_ajax_post" value="Y">
@@ -129,10 +129,10 @@ else
 		}
 		if(!empty($arResult["ERROR"]) && $arResult["USER_VALS"]["FINAL_STEP"] == "Y")
 		{
-			foreach($arResult["ERROR"] as $v)
-				echo ShowError($v);
-
-			?>
+		    ?>
+            <div class="form__message form__message--error">
+                <?= join('<br>', $arResult["ERROR"]) ?>
+            </div>
 			<script type="text/javascript">
 				top.BX.scrollToNode(top.BX('ORDER_FORM'));
 			</script>

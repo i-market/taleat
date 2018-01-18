@@ -13,6 +13,7 @@ use Core\Env;
 use Core\NewsListLike;
 use Core\Underscore as _;
 use Core\Util;
+use CUser;
 use Raven_Client;
 
 if (class_exists('Bitrix\Main\Loader')) {
@@ -124,6 +125,22 @@ class App extends \Core\App {
         if (self::env() !== Env::DEV) {
             self::getInstance()->assert($isSent);
         }
+    }
+    
+    static function holidayMode() {
+        $res = CUser::GetList($o, $b, array("ID_EQUAL_EXACT" => 1), array("SELECT"=>array("UF_HOLYDAY", "UF_HOLYDAY_TO")));
+        if ($ob = $res->Fetch()){
+            if ($ob["UF_HOLYDAY"]) {
+                return [
+                    'isEnabled' => true,
+                    'to' => $ob["UF_HOLYDAY_TO"]
+                ];
+            }
+        }
+        return [
+            'isEnabled' => false,
+            'to' => null
+        ];
     }
 }
 

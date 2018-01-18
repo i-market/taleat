@@ -7,6 +7,7 @@ use Bitrix\Main\Web\Uri;
 
 $APPLICATION->SetPageProperty('layout', 'bare');
 
+// beware: `user_type` is used in `App\EventHandlers::onAfterUserRegister`
 $userType = v::get($_REQUEST, 'user_type', 'customer');
 
 if (!in_array($userType, ['customer', 'service-center'])) {

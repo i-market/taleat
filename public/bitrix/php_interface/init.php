@@ -12,6 +12,9 @@ CModule::IncludeModule('iblock');
 require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/php_interface/CArcLineWorkPicture.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/php_interface/SendMessage.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/php_interface/func.php');
+
+// see also `App\EventHandlers`
+
 AddEventHandler("iblock", "OnBeforeIBlockSectionAdd", Array("MyResizeSectionPicturesHandlers", "ResizeElementProperty"));
 AddEventHandler("iblock", "OnBeforeIBlockSectionUpdate", Array("MyResizeSectionPicturesHandlers", "ResizeElementProperty"));
 AddEventHandler("iblock", "OnAfterIBlockSectionAdd", Array("MyResizeSectionPicturesHandlers", "ClearTempElementProperty"));
@@ -24,7 +27,6 @@ AddEventHandler("iblock", "OnAfterIBlockElementUpdate", Array("MyResizePicturesH
 AddEventHandler("main", "OnAfterUserUpdate", Array("MyUpdateUser", "UpdateUserSendMessage"));
 
 AddEventHandler("main", "OnAfterUserAdd", "OnAfterUserAddHandler");
-AddEventHandler("main", "OnAfterUserRegister", "OnAfterUserRegisterHandler");
 
 AddEventHandler("main", "OnAdminListDisplay", "MyOnAdminListDisplay");
 function MyOnAdminListDisplay(&$list)
@@ -54,53 +56,7 @@ function MyOnAdminListDisplay(&$list)
 function OnAfterUserAddHandler(&$arFields)
 {
    if (0 < $arFields["ID"]){
-      /*$toSend = Array();
-        $holidayText = "";
-        $datetime2 = date_create(date("Y-m-d"));
-        $res = CUser::GetList($o, $b, array("ID_EQUAL_EXACT" => 1), array("SELECT"=>array("UF_HOLYDAY", "UF_HOLYDAY_TO")));
-        if ($ob = $res->Fetch()){
-            if ($ob["UF_HOLYDAY"] && strpos($arFields["NAME"], "_prt")!==false){
-                $arFields["NAME"] = str_replace("_prt", "", $arFields["NAME"]);
-                $holidayText = "<br><br>Ваша заявка на регистрацию будет рассмотрена <strong>".$ob["UF_HOLYDAY_TO"]."</strong><br><br>";
-            }
-        }
-
-      $toSend = array(
-      	'EMAIL' 	=> $arFields['EMAIL'],
-      	'LOGIN' 	=> $arFields['LOGIN'],
-      	'PASSWORD'  => $arFields['CONFIRM_PASSWORD'],
-      	'HOLIDAY'   => $holidayText
-	  );
-      
-      CEvent::Send("NEW_USER2", SITE_ID, $toSend, 'Y');*/
       CUser::SendUserInfo($arFields["ID"], SITE_ID, "");
-   }
-   
-   return $arFields;
-}
-
-function OnAfterUserRegisterHandler(&$arFields)
-{
-   if (0 < $arFields["USER_ID"]){
-      $toSend = Array();
-        $holidayText = "";
-        $datetime2 = date_create(date("Y-m-d"));
-        $res = CUser::GetList($o, $b, array("ID_EQUAL_EXACT" => 1), array("SELECT"=>array("UF_HOLYDAY", "UF_HOLYDAY_TO")));
-        if ($ob = $res->Fetch()){
-            if ($ob["UF_HOLYDAY"] && strpos($arFields["NAME"], "_prt")!==false){
-                $arFields["NAME"] = str_replace("_prt", "", $arFields["NAME"]);
-                $holidayText = "<br><br>Ваша заявка на регистрацию будет рассмотрена <strong>".$ob["UF_HOLYDAY_TO"]."</strong><br><br>";
-            }
-        }
-
-      $toSend = array(
-      	'EMAIL' 	=> $arFields['EMAIL'],
-      	'LOGIN' 	=> $arFields['LOGIN'],
-      	'PASSWORD'  => $arFields['CONFIRM_PASSWORD'],
-      	'HOLIDAY'   => $holidayText
-	  );
-      
-      CEvent::Send("NEW_USER2", SITE_ID, $toSend, 'Y');
    }
    
    return $arFields;

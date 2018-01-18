@@ -95,7 +95,7 @@ class Report {
                 }, true);
             }
         };
-        return $validate($fields, [
+        $ret = $validate($fields, [
             'SC' => [
                 'NAME',
                 'DATA_ZAKL',
@@ -122,9 +122,10 @@ class Report {
                 'VIEV_DEFEKT',
                 'DEFEKT',
             ], _::get($fields, 'DAN.DEFEKT') == 64) ? ['DEFEKT3_DESCR'] : [],
-            'PRICHINA',
+//            'PRICHINA', // not required
             'ITEM_PLACE'
         ]);
+        return $ret;
     }
 
     static function element($id) {

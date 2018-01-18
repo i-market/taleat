@@ -96,29 +96,29 @@ else
 	else
 	{
 		?>
-		<script type="text/javascript">
-		function submitForm(val)
-		{
-			if(val != 'Y')
-				BX('confirmorder').value = 'N';
-
-			var orderForm = BX('ORDER_FORM');
-
-			BX.ajax.submitComponentForm(orderForm, 'order_form_content', true);
-			BX.submit(orderForm);
-
+        <script type="text/javascript">
           BX.addCustomEvent('onAjaxSuccess', function () {
-            App.initComponents($('#order_form_content'));
+            App.initComponents($('#order_form_content'))
           });
 
-          return true;
-		}
-		function SetContact(profileId)
-		{
-			BX("profile_change").value = "Y";
-			submitForm();
-		}
-		</script>
+          function submitForm(val)
+          {
+            if(val != 'Y')
+              BX('confirmorder').value = 'N';
+
+            var orderForm = BX('ORDER_FORM');
+
+            BX.ajax.submitComponentForm(orderForm, 'order_form_content', true);
+            BX.submit(orderForm);
+
+            return true;
+          }
+          function SetContact(profileId)
+          {
+            BX("profile_change").value = "Y";
+            submitForm();
+          }
+        </script>
 		<?if($_POST["is_ajax_post"] != "Y")
         {
             $showWrapper('header');

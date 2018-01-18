@@ -337,7 +337,6 @@ class Report {
         $SC         = $params['SC'];
         $VLADELEC   = $params['VLADELEC'];
         $IZDEL      = $params['IZDEL'];
-        $KOMPLEKT   = $params['KOMPLEKT'];
         $DAN        = $params['DAN'];
         $ZAP        = $params['ZAP'];
         $PRICHINA   = $params['PRICHINA'];
@@ -384,6 +383,7 @@ class Report {
         $book->getActiveSheet()->setCellValue('I14', $IZDEL["DATA_PROIZV"]);
         $book->getActiveSheet()->setCellValue('C15', $IZDEL["DATA_PRODAJI"]);
 
+        $KOMPLEKT = '';
         foreach ($IZDEL["KOMPLEKT"] as $key=>$propID):
             $arComplect = CIBlockPropertyEnum::GetByID($propID);
             if($key > 0) $KOMPLEKT .= ", ";

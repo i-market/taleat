@@ -25,8 +25,7 @@ use App\Product;
             <? // TODO (span (span price) currency) ?>
             <? $formatted = CCurrencyLang::CurrencyFormat($price['PRICE'], $price['CURRENCY'], true) ?>
             <span class="price"><span><?= $formatted ?></span></span>
-            <? // TODO clickable cart? ?>
-            <span class="cart"></span>
+            <span class="cart buy-button" data-id="<?= $item['ID'] ?>" role="button" title="Добавить в корзину"></span>
         </div>
     </div>
 </a>

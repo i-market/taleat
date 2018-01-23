@@ -2263,15 +2263,14 @@ if ($USER->IsAuthorized() || $arParams["ALLOW_AUTO_REGISTER"] == "Y" )
 						$strOrderList .= "\n";
 					}
 
-					$holidayText = "";
-					$datetime2 = date_create(date("Y-m-d"));
-					$res = CUser::GetList($o, $b, array("ID_EQUAL_EXACT" => 1), array("SELECT"=>array("UF_HOLYDAY", "UF_HOLYDAY_TO")));
-					if ($ob = $res->Fetch()){
-						if ($ob["UF_HOLYDAY"]){
-							$holidayText = "<strong>Заказ будет обработан ".$ob["UF_HOLYDAY_TO"]."</strong><br>";
-						}
-					}
-					
+                    $holidayText = "";
+                    $datetime2 = date_create(date("Y-m-d"));
+
+                    $holiday = \App\App::holidayMode();
+                    if ($holiday['isEnabled']) {
+                        $holidayText = "<strong>Заказ будет обработан ".$holiday['to']."</strong><br>";
+                    }
+
 					$arFields = Array(
 						"HOLIDAY" => $holidayText,
 						"ORDER_ID" => $arOrder["ACCOUNT_NUMBER"],

@@ -20,7 +20,7 @@ $APPLICATION->SetPageProperty("body_class", "bg");
             <? $APPLICATION->ShowViewContent('bitrix:sale.order.ajax/checkout/summary') ?>
         </div>
         <?$APPLICATION->IncludeComponent(
-            "bitrix:sale.order.ajax",
+            "imarket:sale.order.ajax",
             "checkout",
             array(
                 "PAY_FROM_ACCOUNT" => "N",

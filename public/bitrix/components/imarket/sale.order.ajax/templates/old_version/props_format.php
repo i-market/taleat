@@ -64,15 +64,29 @@ if (!function_exists("PrintPropsForm"))
 				if($arProperties["SHOW_GROUP_NAME"] == "Y")
 				{
 					?>
-                    <? // $arProperties["GROUP_NAME"] ?>
-                    <?
+					<tr>
+						<td colspan="2">
+							<b><?= $arProperties["GROUP_NAME"] ?></b>
+						</td>
+					</tr>
+					<?
 				}
 				?>
-                <? $label = $arProperties["NAME"].':'.($arProperties["REQUIED_FORMATED"]=="Y" ? '*' : '') ?>
+				<tr>
+					<td align="right" valign="top">
+						<?= $arProperties["NAME"] ?>:<?
+						if($arProperties["REQUIED_FORMATED"]=="Y")
+						{
+							?><span class="sof-req">*</span><?
+						}
+						?>
+					</td>
+					<td>
 						<?
 						if($arProperties["TYPE"] == "CHECKBOX")
 						{
 							?>
+
 							<input type="hidden" name="<?=$arProperties["FIELD_NAME"]?>" value="">
 							<input type="checkbox" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>" value="Y"<?if ($arProperties["CHECKED"]=="Y") echo " checked";?>>
 							<?
@@ -80,13 +94,12 @@ if (!function_exists("PrintPropsForm"))
 						elseif($arProperties["TYPE"] == "TEXT")
 						{
 							?>
-							<input type="text" class="input" placeholder="<?= $label ?>" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">
+							<input type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">
 							<?
 						}
 						elseif($arProperties["TYPE"] == "SELECT")
 						{
 							?>
-                            <? // TODO ?>
 							<select name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>" size="<?=$arProperties["SIZE1"]?>">
 							<?
 							foreach($arProperties["VARIANTS"] as $arVariants)
@@ -102,7 +115,6 @@ if (!function_exists("PrintPropsForm"))
 						elseif ($arProperties["TYPE"] == "MULTISELECT")
 						{
 							?>
-                            <? // TODO ?>
 							<select multiple name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>" size="<?=$arProperties["SIZE1"]?>">
 							<?
 							foreach($arProperties["VARIANTS"] as $arVariants)
@@ -118,15 +130,12 @@ if (!function_exists("PrintPropsForm"))
 						elseif ($arProperties["TYPE"] == "TEXTAREA")
 						{
 							?>
-                            <div class="label_textarea">
-                                <textarea placeholder="<?= $label ?>" rows="<?=$arProperties["SIZE2"]?>" cols="<?=$arProperties["SIZE1"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>"><?=$arProperties["VALUE"]?></textarea>
-                            </div>
+							<textarea rows="<?=$arProperties["SIZE2"]?>" cols="<?=$arProperties["SIZE1"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>"><?=$arProperties["VALUE"]?></textarea>
 							<?
 						}
 						elseif ($arProperties["TYPE"] == "LOCATION")
 						{
-                            // TODO
-                            $value = 0;
+							$value = 0;
 							if (is_array($arProperties["VARIANTS"]) && count($arProperties["VARIANTS"]) > 0)
 							{
 								foreach ($arProperties["VARIANTS"] as $arVariant)
@@ -159,7 +168,6 @@ if (!function_exists("PrintPropsForm"))
 						}
 						elseif ($arProperties["TYPE"] == "RADIO")
 						{
-						    // TODO
 							foreach($arProperties["VARIANTS"] as $arVariants)
 							{
 								?>
@@ -169,20 +177,18 @@ if (!function_exists("PrintPropsForm"))
 						}
 						elseif ($arProperties["TYPE"] == "FILE")
 						{
-						    // TODO
 							echo showFilePropertyField("ORDER_PROP_".$arProperties["ID"], $arProperties, $arProperties["VALUE"], $arProperties["SIZE1"]);
 						}
 
 
 						if (strlen($arProperties["DESCRIPTION"]) > 0)
 						{
-						    // TODO
 							?><br /><small><?echo $arProperties["DESCRIPTION"] ?></small><?
 						}
 						?>
 
-
-
+					</td>
+				</tr>
 				<?
 			}
 			?>

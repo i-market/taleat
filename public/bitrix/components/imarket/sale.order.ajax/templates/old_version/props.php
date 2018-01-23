@@ -1,17 +1,17 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props_format.php");
-
-use App\App;
 ?>
 
-<p class="title">Введите контактные данные</p>
+<b><?=GetMessage("SOA_TEMPL_PROP_INFO")?></b><br />
+<table class="sale_order_full_table">
+<tr><td>
 <?
 if(!empty($arResult["ORDER_PROP"]["USER_PROFILES"]))
 {
 	if ($arParams["ALLOW_NEW_PROFILE"] == "Y")
 	{
 	?>
-		<div class="text-block"><?=GetMessage("SOA_TEMPL_PROP_CHOOSE")?></div>
+		<?=GetMessage("SOA_TEMPL_PROP_CHOOSE")?><br />
 		<select name="PROFILE_ID" id="ID_PROFILE_ID" onChange="SetContact(this.value)">
 			<option value="0"><?=GetMessage("SOA_TEMPL_PROP_NEW_PROFILE")?></option>
 			<?
@@ -23,6 +23,8 @@ if(!empty($arResult["ORDER_PROP"]["USER_PROFILES"]))
 			}
 			?>
 		</select>
+		<br />
+		<br />
 	<?
 	}
 	else
@@ -51,8 +53,9 @@ if(!empty($arResult["ORDER_PROP"]["USER_PROFILES"]))
 	<?
 	}
 }
+
 ?>
-<div style="display:none;"> <? // see `old_version` template ?>
+<div style="display:none;">
 <?
 	$APPLICATION->IncludeComponent(
 		"bitrix:sale.ajax.locations",
@@ -72,7 +75,11 @@ if(!empty($arResult["ORDER_PROP"]["USER_PROFILES"]))
 ?>
 </div>
 
+<table class="sale_order_full_table_no_border">
 <?
 PrintPropsForm($arResult["ORDER_PROP"]["USER_PROPS_N"], $arParams["TEMPLATE_LOCATION"]);
 PrintPropsForm($arResult["ORDER_PROP"]["USER_PROPS_Y"], $arParams["TEMPLATE_LOCATION"]);
 ?>
+</table>
+</td></tr></table>
+<br /><br />

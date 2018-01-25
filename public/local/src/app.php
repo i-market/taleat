@@ -31,6 +31,14 @@ class App extends \Core\App {
         EventHandlers::attach();
     }
 
+    // TODO better logging
+    function log(...$entries) {
+        $path = Util::joinPath([$_SERVER['DOCUMENT_ROOT'], 'local/app.log']);
+        $sep = ",\n";
+        $str = join($sep, array_map(_::partialRight('var_export', true), $entries)).$sep;
+        return $this->assert(file_put_contents($path, $str, FILE_APPEND | LOCK_EX), 'logging issue');
+    }
+
     function layoutContext() {
         global $APPLICATION;
         // TODO memoize

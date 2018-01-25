@@ -167,13 +167,16 @@ class Admin {
         $conn = Application::getConnection();
         $conn->startTransaction();
         try {
-            $results = iter\toArray(iter\map(function ($m) {
+            $log = [];
+            $results = iter\toArray(iter\map(function ($m) use (&$log) {
                 $result = CPrice::SetBasePrice($m['product']['ID'], $m['nextPrice'], $m['product']['BASE_PRICE']['CURRENCY']);
                 if (!$result) {
                     throw new \Exception("can't set the base price");
                 }
+                $log[] = ['price change', $m];
                 return $result;
             }, $changed));
+            App::getInstance()->log(...$log);
             $conn->commitTransaction();
         } catch (\Exception $e) {
             $conn->rollbackTransaction();

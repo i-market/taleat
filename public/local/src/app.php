@@ -56,6 +56,9 @@ class App extends \Core\App {
     }
 
     function withRaven(callable $f) {
+        if (self::env() === Env::DEV) {
+            return null;
+        }
         if ($this->raven === null) {
             $dsn = _::get(Configuration::getValue('app'), 'sentry.dsn');
             $this->raven = new Raven_Client($dsn, [

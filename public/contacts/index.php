@@ -106,9 +106,15 @@ use App\View as v;
                     ); ?>
                     <span class="btn" data-modal="contact-modal">Написать письмо директору</span>
                 </div>
-                <div class="TODO-mockup col col-2">
-                    <p class="text blue">Наши реквизиты вы можете скачать кликнув по кнопке ниже</p>
-                    <a class="btn" href="#">Скачать реквизиты</a>
+                <div class="col col-2">
+                    <? $APPLICATION->IncludeComponent(
+                        "bitrix:main.include",
+                        "",
+                        Array(
+                            "AREA_FILE_SHOW" => "file",
+                            "PATH" => v::includedArea('contact/payment_details.php')
+                        )
+                    ); ?>
                 </div>
             </div>
         </div>

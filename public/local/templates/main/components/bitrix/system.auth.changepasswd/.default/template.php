@@ -15,7 +15,7 @@ $showHiddenInputs = function () use ($arResult) {
     <?
 };
 ?>
-<? // TODO ux: set flash message and redirect on success ?>
+<? // TODO ux: set flash message and redirect on success? ?>
 <? // TODO if arResult.USE_CAPTCHA ?>
 <div class="modal-like">
     <div class="block">
@@ -35,6 +35,7 @@ $showHiddenInputs = function () use ($arResult) {
                 <? m::showInput('USER_CHECKWORD', 'Контрольная строка', ['required' => true]) ?>
             <? endif ?>
             <? m::showInput('USER_PASSWORD', 'Новый пароль', ['required' => true, 'type' => 'password']) ?>
+            <? // TODO add js validation for password confirmation ?>
             <? m::showInput('USER_CONFIRM_PASSWORD', 'Подтверждение пароля', ['required' => true, 'type' => 'password']) ?>
             <input type="submit" class="download-btn" name="change_pwd" value="Изменить пароль" />
         </form>

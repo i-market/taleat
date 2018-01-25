@@ -196,5 +196,6 @@ if (App::useBitrixAsset()) {
         <? Layout::showPersonalPageWrapper('header') ?>
     <? }) ?>
 
+    <? // TODO refactor: auth checks shouldn't be done from a template ?>
     <? // important ?>
     <? Auth::restrictAccess() ?>

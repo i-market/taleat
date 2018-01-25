@@ -8,6 +8,9 @@ global $USER;
     <div class="menu-hidden-registered">
         <p class="name"><?= $USER->GetLogin() ?></p>
         <p class="link"><a href="<?= $auth['profileLink'] ?>">Личный кабинет</a></p>
+        <? if (Auth::hasAdminPanelAccess($USER)): ?>
+            <p class="link"><a href="<?= v::path('admin') ?>">Панель администратора</a></p>
+        <? endif ?>
         <? if (Auth::isPartner($USER)): ?>
             <p class="link"><a href="<?= v::path('partneram') ?>">Кабинет дилера</a></p>
         <? endif ?>

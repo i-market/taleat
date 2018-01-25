@@ -2,8 +2,9 @@
 
 namespace App;
 
-use Core\Strings as str;
 use CUser;
+use CSite;
+use App\View as v;
 
 class Auth {
     /** sentinel value */
@@ -14,22 +15,32 @@ class Auth {
         return $user->IsAuthorized() && in_array(self::PARTNER_GROUP, CUser::GetUserGroup($user->GetID()));
     }
 
+    static function hasAdminPanelAccess(CUser $user) {
+        return $user->IsAdmin();
+    }
+
     static function restrictAccess() {
         global $APPLICATION, $USER;
         if ($USER->IsAdmin()) {
             return;
         }
-        $dir = $APPLICATION->GetCurDir();
-        if (str::startsWith($dir, '/partneram/')) {
+        if (CSite::InDir(v::path('admin'))) {
             if (!$USER->IsAuthorized()) {
                 $APPLICATION->AuthForm('');
-            } else {
-                if (!self::isPartner($USER)) {
-                    $APPLICATION->AuthForm([
-                        'TYPE' => 'ERROR',
-                        'MESSAGE' => 'Ваш партнерский аккаунт еще не подтвержден администратором'
-                    ]);
-                }
+            } elseif (!self::hasAdminPanelAccess($USER)) {
+                $APPLICATION->AuthForm([
+                    'TYPE' => 'ERROR',
+                    'MESSAGE' => 'Недостаточно прав'
+                ]);
+            }
+        } elseif (CSite::InDir(v::path('partneram'))) {
+            if (!$USER->IsAuthorized()) {
+                $APPLICATION->AuthForm('');
+            } elseif (!self::isPartner($USER)) {
+                $APPLICATION->AuthForm([
+                    'TYPE' => 'ERROR',
+                    'MESSAGE' => 'Ваш партнерский аккаунт еще не подтвержден администратором'
+                ]);
             }
         }
     }

@@ -173,7 +173,7 @@ class Admin {
                 if (!$result) {
                     throw new \Exception("can't set the base price");
                 }
-                $log[] = ['price change', $m];
+                $log[] = [time(), 'price change', $m];
                 return $result;
             }, $changed));
             App::getInstance()->log(...$log);

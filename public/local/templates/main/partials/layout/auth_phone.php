@@ -9,7 +9,7 @@ global $USER;
         <p class="name"><?= $USER->GetLogin() ?></p>
         <p class="link"><a href="<?= $auth['profileLink'] ?>">Личный кабинет</a></p>
         <? if (Auth::hasAdminPanelAccess($USER)): ?>
-            <p class="link"><a href="<?= v::path('admin') ?>">Панель администратора</a></p>
+            <p class="link"><a href="<?= v::path('admin') ?>">Панель админа</a></p>
         <? endif ?>
         <? if (Auth::isPartner($USER)): ?>
             <p class="link"><a href="<?= v::path('partneram') ?>">Кабинет дилера</a></p>

@@ -109,6 +109,15 @@
         }
       });
     });
+
+    $('.form--simple-upload').each(function () {
+      var $form = $(this);
+      $form.find('.file').on('change', function (e) {
+        if (this.files) {
+          $form.find('.filename').text(this.files[0].name);
+        }
+      });
+    });
   }
 
   function replaceElement($elem, url, init) {

@@ -12,7 +12,7 @@ class FormMacros {
         $path = Util::formInputNamePath($name);
         ?>
         <input name="<?= $name ?>"
-               value="<?= v::escAttr(_::get($_REQUEST, $path)) ?>"
+               value="<?= v::escAttr(_::get($opts, 'value', _::get($_REQUEST, $path))) ?>"
                class="input"
                type="<?= $opts['type'] ?>"
                <?= $opts['required'] ? 'required' : ''  ?>

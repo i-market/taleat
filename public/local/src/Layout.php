@@ -44,7 +44,7 @@ class Layout {
         <?
     }
 
-    static function showDefaultPageWrapper($fragment) {
+    static function showDefaultPageWrapper($fragment, $class = '') {
         global $APPLICATION;
         ?>
         <? if ($fragment === 'header'): ?>
@@ -57,7 +57,7 @@ class Layout {
                     </div>
                 </div>
                 <div class="wrap">
-                    <div class="editable-area default-page wrap-min">
+                    <div class="editable-area default-page <?= $class ?> wrap-min">
         <? elseif ($fragment === 'footer'): ?>
                     </div>
                 </div>

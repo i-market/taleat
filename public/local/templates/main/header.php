@@ -179,8 +179,11 @@ if (App::useBitrixAsset()) {
 <main class="content">
     <span class="scroll-top" data-href="top"></span>
     <? v::showForLayout('default', function () { ?>
-        <? Layout::showMegaMenu('content-menu-block--pages') ?>
-        <? Layout::showDefaultPageWrapper('header') ?>
+        <?
+        $class = CSite::InDir(v::path('auth')) ? 'default-page--has-forms' : '';
+        Layout::showMegaMenu('content-menu-block--pages');
+        Layout::showDefaultPageWrapper('header', $class);
+        ?>
     <? }) ?>
     <? v::showForLayout('bare', function () { ?>
         <? Layout::showMegaMenu('content-menu-block--pages') ?>

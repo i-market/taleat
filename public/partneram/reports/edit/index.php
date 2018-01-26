@@ -30,7 +30,7 @@ $context = Report::context(Report::elementFields($element), $_REQUEST, $result, 
 <div class="wrap">
     <? Layout::showBreadcrumbs() ?>
 </div>
-<? if (Report::isEditingDisallowed($element)): ?>
+<? if (Report::isEditingDisallowed($element['PROPERTY_STATUS_ENUM_ID'], $element['PROPERTY_USER_VALUE'])): ?>
     <div class="wrap">
         <div class="empty-state-page">
             <div class="h3">Эту заявку невозможно отредактировать</div>

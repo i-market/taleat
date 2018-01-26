@@ -305,6 +305,7 @@ use Core\Nullable as nil;
     <div id="img-group-error"></div>
 
     <div class="bottom">
+        <?/*
         <? if ($mode === 'edit'): ?>
             <div class="section">
                 <div class="wrap-checkbox">
@@ -320,6 +321,7 @@ use Core\Nullable as nil;
                 </div>
             </div>
         <? endif ?>
+        */?>
         <button type="submit" class="btn">Отправить заключение</button>
     </div>
 </form>

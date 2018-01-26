@@ -18,8 +18,10 @@ use Core\Env;
 class Report {
     // TODO refactor: normalize fields, params, element structure. it's a mess.
 
+    const STATUS_SENT = 59;
     const STATUS_APPROVED = 60;
     const STATUS_REJECTED = 61;
+    const STATUS_ERROR_CORRECTED = 70;
 
     // TODO refactor args for different modes (new, edit)
     static function context($initial, $params, $result, $opts = []) {
@@ -75,9 +77,9 @@ class Report {
         return array_merge($defaults, $opts);
     }
 
-    static function isEditingDisallowed($elem) {
+    static function isEditingDisallowed($statusId, $userId) {
         global $USER;
-        return $elem["PROPERTY_STATUS_ENUM_ID"] != self::STATUS_REJECTED || $elem["PROPERTY_USER_VALUE"] != $USER->GetID();
+        return $statusId == self::STATUS_APPROVED || $userId != $USER->GetID();
     }
 
     static function validate($fields) {
@@ -359,7 +361,7 @@ class Report {
         );
         $num = 1;
         $res = CIBlockElement::GetList(Array("ID"=>"DESC"), $filter, false, Array("nTopCount"=>1), Array("ID", "PROPERTY_NUMER"));
-        if($ob = $res->Fetch()){
+        if($ob = $res->Fetch()){ // bug: if !$ob then $num is not going to be padded with zeros. probably doesn't matter though.
             $num = $ob["PROPERTY_NUMER_VALUE"];
             $num = explode("/", $num);
             $num = $num[1]+1;

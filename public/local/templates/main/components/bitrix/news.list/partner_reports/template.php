@@ -43,7 +43,7 @@ $fancyboxItems = function ($images) {
             <? endif ?>
             <div class="bottom">
                 <? // not sure what `approved` property is for. seems redundant. ?>
-                <? if ($isApproved && $item['PROPERTIES']['APPROVED']['VALUE'] == 1): ?>
+                <? if ($isApproved /* && $item['PROPERTIES']['APPROVED']['VALUE'] == 1 */): ?>
                     <? $fileLink = $item['DISPLAY_PROPERTIES']['FORMA']['FILE_VALUE']['SRC'] ?>
                     <p><a class="link" download href="<?= $fileLink ?>" target="_blank">Скачать форму</a></p>
                 <? else: ?>
@@ -64,7 +64,7 @@ $fancyboxItems = function ($images) {
                     <p><span class="link status">Скриншот</span></p>
                 <? endif ?>
             </div>
-            <? if ($statusId == Report::STATUS_REJECTED): ?>
+            <? if (!Report::isEditingDisallowed($statusId, $item['PROPERTIES']['USER']['VALUE'])): ?>
                 <a class="edit simple-btn" href="<?= v::path('partneram/reports/edit').'?id='.$item['ID'] ?>">Редактировать</a>
             <? endif ?>
         </div>

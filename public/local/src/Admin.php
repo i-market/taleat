@@ -176,7 +176,7 @@ class Admin {
                 $log[] = [time(), 'price change', $m];
                 return $result;
             }, $changed));
-            App::getInstance()->log(...$log);
+            App::getInstance()->log(...$log); // log in case we need to revert the changes
             $conn->commitTransaction();
         } catch (\Exception $e) {
             $conn->rollbackTransaction();

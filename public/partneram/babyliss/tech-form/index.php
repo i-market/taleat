@@ -2,6 +2,10 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Техническое заключение");
 
+use App\View as v;
+
+LocalRedirect(v::path('partneram/reports'));
+
 $arUser = CUser::GetByID($USER->GetID())->GetNext();
 $IS_ERROR = false;
 $IS_POST = intval($_REQUEST["IS_POST"]);

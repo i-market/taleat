@@ -75,8 +75,7 @@ class App extends \Core\App {
             '/ajax',
             '/login',
 
-            // TODO
-            '/partneram',
+            '/partneram', // TODO implement redirects for deprecated pages
 
             '/news',
             '/articles',
@@ -95,6 +94,7 @@ class App extends \Core\App {
             '/personal/cart',
             '/personal/order/index.php',
             '/personal/order/make',
+            '/personal/order/bill',
         ];
         foreach ($main as $prefix) {
             if (CSite::InDir($prefix)) {

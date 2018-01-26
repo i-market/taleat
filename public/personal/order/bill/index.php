@@ -1,6 +1,12 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Счет на оплату");
+
+use App\View as v;
+
+// TODO /order/bill/ page
+LocalRedirect(v::path('personal/order'));
+
 ?><?$APPLICATION->IncludeComponent("imarket:sale.order.ajax", "bill", Array(
 	"PAY_FROM_ACCOUNT" => "Y",	// Позволять оплачивать с внутреннего счета
 	"COUNT_DELIVERY_TAX" => "N",	// Рассчитывать налог для доставки

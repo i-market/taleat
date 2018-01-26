@@ -1,5 +1,9 @@
-<?
-if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+<? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+
+use App\App;
+
+// checks for `App::holidayMode` (see below)
+// not sure if any other customizations were made
 
 if (!CModule::IncludeModule("sale"))
 {
@@ -2266,7 +2270,7 @@ if ($USER->IsAuthorized() || $arParams["ALLOW_AUTO_REGISTER"] == "Y" )
                     $holidayText = "";
                     $datetime2 = date_create(date("Y-m-d"));
 
-                    $holiday = \App\App::holidayMode();
+                    $holiday = App::holidayMode();
                     if ($holiday['isEnabled']) {
                         $holidayText = "<strong>Заказ будет обработан ".$holiday['to']."</strong><br>";
                     }

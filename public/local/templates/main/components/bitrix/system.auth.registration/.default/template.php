@@ -20,6 +20,9 @@ if ($userType === 'customer') {
         'NAME',
         'EMAIL',
     ];
+    $optional = [
+        'SECOND_NAME'
+    ];
 } elseif ($userType === 'service-center') {
     $required = [
         'LAST_NAME',
@@ -29,8 +32,12 @@ if ($userType === 'customer') {
         'WORK_PHONE',
         'EMAIL',
     ];
+    $optional = [
+        'SECOND_NAME'
+    ];
 } else {
     $required = [];
+    $optional = [];
 }
 $withParams = function ($params) {
     $uri = Application::getInstance()->getContext()->getRequest()->getRequestUri();
@@ -56,7 +63,7 @@ $withParams = function ($params) {
                         "AUTH" => "Y",
                         "REQUIRED_FIELDS" => $required,
                         "SET_TITLE" => "N",
-                        "SHOW_FIELDS" => $required,
+                        "SHOW_FIELDS" => array_merge($required, $optional),
                         "SUCCESS_PAGE" => "",
                         "USER_PROPERTY" => array(),
                         "USER_PROPERTY_NAME" => "",

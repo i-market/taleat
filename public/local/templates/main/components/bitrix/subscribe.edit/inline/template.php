@@ -1,5 +1,6 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
+use App\App;
 use Core\Util;
 ?>
 <div class="newsletter-sub">
@@ -28,8 +29,7 @@ use Core\Util;
                 <? if ($arResult['STATE'] === 'no_subscription'): ?>
                     <input type="hidden" name="PostAction" value="Add" />
                     <input type="hidden" name="EMAIL" value="<?= $USER->GetEmail() ?>">
-                    <? // default sub format ?>
-                    <input type="hidden" name="FORMAT" value="text">
+                    <input type="hidden" name="FORMAT" value="<?= App::NEWSLETTER_FORMAT ?>">
                     <input name="RUB_ID[]"
                            value="<?= $arResult['RUBRIC']['ID'] ?>"
                            type="checkbox"

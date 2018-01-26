@@ -23,7 +23,11 @@ if (class_exists('Bitrix\Main\Loader')) {
 
 class App extends \Core\App {
     const SITE_ID = 's1';
+
     const NEWSLETTER_ID = 1;
+    const NEWSLETTER_FORMAT = 'html';
+    const PARTNER_NEWSLETTER_ID = 2;
+    const PARTNER_NEWSLETTER_FORMAT = 'html';
 
     /** @var Raven_Client */
     private $raven = null;

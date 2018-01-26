@@ -1,5 +1,13 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 	global $USER;
+
+	use App\App;
+	use Core\Env;
+
+	if (App::env() !== Env::DEV) {
+        App::getInstance()->assert(false, 'legacy template');
+    }
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">  
 

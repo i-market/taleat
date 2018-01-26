@@ -13,6 +13,7 @@ use Core\Env;
 use Core\NewsListLike;
 use Core\Underscore as _;
 use Core\Util;
+use CSite;
 use CUser;
 use Raven_Client;
 
@@ -61,6 +62,46 @@ class App extends \Core\App {
                 });
             }
         ];
+    }
+
+    static function chooseSiteTemplate() {
+        if (self::env() === Env::DEV && isset($_REQUEST['legacy'])) {
+            return 'main_page';
+        }
+        $main = [
+            '/index.php',
+            '/content-examples',
+            '/catalog',
+            '/ajax',
+            '/login',
+
+            // TODO
+            '/partneram',
+
+            '/news',
+            '/articles',
+            '/videos',
+            '/region',
+            '/otzivi',
+            '/contacts',
+            '/priemnie-punkti',
+            '/search',
+            '/buy',
+            '/terms',
+            '/auth',
+            '/admin',
+
+            '/personal/index.php',
+            '/personal/cart',
+            '/personal/order/index.php',
+            '/personal/order/make',
+        ];
+        foreach ($main as $prefix) {
+            if (CSite::InDir($prefix)) {
+                return 'main';
+            }
+        }
+        return 'main_page';
     }
 
     function withRaven(callable $f) {

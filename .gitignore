@@ -39,6 +39,7 @@ secrets.yml
 # temporary files
 
 ~$*.xls*
+/public/partneram/babyliss/tech-form/stamp.jpg
 
 # project
 

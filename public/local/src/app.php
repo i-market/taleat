@@ -99,6 +99,7 @@ class App extends \Core\App {
             '/personal/order/index.php',
             '/personal/order/make',
             '/personal/order/bill',
+            '/personal/order/detail',
         ];
         foreach ($main as $prefix) {
             if (CSite::InDir($prefix)) {

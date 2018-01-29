@@ -108,7 +108,14 @@ if (App::useBitrixAsset()) {
     </div>
     <div class="header-top">
         <div class="wrap">
-            <span class="service-center-link">Авторизированный сервисный центр</span>
+            <span class="service-center-link"><? $APPLICATION->IncludeComponent(
+                    "bitrix:main.include",
+                    "",
+                    Array(
+                        "AREA_FILE_SHOW" => "file",
+                        "PATH" => v::includedArea('layout/menu_bar_text.php')
+                    )
+                ); ?></span>
             <div class="header-top-info">
                 <nav class="main-menu">
                     <? $APPLICATION->IncludeComponent(

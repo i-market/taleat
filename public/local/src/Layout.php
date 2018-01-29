@@ -7,6 +7,7 @@ use Core\Strings as str;
 
 class Layout {
     static function showMegaMenu($class = '') {
+        global $APPLICATION;
         ?>
         <div class="content-menu-block <?= $class ?>">
             <div class="wrap">
@@ -14,15 +15,42 @@ class Layout {
                 <div class="content-menu-items">
                     <a class="content-menu-item shop" href="<?= v::path('catalog') ?>">
                         <strong class="title">Магазин</strong>
-                        <p class="text">Интернет-магазин для заказа запасных частей и аксеcсуаров к бытовой технике фирм Braun и Babyliss PARIS</p>
+                        <div class="text">
+                            <? $APPLICATION->IncludeComponent(
+                                "bitrix:main.include",
+                                "",
+                                Array(
+                                    "AREA_FILE_SHOW" => "file",
+                                    "PATH" => v::includedArea('layout/mega_menu/shop.php')
+                                )
+                            ); ?>
+                        </div>
                     </a>
                     <a class="content-menu-item services" href="<?= v::path('region') ?>">
                         <strong class="title">Сервисное обслуживание</strong>
-                        <p class="text">Найти ближайший к Вам сервисный центр Braun или Babyliss PARIS</p>
+                        <div class="text">
+                            <? $APPLICATION->IncludeComponent(
+                                "bitrix:main.include",
+                                "",
+                                Array(
+                                    "AREA_FILE_SHOW" => "file",
+                                    "PATH" => v::includedArea('layout/mega_menu/services.php')
+                                )
+                            ); ?>
+                        </div>
                     </a>
                     <a class="content-menu-item reception-point" href="<?= v::path('priemnie-punkti') ?>">
                         <strong class="title">Приемные пункты</strong>
-                        <p class="text">Наши приемные пункты в ремонт, а так же пункты продажи запасных частей и аксессуаров к бытовой технике фирм Braun и Babyliss PARIS</p>
+                        <div class="text">
+                            <? $APPLICATION->IncludeComponent(
+                                "bitrix:main.include",
+                                "",
+                                Array(
+                                    "AREA_FILE_SHOW" => "file",
+                                    "PATH" => v::includedArea('layout/mega_menu/reception.php')
+                                )
+                            ); ?>
+                        </div>
                     </a>
                 </div>
             </div>

@@ -3,9 +3,6 @@
 use App\View as v;
 use App\Catalog;
 ?>
-
-<? // TODO read legacy template closely ?>
-
 <? if (!v::isEmpty(v::get($arResult, 'NAME'))): ?>
     <div class="catalog-title">
         <h2><?= $arResult['NAME'] ?></h2>
@@ -46,6 +43,7 @@ use App\Catalog;
     <? foreach ($arResult['ITEMS'] as $item): ?>
         <?= v::render('partials/catalog/product_card.php', [
             'item' => $item,
+            'id' => v::addEditingActions($item, $this),
             'class' => 'col col-3',
         ]) ?>
     <? endforeach ?>

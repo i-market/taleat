@@ -4,7 +4,9 @@ use App\Product;
 ?>
 <? $thumbnail = Product::thumbnail($item) ?>
 <? $price = Product::basePrice($item['ID']) ?>
-<a href="<?= Product::elementUrl($item) ?>" class="item-box <?= isset($class) ? $class : '' ?>">
+<a href="<?= Product::elementUrl($item) ?>"
+   class="item-box <?= isset($class) ? $class : '' ?>"
+   id="<?= isset($id) ? $id : '' ?>">
     <?
     $attrs = !v::isEmpty($thumbnail)
         ? [

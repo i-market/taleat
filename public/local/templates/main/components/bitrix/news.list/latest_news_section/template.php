@@ -15,7 +15,7 @@ use App\View as v;
         <div class="wrap">
             <div class="grid">
                 <? foreach ($arResult['ITEMS'] as $item): ?>
-                    <div class="col col-2">
+                    <div class="col col-2" id="<?= v::addEditingActions($item, $this) ?>">
                         <a href="<?= $item['DETAIL_PAGE_URL'] ?>" class="news-item">
                             <? if (is_array($item['PREVIEW_PICTURE'])): ?>
                                 <div class="img">

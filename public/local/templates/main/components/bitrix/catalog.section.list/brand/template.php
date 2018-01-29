@@ -12,7 +12,9 @@ use App\Product;
 <div class="ctalog-inner">
     <div class="grid">
         <? foreach ($arResult['SECTIONS'] as $section): ?>
-            <a href="<?= Product::sectionUrl($section) ?>" class="col col-3 ctalog-item-box">
+            <a href="<?= Product::sectionUrl($section) ?>"
+               class="col col-3 ctalog-item-box"
+               id="<?= v::addEditingActions($section, $this) ?>">
                 <div class="img">
                     <? if (!v::isEmpty($section['PICTURE'])): ?>
                         <div style="background-image: url('<?= v::resize($section['PICTURE'], ...Product::IMAGE_MEDIUM) ?>')"

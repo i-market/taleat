@@ -6,7 +6,7 @@ use Core\Util;
 <div class="desc">
     <? foreach ($arResult['SECTIONS'] as $section): ?>
         <? if (!v::isEmpty($section['DESCRIPTION'])): ?>
-            <div class="editable-area desc__item">
+            <div class="editable-area desc__item" id="<?= v::addEditingActions($section, $this) ?>">
                 <? if (count($arResult['SECTIONS']) > 1): ?>
                     <h3><?= $section['NAME'] ?></h3>
                 <? endif ?>
@@ -20,7 +20,7 @@ use Core\Util;
         <? $section = v::get($arResult['SECTIONS'], $item['IBLOCK_SECTION_ID']) ?>
         <? $path = $item['DISPLAY_PROPERTIES']['DOCUMENT']['FILE_VALUE']['SRC'] ?>
         <? list($_, $ext) = Util::splitFileExtension($path) ?>
-        <div class="item">
+        <div class="item" id="<?= v::addEditingActions($item, $this) ?>">
             <a href="<?= $path ?>" <?= v::attrs(v::docLinkAttrs($ext)) ?> class="item-link <?= v::lower($ext) ?>">
                 <span class="size"><?= v::fileSize($path) ?></span>
                 <span class="name"><?= $item['NAME'] ?></span>

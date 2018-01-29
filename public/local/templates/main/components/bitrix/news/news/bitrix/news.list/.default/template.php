@@ -14,7 +14,7 @@ use App\View as v;
         <div class="grid">
             <? foreach ($arResult['ITEMS'] as $idx => $item): ?>
                 <? $hasPic = is_array($item['PREVIEW_PICTURE']) ?>
-                <div class="col col-2">
+                <div class="col col-2" id="<?= v::addEditingActions($item, $this) ?>">
                     <? if ($idx === 0): ?>
                         <div class="first-new <?= !$hasPic ? 'first-new--without-img' : '' ?>">
                             <? if ($hasPic): ?>

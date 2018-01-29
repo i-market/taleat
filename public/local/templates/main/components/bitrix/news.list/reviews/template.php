@@ -5,7 +5,7 @@ use App\View as v;
 ?>
 <div class="wrap-reviews-item">
     <? foreach ($arResult['ITEMS'] as $item): ?>
-        <div class="reviews-item">
+        <div class="reviews-item" id="<?= v::addEditingActions($item, $this) ?>">
             <p class="top">
                 <span class="date"><?= $item['DISPLAY_ACTIVE_FROM'] ?></span>
                 <? $order = $item['PROPERTIES']['ORDER_NUM']['VALUE'] ?>

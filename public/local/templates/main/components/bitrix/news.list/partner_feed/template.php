@@ -4,7 +4,7 @@ use App\View as v;
 ?>
 <div class="helpful-information">
     <? foreach ($arResult['ITEMS'] as $item): ?>
-        <div class="item">
+        <div class="item" id="<?= v::addEditingActions($item, $this) ?>">
             <p class="top">
                 <? $date = $item['DISPLAY_ACTIVE_FROM']
                     ?: DateTime::createFromFormat('Y.m.d', $item['CREATED_DATE'])->format($arParams['ACTIVE_DATE_FORMAT']) ?>

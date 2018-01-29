@@ -39,7 +39,7 @@ use App\Product;
             ?>
             <? foreach ($arResult['SORT']($arResult['SECTIONS'], $order) as $section): ?>
                 <? if (!v::isEmpty($section['PICTURE'])): ?>
-                    <div class="slide">
+                    <div class="slide" id="<?= v::addEditingActions($section, $this) ?>">
                         <a href="<?= Product::sectionUrl($section) ?>">
                             <img src="<?= $section['PICTURE']['SRC'] ?>" alt="<?= $section['NAME'] ?>" />
                         </a>

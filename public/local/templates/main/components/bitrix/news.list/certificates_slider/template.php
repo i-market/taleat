@@ -42,7 +42,10 @@ use App\View as v;
         </span>
             <div class="sertificate-slider slider">
                 <? foreach ($arResult['ITEMS'] as $item): ?>
-                    <a href="<?= $item['DISPLAY_PROPERTIES']['FILE']['FILE_VALUE']['SRC'] ?>" class="sertificate-item" data-fancybox="certificates">
+                    <a href="<?= $item['DISPLAY_PROPERTIES']['FILE']['FILE_VALUE']['SRC'] ?>"
+                       class="sertificate-item"
+                       data-fancybox="certificates"
+                       id="<?= v::addEditingActions($item, $this) ?>">
                         <div class="img">
                             <img src="<?= $item['PREVIEW_PICTURE']['SRC'] ?>" alt="<?= $item['PREVIEW_PICTURE']['ALT'] ?>">
                         </div>

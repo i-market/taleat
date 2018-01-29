@@ -5,7 +5,7 @@ use App\View as v;
 <div class="wrap-useful-slider">
     <div class="useful-slider">
         <? foreach ($arResult['ITEMS'] as $item): ?>
-            <div class="slide">
+            <div class="slide" id="<?= v::addEditingActions($item, $this) ?>">
                 <div class="img">
                     <img src="<?= v::resize($item['PREVIEW_PICTURE'], 350, 350) ?>" alt="<?= $item['PREVIEW_PICTURE']['ALT'] ?>">
                 </div>

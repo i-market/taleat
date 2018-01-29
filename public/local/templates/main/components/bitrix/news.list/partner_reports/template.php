@@ -24,7 +24,7 @@ $fancyboxItems = function ($images) {
         <? $status = $item['PROPERTIES']['STATUS'] ?>
         <? $statusId = $status['VALUE_ENUM_ID'] ?>
         <? $isApproved = $statusId == Report::STATUS_APPROVED ?>
-        <div class="technical-conclusion-item">
+        <div class="technical-conclusion-item" id="<?= v::addEditingActions($item, $this) ?>">
             <div class="top">
                 <div class="left">
                     <span class="date"><?= $item['DISPLAY_ACTIVE_FROM'] ?></span>

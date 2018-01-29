@@ -43,7 +43,10 @@ use App\Product;
         </span>
             <div class="items-slider slider">
                 <? foreach ($arResult['ITEMS'] as $item): ?>
-                    <?= v::render('partials/catalog/product_card.php', ['item' => $item]) ?>
+                    <?= v::render('partials/catalog/product_card.php', [
+                        'item' => $item,
+                        'id' => v::addEditingActions($item, $this)
+                    ]) ?>
                 <? endforeach ?>
             </div>
         </div>

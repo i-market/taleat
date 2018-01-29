@@ -18,7 +18,7 @@ use App\View as v;
                 <div class="grid">
                     <? foreach ($arResult['ITEMS'] as $item): ?>
                         <? $url = Videos::embedUrl(Videos::youtubeId($item['PROPERTIES']['URL']['VALUE'])) ?>
-                        <div class="col col-3 video-item">
+                        <div class="col col-3 video-item" id="<?= v::addEditingActions($item, $this) ?>">
                             <iframe src="<?= $url ?>" frameborder="0" allowfullscreen></iframe>
                             <p class="name"><?= $item['NAME'] ?></p>
                         </div>

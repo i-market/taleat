@@ -1,7 +1,6 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
 use App\View as v;
-
 ?>
 <? if (!v::isEmpty($arResult['ITEMS'])): ?>
     <section class="wrap-shops-slider wrap-slider section hidden">
@@ -34,7 +33,7 @@ use App\View as v;
         </span>
             <div class="shops-slider slider">
                 <? foreach ($arResult['ITEMS'] as $item): ?>
-                    <div class="slide">
+                    <div class="slide" id="<?= v::addEditingActions($item, $this) ?>">
                         <img src="<?= $item['PREVIEW_PICTURE']['SRC'] ?>" alt="<?= $item['PREVIEW_PICTURE']['ALT'] ?>"/>
                     </div>
                 <? endforeach ?>

@@ -6,7 +6,8 @@ use App\Product;
 $showParent = function($section, $fragment) {
     ?>
     <? if ($fragment === 'header'): ?>
-        <div class="accordeon-item" id="<?= v::addEditingActions($section, $this) ?>">
+        <? // TODO add editing actions ?>
+        <div class="accordeon-item">
             <div class="accordeon-wrap-link">
                 <a href="<?= Product::sectionUrl($section) ?>" class="accordeon-link"><?= $section['NAME'] ?></a>
     <? elseif ($fragment === 'footer'): ?>

@@ -29,7 +29,7 @@ $mapId = function ($idx) { return "contacts-map-{$idx}"; }
     <? foreach ($arResult['ITEMS'] as $idx => $item): ?>
         <? $directions = v::get($item, 'DISPLAY_PROPERTIES.DIRECTIONS.FILE_VALUE.SRC') ?>
         <? $description = $item['PROPERTIES']['DESCRIPTION']['~VALUE']['TEXT'] ?>
-        <div class="col col-3 contacts-item">
+        <div class="col col-3 contacts-item" id="<?= v::addEditingActions($item, $this) ?>">
             <div id="<?= $mapId($idx) ?>" class="contacts-map"></div>
             <div class="contacts-info">
                 <p class="contacts-name"><?= $item['NAME'] ?></p>

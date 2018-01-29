@@ -5,7 +5,7 @@ use App\View as v;
 ?>
 <? $item = v::get($arResult, ['ITEMS', 0]) ?>
 <? if (!v::isEmpty($item)): ?>
-    <div class="video-item">
+    <div class="video-item" id="<?= v::addEditingActions($item, $this) ?>">
         <? $url = Videos::embedUrl(Videos::youtubeId($item['PROPERTIES']['URL']['VALUE'])) ?>
         <iframe src="<?= $url ?>" frameborder="0" allowfullscreen></iframe>
         <p class="name"><?= $item['NAME'] ?></p>

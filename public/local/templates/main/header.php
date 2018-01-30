@@ -17,12 +17,13 @@ App::getInstance()->assert(!isset($_POST["AUTH_FORM_PARTNER"]), 'legacy');
 // bring context variables into scope
 extract(App::getInstance()->layoutContext(), EXTR_SKIP);
 
-Session::process();
-
 if ($isAjax) {
     // skip the whole thing for ajax requests
     return;
 }
+
+Session::process();
+
 $assets = App::assets();
 $asset = Asset::getInstance();
 $asset->setJsToBody(true);

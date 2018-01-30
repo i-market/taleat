@@ -9,7 +9,7 @@ use App\Iblock;
 use Bex\Tools\Iblock\IblockTools;
 ?>
 <?$APPLICATION->IncludeComponent("bitrix:news", "articles", array(
-    "IBLOCK_TYPE" => Iblock::CONTENT_TYPE,
+    "IBLOCK_TYPE" => "content",
     "IBLOCK_ID" => IblockTools::find(Iblock::CONTENT_TYPE, Iblock::ARTICLES)->id(),
     "NEWS_COUNT" => "11",
     "USE_SEARCH" => "N",
@@ -84,13 +84,18 @@ use Bex\Tools\Iblock\IblockTools;
     "DISPLAY_PICTURE" => "Y",
     "DISPLAY_PREVIEW_TEXT" => "Y",
     "AJAX_OPTION_ADDITIONAL" => "",
+    "COMPONENT_TEMPLATE" => "articles",
+    "SET_LAST_MODIFIED" => "N",
+    "ADD_ELEMENT_CHAIN" => "N",
+    "STRICT_SECTION_CHECK" => "N",
+    "DETAIL_SET_CANONICAL_URL" => "N",
+    "PAGER_BASE_LINK_ENABLE" => "N",
+    "SHOW_404" => "N",
+    "MESSAGE_404" => "",
     "SEF_URL_TEMPLATES" => array(
         "news" => "",
         "section" => "",
         "detail" => "#ELEMENT_CODE#/",
-        "search" => "search/",
-        "rss" => "rss/",
-        "rss_section" => "#SECTION_ID#/rss/",
     )
 ),
     false

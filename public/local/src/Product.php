@@ -23,6 +23,7 @@ class Product {
     // image dimension constraints
     const IMAGE_FULL = [1000, 1000];
     const IMAGE_MEDIUM = [500, 500];
+    const IMAGE_MEDIUM_SMALL = [300, 300];
     const IMAGE_SMALL = [100, 100];
     const BRAND_LOGO = [300, 80];
 
@@ -31,7 +32,7 @@ class Product {
             'IBLOCK_ID' => $section['IBLOCK_ID'],
             'ID' => $section['ID']
         ], false, ['UF_RECOMMENDED'])->GetNext();
-        // TODO optimize
+        // TODO optimize n+1 query
         $products = _::map($sect['UF_RECOMMENDED'], function ($id) {
             return \CIBlockElement::GetByID($id)->GetNext();
         });
@@ -68,7 +69,8 @@ class Product {
         $elemRef = $elem;
         Tools::getFieldImageData($elemRef, ['DETAIL_PICTURE', 'PREVIEW_PICTURE'],
             Tools::IPROPERTY_ENTITY_ELEMENT, 'IPROPERTY_VALUES');
-        return $elemRef['PREVIEW_PICTURE'] ?: $elemRef['DETAIL_PICTURE'];
+        // TODO refactor. preview pic is missing for bitrix:catalog.products.viewed elements.
+        return ($elemRef['~PREVIEW_PICTURE'] ? $elemRef['PREVIEW_PICTURE'] : null) ?: $elemRef['DETAIL_PICTURE'];
     }
 
     static function basePrice($productId) {

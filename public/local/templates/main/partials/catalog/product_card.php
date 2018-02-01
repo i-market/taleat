@@ -11,7 +11,7 @@ use App\Product;
     $attrs = !v::isEmpty($thumbnail)
         ? [
             'class' => 'img',
-            'style' => "background-image: url('{$thumbnail['SRC']}')",
+            'style' => "background-image: url('".v::resize($thumbnail, ...Product::IMAGE_MEDIUM_SMALL)."')",
             'title' => v::get($thumbnail, 'ALT', '')
         ]
         : ['class' => 'img no-img']

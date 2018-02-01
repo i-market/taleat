@@ -65,7 +65,12 @@ $isCartEmpty = count(array_merge(...array_values($arResult['ITEMS']))) === 0;
                                     <div class="td">
                                         <div class="img">
                                             <? if (!v::isEmpty($thumbnail)): ?>
-                                                <img src="<?= $thumbnail['SRC'] ?>" alt="<?= $thumbnail['ALT'] ?>">
+                                                <div class="img-holder">
+                                                    <div class="content"
+                                                         style="background-image: url('<?= v::resize($thumbnail, ...Product::IMAGE_MEDIUM_SMALL) ?>')"
+                                                         title="<?= $thumbnail['ALT'] ?>">
+                                                    </div>
+                                                </div>
                                             <? else: ?>
                                                 <div class="no-img-placeholder"><div class="content"></div></div>
                                             <? endif ?>

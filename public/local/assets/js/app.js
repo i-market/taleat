@@ -1,4 +1,6 @@
 (function () {
+  'use strict';
+
   // see npm `build:modules` script
   var queryString = modules['querystring'];
 

@@ -9,13 +9,14 @@ CHTTP::SetStatus("404 Not Found");
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 
-$APPLICATION->SetTitle("Страница не найдена");
+$APPLICATION->SetTitle("Ошибка 404");
 
 if (App::env() !== Env::DEV) {
     App::getInstance()->assert(false, "404 not found: {$_SERVER['REQUEST_URI']}");
 }
 ?>
-<h1>Страница не найдена</h1>
+<h1>Ошибка 404</h1>
+<p>Страница не найдена или была удалена. Пожалуйста, проверьте URL-адрес или воспользуйтесь поиском.</p>
 <?
 $APPLICATION->IncludeComponent("bitrix:main.map", ".default", array(
 	"CACHE_TYPE" => "A",

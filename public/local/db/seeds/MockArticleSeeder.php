@@ -30,7 +30,7 @@ class MockArticleSeeder extends AbstractSeed {
                     'IBLOCK_ID' => $iblockId,
                     'NAME' => "Пример статьи {$n}",
                     'CODE' => 'primer-'.$n,
-                    'SORT' => $n * 10,
+                    'SORT' => 500,
                     'PREVIEW_PICTURE' => $hasImg ? CFile::MakeFileArray($imgPath) : null,
                     'PREVIEW_TEXT' => $hasImg ? $longText : $shortText,
                     'DETAIL_TEXT' => file_get_contents(Util::joinPath([__DIR__, 'mock_post.html'])),

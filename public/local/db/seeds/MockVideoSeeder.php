@@ -21,7 +21,7 @@ class MockVideoSeeder extends AbstractSeed {
                 $result = $el->Add([
                     'IBLOCK_ID' => $iblockId,
                     'NAME' => "Пример видео {$n}",
-                    'SORT' => $n * 10,
+                    'SORT' => 500,
                     'PROPERTY_VALUES' => [
                         'URL' => 'https://www.youtube.com/embed/hj7ZYjVFDGI?rel=0'
                     ]

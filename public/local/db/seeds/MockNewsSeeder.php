@@ -30,7 +30,7 @@ class MockNewsSeeder extends AbstractSeed {
                     'NAME' => "Пример новости {$n}",
                     'CODE' => 'primer-'.$n,
                     'ACTIVE_FROM' => ConvertTimeStamp(time(), 'FULL'),
-                    'SORT' => $n * 10,
+                    'SORT' => 500,
                     'PREVIEW_PICTURE' => CFile::MakeFileArray($imgPath),
                     'PREVIEW_TEXT' => $shortText,
                     'DETAIL_TEXT' => file_get_contents(Util::joinPath([__DIR__, 'mock_post.html'])),

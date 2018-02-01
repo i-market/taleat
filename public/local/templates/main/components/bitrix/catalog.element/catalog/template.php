@@ -41,8 +41,11 @@ use App\View as v;
                     <? foreach ($images as $img): ?>
                         <? $resized = v::resize($img, ...Product::IMAGE_FULL) ?>
                         <div class="slide">
-                            <a href="<?= $resized ?>" data-fancybox="product-gallery">
-                                <img src="<?= $resized ?>" alt="<?= $img['ALT'] ?>">
+                            <a href="<?= $resized ?>"
+                               data-fancybox="product-gallery"
+                               class="img"
+                               style="background-image: url('<?= $resized ?>')"
+                               title="<?= $img['ALT'] ?>">
                             </a>
                         </div>
                     <? endforeach ?>
@@ -50,7 +53,11 @@ use App\View as v;
             </div>
             <div class="slider-item-thumbs">
                 <? foreach ($images as $img): ?>
-                    <div class="slide"><img src="<?= v::resize($img, ...Product::IMAGE_SMALL) ?>" alt="<?= $img['ALT'] ?>"></div>
+                    <div class="slide">
+                        <a class="img"
+                           style="background-image: url('<?= v::resize($img, ...Product::IMAGE_SMALL) ?>')"
+                           title="<?= $img['ALT'] ?>"></a>
+                    </div>
                 <? endforeach ?>
             </div>
         </div>

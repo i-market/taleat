@@ -144,7 +144,7 @@ class Admin {
         $productsById = _::keyBy('ID', iter\toArray($products));
         $ret = iter\map(function ($row) use ($productsById) {
             list($id, $_, $price) = $row;
-            $product =_::get($productsById, strval($id));
+            $product = _::get($productsById, strval($id));
             return [
                 'row' => $row,
                 'nextPrice' => $price,

@@ -16,14 +16,11 @@ use Core\Util;
 use Core\Env;
 
 class Report {
-    // TODO refactor: normalize fields, params, element structure. it's a mess.
-
     const STATUS_SENT = 59;
     const STATUS_APPROVED = 60;
     const STATUS_REJECTED = 61;
     const STATUS_ERROR_CORRECTED = 70;
 
-    // TODO refactor args for different modes (new, edit)
     static function context($initial, $params, $result, $opts = []) {
         global $USER;
         if (!_::isEmpty($initial)) App::getInstance()->assert(self::validate($initial));
@@ -50,7 +47,7 @@ class Report {
             ? iter\toArray(Iblock::iter(CIBlockElement::GetProperty(11, $productId, "VALUE_ENUM", "asc", array("CODE"=>"MODELS"))))
             : [];
         $completeness = iter\toArray(Iblock::iter(CIBlockPropertyEnum::GetList(Array("SORT"=>"ASC"), Array("IBLOCK_ID"=>10, "CODE"=>"ITEM_COMPLECT"))));
-        $defaults = [
+        $ctx = [
             'mode' => 'new',
             'result' => $result,
             'fields' => self::escapeRec($fields),
@@ -74,7 +71,7 @@ class Report {
                 69 => 'Оставлено в сервисном центре на ответственное хранение',
             ]
         ];
-        return array_merge($defaults, $opts);
+        return array_merge($ctx, $opts);
     }
 
     static function isEditingDisallowed($statusId, $userId) {

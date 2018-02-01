@@ -3,8 +3,6 @@
 use App\Product;
 use App\View as v;
 ?>
-<? v::appendToView('modals', v::render('partials/catalog/product_added_to_cart_modal.php')) ?>
-
 <? $this->SetViewTarget('bitrix:catalog.element/catalog/additional_text') ?>
 <? $value = $arResult['PROPERTIES']['ADDITIONAL_TEXT']['~VALUE'] ?>
 <? if (!v::isEmpty($value)): ?>

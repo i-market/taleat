@@ -114,6 +114,10 @@ use App\Components;
     </div>
 </div>
 <? Layout::showCatalogWrapper('footer') ?>
+<?
+$filterName = 'arrFilter';
+$$filterName = ['!ID' => $arItem['ID']];
+?>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:catalog.section",
 	"similar_products_section",
@@ -146,7 +150,7 @@ use App\Components;
 		"ELEMENT_SORT_ORDER" => "asc",
 		"ELEMENT_SORT_ORDER2" => "desc",
 		"ENLARGE_PRODUCT" => "STRICT",
-		"FILTER_NAME" => "arrFilter",
+		"FILTER_NAME" => $filterName,
 		"HIDE_NOT_AVAILABLE" => "N",
 		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
 		"IBLOCK_ID" => $iblock_id,

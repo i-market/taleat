@@ -134,7 +134,7 @@ class App extends \Core\App {
             throw new \Exception($message);
         } else {
             self::withRaven(function (Raven_Client $raven) use ($message) {
-                return $raven->captureMessage($message, [], [], true);
+                return $raven->captureException(new \Exception($message));
             });
         }
     }

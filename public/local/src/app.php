@@ -111,7 +111,8 @@ class App extends \Core\App {
     }
 
     function withRaven(callable $f) {
-        if (self::env() === Env::DEV) {
+        global $USER;
+        if (self::env() === Env::DEV || !function_exists('curl_init')) {
             return null;
         }
         if ($this->raven === null) {
@@ -120,10 +121,14 @@ class App extends \Core\App {
                 'environment' => self::env()
             ]);
         }
-        if (function_exists('curl_init')) {
-            return $f($this->raven);
+        if (is_object($USER) && $USER->IsAuthorized()) {
+            $this->raven->user_context([
+                'id' => $USER->GetID(),
+                'username' => $USER->GetLogin(),
+                'email' => $USER->GetEmail()
+            ]);
         }
-        return null;
+        return $f($this->raven);
     }
 
     function assert($cond, $message = '') {

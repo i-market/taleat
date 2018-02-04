@@ -10,12 +10,15 @@ class SetEmailTemplate extends AbstractMigration {
         try {
             $result = CEventMessage::GetList($by = 'ID', $order = 'ASC');
             while ($template = $result->Fetch()) {
-                $res = (new CEventMessage)->Update($template['ID'], [
+                $msg = $this->unwrap($template);
+                $em = new CEventMessage();
+                $res = $em->Update($template['ID'], [
                     'SITE_TEMPLATE_ID' => 'letter',
-                    'MESSAGE' => $this->unwrap($template)
+                    'MESSAGE' => $template['BODY_TYPE'] === 'text' ? TxtToHTML($msg) : $msg,
+                    'BODY_TYPE' => 'html'
                 ]);
                 if (!$res) {
-                    throw new Exception("can't update");
+                    throw new Exception("can't update: ".$em->LAST_ERROR);
                 }
             }
             $conn->commitTransaction();

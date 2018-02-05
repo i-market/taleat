@@ -5,6 +5,7 @@ use Core\Underscore as _;
 use App\OrderStatus;
 use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\Page\Asset;
+use iter;
 
 Asset::getInstance()->addJs("/bitrix/components/bitrix/sale.order.payment.change/templates/.default/script.js");
 Asset::getInstance()->addCss("/bitrix/components/bitrix/sale.order.payment.change/templates/.default/style.css");
@@ -83,7 +84,7 @@ $showOrder = function ($order, $class) use ($arResult, $orderStatus, $orderTitle
                     <td></td>
                     <td>Доставка</td>
                     <td></td>
-                    <td><?= $formatPrice($item['PRICE'] * $item['QUANTITY'], $item) ?></td>
+                    <td><?= $formatPrice($order['ORDER']['PRICE_DELIVERY'], $order['ORDER']) ?></td>
                 </tr>
             </table>
         </div>

@@ -28,6 +28,7 @@ $APPLICATION->SetPageProperty("body_class", "bg");
                 "COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
                 "ONLY_FULL_PAY_FROM_ACCOUNT" => "N",
                 "ALLOW_AUTO_REGISTER" => "Y",
+                "ALLOW_NEW_PROFILE" => $USER->IsAdmin() ? 'Y' : 'N',
                 "SEND_NEW_USER_NOTIFY" => "N",
                 "DELIVERY_NO_AJAX" => "N",
                 "DELIVERY_NO_SESSION" => "N",

@@ -25,31 +25,6 @@ if(!empty($arResult["ORDER_PROP"]["USER_PROFILES"]))
 		</select>
 	<?
 	}
-	else
-	{
-	?>
-		<table class="sale_order_table">
-			<tr>
-				<td class="name">
-					<?=GetMessage("SOA_TEMPL_EXISTING_PROFILE")?>
-				</td>
-				<td>
-					<?
-					foreach($arResult["ORDER_PROP"]["USER_PROFILES"] as $arUserProfiles)
-					{
-						echo $arUserProfiles["NAME"];
-						?>
-						<input type="hidden" name="PROFILE_ID" id="ID_PROFILE_ID" value="<?=$arUserProfiles["ID"]?>" />
-						<br />
-						<?
-						break;
-					}
-					?>
-				</td>
-			</tr>
-		</table>
-	<?
-	}
 }
 ?>
 <div style="display:none;"> <? // see `old_version` template ?>

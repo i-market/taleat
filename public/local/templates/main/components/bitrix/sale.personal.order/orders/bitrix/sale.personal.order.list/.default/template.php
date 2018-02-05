@@ -66,6 +66,31 @@ $showOrder = function ($order, $class) use ($arResult, $orderStatus, $orderTitle
                 Комментарий: «<?= $order['ORDER']['REASON_CANCELED'] ?>»
             </div>
         <? endif ?>
+        <? if (!v::isEmpty($order['SHIPMENT'])): ?>
+            <? foreach ($order['SHIPMENT'] as $shipment): ?>
+                <table class="shipment">
+                    <? if (!empty($shipment['DELIVERY_ID'])): ?>
+                        <tr>
+                            <td><?= Loc::getMessage('SPOL_TPL_DELIVERY_SERVICE').':' ?></td>
+                            <td><?= $arResult['INFO']['DELIVERY'][$shipment['DELIVERY_ID']]['NAME'] ?></td>
+                        </tr>
+                    <? endif ?>
+                    <? if (!empty($shipment['TRACKING_NUMBER'])): ?>
+                        <tr>
+                            <td><?= Loc::getMessage('SPOL_TPL_POSTID').':' ?></td>
+                            <td>
+                                <? $text = htmlspecialcharsbx($shipment['TRACKING_NUMBER']) ?>
+                                <? if (!v::isEmpty($shipment['TRACKING_URL'])): ?>
+                                    <a href="<?= $shipment['TRACKING_URL'] ?>" target="_blank"><?= $text ?></a>
+                                <? else: ?>
+                                    <?= $text ?>
+                                <? endif ?>
+                            </td>
+                        </tr>
+                    <? endif ?>
+                </table>
+            <? endforeach ?>
+        <? endif ?>
         <p class="name-info">
             <span class="name"><?= $orderTitle($order) ?></span>
             <span class="price"><?= $order['ORDER']['FORMATED_PRICE'] ?></span>

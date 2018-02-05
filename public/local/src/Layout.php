@@ -104,6 +104,7 @@ class Layout {
                         <div class="section-title-block">
                             <h2>Личный кабинет</h2>
                             <div class="wrap-track-departure">
+                                <? // example: https://www.pochta.ru/tracking#ES090481705FI ?>
                                 <a class="track-departure" href="https://www.pochta.ru/tracking" target="_blank">Отследить отправление</a>
                             </div>
                         </div>

@@ -60,6 +60,11 @@ $showOrder = function ($order, $class) use ($arResult, $orderStatus, $orderTitle
         <p class="top">
             <span class="top-name <?= $status['state'] === 'issue' ? 'red' : '' ?>"><?= $status['text'] ?></span>
         </p>
+        <? if ($order['ORDER']['CANCELED'] === 'Y'): ?>
+            <div class="comment">
+                Комментарий: «<?= $order['ORDER']['REASON_CANCELED'] ?>»
+            </div>
+        <? endif ?>
         <p class="name-info">
             <span class="name"><?= $orderTitle($order) ?></span>
             <span class="price"><?= $order['ORDER']['FORMATED_PRICE'] ?></span>
@@ -74,6 +79,12 @@ $showOrder = function ($order, $class) use ($arResult, $orderStatus, $orderTitle
                         <td><?= $formatPrice($item['PRICE'] * $item['QUANTITY'], $item) ?></td>
                     </tr>
                 <? endforeach ?>
+                <tr>
+                    <td></td>
+                    <td>Доставка</td>
+                    <td></td>
+                    <td><?= $formatPrice($item['PRICE'] * $item['QUANTITY'], $item) ?></td>
+                </tr>
             </table>
         </div>
         <? if ($order['ORDER']['CANCELED'] !== 'Y'): ?>

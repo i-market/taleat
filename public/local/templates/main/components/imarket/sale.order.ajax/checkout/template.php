@@ -4,7 +4,7 @@ use App\View as v;
 use Core\Util;
 use App\Product;
 
-$showEverything = false && App::env() === \Core\Env::DEV;
+$showEverything = false && App::env() === \Core\Env::DEV; // for debugging
 
 $showWrapper = function ($fragment) use ($arResult, &$APPLICATION) {
     ?>

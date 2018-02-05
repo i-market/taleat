@@ -1,5 +1,5 @@
 <? if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
-$APPLICATION->SetPageProperty('body_class', '');
+$APPLICATION->SetPageProperty('body_class', ''); // we need a white background
 ?>
 <div class="editable-area default-page">
     <? if (empty($arResult["ORDER"])): ?>
@@ -22,8 +22,10 @@ $APPLICATION->SetPageProperty('body_class', '');
                         <?= GetMessage("SOA_TEMPL_PAY_PDF", Array("#LINK#" => $arParams["PATH_TO_PAYMENT"]."?ORDER_ID=".urlencode(urlencode($arResult["ORDER"]["ACCOUNT_NUMBER"]))."&pdf=1&DOWNLOAD=Y")) ?>
                     <? endif ?>
                 <? elseif (strlen($arResult["PAY_SYSTEM"]["PATH_TO_ACTION"])>0): ?>
-                    </div> <? // break out of the wrapper div ?>
-                    <? include($arResult["PAY_SYSTEM"]["PATH_TO_ACTION"]); ?>
+                    </div>
+                    <div> <? // flex item ?>
+                        <? include($arResult["PAY_SYSTEM"]["PATH_TO_ACTION"]); ?>
+                    </div>
                     <div>
                 <? endif ?>
             <? endif ?>

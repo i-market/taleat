@@ -232,6 +232,10 @@
           var query = '?'+updateQuery(_.partialRight(_.set, 'selected', selected));
           replaceElement($section, query, init)
         });
+
+        // hack
+        $section.find('.contacts-text img').addClass('fancybox');
+        Mockup.initComponents($section);
       }
       init($(this));
     });

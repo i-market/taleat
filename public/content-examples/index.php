@@ -12,6 +12,13 @@ $APPLICATION->SetTitle("Примеры контента");
 <h5>h5. Заголовок</h5>
 <h6>h6. Заголовок</h6>
 
+<div class="h1">h1. Заголовок</div>
+<div class="h2">h2. Заголовок</div>
+<div class="h3">h3. Заголовок</div>
+<div class="h4">h4. Заголовок</div>
+<div class="h5">h5. Заголовок</div>
+<div class="h6">h6. Заголовок</div>
+
 <h2>Элементы текста</h2>
 
 <p><del>This line of text is meant to be treated as deleted text.</del></p>
@@ -125,10 +132,10 @@ $APPLICATION->SetTitle("Примеры контента");
 
 <h2>Картинки</h2>
 
-<h3>Выравнивание по центру</h3>
+<h3>Выравнивание по центру с fancybox</h3>
 
 <p style="text-align: center;">
-    <img src="/content-examples/placeholder.png" width="100" height="100">
+    <img src="/content-examples/placeholder.png" class="fancybox" alt="Caption" width="100" height="100">
 </p>
 <p>Lorem ipsum dolor sit amet, <a href="#">consectetur adipiscing</a> elit. Aenean ac consectetur ex, et accumsan sapien. Morbi sit amet ex eu mi laoreet gravida non eu nibh. Nulla euismod eleifend orci in facilisis. Nulla velit sem, facilisis lacinia facilisis sed, sodales aliquam massa. Cras sem libero, fringilla eget luctus sed, euismod placerat sapien. Praesent sed ullamcorper nisi. Morbi ut lorem ac ex blandit tincidunt vel non orci. Proin ullamcorper efficitur viverra. Praesent id augue vitae nunc varius egestas. Nulla nec ornare eros, sit amet pellentesque nunc. Donec tincidunt neque velit, vel semper purus consectetur ac. Sed hendrerit urna tortor, at lacinia dolor finibus vitae. Donec consequat libero vitae mauris aliquet egestas.</p>
 

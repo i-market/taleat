@@ -4,11 +4,16 @@ $APPLICATION->SetTitle("Личный кабинет");
 $APPLICATION->SetPageProperty('layout', 'personal');
 
 use App\Components;
+use App\Auth;
 ?>
 
 <div class="tabs-inner">
     <div class="data-center">
-        <? Components::showPersonalProfile() ?>
+        <? if (Auth::isPartner($USER) || Auth::isUnconfirmedPartner($USER)): ?>
+            <? Components::showPartnerProfile() ?>
+        <? else: ?>
+            <? Components::showPersonalProfile() ?>
+        <? endif ?>
         <? Components::showNewsletterSub() ?>
     </div>
 </div>

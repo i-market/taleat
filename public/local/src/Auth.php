@@ -2,6 +2,7 @@
 
 namespace App;
 
+use CGroup;
 use CUser;
 use CSite;
 use App\View as v;
@@ -13,6 +14,20 @@ class Auth {
 
     static function isPartner(CUser $user) {
         return $user->IsAuthorized() && in_array(self::PARTNER_GROUP, CUser::GetUserGroup($user->GetID()));
+    }
+
+    static function unconfirmedPartnerId() {
+        $ret = CGroup::GetIDByCode('unconfirmed_partner'); // TODO cache
+        App::getInstance()->assert($ret);
+        return $ret;
+    }
+
+    static function isUnconfirmedPartner(CUser $user) {
+        return $user->IsAuthorized() && in_array(self::unconfirmedPartnerId(), CUser::GetUserGroup($user->GetID()));
+    }
+
+    static function partnerConfirmationPendingMsg() {
+        return 'Учетная запись сервисного центра становится активной только после подтверждения администратором';
     }
 
     static function hasAdminPanelAccess(CUser $user) {
@@ -39,7 +54,7 @@ class Auth {
             } elseif (!self::isPartner($USER)) {
                 $APPLICATION->AuthForm([
                     'TYPE' => 'ERROR',
-                    'MESSAGE' => 'Ваш партнерский аккаунт еще не подтвержден администратором'
+                    'MESSAGE' => self::partnerConfirmationPendingMsg()
                 ]);
             }
         }

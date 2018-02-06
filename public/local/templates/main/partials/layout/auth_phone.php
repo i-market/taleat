@@ -11,7 +11,7 @@ global $USER;
         <? if (Auth::hasAdminPanelAccess($USER)): ?>
             <p class="link"><a href="<?= v::path('admin') ?>">Панель админа</a></p>
         <? endif ?>
-        <? if (Auth::isPartner($USER)): ?>
+        <? if (Auth::isPartner($USER) || Auth::isUnconfirmedPartner($USER)): ?>
             <p class="link"><a href="<?= v::path('partneram') ?>">Кабинет дилера</a></p>
         <? endif ?>
         <p class="link"><a href="<?= $auth['logoutLink'] ?>">Выход</a></p>

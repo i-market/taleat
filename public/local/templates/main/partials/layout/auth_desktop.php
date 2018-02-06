@@ -12,7 +12,7 @@ global $USER;
             <? if (Auth::hasAdminPanelAccess($USER)): ?>
                 <li><a href="<?= v::path('admin') ?>">Панель админа</a></li>
             <? endif ?>
-            <? if (Auth::isPartner($USER)): ?>
+            <? if (Auth::isPartner($USER) || Auth::isUnconfirmedPartner($USER)): ?>
                 <li><a href="<?= v::path('partneram') ?>">Кабинет дилера</a></li>
             <? endif ?>
             <li><a data-modal="contact-modal" href="javascript:void(0)">Написать сообщение</a></li>

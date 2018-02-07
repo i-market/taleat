@@ -17,12 +17,13 @@ class Auth {
     }
 
     static function unconfirmedPartnerId() {
-        $ret = CGroup::GetIDByCode('unconfirmed_partner'); // TODO cache
+        $ret = CGroup::GetIDByCode(UserGroup::UNCONFIRMED_PARTNER);
         App::getInstance()->assert($ret);
         return $ret;
     }
 
     static function isUnconfirmedPartner(CUser $user) {
+        // return false if `isPartner`? or don't?
         return $user->IsAuthorized() && in_array(self::unconfirmedPartnerId(), CUser::GetUserGroup($user->GetID()));
     }
 

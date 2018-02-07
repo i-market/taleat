@@ -268,6 +268,12 @@ class Iblock extends \Core\Iblock {
     const CONTACT_FORM = 'contact_form';
 }
 
+class UserGroup {
+    const UNCONFIRMED_PARTNER = 'unconfirmed_partner';
+    const FULL_BRAND_ACCESS = 'full_brand_access';
+    const BABYLISS = 'babyliss';
+}
+
 class Videos {
     static function youtubeId($url) {
         $matchesRef = [];

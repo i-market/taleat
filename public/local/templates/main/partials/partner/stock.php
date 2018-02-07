@@ -1,8 +1,9 @@
 <?
+use App\Partner;
 use App\View as v;
 use Core\Util;
 
-global $APPLICATION;
+global $APPLICATION, $USER;
 ?>
 <div class="stock">
     <div class="tabs-inner">
@@ -17,13 +18,7 @@ global $APPLICATION;
                     )
                 ); ?>
             </div>
-            <? $files = [
-                // uploaded by a third-party
-                'Braun'     => '/partneram/ostatki_V/ostatki_braun1.xls',
-                "De'Longhi" => '/partneram/ostatki_V/ostatki_braun2.xls',
-                'Babyliss'  => '/partneram/ostatki_V/ostatki_babyliss.xls'
-            ] ?>
-            <? foreach ($files as $brand => $path): ?>
+            <? foreach (Partner::stockFiles($USER) as $brand => list($_, $path)): ?>
                 <? list($_, $ext) = Util::splitFileExtension($path) ?>
                 <p class="line">
                     <a class="download-btn"

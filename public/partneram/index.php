@@ -6,10 +6,9 @@ $APPLICATION->SetTitle("Партнерам");
 $APPLICATION->SetPageProperty('layout', 'bare');
 
 use App\App;
+use App\Partner;
 use App\View as v;
 use Core\Underscore as _;
-use App\Iblock;
-use Bex\Tools\Iblock\IblockTools;
 
 if (v::isEmpty(v::get($_REQUEST, 'tab'))) {
     LocalRedirect(v::path('partneram/feed'));
@@ -51,31 +50,24 @@ if (!in_array($activeTab, _::pluck($tabs, 'id'))) {
                     v::render('partials/partner/stock.php', [], ['buffer' => false]);
                     break;
                 case 'feed':
-                    $sections = iter\toArray(Iblock::iter(CIBlockSection::GetList([], [
-                        'IBLOCK_ID' => IblockTools::find(Iblock::PARTNER_TYPE, Iblock::FEED)->id(),
-                        'ACTIVE' => 'Y'
-                    ])));
                     v::render('partials/partner/feed.php', [
                         'sectionId' => v::get($_REQUEST, 'SECTION_ID'),
                         'sectionOpts' => array_map(function ($sect) {
                             return ['value' => $sect['ID'], 'text' => $sect['NAME']];
-                        }, $sections)
+                        }, Partner::feedSections($USER))
                     ], ['buffer' => false]);
                     break;
                 case 'documents':
-                    $sections = iter\toArray(Iblock::iter(CIBlockSection::GetList([], [
-                        'IBLOCK_ID' => IblockTools::find(Iblock::PARTNER_TYPE, Iblock::DOCUMENTS)->id(),
-                        'ACTIVE' => 'Y'
-                    ])));
                     v::render('partials/partner/documents.php', [
                         'sectionId' => v::get($_REQUEST, 'SECTION_ID'),
                         'sectionOpts' => array_map(function ($sect) {
                             return ['value' => $sect['ID'], 'text' => $sect['NAME']];
-                        }, $sections)
+                        }, Partner::documentSections($USER))
                     ], ['buffer' => false]);
                     break;
                 default:
                     App::getInstance()->assert(false, 'illegal state');
+                    break;
             endswitch;
             ?>
         </div>

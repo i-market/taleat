@@ -1,9 +1,10 @@
 <?
 use App\Iblock;
+use App\UserGroup;
 use Bex\Tools\Iblock\IblockTools;
 use App\View as v;
 
-global $APPLICATION;
+global $APPLICATION, $USER;
 ?>
 <div class="documents">
     <div class="tabs-inner-sort">
@@ -18,7 +19,9 @@ global $APPLICATION;
     </div>
     <div class="tabs-inner">
         <div class="required-documents">
-            <a class="download-btn download-btn--small" href="<?= v::path('partneram/reports') ?>">Техническое заключение<span>BABYLISS</span></a>
+            <? if (in_array(CGroup::GetIDByCode(UserGroup::BABYLISS), CUser::GetUserGroup($USER->GetID()))): ?>
+                <a class="download-btn download-btn--small" href="<?= v::path('partneram/reports') ?>">Техническое заключение<span>BABYLISS</span></a>
+            <? endif ?>
             <? $APPLICATION->IncludeComponent(
                 "bitrix:news.list",
                 "documents_fragment",
@@ -33,7 +36,7 @@ global $APPLICATION;
                     "CACHE_FILTER" => "N",
                     "CACHE_GROUPS" => "Y",
                     "CACHE_TIME" => "36000000",
-                    "CACHE_TYPE" => "A",
+                    "CACHE_TYPE" => "N",
                     "CHECK_DATES" => "Y",
                     "DETAIL_URL" => "",
                     "DISPLAY_BOTTOM_PAGER" => "Y",

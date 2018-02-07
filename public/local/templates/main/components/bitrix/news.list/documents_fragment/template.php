@@ -18,6 +18,12 @@ use Core\Util;
 <div class="wrap-documents">
     <? foreach ($arResult['ITEMS'] as $item): ?>
         <? $section = v::get($arResult['SECTIONS'], $item['IBLOCK_SECTION_ID']) ?>
+        <?
+        // TODO refactor item filter
+        if ($item['IBLOCK_SECTION_ID'] && !$section) {
+            continue;
+        }
+        ?>
         <? $path = $item['DISPLAY_PROPERTIES']['DOCUMENT']['FILE_VALUE']['SRC'] ?>
         <? list($_, $ext) = Util::splitFileExtension($path) ?>
         <div class="item" id="<?= v::addEditingActions($item, $this) ?>">
@@ -34,4 +40,3 @@ use Core\Util;
     <? endforeach ?>
 </div>
 <?= $arResult['NAV_STRING'] ?>
-

@@ -206,7 +206,17 @@ class Report {
             'ITEM_PLACE' => $arItem["PROPERTY_ITEM_PLACE_ENUM_ID"]
         ];
         App::getInstance()->assert(self::validate($ret));
-        return $ret;
+        // hacky
+        $decodeRec = function ($x) use (&$decodeRec) {
+            if (is_string($x)) {
+                return htmlspecialcharsback($x);
+            } elseif (is_array($x)) {
+                return array_map($decodeRec, $x);
+            } else {
+                return $x;
+            }
+        };
+        return $decodeRec($ret);
     }
 
     static function escapeRec($x) {

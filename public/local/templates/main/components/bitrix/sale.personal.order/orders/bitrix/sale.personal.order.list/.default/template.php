@@ -124,7 +124,12 @@ $showOrder = function ($order, $class) use ($arResult, $orderStatus, $orderTitle
         <? endif ?>
         <div class="more-info">
             <div class="more-info-block">
-                <? if ($order['ORDER']['CANCELED'] !== 'Y'): ?>
+                <?
+                $isCancellable = $order['ORDER']['CANCELED'] !== 'Y'
+                    && $order['ORDER']['STATUS_ID'] !== OrderStatus::COMPLETED
+                    && $order['ORDER']['PAYED'] !== 'Y';
+                ?>
+                <? if ($isCancellable): ?>
                     <a href="<?= htmlspecialcharsbx($order['ORDER']['URL_TO_CANCEL']) ?>" class="delete"><?= Loc::getMessage('SPOL_TPL_CANCEL_ORDER') ?></a>
                 <? else: ?>
                     <a href="<?=htmlspecialcharsbx($order["ORDER"]["URL_TO_COPY"])?>"><?=Loc::getMessage('SPOL_TPL_REPEAT_ORDER')?></a>

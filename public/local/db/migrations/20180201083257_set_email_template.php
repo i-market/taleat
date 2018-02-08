@@ -11,9 +11,8 @@ class SetEmailTemplate extends AbstractMigration {
             $result = CEventMessage::GetList($by = 'ID', $order = 'ASC');
             while ($template = $result->Fetch()) {
                 $msg = $this->unwrap($template);
-                $hasTags = mb_strpos($msg, '<') !== false && mb_strpos($msg, '>') !== false; // poor but sufficient
-                $isPlainText = $template['BODY_TYPE'] === 'text'
-                    || !$hasTags; // fix incorrect `body_type`s
+                $hasTags = mb_strpos($msg, '<') !== false && mb_strpos($msg, '>') !== false; // not the most reliable way to check
+                $isPlainText = $template['BODY_TYPE'] === 'text' || !$hasTags; // fix incorrect `body_type`s
                 $em = new CEventMessage();
                 $res = $em->Update($template['ID'], [
                     'SITE_TEMPLATE_ID' => 'letter',

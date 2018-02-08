@@ -113,7 +113,12 @@ $showOrder = function ($order, $class) use ($arResult, $orderStatus, $orderTitle
                 </tr>
             </table>
         </div>
-        <? if ($order['ORDER']['CANCELED'] !== 'Y'): ?>
+        <?
+        $isPayable = $order['ORDER']['CANCELED'] !== 'Y'
+            && $order['ORDER']['STATUS_ID'] !== OrderStatus::COMPLETED
+            && $order['ORDER']['PAYED'] !== 'Y';
+        ?>
+        <? if ($isPayable): ?>
             <? foreach ($order['PAYMENT'] as $payment): ?>
                 <? if ($payment['PAID'] !== 'Y' && $order['ORDER']['IS_ALLOW_PAY'] !== 'N'): ?>
                     <a target="_blank" href="<?=htmlspecialcharsbx($payment['PSA_ACTION_FILE'])?>" class="yellow-btn">

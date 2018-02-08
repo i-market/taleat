@@ -32,7 +32,7 @@ $APPLICATION->SetPageProperty("body_class", "bg");
                 "SEND_NEW_USER_NOTIFY" => "N",
                 "DELIVERY_NO_AJAX" => "N",
                 "DELIVERY_NO_SESSION" => "N",
-                "TEMPLATE_LOCATION" => ".default",
+                "TEMPLATE_LOCATION" => ".default_with_filter",
                 "DELIVERY_TO_PAYSYSTEM" => "d2p",
                 "USE_PREPAYMENT" => "N",
                 "PROP_1" => array(

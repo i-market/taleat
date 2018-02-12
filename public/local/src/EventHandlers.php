@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Bitrix\Main\Config\Configuration;
+use Bitrix\Main\Config\Option;
 use Bitrix\Main\Loader;
 use CEvent;
 use Core\Session;
@@ -18,6 +20,24 @@ class EventHandlers {
         AddEventHandler('main', 'OnBeforeUserRegister', _::func([self::class, 'onBeforeUserRegister']));
         AddEventHandler('main', 'OnAfterUserRegister', _::func([self::class, 'onAfterUserRegister']));
         AddEventHandler('main', 'OnBeforeUserUpdate', _::func([self::class, 'onBeforeUserUpdate']));
+        AddEventHandler('main', 'onBeforeEventSend', _::func([self::class, 'onBeforeEventSend']));
+    }
+
+    static function onBeforeEventSend(&$fieldsRef, &$templateRef) {
+        $app = Configuration::getValue('app');
+        $overrideSender = _::get($app, 'override_email_sender');
+        $overrideDefaultEmailFrom = _::get($app, 'override_default_email_from');
+
+        if (!isset($fieldsRef['ADMIN_EMAIL'])) {
+            $fieldsRef['ADMIN_EMAIL'] = _::get($app, 'admin_email', Option::get('main', 'email_from'));
+        }
+        if ($overrideDefaultEmailFrom) {
+            $fieldsRef['DEFAULT_EMAIL_FROM'] = $overrideDefaultEmailFrom;
+        }
+        if ($overrideSender) {
+            $templateRef['EMAIL_FROM'] = $overrideSender;
+        }
+        return $fieldsRef;
     }
 
     static function onBeforeUserRegister(&$fieldsRef) {

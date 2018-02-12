@@ -100,8 +100,14 @@ return array (
   'app' => array(
     'value' => array(
       'env' => '{{ app_env }}',
+      {% if admin_email is defined %}
+      'admin_email' => '{{ admin_email }}',
+      {% endif %}
       {% if override_default_email_from is defined %}
       'override_default_email_from' => '{{ override_default_email_from }}',
+      {% endif %}
+      {% if override_email_sender is defined %}
+      'override_email_sender' => '{{ override_email_sender }}',
       {% endif %}
       'sentry' => array(
         'enabled' => {{ 'true' if sentry.enabled else 'false' }},

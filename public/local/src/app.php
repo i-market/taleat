@@ -93,6 +93,8 @@ class App extends \Core\App {
             '/terms',
             '/auth',
             '/admin',
+            '/law',
+            '/terms',
 
             '/personal/index.php',
             '/personal/cart',
@@ -219,6 +221,10 @@ class View extends \Core\View {
             'reported' => _::get(Configuration::getValue('app'), 'sentry.enabled', false),
             'email' => Option::get('main', 'email_from', null)
         ]);
+    }
+
+    static function privacyPolicyError() {
+        return 'Пожалуйста, дайте согласие на обработку персональных данных.';
     }
 
     static function fileSize($path) {

@@ -181,15 +181,11 @@ else
 
 		include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/props.php");
 		?>
-        <?/*
-        <? // TODO validate ?>
         <div class="wrap-checkbox">
-            <? $id = 'legal-'.\Core\Util::uniqueId() ?>
-            <? // TODO error: An invalid form control with name='legal-agreed' is not focusable. ?>
-            <input type="checkbox" hidden="hidden" id="<?= $id ?>" name="legal-agreed" required>
-            <label for="<?= $id ?>">Согласен на обработку <a href="<?= v::path('terms/privacy') ?>" target="_blank">персональных данных</a></label>
+            <? $id = 'error-'.\Core\Util::uniqueId() ?>
+            <?= v::render('partials/privacy_checkbox.php', ['errorContainer' => '#'.$id]) ?>
         </div>
-        */?>
+        <div id="<?= $id ?>"></div>
 		<?
 		if ($arParams["DELIVERY_TO_PAYSYSTEM"] == "p2d")
 		{

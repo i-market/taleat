@@ -51,17 +51,9 @@ $showErrorMessage = function () use ($arResult) {
         <? m::showInput('REGISTER[CONFIRM_PASSWORD]', 'Повторите пароль', ['required' => true, 'type' => 'password']) ?>
     <? endif ?>
     <div class="wrap-checkbox">
-        <? $id = 'input-'.Util::uniqueId() ?>
-        <input class="checkbox"
-               type="checkbox"
-               name="legal"
-               value="1"
-               required
-               data-msg-required="Пожалуйста, дайте согласие на обработку персональных данных."
-               checked
-               hidden="hidden"
-               id="<?= $id ?>">
-        <label for="<?= $id ?>">Даю согласие<br>на <a href="<?= v::path('terms/privacy') ?>" target="_blank">обработку персональных данных</a></label>
+        <? $id = 'error-'.\Core\Util::uniqueId() ?>
+        <?= v::render('partials/privacy_checkbox.php', ['errorContainer' => '#'.$id]) ?>
     </div>
+    <div id="<?= $id ?>"></div>
     <input type="submit" name="register_submit_button" class="download-btn" value="Зарегистрироваться">
 </form>

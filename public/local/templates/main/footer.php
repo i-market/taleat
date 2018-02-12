@@ -112,6 +112,11 @@ if ($isAjax) {
                 <? m::showInput('PHONE', 'Контактный телефон *', ['required' => true]) ?>
                 <? m::showInput('EMAIL', 'Контактный e-mail *', ['required' => true]) ?>
                 <textarea name="MESSAGE" placeholder="Сообщение"><?= v::escAttr(v::get($_REQUEST, 'MESSAGE')) ?></textarea>
+                <div class="wrap-checkbox">
+                    <? $id = 'error-'.\Core\Util::uniqueId() ?>
+                    <?= v::render('partials/privacy_checkbox.php', ['errorContainer' => '#'.$id]) ?>
+                </div>
+                <div id="<?= $id ?>"></div>
                 <button type="submit" class="download-btn">Отправить</button>
             </form>
         </div>
@@ -126,7 +131,6 @@ if ($isAjax) {
     <script>
       $('img').one('error', function () {
         console.error('using placeholder img for:', this);
-        // quickfix for the missing images
         this.src = '/content-examples/placeholder.png';
       });
     </script>

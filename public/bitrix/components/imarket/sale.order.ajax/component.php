@@ -1,9 +1,15 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
 use App\App;
+use App\View as v;
 
-// checks for `App::holidayMode` (see below)
-// not sure if any other customizations were made
+$validateForm = function () use (&$arResult) {
+    if (!isset($_REQUEST['privacy_policy'])) {
+        $arResult['ERROR'][] = v::privacyPolicyError();
+	}
+};
+
+//
 
 if (!CModule::IncludeModule("sale"))
 {
@@ -257,6 +263,10 @@ foreach ($arParams["PRODUCT_COLUMNS"] as $key => $value) // making grid headers 
 		$arColumn["align"] = "right";
 
 	$arResult["GRID"]["HEADERS"][] = $arColumn;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	$validateForm();
 }
 
 if (!$USER->IsAuthorized() && $arParams["ALLOW_AUTO_REGISTER"] == "N")

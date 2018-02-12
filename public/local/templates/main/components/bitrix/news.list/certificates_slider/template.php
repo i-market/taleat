@@ -1,7 +1,7 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
 use App\View as v;
-
+use Core\Util;
 ?>
 <? if (!v::isEmpty($arResult['ITEMS'])): ?>
     <section class="wrap-sertificate-slider wrap-slider section">
@@ -42,12 +42,15 @@ use App\View as v;
         </span>
             <div class="sertificate-slider slider">
                 <? foreach ($arResult['ITEMS'] as $item): ?>
-                    <a href="<?= $item['DISPLAY_PROPERTIES']['FILE']['FILE_VALUE']['SRC'] ?>"
+                    <? // TODO resize `file` if it's an image ?>
+                    <? $path = $item['DISPLAY_PROPERTIES']['FILE']['FILE_VALUE']['SRC'] ?>
+                    <? list($_, $ext) = Util::splitFileExtension($path) ?>
+                    <a href="<?= $path ?>"
                        class="sertificate-item"
                        data-fancybox="certificates"
                        id="<?= v::addEditingActions($item, $this) ?>">
-                        <div class="img">
-                            <img src="<?= $item['PREVIEW_PICTURE']['SRC'] ?>" alt="<?= $item['PREVIEW_PICTURE']['ALT'] ?>">
+                        <div class="img <?= $ext === 'pdf' ? 'img--pdf' : '' ?>">
+                            <img src="<?= v::resize($item['PREVIEW_PICTURE'], 300, 300) ?>" alt="<?= $item['PREVIEW_PICTURE']['ALT'] ?>">
                         </div>
                         <p class="name"><?= $item['NAME'] ?></p>
                     </a>

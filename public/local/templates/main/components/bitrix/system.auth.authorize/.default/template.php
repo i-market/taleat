@@ -29,6 +29,12 @@ $showHiddenInputs = function () use ($arResult) {
                 <div class="form__message <?= $result['TYPE'] === 'ERROR' ? 'form__message--error' : '' ?>">
                     <?= $result['MESSAGE'] ?>
                 </div>
+                <? // TODO hack: on error hide everything except the login form ?>
+                <style>
+                    .content > *:not(.scroll-top):not(.content-menu-block):not(.modal-like) {
+                        display: none;
+                    }
+                </style>
             <? endif ?>
             <? if (!v::isEmpty($arResult['ERROR_MESSAGE'])): ?>
                 <div class="form__message form__message--error">

@@ -15,7 +15,6 @@ $showHiddenInputs = function () use ($arResult) {
     <?
 };
 ?>
-<? // TODO ux: set flash message and redirect on success? ?>
 <? // TODO if arResult.USE_CAPTCHA ?>
 <div class="modal-like">
     <div class="block">
@@ -26,18 +25,19 @@ $showHiddenInputs = function () use ($arResult) {
                 <div class="form__message <?= $result['TYPE'] === 'ERROR' ? 'form__message--error' : 'form__message--success' ?>">
                     <?= $result['MESSAGE'] ?>
                 </div>
-            <? endif ?>
-            <? $showHiddenInputs() ?>
-            <? m::showInput('USER_LOGIN', 'Логин', ['value' => $arResult['LAST_LOGIN'], 'required' => true]) ?>
-            <? if (!v::isEmpty($arResult['USER_CHECKWORD']) && v::get($result, 'TYPE') !== 'ERROR'): ?>
-                <input type="hidden" name="USER_CHECKWORD" value="<?= $arResult['USER_CHECKWORD'] ?>">
             <? else: ?>
-                <? m::showInput('USER_CHECKWORD', 'Контрольная строка', ['required' => true]) ?>
+                <? $showHiddenInputs() ?>
+                <? m::showInput('USER_LOGIN', 'Логин', ['value' => $arResult['LAST_LOGIN'], 'required' => true]) ?>
+                <? if (!v::isEmpty($arResult['USER_CHECKWORD']) && v::get($result, 'TYPE') !== 'ERROR'): ?>
+                    <input type="hidden" name="USER_CHECKWORD" value="<?= $arResult['USER_CHECKWORD'] ?>">
+                <? else: ?>
+                    <? m::showInput('USER_CHECKWORD', 'Контрольная строка', ['required' => true]) ?>
+                <? endif ?>
+                <? m::showInput('USER_PASSWORD', 'Новый пароль', ['required' => true, 'type' => 'password']) ?>
+                <? // TODO add js validation for password confirmation ?>
+                <? m::showInput('USER_CONFIRM_PASSWORD', 'Подтверждение пароля', ['required' => true, 'type' => 'password']) ?>
+                <input type="submit" class="download-btn" name="change_pwd" value="Изменить пароль" />
             <? endif ?>
-            <? m::showInput('USER_PASSWORD', 'Новый пароль', ['required' => true, 'type' => 'password']) ?>
-            <? // TODO add js validation for password confirmation ?>
-            <? m::showInput('USER_CONFIRM_PASSWORD', 'Подтверждение пароля', ['required' => true, 'type' => 'password']) ?>
-            <input type="submit" class="download-btn" name="change_pwd" value="Изменить пароль" />
         </form>
     </div>
 </div>

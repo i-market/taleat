@@ -2,6 +2,7 @@
 
 use App\App;
 use App\View as v;
+use App\User;
 
 $validateForm = function () use (&$arResult) {
     if (!isset($_REQUEST['privacy_policy'])) {
@@ -2102,6 +2103,7 @@ if ($USER->IsAuthorized() || $arParams["ALLOW_AUTO_REGISTER"] == "Y" )
 						false,
 						array("ID", "TYPE", "NAME", "CODE", "USER_PROPS", "SORT", "MULTIPLE")
 					);
+					$props = [];
 					while ($arOrderProperties = $dbOrderProperties->Fetch())
 					{
 						$curVal = $arUserResult["ORDER_PROP"][$arOrderProperties["ID"]];
@@ -2156,6 +2158,7 @@ if ($USER->IsAuthorized() || $arParams["ALLOW_AUTO_REGISTER"] == "Y" )
 								);
 
 							CSaleOrderPropsValue::Add($arFields);
+							$props[] = $arFields;
 
 							if ( $arOrderProperties["USER_PROPS"] == "Y" && IntVal($arUserResult["PROFILE_ID"])<=0 && IntVal($arUserResult["PROFILE_ID_new"])<=0)
 							{
@@ -2208,6 +2211,7 @@ if ($USER->IsAuthorized() || $arParams["ALLOW_AUTO_REGISTER"] == "Y" )
 							}
 						}
 					}
+                    User::updateFromUserProps($USER, $props);
 				}
 
 

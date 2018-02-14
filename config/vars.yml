@@ -11,6 +11,8 @@ roles:
   stage:
     app_env: prod
     hosts: [imarket]
+    sentry:
+      enabled: false
   stage-tw:
     app_env: prod
     hosts: [tw]

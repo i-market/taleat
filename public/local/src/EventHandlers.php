@@ -65,18 +65,11 @@ class EventHandlers {
             if (0 < $arFields["USER_ID"]) {
                 CUser::AppendUserGroup($arFields['USER_ID'], [Auth::unconfirmedPartnerId()]);
 
-                $holidayText = "";
-                $holiday = App::holidayMode();
-                if ($holiday['isEnabled']) {
-                    $holidayText = "<br><br>Ваша заявка на регистрацию будет рассмотрена <strong>" . $holiday['to'] . "</strong><br><br>";
-                }
-                $toSend = array(
+                CEvent::Send(Events::NEW_UNCONFIRMED_PARTNER, SITE_ID, [
+                    'USER_ID' => $arFields['USER_ID'],
                     'EMAIL' => $arFields['EMAIL'],
-                    'LOGIN' => $arFields['LOGIN'],
-                    'PASSWORD' => $arFields['CONFIRM_PASSWORD'],
-                    'HOLIDAY' => $holidayText
-                );
-                CEvent::Send("NEW_USER2", SITE_ID, $toSend, 'Y');
+                    'WORK_COMPANY' => $arFields['WORK_COMPANY']
+                ]);
 
                 // TODO sub only when the user becomes a confirmed partner?
                 $sub = new CSubscription();
@@ -93,6 +86,20 @@ class EventHandlers {
                 App::getInstance()->assert($res, 'partner newsletter subscription issue');
             }
         }
+
+        $holidayText = "";
+        $holiday = App::holidayMode();
+        if ($isUnconfirmedPartner && $holiday['isEnabled']) {
+            $holidayText = "<br><br>Ваша заявка на регистрацию будет рассмотрена <strong>" . $holiday['to'] . "</strong><br><br>";
+        }
+        $toSend = array(
+            'EMAIL' => $arFields['EMAIL'],
+            'LOGIN' => $arFields['LOGIN'],
+            'PASSWORD' => $arFields['CONFIRM_PASSWORD'], // mailing plain text passwords is a bad security practice
+            'HOLIDAY' => $holidayText
+        );
+        CEvent::Send("NEW_USER2", SITE_ID, $toSend, 'Y');
+
         return $arFields;
     }
 }

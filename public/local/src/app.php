@@ -36,6 +36,13 @@ class App extends \Core\App {
         EventHandlers::attach();
     }
 
+    function customerFeedbackConfig() {
+        $requestAfter = self::env() === Env::DEV
+            ? (new \DateTime())->modify('+1 second')
+            : (new \DateTime())->modify('+10 days');
+        return ['request_after' => $requestAfter];
+    }
+
     // TODO better logging
     function log(...$entries) {
         $path = Util::joinPath([$_SERVER['DOCUMENT_ROOT'], 'local/app.log']);
@@ -241,6 +248,7 @@ class View extends \Core\View {
 
 class Events {
     const CONTACT_FORM = 'CONTACT_FORM';
+    const NEW_UNCONFIRMED_PARTNER = 'NEW_UNCONFIRMED_PARTNER';
 }
 
 class Iblock extends \Core\Iblock {

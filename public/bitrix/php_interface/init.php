@@ -155,10 +155,10 @@ class myClass{
             else $arFields["FULL_NAME"] = $arFields["FAM"]." ".$arFields["IMYA"]." ".$arFields["OTCHESTVO"];
 
             CEvent::SendImmediate("STATUS_SEND", "s1", $arFields);
-            $date = new DateTime;
-            $date->modify('+14 days');
-            $dateAgent = $date->format('d.m.Y H:i:s');
 
+            $cfg = App::getInstance()->customerFeedbackConfig();
+            $date = $cfg['request_after'];
+            $dateAgent = $date->format('d.m.Y H:i:s');
             CAgent::AddAgent("GetFeedback(".$ID.");", "main", "N", 86400, "", "Y", $dateAgent, 100);
         endif;
 

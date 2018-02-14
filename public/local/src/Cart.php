@@ -26,6 +26,7 @@ class Cart {
 
     function index() {
         global $APPLICATION;
+        // TODO run effects on POST only
         $this->runEffects(_::get($_REQUEST, 'action'), $_REQUEST);
 
         $APPLICATION->IncludeComponent(

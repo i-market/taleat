@@ -5,6 +5,7 @@ $APPLICATION->SetTitle("Корзина товаров");
 use App\Cart;
 ?>
 
-<? (new Cart)->index() ?>
+<? $cart = new Cart() ?>
+<? $cart->index() ?>
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

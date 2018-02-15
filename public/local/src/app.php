@@ -249,6 +249,7 @@ class View extends \Core\View {
 class Events {
     const CONTACT_FORM = 'CONTACT_FORM';
     const NEW_UNCONFIRMED_PARTNER = 'NEW_UNCONFIRMED_PARTNER';
+    const TEH_ZAKL_UPDATE = 'TEH_ZAKL_UPDATE';
 }
 
 class Iblock extends \Core\Iblock {

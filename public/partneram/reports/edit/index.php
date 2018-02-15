@@ -13,7 +13,8 @@ if (!isset($_REQUEST['id'])) {
     LocalRedirect('/404.php');
 }
 $result = [];
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// TODO properly handle auth form requests
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_REQUEST['AUTH_FORM'])) {
     $result = Report::update($_REQUEST);
     if ($result['success']) {
         Session::addFlash($result['message']);

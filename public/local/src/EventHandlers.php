@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Bitrix\Iblock\PropertyEnumerationTable;
 use Bitrix\Main\Config\Configuration;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\Loader;
@@ -15,12 +16,17 @@ use CUser;
 Loader::includeModule('subscribe');
 
 class EventHandlers {
+    /** @var callable[] */
+    static $deferredUtilAfterUpdate = [];
+
     static function attach() {
         // see also init.php
         AddEventHandler('main', 'OnBeforeUserRegister', _::func([self::class, 'onBeforeUserRegister']));
         AddEventHandler('main', 'OnAfterUserRegister', _::func([self::class, 'onAfterUserRegister']));
         AddEventHandler('main', 'OnBeforeUserUpdate', _::func([self::class, 'onBeforeUserUpdate']));
-        AddEventHandler('main', 'onBeforeEventSend', _::func([self::class, 'onBeforeEventSend']));
+        AddEventHandler('main', 'OnBeforeEventSend', _::func([self::class, 'onBeforeEventSend']));
+        AddEventHandler('iblock', 'OnBeforeIBlockElementUpdate', _::func([self::class, 'onBeforeIBlockElementUpdate']));
+        AddEventHandler('iblock', 'OnAfterIBlockElementUpdate', _::func([self::class, 'onAfterIBlockElementUpdate']));
     }
 
     static function onBeforeEventSend(&$fieldsRef, &$templateRef) {
@@ -38,6 +44,46 @@ class EventHandlers {
             $templateRef['EMAIL_FROM'] = $overrideSender;
         }
         return $fieldsRef;
+    }
+
+    static function onBeforeIBlockElementUpdate($fieldsBefore) {
+        $id = $fieldsBefore['ID'];
+        if ($id && $fieldsBefore['IBLOCK_ID'] == IB_REPORTS) {
+            $elem = Iblock::iterElements(\CIBlockElement::GetByID($id))->current();
+            self::$deferredUtilAfterUpdate[] =
+                function ($fields) use ($elem) {
+                    if ($fields['ID'] == $elem['ID']) {
+                        $statusProp = 58;
+                        $statusId = $fields['PROPERTY_VALUES'][$statusProp][0]['VALUE'];
+                        $statusEnum = PropertyEnumerationTable::getList([
+                            'filter' => ['PROPERTY_ID' => $statusProp, 'ID' => $statusId]
+                        ])->fetch();
+                        $status = $statusEnum['VALUE'];
+                        $comment = $fields['PREVIEW_TEXT'];
+                        $hasChanged = $status !== $elem['PROPERTIES']['STATUS']['VALUE']
+                            || $comment !== $elem['PREVIEW_TEXT'];
+                        if ($hasChanged) {
+                            $userId = $elem['PROPERTIES']['USER']['VALUE'];
+                            $res = CEvent::Send(Events::TEH_ZAKL_UPDATE, App::SITE_ID, [
+                                'EMAIL_TO' => CUser::GetByID($userId)->GetNext()['EMAIL'],
+                                'NUMBER' => $elem['PROPERTIES']['NUMER']['VALUE'],
+                                'STATUS' => $status,
+                                'COMMENT' => !str::isEmpty($comment) ? "Комментарий: {$comment}" :  ''
+                            ]);
+                            App::getInstance()->assert($res);
+                        }
+                    }
+                };
+        }
+        return $fieldsBefore;
+    }
+    
+    static function onAfterIBlockElementUpdate($fields) {
+        foreach (self::$deferredUtilAfterUpdate as $f) {
+            $f($fields);
+        }
+        self::$deferredUtilAfterUpdate = [];
+        return $fields;
     }
 
     static function onBeforeUserRegister(&$fieldsRef) {
@@ -65,7 +111,7 @@ class EventHandlers {
             if (0 < $arFields["USER_ID"]) {
                 CUser::AppendUserGroup($arFields['USER_ID'], [Auth::unconfirmedPartnerId()]);
 
-                CEvent::Send(Events::NEW_UNCONFIRMED_PARTNER, SITE_ID, [
+                CEvent::Send(Events::NEW_UNCONFIRMED_PARTNER, App::SITE_ID, [
                     'USER_ID' => $arFields['USER_ID'],
                     'EMAIL' => $arFields['EMAIL'],
                     'WORK_COMPANY' => $arFields['WORK_COMPANY']
@@ -98,7 +144,7 @@ class EventHandlers {
             'PASSWORD' => $arFields['CONFIRM_PASSWORD'], // mailing plain text passwords is a bad security practice
             'HOLIDAY' => $holidayText
         );
-        CEvent::Send("NEW_USER2", SITE_ID, $toSend, 'Y');
+        CEvent::Send("NEW_USER2", App::SITE_ID, $toSend, 'Y');
 
         return $arFields;
     }

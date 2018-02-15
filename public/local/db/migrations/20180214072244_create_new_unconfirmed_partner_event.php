@@ -40,7 +40,7 @@ class CreateNewUnconfirmedPartnerEvent extends AbstractMigration {
             'EVENT_NAME' => static::$eventData['EVENT_NAME'],
             'LID' => ['s1'],
             'EMAIL_FROM' => '#DEFAULT_EMAIL_FROM#',
-            'EMAIL_TO' => '#EMAIL_TO#',
+            'EMAIL_TO' => '#DEFAULT_EMAIL_FROM#',
             'BCC' => '',
             'SUBJECT' => static::$eventData['MESSAGE_TITLE'],
             'BODY_TYPE' => 'html',

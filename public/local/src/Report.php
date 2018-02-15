@@ -520,7 +520,7 @@ class Report {
                 $fid = $ob["PROPERTY_FORMA_VALUE"];
             }
 
-            CEvent::Send("TEH_ZAKL", "s1", $arEventFields, "N", "", array($fid));
+            CEvent::Send("TEH_ZAKL", "s1", $arEventFields, "Y", "", array($fid));
         } else {
             $OK = false;
         }
@@ -621,7 +621,7 @@ class Report {
             "URL"               => "http://".SITE_SERVER_NAME."/bitrix/admin/iblock_element_edit.php?IBLOCK_ID=10&type=region&ID=".$itemID."&lang=ru&find_section_section=0&WF=Y"
         );
         $item = CIBlockElement::GetList(Array(), [], false, Array("nTopCount"=>1), Array("ID", "PROPERTY_FORMA"))->GetNext();
-        CEvent::Send("TEH_ZAKL_EDIT", "s1", $arEventFields, "N", "", array($item["PROPERTY_FORMA_VALUE"]));
+        CEvent::Send("TEH_ZAKL_EDIT", "s1", $arEventFields, "Y", "", array($item["PROPERTY_FORMA_VALUE"]));
 
         return true;
     }

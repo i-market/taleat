@@ -334,6 +334,8 @@ class Catalog {
 class OrderStatus {
     const COMPLETED = 'F';
     const OUT_OF_STOCK = 'O';
+    /** accepted, waiting for payment */
+    const ACCEPTED = 'A';
     /*
     array (
       'N' =>

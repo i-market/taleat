@@ -21,6 +21,17 @@ $isCompleted = function ($order) {
 $completed = iter\filter($isCompleted, $arResult['ORDERS']);
 $active = iter\filter(_::negate($isCompleted), $arResult['ORDERS']);
 
+// TODO refactor: extract business logic
+$isPayable = function ($order) {
+    return $order['ORDER']['STATUS_ID'] === OrderStatus::ACCEPTED
+        && $order['ORDER']['PAYED'] !== 'Y'
+        && $order['ORDER']['CANCELED'] !== 'Y';
+};
+$isCancellable = function ($order) {
+    return $order['ORDER']['CANCELED'] !== 'Y'
+        && $order['ORDER']['STATUS_ID'] !== OrderStatus::COMPLETED
+        && $order['ORDER']['PAYED'] !== 'Y';
+};
 $orderStatus = function ($order) use ($arResult) {
     if ($order['ORDER']['CANCELED'] === 'Y') {
         return [
@@ -54,14 +65,14 @@ $orderTitle = function ($order) use ($arParams) {
 $formatPrice = function ($price, $item) {
     return CCurrencyLang::CurrencyFormat($price, $item['CURRENCY'], true);
 };
-$showOrder = function ($order, $class) use ($arResult, $orderStatus, $orderTitle, $formatPrice) {
+$showOrder = function ($order, $class) use ($arResult, $isPayable, $isCancellable, $orderStatus, $orderTitle, $formatPrice) {
     ?>
     <? $status = $orderStatus($order) ?>
     <div class="my-orders-item <?= $class ?> <?= $status['state'] === 'disabled' ? 'disabled' : '' ?>">
         <p class="top">
             <span class="top-name <?= $status['state'] === 'issue' ? 'red' : '' ?>"><?= $status['text'] ?></span>
         </p>
-        <? if ($order['ORDER']['CANCELED'] === 'Y'): ?>
+        <? if ($order['ORDER']['CANCELED'] === 'Y' && !v::isEmpty($order['ORDER']['REASON_CANCELED'])): ?>
             <div class="comment">
                 Комментарий: «<?= $order['ORDER']['REASON_CANCELED'] ?>»
             </div>
@@ -113,12 +124,7 @@ $showOrder = function ($order, $class) use ($arResult, $orderStatus, $orderTitle
                 </tr>
             </table>
         </div>
-        <?
-        $isPayable = $order['ORDER']['CANCELED'] !== 'Y'
-            && $order['ORDER']['STATUS_ID'] !== OrderStatus::COMPLETED
-            && $order['ORDER']['PAYED'] !== 'Y';
-        ?>
-        <? if ($isPayable): ?>
+        <? if ($isPayable($order)): ?>
             <? foreach ($order['PAYMENT'] as $payment): ?>
                 <? if ($payment['PAID'] !== 'Y' && $order['ORDER']['IS_ALLOW_PAY'] !== 'N'): ?>
                     <a target="_blank" href="<?=htmlspecialcharsbx($payment['PSA_ACTION_FILE'])?>" class="yellow-btn">
@@ -129,12 +135,7 @@ $showOrder = function ($order, $class) use ($arResult, $orderStatus, $orderTitle
         <? endif ?>
         <div class="more-info">
             <div class="more-info-block">
-                <?
-                $isCancellable = $order['ORDER']['CANCELED'] !== 'Y'
-                    && $order['ORDER']['STATUS_ID'] !== OrderStatus::COMPLETED
-                    && $order['ORDER']['PAYED'] !== 'Y';
-                ?>
-                <? if ($isCancellable): ?>
+                <? if ($isCancellable($order)): ?>
                     <a href="<?= htmlspecialcharsbx($order['ORDER']['URL_TO_CANCEL']) ?>" class="delete"><?= Loc::getMessage('SPOL_TPL_CANCEL_ORDER') ?></a>
                 <? else: ?>
                     <a href="<?=htmlspecialcharsbx($order["ORDER"]["URL_TO_COPY"])?>"><?=Loc::getMessage('SPOL_TPL_REPEAT_ORDER')?></a>

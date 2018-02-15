@@ -147,7 +147,9 @@ class EventHandlers {
         }
         $toSend = array(
             'EMAIL' => $arFields['EMAIL'],
-            'LOGIN' => $arFields['LOGIN'],
+            // TODO bug: `$arFields['LOGIN'] === Auth::LOGIN_EQ_EMAIL` even when login is changed in `onBeforeUserRegister`
+            // email as login
+            'LOGIN' => $arFields['EMAIL'],
             'PASSWORD' => $arFields['CONFIRM_PASSWORD'], // mailing plain text passwords is a bad security practice
             'HOLIDAY' => $holidayText
         );

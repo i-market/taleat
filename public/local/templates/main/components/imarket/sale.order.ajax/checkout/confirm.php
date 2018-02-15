@@ -1,4 +1,7 @@
 <? if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
+
+use App\Order;
+
 $APPLICATION->SetPageProperty('body_class', ''); // we need a white background
 ?>
 <div class="editable-area default-page">
@@ -10,7 +13,7 @@ $APPLICATION->SetPageProperty('body_class', ''); // we need a white background
         <h2 class="h3"><?= GetMessage("SOA_TEMPL_ORDER_COMPLETE") ?></h2>
         <p><?= GetMessage("SOA_TEMPL_ORDER_SUC", Array("#ORDER_DATE#" => $arResult["ORDER"]["DATE_INSERT"], "#ORDER_ID#" => $arResult["ORDER"]["ACCOUNT_NUMBER"])) ?></p>
         <p><?= GetMessage("SOA_TEMPL_ORDER_SUC1", Array("#LINK#" => $arParams["PATH_TO_PERSONAL"])) ?></p>
-        <? if (!empty($arResult["PAY_SYSTEM"])): ?>
+        <? if (Order::isPayable($arResult['ORDER']) && !empty($arResult["PAY_SYSTEM"])): ?>
             <p><?= GetMessage("SOA_TEMPL_PAY") ?>: <?= $arResult["PAY_SYSTEM"]["NAME"] ?></p>
             <? if (strlen($arResult["PAY_SYSTEM"]["ACTION_FILE"]) > 0): ?>
                 <? if ($arResult["PAY_SYSTEM"]["NEW_WINDOW"] == "Y"): ?>

@@ -331,6 +331,14 @@ class Catalog {
     }
 }
 
+class Order {
+    static function isPayable($order) {
+        return $order['STATUS_ID'] === OrderStatus::ACCEPTED
+            && $order['PAYED'] !== 'Y'
+            && $order['CANCELED'] !== 'Y';
+    }
+}
+
 class OrderStatus {
     const COMPLETED = 'F';
     const OUT_OF_STOCK = 'O';

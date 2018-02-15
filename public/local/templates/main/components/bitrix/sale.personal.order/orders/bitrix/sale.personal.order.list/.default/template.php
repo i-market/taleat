@@ -1,11 +1,11 @@
 <? if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
+use App\Order;
 use App\View as v;
 use Core\Underscore as _;
 use App\OrderStatus;
 use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\Page\Asset;
-use iter;
 
 Asset::getInstance()->addJs("/bitrix/components/bitrix/sale.order.payment.change/templates/.default/script.js");
 Asset::getInstance()->addCss("/bitrix/components/bitrix/sale.order.payment.change/templates/.default/style.css");
@@ -21,12 +21,6 @@ $isCompleted = function ($order) {
 $completed = iter\filter($isCompleted, $arResult['ORDERS']);
 $active = iter\filter(_::negate($isCompleted), $arResult['ORDERS']);
 
-// TODO refactor: extract business logic
-$isPayable = function ($order) {
-    return $order['ORDER']['STATUS_ID'] === OrderStatus::ACCEPTED
-        && $order['ORDER']['PAYED'] !== 'Y'
-        && $order['ORDER']['CANCELED'] !== 'Y';
-};
 $isCancellable = function ($order) {
     return $order['ORDER']['CANCELED'] !== 'Y'
         && $order['ORDER']['STATUS_ID'] !== OrderStatus::COMPLETED
@@ -65,7 +59,7 @@ $orderTitle = function ($order) use ($arParams) {
 $formatPrice = function ($price, $item) {
     return CCurrencyLang::CurrencyFormat($price, $item['CURRENCY'], true);
 };
-$showOrder = function ($order, $class) use ($arResult, $isPayable, $isCancellable, $orderStatus, $orderTitle, $formatPrice) {
+$showOrder = function ($order, $class) use ($arResult, $isCancellable, $orderStatus, $orderTitle, $formatPrice) {
     ?>
     <? $status = $orderStatus($order) ?>
     <div class="my-orders-item <?= $class ?> <?= $status['state'] === 'disabled' ? 'disabled' : '' ?>">
@@ -124,7 +118,7 @@ $showOrder = function ($order, $class) use ($arResult, $isPayable, $isCancellabl
                 </tr>
             </table>
         </div>
-        <? if ($isPayable($order)): ?>
+        <? if (Order::isPayable($order['ORDER'])): ?>
             <? foreach ($order['PAYMENT'] as $payment): ?>
                 <? if ($payment['PAID'] !== 'Y' && $order['ORDER']['IS_ALLOW_PAY'] !== 'N'): ?>
                     <a target="_blank" href="<?=htmlspecialcharsbx($payment['PSA_ACTION_FILE'])?>" class="yellow-btn">

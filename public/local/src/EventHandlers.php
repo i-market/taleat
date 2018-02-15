@@ -18,7 +18,7 @@ Loader::includeModule('subscribe');
 
 class EventHandlers {
     /** @var callable[] */
-    static $deferredUntilAfterUpdate = [];
+    private static $deferredUntilAfterUpdate = [];
 
     static function attach() {
         // see also init.php

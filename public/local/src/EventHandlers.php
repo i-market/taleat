@@ -6,6 +6,7 @@ use Bitrix\Iblock\PropertyEnumerationTable;
 use Bitrix\Main\Config\Configuration;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\Loader;
+use Bitrix\Main\UserTable;
 use CEvent;
 use Core\Session;
 use Core\Underscore as _;
@@ -17,7 +18,7 @@ Loader::includeModule('subscribe');
 
 class EventHandlers {
     /** @var callable[] */
-    static $deferredUtilAfterUpdate = [];
+    static $deferredUntilAfterUpdate = [];
 
     static function attach() {
         // see also init.php
@@ -50,7 +51,7 @@ class EventHandlers {
         $id = $fieldsBefore['ID'];
         if ($id && $fieldsBefore['IBLOCK_ID'] == IB_REPORTS) {
             $elem = Iblock::iterElements(\CIBlockElement::GetByID($id))->current();
-            self::$deferredUtilAfterUpdate[] =
+            self::$deferredUntilAfterUpdate[] =
                 function ($fields) use ($elem) {
                     if ($fields['ID'] == $elem['ID']) {
                         $statusProp = 58;
@@ -79,10 +80,10 @@ class EventHandlers {
     }
     
     static function onAfterIBlockElementUpdate($fields) {
-        foreach (self::$deferredUtilAfterUpdate as $f) {
+        foreach (self::$deferredUntilAfterUpdate as $f) {
             $f($fields);
         }
-        self::$deferredUtilAfterUpdate = [];
+        self::$deferredUntilAfterUpdate = [];
         return $fields;
     }
 

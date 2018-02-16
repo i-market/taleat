@@ -111,11 +111,11 @@ class EventHandlers {
     }
 
     static function onAfterUserRegister(&$arFields) {
-        // see system.auth.registration form
-        $isUnconfirmedPartner = _::get($_REQUEST, 'user_type') === 'service-center';
-        if ($isUnconfirmedPartner) {
-            Session::addFlash(['type' => 'success', 'text' => Auth::partnerConfirmationPendingMsg()]);
-            if (0 < $arFields["USER_ID"]) {
+        if (0 < $arFields['USER_ID']) {
+            // see system.auth.registration form
+            $isUnconfirmedPartner = _::get($_REQUEST, 'user_type') === 'service-center';
+            if ($isUnconfirmedPartner) {
+                Session::addFlash(['type' => 'success', 'text' => Auth::partnerConfirmationPendingMsg()]);
                 CUser::AppendUserGroup($arFields['USER_ID'], [Auth::unconfirmedPartnerId()]);
 
                 CEvent::Send(Events::NEW_UNCONFIRMED_PARTNER, App::SITE_ID, [
@@ -138,23 +138,22 @@ class EventHandlers {
                 ]);
                 App::getInstance()->assert($res, 'partner newsletter subscription issue');
             }
-        }
 
-        $holidayText = "";
-        $holiday = App::holidayMode();
-        if ($isUnconfirmedPartner && $holiday['isEnabled']) {
-            $holidayText = "<br><br>Ваша заявка на регистрацию будет рассмотрена <strong>" . $holiday['to'] . "</strong><br><br>";
+            $holidayText = "";
+            $holiday = App::holidayMode();
+            if ($isUnconfirmedPartner && $holiday['isEnabled']) {
+                $holidayText = "<br><br>Ваша заявка на регистрацию будет рассмотрена <strong>" . $holiday['to'] . "</strong><br><br>";
+            }
+            $toSend = array(
+                'EMAIL' => $arFields['EMAIL'],
+                // TODO bug: `$arFields['LOGIN'] === Auth::LOGIN_EQ_EMAIL` even when login is changed in `onBeforeUserRegister`
+                // email as login
+                'LOGIN' => $arFields['EMAIL'],
+                'PASSWORD' => $arFields['CONFIRM_PASSWORD'], // mailing plain text passwords is a bad security practice
+                'HOLIDAY' => $holidayText
+            );
+            CEvent::Send("NEW_USER2", App::SITE_ID, $toSend, 'Y');
         }
-        $toSend = array(
-            'EMAIL' => $arFields['EMAIL'],
-            // TODO bug: `$arFields['LOGIN'] === Auth::LOGIN_EQ_EMAIL` even when login is changed in `onBeforeUserRegister`
-            // email as login
-            'LOGIN' => $arFields['EMAIL'],
-            'PASSWORD' => $arFields['CONFIRM_PASSWORD'], // mailing plain text passwords is a bad security practice
-            'HOLIDAY' => $holidayText
-        );
-        CEvent::Send("NEW_USER2", App::SITE_ID, $toSend, 'Y');
-
         return $arFields;
     }
 }

@@ -2309,8 +2309,6 @@ if ($USER->IsAuthorized() || $arParams["ALLOW_AUTO_REGISTER"] == "Y" )
 						if (ExecuteModuleEventEx($arEvent, Array($arResult["ORDER_ID"], &$eventName, &$arFields))===false)
 							$bSend = false;
 
-                    $bSend = true; // TODO hack: `\Bitrix\Sale\Compatible\EventCompatibility::onCallOrderNewSendEmail` returns false for some reason
-
 					if($bSend)
 					{
 						$event = new CEvent;

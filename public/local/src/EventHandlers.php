@@ -90,13 +90,15 @@ class EventHandlers {
     static function onBeforeUserRegister(&$fieldsRef) {
         global $APPLICATION;
         if (!isset($fieldsRef['LOGIN']) || $fieldsRef['LOGIN'] === Auth::LOGIN_EQ_EMAIL) {
-            $isEmailUnique = UserTable::getCount(['EMAIL' => $fieldsRef['EMAIL']]) === 0;
-            if (!$isEmailUnique) {
+            // email as login
+            $fieldsRef['LOGIN'] = $fieldsRef['EMAIL'];
+        }
+        if ($fieldsRef['EMAIL']) {
+            $emailExists = UserTable::getCount(['EMAIL' => $fieldsRef['EMAIL']]) > 0;
+            if ($emailExists) {
                 $APPLICATION->ThrowException('Аккаунт с таким e-mail адресом уже существует');
                 return false;
             }
-            // email as login
-            $fieldsRef['LOGIN'] = $fieldsRef['EMAIL'];
         }
         return $fieldsRef;
     }

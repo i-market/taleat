@@ -3,6 +3,8 @@
 use App\App;
 use App\View as v;
 use App\User;
+use Core\Underscore as _;
+use App\Email;
 
 $validateForm = function () use (&$arResult) {
     if (!isset($_REQUEST['privacy_policy'])) {
@@ -2286,7 +2288,7 @@ if ($USER->IsAuthorized() || $arParams["ALLOW_AUTO_REGISTER"] == "Y" )
 
                     $holiday = App::holidayMode();
                     if ($holiday['isEnabled']) {
-                        $holidayText = "<strong>Заказ будет обработан ".$holiday['to']."</strong><br>";
+                        $holidayText = "<strong>Заказ будет обработан ".$holiday['to']."</strong><br><br>";
                     }
 
 					$arFields = Array(
@@ -2297,9 +2299,13 @@ if ($USER->IsAuthorized() || $arParams["ALLOW_AUTO_REGISTER"] == "Y" )
 						"PRICE" => SaleFormatCurrency($totalOrderPrice, $arResult["BASE_LANG_CURRENCY"]),
 						"BCC" => COption::GetOptionString("sale", "order_email", "order@".$SERVER_NAME),
 						"EMAIL" => (strlen($arUserResult["USER_EMAIL"])>0 ? $arUserResult["USER_EMAIL"] : $USER->GetEmail()),
-						"ORDER_LIST" => $strOrderList,
+						"ORDER_LIST" => Email::orderListStr($arBasketList),
 						"SALE_EMAIL" => COption::GetOptionString("sale", "order_email", "order@".$SERVER_NAME),
 						"DELIVERY_PRICE" => $arResult["DELIVERY_PRICE"],
+
+                        'ORDER_PRICE' => $arResult['ORDER_PRICE_FORMATED'],
+                        'DELIVERY_NAME' => _::first($arResult['DELIVERY'])['NAME'],
+						'PAY_SYSTEM_NAME' => _::first($arResult['PAY_SYSTEM'])['PSA_NAME']
 					);
 
 					$eventName = "SALE_NEW_ORDER";

@@ -144,7 +144,7 @@ class EventHandlers {
             $holidayText = "";
             $holiday = App::holidayMode();
             if ($isUnconfirmedPartner && $holiday['isEnabled']) {
-                $holidayText = "<br><br>Ваша заявка на регистрацию будет рассмотрена <strong>" . $holiday['to'] . "</strong><br><br>";
+                $holidayText = "Ваша заявка на регистрацию будет рассмотрена <strong>" . $holiday['to'] . "</strong><br><br>";
             }
             $toSend = array(
                 'EMAIL' => $arFields['EMAIL'],
@@ -152,7 +152,8 @@ class EventHandlers {
                 // email as login
                 'LOGIN' => $arFields['EMAIL'],
                 'PASSWORD' => $arFields['CONFIRM_PASSWORD'], // mailing plain text passwords is a bad security practice
-                'HOLIDAY' => $holidayText
+                'HOLIDAY' => $holidayText,
+                'FULL_NAME' => User::formatFullName($arFields['LAST_NAME'], $arFields['NAME'], $arFields['SECOND_NAME'])
             );
             CEvent::Send("NEW_USER2", App::SITE_ID, $toSend, 'Y');
         }

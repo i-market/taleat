@@ -3,6 +3,9 @@
 require $_SERVER['DOCUMENT_ROOT'].'/local/vendor/autoload.php';
 
 use App\App;
+use App\Iblock;
+use App\User;
+use App\Email;
 
 App::getInstance()->init();
 
@@ -176,34 +179,44 @@ class myClass{
                 $crc  = md5("$mrh_login:$out_summ:$inv_id:$mrh_pass1");
                 $url = "https://auth.robokassa.ru/Merchant/Index.aspx?MrchLogin=$mrh_login&"."OutSum=$out_summ&InvId=$inv_id&Desc=$inv_desc&SignatureValue=$crc";
             elseif($arOrder["PAY_SYSTEM_ID"] == 5):
-                $url = "http://".$_SERVER["SERVER_NAME"]."/personal/order/bill/?ORDER_ID=".$ID;
+                $url = "http://".$_SERVER["SERVER_NAME"]."/personal/order/bill/?ORDER_ID=".$ID."&download=1";
             elseif($arOrder["PAY_SYSTEM_ID"] == 8):
-                 $url = "http://".$_SERVER["SERVER_NAME"]."/personal/order/yandex-kassa/?ORDER_ID=".$ID;
+                $url = "http://".$_SERVER["SERVER_NAME"]."/personal/order/yandex-kassa/?ORDER_ID=".$ID;
             endif;
-                CSaleOrder::CommentsOrder($arOrder["ID"], $url);
+            CSaleOrder::CommentsOrder($arOrder["ID"], $url);
 
-                $db_props = CSaleOrderPropsValue::GetOrderProps($ID);
-                while ($arProps = $db_props->Fetch())
-                {
-                    if($arProps["CODE"] == "EMAIL")
-                        $arFields["EMAIL"] = $arProps["VALUE"];
-                    if($arProps["CODE"] == "FAM")
-                        $arFields["FAM"] = $arProps["VALUE"];
-                    if($arProps["CODE"] == "IMYA")
-                        $arFields["IMYA"] = $arProps["VALUE"];
-                    if($arProps["CODE"] == "OTCHESTVO")
-                        $arFields["OTCHESTVO"] = $arProps["VALUE"];
-                }
-                if (!$arFields["FAM"] && !$arFields["IMYA"] && !$arFields["OTCHESTVO"]) $arFields["FULL_NAME"] = "клиент";
-                else $arFields["FULL_NAME"] = $arFields["FAM"]." ".$arFields["IMYA"]." ".$arFields["OTCHESTVO"];
-                $arFields["SALE_EMAIL"] = COption::GetOptionString("sale", "order_email");
-                $arFields["COMMENTS"]  = "<p>Заказанные Вами товары у нас в наличии</p>";
-                $arFields["COMMENTS"] .= "<p>Общая сумма заказа с доставкой составляет: ".$arOrder["PRICE"]." руб.</p>";
-                //$arFields["COMMENTS"] .= "<p>Вы можете оплатить свой заказ перейдя по ссылке: <a href='".$url."'>".$url."</a></p>";
-				$arFields["COMMENTS"] .= "<p>Для оплаты необходимо войти в личный кабинет под логином и паролем.</p>";
-                $arFields["ORDER_ID"] = $ID;
-                $arFields["ORDER_DATE"] = $arOrder["DATE_INSERT"];
-                CEvent::SendImmediate("STATUS_ORDER_ACTIVE", "s1", $arFields);
+            $db_props = CSaleOrderPropsValue::GetOrderProps($ID);
+            while ($arProps = $db_props->Fetch())
+            {
+                if($arProps["CODE"] == "EMAIL")
+                    $arFields["EMAIL"] = $arProps["VALUE"];
+                if($arProps["CODE"] == "FAM")
+                    $arFields["FAM"] = $arProps["VALUE"];
+                if($arProps["CODE"] == "IMYA")
+                    $arFields["IMYA"] = $arProps["VALUE"];
+                if($arProps["CODE"] == "OTCHESTVO")
+                    $arFields["OTCHESTVO"] = $arProps["VALUE"];
+            }
+            $arFields["SALE_EMAIL"] = COption::GetOptionString("sale", "order_email");
+            $arFields["COMMENTS"]  = "<p>Заказанные Вами товары у нас в наличии</p>";
+            $arFields["COMMENTS"] .= "<p>Общая сумма заказа с доставкой составляет: ".$arOrder["PRICE"]." руб.</p>";
+            //$arFields["COMMENTS"] .= "<p>Вы можете оплатить свой заказ перейдя по ссылке: <a href='".$url."'>".$url."</a></p>";
+            $arFields["COMMENTS"] .= "<p>Для оплаты необходимо войти в личный кабинет под логином и паролем.</p>";
+            $arFields["ORDER_ID"] = $ID;
+            $arFields["ORDER_DATE"] = $arOrder["DATE_INSERT"];
+
+            $items = iter\toArray(Iblock::iter((new CSaleBasket())->GetList([], ['ORDER_ID' => $arOrder['ID']])));
+            $arFields = array_merge($arFields, [
+                'FULL_NAME' => User::formatFullName($arFields['FAM'], $arFields['IMYA'], $arFields['OTCHESTVO']),
+                'ORDER_LIST' => Email::orderListStr($items),
+                'DELIVERY_PRICE' => SaleFormatCurrency($arOrder['PRICE_DELIVERY'], $arOrder['CURRENCY']),
+                'PRICE' => SaleFormatCurrency($arOrder['PRICE'], $arOrder['CURRENCY']),
+                'PAY_ACTION' => $arOrder["PAY_SYSTEM_ID"] == 5
+                    ? '<br>Квитанция на оплату заказа – <a href="'.$url.'">скачать</a><br>'
+                    : ''
+            ]);
+
+            CEvent::SendImmediate("STATUS_ORDER_ACTIVE", "s1", $arFields);
         endif;
 
         if($val == "S"):
@@ -397,8 +410,10 @@ function changeStatus(&$arFields) {
 }
 
 class Forms {
+    /** @deprecated */
     const PERSONAL_DATA_ERROR = 'Согласие на обработку персональных данных обязательно!';
 
+    /** @deprecated */
     static function validateTermsAgreement($params) {
         return !isset($params['AGREED_PERSONAL_DATA'])
             ? [self::PERSONAL_DATA_ERROR]

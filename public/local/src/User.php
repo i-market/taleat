@@ -5,8 +5,24 @@ namespace App;
 use CUser;
 use iter;
 use Bitrix\Sale\OrderUserProperties;
+use Core\Strings as str;
+use Core\Underscore as _;
 
 class User {
+    static function formatFullName($last, $first, $second) {
+        $options = [[$last, $first, $second], [$first, $second], [$first, $last], [$first]];
+        foreach ($options as $parts) {
+            if (_::matches($parts, _::negate([str::class, 'isEmpty']))) {
+                return join(' ', $parts);
+            }
+        }
+        return 'Уважаемый пользователь';
+    }
+
+    static function fullName(CUser $user) {
+        return self::formatFullName($user->GetLastName(), $user->GetFirstName(), $user->GetSecondName());
+    }
+
     static function userProps(CUser $user) {
         $result = OrderUserProperties::getList([
             'order' => ['DATE_UPDATE' => 'DESC'],

@@ -6,10 +6,21 @@ use App\View as v;
 use CSubscription;
 use Bitrix\Main\Loader;
 use Core\Underscore as _;
+use iter;
 
 Loader::includeModule('subscribe');
 
 class Email {
+    static function orderListStr($items) {
+        $ret = '';
+        foreach (iter\values($items) as $idx => $item) {
+            $qty = strval($item['QUANTITY'] + 0); // strip trailing zeros
+            $ret .= ($idx + 1).'. '.$item['NAME'].($item['QUANTITY'] > 1 ? ' x '.$qty : '');
+            $ret .= "\n<br />";
+        }
+        return $ret;
+    }
+
     static function newsletterContext() {
         $sub = CSubscription::GetUserSubscription();
         if ($sub['ID'] === 0) {

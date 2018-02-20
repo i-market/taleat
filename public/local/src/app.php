@@ -202,7 +202,7 @@ class App extends \Core\App {
     static function holidayMode() {
         $res = CUser::GetList($o, $b, array("ID_EQUAL_EXACT" => 1), array("SELECT"=>array("UF_HOLYDAY", "UF_HOLYDAY_TO")));
         if ($ob = $res->Fetch()){
-            if ($ob["UF_HOLYDAY"]) {
+            if ($ob["UF_HOLYDAY"] && strtotime($ob["UF_HOLYDAY_TO"]) > time()) {
                 return [
                     'isEnabled' => true,
                     'to' => $ob["UF_HOLYDAY_TO"]

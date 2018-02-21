@@ -6,6 +6,7 @@ use App\App;
 use App\Iblock;
 use App\User;
 use App\Email;
+use Core\Env;
 
 App::getInstance()->init();
 
@@ -69,6 +70,19 @@ AddEventHandler("sale", "OnSaleStatusOrder", Array("myClass", "StatusUpdate"));
 class myClass{
     function StatusUpdate($ID, $val)
     {
+        $agentsCfg = [
+            'getFeedback' => [
+                'requestAfter' => in_array(App::env(), [Env::DEV, Env::STAGE])
+                    ? (new \DateTime())->modify('+1 second')
+                    : (new \DateTime())->modify('+10 days')
+            ],
+            'unpaidOrderReminder' => [
+                'remindAfter' => in_array(App::env(), [Env::DEV, Env::STAGE])
+                    ? (new \DateTime())->modify('+1 second')
+                    : (new \DateTime())->modify('+3 days')
+            ]
+        ];
+
         // Нет на складе
         if ($val == "O"):
             $arOrder = CSaleOrder::GetByID($ID);
@@ -91,8 +105,8 @@ class myClass{
             $arFields["ORDER_ID"] = $ID;
             $arFields["ORDER_DATE"] = $arOrder["DATE_INSERT"];
             $arFields["COMMENTS"] = "Ожидаемый срок поставки товара: ".$arFields["SROK"];
-            if (!$arFields["FAM"] && !$arFields["IMYA"] && !$arFields["OTCHESTVO"]) $arFields["FULL_NAME"] = "клиент";
-            else $arFields["FULL_NAME"] = $arFields["FAM"]." ".$arFields["IMYA"]." ".$arFields["OTCHESTVO"];
+            $arFields['FULL_NAME'] = User::formatFullName($arFields['FAM'], $arFields['IMYA'], $arFields['OTCHESTVO']);
+            $arFields['STATUS'] = CSaleStatus::GetByID($val)['NAME'];
             CEvent::SendImmediate("STATUS_OUT_OF_STOCK", "s1", $arFields);
         endif;
 
@@ -117,9 +131,8 @@ class myClass{
             $arFields["COMMENTS"] = $arOrder["COMMENTS"];
             $arFields["ORDER_ID"] = $ID;
             $arFields["ORDER_DATE"] = $arOrder["DATE_INSERT"];
-
-            if (!$arFields["FAM"] && !$arFields["IMYA"] && !$arFields["OTCHESTVO"]) $arFields["FULL_NAME"] = "клиент";
-            else $arFields["FULL_NAME"] = $arFields["FAM"]." ".$arFields["IMYA"]." ".$arFields["OTCHESTVO"];
+            $arFields['FULL_NAME'] = User::formatFullName($arFields['FAM'], $arFields['IMYA'], $arFields['OTCHESTVO']);
+            $arFields['STATUS'] = CSaleStatus::GetByID($val)['NAME'];
 
             CEvent::SendImmediate("STATUS_PAY", "s1", $arFields);
         endif;
@@ -159,14 +172,13 @@ class myClass{
 
             CEvent::SendImmediate("STATUS_SEND", "s1", $arFields);
 
-            $cfg = App::getInstance()->customerFeedbackConfig();
-            $date = $cfg['request_after'];
+            $date = $agentsCfg['getFeedback']['requestAfter'];
             $dateAgent = $date->format('d.m.Y H:i:s');
             CAgent::AddAgent("GetFeedback(".$ID.");", "main", "N", 86400, "", "Y", $dateAgent, 100);
         endif;
 
 
-        // Заказ активен
+        // Заказ активен (принят, ожидается оплата)
         if ($val == "A"):
             $arOrder = CSaleOrder::GetByID($ID);
             if ($arOrder["PAY_SYSTEM_ID"] == 7):
@@ -179,7 +191,7 @@ class myClass{
                 $crc  = md5("$mrh_login:$out_summ:$inv_id:$mrh_pass1");
                 $url = "https://auth.robokassa.ru/Merchant/Index.aspx?MrchLogin=$mrh_login&"."OutSum=$out_summ&InvId=$inv_id&Desc=$inv_desc&SignatureValue=$crc";
             elseif($arOrder["PAY_SYSTEM_ID"] == 5):
-                $url = "http://".$_SERVER["SERVER_NAME"]."/personal/order/bill/?ORDER_ID=".$ID."&download=1";
+                $url = "http://".$_SERVER["SERVER_NAME"]."/personal/order/bill/?ORDER_ID=".$ID;
             elseif($arOrder["PAY_SYSTEM_ID"] == 8):
                 $url = "http://".$_SERVER["SERVER_NAME"]."/personal/order/yandex-kassa/?ORDER_ID=".$ID;
             endif;
@@ -212,13 +224,18 @@ class myClass{
                 'DELIVERY_PRICE' => SaleFormatCurrency($arOrder['PRICE_DELIVERY'], $arOrder['CURRENCY']),
                 'PRICE' => SaleFormatCurrency($arOrder['PRICE'], $arOrder['CURRENCY']),
                 'PAY_ACTION' => $arOrder["PAY_SYSTEM_ID"] == 5
-                    ? '<br>Квитанция на оплату заказа – <a href="'.$url.'">скачать</a><br>'
-                    : ''
+                    ? '<br>Квитанция на оплату заказа – <a href="'.$url.'&download=1">скачать</a><br>'
+                    : (isset($url) ? '<br><a href="'.$url.'">Оплатить</a><br>' : '') // TODO better text for other payment methods
             ]);
 
             CEvent::SendImmediate("STATUS_ORDER_ACTIVE", "s1", $arFields);
+
+            $date = $agentsCfg['unpaidOrderReminder']['remindAfter'];
+            $dateAgent = $date->format('d.m.Y H:i:s');
+            CAgent::AddAgent("UnpaidOrderReminder(".$ID.");", "main", "N", 86400, "", "Y", $dateAgent, 100);
         endif;
 
+        // Товар поступил на склад
         if($val == "S"):
             $arOrder = CSaleOrder::GetByID($ID);
             $db_props = CSaleOrderPropsValue::GetOrderProps($ID);
@@ -236,15 +253,17 @@ class myClass{
             $arFields["SALE_EMAIL"] = COption::GetOptionString("sale", "order_email");
             $arFields["ORDER_ID"] = $ID;
             $arFields["ORDER_DATE"] = $arOrder["DATE_INSERT"];
-            if (!$arFields["FAM"] && !$arFields["IMYA"] && !$arFields["OTCHESTVO"]) $arFields["FULL_NAME"] = "клиент";
-            else $arFields["FULL_NAME"] = $arFields["FAM"]." ".$arFields["IMYA"]." ".$arFields["OTCHESTVO"];
+            $arFields['FULL_NAME'] = User::formatFullName($arFields['FAM'], $arFields['IMYA'], $arFields['OTCHESTVO']);
             $arBasketItems = CSaleBasket::GetList(Array(), Array("ORDER_ID"=>$ID), false, false, Array("ID", "PRODUCT_ID", "NAME"));
+            /*
             $arFields["PRODUCTS"] = "";
             while($arBasketItem = $arBasketItems->GetNext()):
                 $arItem = CIBlockElement::GetList(Array(), Array("ID"=>$arBasketItem["PRODUCT_ID"]), false, false, Array("ID", "IBLOCK_SECTION_ID", "CODE", "IBLOCK_ID"))->GetNext();
                 $arItem["DETAIL_PAGE_URL"]=fn_get_chainpath($arItem["IBLOCK_ID"], $arItem["IBLOCK_SECTION_ID"]).$arItem["CODE"].".html";
                 $arFields["PRODUCTS"] .= '<a href="http://taleat.ru/catalog/'.$arItem["DETAIL_PAGE_URL"].'">'.$arBasketItem["NAME"].'</a><br />';
             endwhile;
+            */
+            $arFields["PRODUCTS"] = Email::orderListStr(Iblock::iter($arBasketItems));
             CEvent::SendImmediate("STATUS_FILL_STOCK", "s1", $arFields);
         endif;
     }
@@ -366,11 +385,30 @@ function GetFeedback($ID) {
         if($arProps["CODE"] == "OTCHESTVO")
             $arFields["OTCHESTVO"] = $arProps["VALUE"];
     }
-    if (!$arFields["FAM"] && !$arFields["IMYA"] && !$arFields["OTCHESTVO"]) $arFields["FULL_NAME"] = "клиент";
-    else $arFields["FULL_NAME"] = $arFields["FAM"]." ".$arFields["IMYA"]." ".$arFields["OTCHESTVO"];
+    $arFields['FULL_NAME'] = User::formatFullName($arFields['FAM'], $arFields['IMYA'], $arFields['OTCHESTVO']);
     $arFields["SALE_EMAIL"] = COption::GetOptionString("sale", "order_email");
     CEvent::Send("GET_FEEDBACK", "s1", $arFields);
 }
+
+function UnpaidOrderReminder($id) {
+    $db_props = CSaleOrderPropsValue::GetOrderProps($ID);
+    while ($arProps = $db_props->Fetch())
+    {
+        if($arProps["CODE"] == "EMAIL")
+            $arFields["EMAIL"] = $arProps["VALUE"];
+        if($arProps["CODE"] == "FAM")
+            $arFields["FAM"] = $arProps["VALUE"];
+        if($arProps["CODE"] == "IMYA")
+            $arFields["IMYA"] = $arProps["VALUE"];
+        if($arProps["CODE"] == "OTCHESTVO")
+            $arFields["OTCHESTVO"] = $arProps["VALUE"];
+    }
+    $arFields['FULL_NAME'] = User::formatFullName($arFields['FAM'], $arFields['IMYA'], $arFields['OTCHESTVO']);
+    $arFields["SALE_EMAIL"] = COption::GetOptionString("sale", "order_email");
+    // TODO
+//    CEvent::Send("UNPAID_ORDER_REMINDER", "s1", $arFields);
+}
+
 function file_force_download($file) {
   if (file_exists($file)) {
     if (ob_get_level()) {

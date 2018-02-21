@@ -36,13 +36,6 @@ class App extends \Core\App {
         EventHandlers::attach();
     }
 
-    function customerFeedbackConfig() {
-        $requestAfter = self::env() === Env::DEV
-            ? (new \DateTime())->modify('+1 second')
-            : (new \DateTime())->modify('+10 days');
-        return ['request_after' => $requestAfter];
-    }
-
     // TODO better logging
     function log(...$entries) {
         $path = Util::joinPath([$_SERVER['DOCUMENT_ROOT'], 'local/app.log']);

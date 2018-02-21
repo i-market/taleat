@@ -7,12 +7,13 @@ global $USER;
 <? if ($USER->IsAuthorized()): ?>
     <div class="menu-hidden-registered">
         <p class="name"><?= $USER->GetLogin() ?></p>
-        <p class="link"><a href="<?= $auth['profileLink'] ?>">Личный кабинет</a></p>
-        <? if (Auth::hasAdminPanelAccess($USER)): ?>
-            <p class="link"><a href="<?= v::path('admin') ?>">Панель админа</a></p>
-        <? endif ?>
         <? if (Auth::isPartner($USER) || Auth::isUnconfirmedPartner($USER)): ?>
             <p class="link"><a href="<?= v::path('partneram') ?>">Кабинет дилера</a></p>
+        <? else: ?>
+            <p class="link"><a href="<?= $auth['profileLink'] ?>">Личный кабинет</a></p>
+        <? endif ?>
+        <? if (Auth::hasAdminPanelAccess($USER)): ?>
+            <p class="link"><a href="<?= v::path('admin') ?>">Панель админа</a></p>
         <? endif ?>
         <p class="link"><a href="<?= $auth['logoutLink'] ?>">Выход</a></p>
     </div>

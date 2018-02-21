@@ -394,6 +394,7 @@ trait DynamicMethods {
 
 class Env {
     const DEV = 'dev';
+    const STAGE = 'stage';
     const PROD = 'prod';
     const TEST = 'test';
 }

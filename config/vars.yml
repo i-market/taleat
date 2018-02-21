@@ -9,7 +9,7 @@ roles:
     sentry:
       enabled: false
   stage:
-    app_env: prod
+    app_env: stage
     hosts: [imarket]
     sentry:
       enabled: false

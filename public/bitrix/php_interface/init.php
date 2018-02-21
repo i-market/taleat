@@ -159,16 +159,16 @@ class myClass{
             foreach ($shipmentCollection as $shipment):
                 if($shipment->isSystem()) continue;
                 $track = $shipment->getField("TRACKING_NUMBER");
+                $name = $shipment->getField("DELIVERY_NAME");
             endforeach;
 
+            $arFields["DELIVERY_NAME"] = $name;
             $arFields["TRACK_NUMBER"] = $track;//$arOrder["TRACKING_NUMBER"];
             $arFields["SALE_EMAIL"] = COption::GetOptionString("sale", "order_email");
             $arFields["COMMENTS"] = $arOrder["COMMENTS"];
             $arFields["ORDER_ID"] = $ID;
             $arFields["ORDER_DATE"] = $arOrder["DATE_INSERT"];
-
-            if (!$arFields["FAM"] && !$arFields["IMYA"] && !$arFields["OTCHESTVO"]) $arFields["FULL_NAME"] = "клиент";
-            else $arFields["FULL_NAME"] = $arFields["FAM"]." ".$arFields["IMYA"]." ".$arFields["OTCHESTVO"];
+            $arFields['FULL_NAME'] = User::formatFullName($arFields['FAM'], $arFields['IMYA'], $arFields['OTCHESTVO']);
 
             CEvent::SendImmediate("STATUS_SEND", "s1", $arFields);
 
@@ -385,6 +385,7 @@ function GetFeedback($ID) {
         if($arProps["CODE"] == "OTCHESTVO")
             $arFields["OTCHESTVO"] = $arProps["VALUE"];
     }
+    $arFields['ORDER_ID'] = $ID;
     $arFields['FULL_NAME'] = User::formatFullName($arFields['FAM'], $arFields['IMYA'], $arFields['OTCHESTVO']);
     $arFields["SALE_EMAIL"] = COption::GetOptionString("sale", "order_email");
     CEvent::Send("GET_FEEDBACK", "s1", $arFields);

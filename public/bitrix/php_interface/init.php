@@ -4,6 +4,7 @@ require $_SERVER['DOCUMENT_ROOT'].'/local/vendor/autoload.php';
 
 use App\App;
 use App\Iblock;
+use App\OrderStatus;
 use App\User;
 use App\Email;
 use Core\Env;
@@ -68,6 +69,33 @@ function OnAfterUserAddHandler(&$arFields)
 
 AddEventHandler("sale", "OnSaleStatusOrder", Array("myClass", "StatusUpdate"));
 class myClass{
+    static function payUrl($arOrder) {
+        $ID = $arOrder['ID'];
+        $url = null;
+        if ($arOrder["PAY_SYSTEM_ID"] == 7):
+            CSalePaySystemAction::InitParamArrays($arOrder, $arOrder["ID"]);
+            $mrh_login =  CSalePaySystemAction::GetParamValue("ShopLogin");
+            $mrh_pass1 =  CSalePaySystemAction::GetParamValue("ShopPassword");
+            $inv_id    = $arOrder["ID"];
+            $inv_desc  = "desc";
+            $out_summ  = $arOrder["PRICE"];
+            $crc  = md5("$mrh_login:$out_summ:$inv_id:$mrh_pass1");
+            $url = "https://auth.robokassa.ru/Merchant/Index.aspx?MrchLogin=$mrh_login&"."OutSum=$out_summ&InvId=$inv_id&Desc=$inv_desc&SignatureValue=$crc";
+        elseif($arOrder["PAY_SYSTEM_ID"] == 5):
+            $url = "http://".$_SERVER["SERVER_NAME"]."/personal/order/bill/?ORDER_ID=".$ID;
+        elseif($arOrder["PAY_SYSTEM_ID"] == 8):
+            $url = "http://".$_SERVER["SERVER_NAME"]."/personal/order/yandex-kassa/?ORDER_ID=".$ID;
+        endif;
+        return $url;
+    }
+
+    static function payAction($arOrder) {
+        $url = self::payUrl($arOrder);
+        return $arOrder["PAY_SYSTEM_ID"] == 5
+            ? '<br>Квитанция на оплату заказа – <a href="'.$url.'&download=1">скачать</a><br>'
+            : (isset($url) ? '<br><a href="'.$url.'">Оплатить</a><br>' : ''); // TODO better text for other payment methods;
+    }
+
     function StatusUpdate($ID, $val)
     {
         $agentsCfg = [
@@ -181,20 +209,7 @@ class myClass{
         // Заказ активен (принят, ожидается оплата)
         if ($val == "A"):
             $arOrder = CSaleOrder::GetByID($ID);
-            if ($arOrder["PAY_SYSTEM_ID"] == 7):
-                CSalePaySystemAction::InitParamArrays($arOrder, $arOrder["ID"]);
-                $mrh_login =  CSalePaySystemAction::GetParamValue("ShopLogin");
-                $mrh_pass1 =  CSalePaySystemAction::GetParamValue("ShopPassword");
-                $inv_id    = $arOrder["ID"];
-                $inv_desc  = "desc";
-                $out_summ  = $arOrder["PRICE"];
-                $crc  = md5("$mrh_login:$out_summ:$inv_id:$mrh_pass1");
-                $url = "https://auth.robokassa.ru/Merchant/Index.aspx?MrchLogin=$mrh_login&"."OutSum=$out_summ&InvId=$inv_id&Desc=$inv_desc&SignatureValue=$crc";
-            elseif($arOrder["PAY_SYSTEM_ID"] == 5):
-                $url = "http://".$_SERVER["SERVER_NAME"]."/personal/order/bill/?ORDER_ID=".$ID;
-            elseif($arOrder["PAY_SYSTEM_ID"] == 8):
-                $url = "http://".$_SERVER["SERVER_NAME"]."/personal/order/yandex-kassa/?ORDER_ID=".$ID;
-            endif;
+            $url = self::payUrl($arOrder);
             CSaleOrder::CommentsOrder($arOrder["ID"], $url);
 
             $db_props = CSaleOrderPropsValue::GetOrderProps($ID);
@@ -223,9 +238,7 @@ class myClass{
                 'ORDER_LIST' => Email::orderListStr($items),
                 'DELIVERY_PRICE' => SaleFormatCurrency($arOrder['PRICE_DELIVERY'], $arOrder['CURRENCY']),
                 'PRICE' => SaleFormatCurrency($arOrder['PRICE'], $arOrder['CURRENCY']),
-                'PAY_ACTION' => $arOrder["PAY_SYSTEM_ID"] == 5
-                    ? '<br>Квитанция на оплату заказа – <a href="'.$url.'&download=1">скачать</a><br>'
-                    : (isset($url) ? '<br><a href="'.$url.'">Оплатить</a><br>' : '') // TODO better text for other payment methods
+                'PAY_ACTION' => self::payAction($arOrder)
             ]);
 
             CEvent::SendImmediate("STATUS_ORDER_ACTIVE", "s1", $arFields);
@@ -374,6 +387,7 @@ class MyResizePicturesHandlers
 
 function GetFeedback($ID) {
     $db_props = CSaleOrderPropsValue::GetOrderProps($ID);
+    $arFields = [];
     while ($arProps = $db_props->Fetch())
     {
         if($arProps["CODE"] == "EMAIL")
@@ -391,23 +405,31 @@ function GetFeedback($ID) {
     CEvent::Send("GET_FEEDBACK", "s1", $arFields);
 }
 
-function UnpaidOrderReminder($id) {
-    $db_props = CSaleOrderPropsValue::GetOrderProps($ID);
-    while ($arProps = $db_props->Fetch())
-    {
-        if($arProps["CODE"] == "EMAIL")
-            $arFields["EMAIL"] = $arProps["VALUE"];
-        if($arProps["CODE"] == "FAM")
-            $arFields["FAM"] = $arProps["VALUE"];
-        if($arProps["CODE"] == "IMYA")
-            $arFields["IMYA"] = $arProps["VALUE"];
-        if($arProps["CODE"] == "OTCHESTVO")
-            $arFields["OTCHESTVO"] = $arProps["VALUE"];
+function UnpaidOrderReminder($ID) {
+    $order = CSaleOrder::GetByID($ID);
+    // if the status didn't change
+    if ($order['STATUS_ID'] === OrderStatus::ACCEPTED) {
+        $db_props = Iblock::iter(CSaleOrderPropsValue::GetOrderProps($ID));
+        $arFields = [];
+        foreach ($db_props as $arProps) {
+            if($arProps["CODE"] == "EMAIL")
+                $arFields["EMAIL"] = $arProps["VALUE"];
+            if($arProps["CODE"] == "FAM")
+                $arFields["FAM"] = $arProps["VALUE"];
+            if($arProps["CODE"] == "IMYA")
+                $arFields["IMYA"] = $arProps["VALUE"];
+            if($arProps["CODE"] == "OTCHESTVO")
+                $arFields["OTCHESTVO"] = $arProps["VALUE"];
+        }
+        $arFields['FULL_NAME'] = User::formatFullName($arFields['FAM'], $arFields['IMYA'], $arFields['OTCHESTVO']);
+        $arFields["SALE_EMAIL"] = COption::GetOptionString("sale", "order_email");
+        $arBasketItems = CSaleBasket::GetList(Array(), Array("ORDER_ID"=>$ID), false, false, Array("ID", "PRODUCT_ID", "NAME"));
+        $arFields["ORDER_LIST"] = Email::orderListStr(Iblock::iter($arBasketItems));
+        $arFields['DELIVERY_PRICE'] = SaleFormatCurrency($order['PRICE_DELIVERY'], $order['CURRENCY']);
+        $arFields['PRICE'] = SaleFormatCurrency($order['PRICE'], $order['CURRENCY']);
+        $arFields['PAY_ACTION'] = myClass::payAction($order);
+        CEvent::Send("UNPAID_ORDER_REMINDER", App::SITE_ID, $arFields);
     }
-    $arFields['FULL_NAME'] = User::formatFullName($arFields['FAM'], $arFields['IMYA'], $arFields['OTCHESTVO']);
-    $arFields["SALE_EMAIL"] = COption::GetOptionString("sale", "order_email");
-    // TODO
-//    CEvent::Send("UNPAID_ORDER_REMINDER", "s1", $arFields);
 }
 
 function file_force_download($file) {

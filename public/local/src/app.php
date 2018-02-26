@@ -243,6 +243,7 @@ class Events {
     const CONTACT_FORM = 'CONTACT_FORM';
     const NEW_UNCONFIRMED_PARTNER = 'NEW_UNCONFIRMED_PARTNER';
     const TEH_ZAKL_UPDATE = 'TEH_ZAKL_UPDATE';
+    const UNPAID_ORDER_REMINDER = 'UNPAID_ORDER_REMINDER';
 }
 
 class Iblock extends \Core\Iblock {

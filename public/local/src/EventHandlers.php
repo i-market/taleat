@@ -113,7 +113,7 @@ class EventHandlers {
     }
 
     static function onAfterUserRegister(&$arFields) {
-        if (0 < $arFields['USER_ID']) {
+        if ($arFields['USER_ID'] > 0) {
             // see system.auth.registration form
             $isUnconfirmedPartner = _::get($_REQUEST, 'user_type') === 'service-center';
             if ($isUnconfirmedPartner) {

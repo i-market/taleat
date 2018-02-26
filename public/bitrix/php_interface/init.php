@@ -61,7 +61,7 @@ function MyOnAdminListDisplay(&$list)
 function OnAfterUserAddHandler(&$arFields)
 {
    if (0 < $arFields["ID"]){
-      CUser::SendUserInfo($arFields["ID"], SITE_ID, "");
+//      CUser::SendUserInfo($arFields["ID"], SITE_ID, "");
    }
    
    return $arFields;

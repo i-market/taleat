@@ -50,6 +50,13 @@ class EventHandlers {
         }
 
         // TODO hack
+        if ($templateRef['EVENT_NAME'] === 'SALE_ORDER_CANCEL'
+            && $templateRef['EMAIL_TO'] === '#SALE_EMAIL#'
+            && defined('ADMIN_SECTION') && ADMIN_SECTION) {
+            return false;
+        }
+
+        // TODO hack
         // see /bitrix/components/imarket/sale.order.ajax/component.php
         if ($templateRef['EVENT_NAME'] === 'SALE_NEW_ORDER') {
             $holidayText = "";

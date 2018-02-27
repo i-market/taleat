@@ -2291,6 +2291,8 @@ if ($USER->IsAuthorized() || $arParams["ALLOW_AUTO_REGISTER"] == "Y" )
                         $holidayText = "<strong>Заказ будет обработан ".$holiday['to']."</strong><br><br>";
                     }
 
+                    // TODO refactor
+                    // also see SALE_NEW_ORDER event handler
 					$arFields = Array(
 						"HOLIDAY" => $holidayText,
 						"ORDER_ID" => $arOrder["ACCOUNT_NUMBER"],
@@ -2301,7 +2303,7 @@ if ($USER->IsAuthorized() || $arParams["ALLOW_AUTO_REGISTER"] == "Y" )
 						"EMAIL" => (strlen($arUserResult["USER_EMAIL"])>0 ? $arUserResult["USER_EMAIL"] : $USER->GetEmail()),
 						"ORDER_LIST" => Email::orderListStr($arBasketList),
 						"SALE_EMAIL" => COption::GetOptionString("sale", "order_email", "order@".$SERVER_NAME),
-						"DELIVERY_PRICE" => $arResult["DELIVERY_PRICE"],
+						"DELIVERY_PRICE" => $arResult["DELIVERY_PRICE_FORMATED"],
 
                         'ORDER_PRICE' => $arResult['ORDER_PRICE_FORMATED'],
                         'DELIVERY_NAME' => _::first($arResult['DELIVERY'])['NAME'],

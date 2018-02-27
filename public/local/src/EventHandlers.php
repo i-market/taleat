@@ -7,12 +7,16 @@ use Bitrix\Main\Config\Configuration;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\Loader;
 use Bitrix\Main\UserTable;
+use Bitrix\Sale\Delivery\Services\Manager;
 use CEvent;
 use Core\Session;
 use Core\Underscore as _;
 use Core\Strings as str;
+use CSaleBasket;
 use CSubscription;
 use CUser;
+use iter;
+use Bitrix\Sale as sale;
 
 Loader::includeModule('subscribe');
 
@@ -43,6 +47,32 @@ class EventHandlers {
         }
         if ($overrideSender) {
             $templateRef['EMAIL_FROM'] = $overrideSender;
+        }
+
+        // TODO hack
+        // see /bitrix/components/imarket/sale.order.ajax/component.php
+        if ($templateRef['EVENT_NAME'] === 'SALE_NEW_ORDER') {
+            $holidayText = "";
+            $holiday = App::holidayMode();
+            if ($holiday['isEnabled']) {
+                $holidayText = "<strong>Заказ будет обработан ".$holiday['to']."</strong><br><br>";
+            }
+            $order = sale\Order::load($fieldsRef['ORDER_ID']);
+            /** @var sale\Payment $payment */
+            $payment = $order->getPaymentCollection()->current();
+            $items = iter\toArray(Iblock::iter((new CSaleBasket())->GetList([], ['ORDER_ID' => $fieldsRef['ORDER_ID']])));
+            $fields = [
+                "HOLIDAY" => $holidayText,
+                "ORDER_LIST" => Email::orderListStr($items),
+                "DELIVERY_PRICE" => SaleFormatCurrency($fieldsRef['DELIVERY_PRICE'], Product::CURRENCY),
+                'ORDER_PRICE' => SaleFormatCurrency($order->getPrice(), Product::CURRENCY),
+                'DELIVERY_NAME' => Manager::getServiceByCode($order->getFields('DELIVERY_ID'))->getName(),
+                'PAY_SYSTEM_NAME' => $payment->getPaymentSystemName() // TODO PSA_NAME?
+            ];
+            // merge
+            foreach ($fields as $k => $v) {
+                $fieldsRef[$k] = $v;
+            }
         }
         return $fieldsRef;
     }

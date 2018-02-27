@@ -3,10 +3,11 @@
 require $_SERVER['DOCUMENT_ROOT'].'/local/vendor/autoload.php';
 
 use App\App;
+use App\Email;
 use App\Iblock;
 use App\OrderStatus;
 use App\User;
-use App\Email;
+use Bitrix\Sale\Delivery\Services\Manager;
 use Core\Env;
 
 App::getInstance()->init();
@@ -96,6 +97,18 @@ class myClass{
             : (isset($url) ? '<br><a href="'.$url.'">Оплатить</a><br>' : ''); // TODO better text for other payment methods;
     }
 
+    static function shipment($ID) {
+        $ret = null;
+        $order = \Bitrix\Sale\Order::load($ID);
+        $shipmentCollection = $order->getShipmentCollection();
+        /** @var \Bitrix\Sale\Shipment $shipment */
+        foreach ($shipmentCollection as $shipment):
+            if($shipment->isSystem()) continue;
+            $ret = $shipment;
+        endforeach;
+        return $ret;
+    }
+
     function StatusUpdate($ID, $val)
     {
         $agentsCfg = [
@@ -182,16 +195,11 @@ class myClass{
                     $arFields["OTCHESTVO"] = $arProps["VALUE"];
             }
 
-            $order = \Bitrix\Sale\Order::load($ID);
-            $shipmentCollection = $order->getShipmentCollection();
-            foreach ($shipmentCollection as $shipment):
-                if($shipment->isSystem()) continue;
-                $track = $shipment->getField("TRACKING_NUMBER");
-                $name = $shipment->getField("DELIVERY_NAME");
-            endforeach;
-
-            $arFields["DELIVERY_NAME"] = $name;
-            $arFields["TRACK_NUMBER"] = $track;//$arOrder["TRACKING_NUMBER"];
+            $shipment = self::shipment($ID);
+            if ($shipment) {
+                $arFields["DELIVERY_NAME"] = $shipment->getField("DELIVERY_NAME");
+                $arFields["TRACK_NUMBER"] = $shipment->getField("TRACKING_NUMBER");
+            }
             $arFields["SALE_EMAIL"] = COption::GetOptionString("sale", "order_email");
             $arFields["COMMENTS"] = $arOrder["COMMENTS"];
             $arFields["ORDER_ID"] = $ID;
@@ -237,6 +245,7 @@ class myClass{
                 'FULL_NAME' => User::formatFullName($arFields['FAM'], $arFields['IMYA'], $arFields['OTCHESTVO']),
                 'ORDER_LIST' => Email::orderListStr($items),
                 'DELIVERY_PRICE' => SaleFormatCurrency($arOrder['PRICE_DELIVERY'], $arOrder['CURRENCY']),
+                'DELIVERY_NAME' => Manager::getServiceByCode($arOrder['DELIVERY_ID'])->getName(),
                 'PRICE' => SaleFormatCurrency($arOrder['PRICE'], $arOrder['CURRENCY']),
                 'PAY_ACTION' => self::payAction($arOrder)
             ]);

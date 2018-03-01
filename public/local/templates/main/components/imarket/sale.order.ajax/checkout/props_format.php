@@ -158,6 +158,7 @@ if (!function_exists("PrintPropsForm"))
                             "ORDER_PROPS_ID" => $arProperties["ID"],
                             "ONCITYCHANGE" => ($arProperties["IS_LOCATION"] == "Y" || $arProperties["IS_LOCATION4TAX"] == "Y") ? "submitForm()" : "",
                             "SIZE1" => $arProperties["SIZE1"],
+                            "LABEL" => $label
                         ),
                         null,
                         array('HIDE_ICONS' => 'Y')

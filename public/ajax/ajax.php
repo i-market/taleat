@@ -6,8 +6,12 @@ use App\Components;
 use App\App;
 use Core\Session;
 use Core\Underscore as _;
+use Core\Util;
 
 switch($_REQUEST['mode']):
+    case 'locations_search':
+       require Util::joinPath([$_SERVER['DOCUMENT_ROOT'], 'local/templates/main/components/bitrix/sale.ajax.locations/popup_with_filter/search.php']);
+       break;
     case 'contact_form':
         App::submitContactForm($_REQUEST);
         $msg = 'Ваше сообщение отправлено';

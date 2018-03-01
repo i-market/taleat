@@ -2,6 +2,9 @@
 
 use App\App;
 use App\View as v;
+use App\Order;
+
+$deliveryServices = Order::filterDeliveryServices($arResult['DELIVERY'], $arResult['USER_VALS']['DELIVERY_LOCATION']);
 ?>
 <?
 if(!empty($arResult["DELIVERY"]))
@@ -10,7 +13,7 @@ if(!empty($arResult["DELIVERY"]))
     <p class="title">Выберите вариант доставки заказа</p>
     <div class="wrap-btn">
 		<?
-		foreach ($arResult["DELIVERY"] as $delivery_id => $arDelivery)
+		foreach ($deliveryServices as $delivery_id => $arDelivery)
 		{
 			if ($delivery_id !== 0 && intval($delivery_id) <= 0)
             {

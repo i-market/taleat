@@ -1812,6 +1812,9 @@ if ($USER->IsAuthorized() || $arParams["ALLOW_AUTO_REGISTER"] == "Y" )
 						$NEW_LAST_NAME = $arNames[0];
 					}
 					*/
+
+					// login = email. without any modifications.
+					/*
 					$pos = strpos($NEW_LOGIN, "@");
 					if ($pos !== false)
 						$NEW_LOGIN = substr($NEW_LOGIN, 0, $pos);
@@ -1824,6 +1827,7 @@ if ($USER->IsAuthorized() || $arParams["ALLOW_AUTO_REGISTER"] == "Y" )
 
 					if (strlen($NEW_LOGIN) < 3)
 						$NEW_LOGIN .= "_";
+					*/
 
 					$dbUserLogin = CUser::GetByLogin($NEW_LOGIN);
 					if ($arUserLogin = $dbUserLogin->Fetch())

@@ -26,6 +26,7 @@ class EventHandlers {
 
     static function attach() {
         // see also init.php
+        AddEventHandler('main', 'OnBeforeUserLogin', _::func([self::class, 'onBeforeUserLogin']));
         AddEventHandler('main', 'OnBeforeUserRegister', _::func([self::class, 'onBeforeUserRegister']));
         AddEventHandler('main', 'OnAfterUserRegister', _::func([self::class, 'onAfterUserRegister']));
         AddEventHandler('main', 'OnBeforeUserUpdate', _::func([self::class, 'onBeforeUserUpdate']));
@@ -122,6 +123,15 @@ class EventHandlers {
         }
         self::$deferredUntilAfterUpdate = [];
         return $fields;
+    }
+
+    static function onBeforeUserLogin(&$fieldsRef) {
+        // email as login
+        $user = CUser::GetList($by = 'ID', $order = 'ASC', ['EMAIL' => $fieldsRef['LOGIN']])->GetNext();
+        if ($user) {
+            $fieldsRef['LOGIN'] = $user['LOGIN'];
+        }
+        return $fieldsRef;
     }
 
     static function onBeforeUserRegister(&$fieldsRef) {

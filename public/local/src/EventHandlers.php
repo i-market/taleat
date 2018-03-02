@@ -127,9 +127,10 @@ class EventHandlers {
 
     static function onBeforeUserLogin(&$fieldsRef) {
         // email as login
-        $user = CUser::GetList($by = 'ID', $order = 'ASC', ['EMAIL' => $fieldsRef['LOGIN']])->GetNext();
-        if ($user) {
-            $fieldsRef['LOGIN'] = $user['LOGIN'];
+        $byLogin = CUser::GetList($by = 'ID', $order = 'ASC', ['=LOGIN' => $fieldsRef['LOGIN']])->GetNext();
+        $byEmail = CUser::GetList($by = 'ID', $order = 'ASC', ['=EMAIL' => $fieldsRef['LOGIN']])->GetNext();
+        if (!$byLogin && $byEmail) {
+            $fieldsRef['LOGIN'] = $byEmail['LOGIN'];
         }
         return $fieldsRef;
     }

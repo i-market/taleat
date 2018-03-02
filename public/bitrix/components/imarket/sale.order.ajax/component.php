@@ -330,6 +330,8 @@ if (!$USER->IsAuthorized() && $arParams["ALLOW_AUTO_REGISTER"] == "N")
 					$arResult["AUTH"]["NEW_EMAIL"] = $_POST["NEW_EMAIL"];
 					$arResult["AUTH"]["NEW_LOGIN"] = $_POST["NEW_EMAIL"];
 
+					// login = email. without any modifications.
+					/*
 					$pos = strpos($arResult["AUTH"]["NEW_LOGIN"], "@");
 					if ($pos !== false)
 						$_POST["NEW_LOGIN"] = substr($arResult["AUTH"]["NEW_LOGIN"], 0, $pos);
@@ -342,6 +344,7 @@ if (!$USER->IsAuthorized() && $arParams["ALLOW_AUTO_REGISTER"] == "N")
 
 					if (strlen($arResult["AUTH"]["NEW_LOGIN"]) < 3)
 						$arResult["AUTH"]["NEW_LOGIN"] .= "_";
+					*/
 
 					$dbUserLogin = CUser::GetByLogin($arResult["AUTH"]["NEW_LOGIN"]);
 					if ($arUserLogin = $dbUserLogin->Fetch())

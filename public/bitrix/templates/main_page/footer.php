@@ -24,7 +24,7 @@
 	<div style="text-align: center;">
 		С уважением, Администрация<br/>
 		OOO «Талеат-Сервис»<br/>
-		тел. 8 (495) 437-23-29<br/>
+		тел. +7 (495) 018-59-47<br/>
 		asn@taleat.ru<br/>
 		www.taleat.ru<br/>
 	</div>

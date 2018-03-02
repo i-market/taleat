@@ -88,7 +88,7 @@ $APPLICATION->SetTitle("Оплата/доставка");?><p align="center" styl
  <span style="font-size: 16pt; color: #0000ff; font-family: 'Times New Roman', Times;"><b>С уважением, ООО "Талеат-Сервис"</b></span>
 </p>
 <p style="text-align: center;">
- <span style="font-size: 16pt; color: #0000ff; font-family: 'Times New Roman', Times;"><b>8 (495) 437-23-29 </b></span><br>
+ <span style="font-size: 16pt; color: #0000ff; font-family: 'Times New Roman', Times;"><b class="text-nowrap">+7 (495) 018-59-47 </b></span><br>
  <b> </b><span style="font-family: 'Times New Roman', Times;"><b> </b></span><span style="font-size: 16pt; font-family: 'Times New Roman', Times;"><b> </b></span><span style="color: #0000ff; font-size: 16pt; font-family: 'Times New Roman', Times;"><b> </b></span><span style="font-size: 14pt;"><span style="color: #0000ff; font-size: 16pt; font-family: 'Times New Roman', Times;"><b> </b></span><a href="mailto:asn@taleat.ru"><span style="color: #0000ff; font-size: 16pt; font-family: 'Times New Roman', Times;"><b>asn@taleat.ru</b></span></a><span style="color: #0000ff; font-size: 16pt; font-family: 'Times New Roman', Times;"><b> </b></span></span><br>
  <br>
 </p>

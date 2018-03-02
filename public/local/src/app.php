@@ -212,6 +212,8 @@ class App extends \Core\App {
 class View extends \Core\View {
     use NewsListLike;
 
+    const PARTNER_SIGNUP_TYPE = 'service-center';
+
     static function render($path, $data = [], $opts = []) {
         return parent::render(Util::joinPath([$_SERVER['DOCUMENT_ROOT'], SITE_TEMPLATE_PATH, $path]), $data, $opts);
     }

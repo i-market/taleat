@@ -10,7 +10,7 @@ $APPLICATION->SetPageProperty('layout', 'bare');
 // beware: `user_type` is used in `App\EventHandlers::onAfterUserRegister`
 $userType = v::get($_REQUEST, 'user_type', 'customer');
 
-if (!in_array($userType, ['customer', 'service-center'])) {
+if (!in_array($userType, ['customer', v::PARTNER_SIGNUP_TYPE])) {
     App::getInstance()->assert(false, 'illegal state');
 }
 
@@ -23,7 +23,7 @@ if ($userType === 'customer') {
     $optional = [
         'SECOND_NAME'
     ];
-} elseif ($userType === 'service-center') {
+} elseif ($userType === v::PARTNER_SIGNUP_TYPE) {
     $required = [
         'LAST_NAME',
         'NAME',
@@ -48,7 +48,7 @@ $withParams = function ($params) {
     <div class="block">
         <div class="title">Регистрация</div>
         <div class="modal-tab-links">
-            <? $tabs = ['customer' => 'Я покупатель', 'service-center' => 'Сервисный центр'] ?>
+            <? $tabs = ['customer' => 'Я покупатель', v::PARTNER_SIGNUP_TYPE => 'Сервисный центр'] ?>
             <? foreach ($tabs as $type => $text): ?>
                 <? $class = $userType === $type ? 'active' : '' ?>
                 <a href="<?= $withParams(['user_type' => $type]) ?>" class="tab-link <?= $class ?>"><?= $text ?></a>

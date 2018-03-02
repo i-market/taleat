@@ -51,6 +51,11 @@ class EventHandlers {
         }
 
         // TODO hack
+        if ($templateRef['EVENT_NAME'] === 'NEW_USER' && self::isPartnerSignup()) {
+            return false;
+        }
+
+        // TODO hack
         if ($templateRef['EVENT_NAME'] === 'SALE_ORDER_CANCEL'
             && $templateRef['EMAIL_TO'] === '#SALE_EMAIL#'
             && defined('ADMIN_SECTION') && ADMIN_SECTION) {
@@ -162,12 +167,12 @@ class EventHandlers {
 
     static function onAfterUserRegister(&$arFields) {
         if ($arFields['USER_ID'] > 0) {
-            // see system.auth.registration form
-            $isUnconfirmedPartner = _::get($_REQUEST, 'user_type') === 'service-center';
-            if ($isUnconfirmedPartner) {
+            $isPartner = self::isPartnerSignup();
+            if ($isPartner) {
                 Session::addFlash(['type' => 'success', 'text' => Auth::partnerConfirmationPendingMsg()]);
                 CUser::AppendUserGroup($arFields['USER_ID'], [Auth::unconfirmedPartnerId()]);
 
+                // see `onBeforeEventSend` and `NEW_USER` event
                 CEvent::Send(Events::NEW_UNCONFIRMED_PARTNER, App::SITE_ID, [
                     'USER_ID' => $arFields['USER_ID'],
                     'EMAIL' => $arFields['EMAIL'],
@@ -191,7 +196,7 @@ class EventHandlers {
 
             $holidayText = "";
             $holiday = App::holidayMode();
-            if ($isUnconfirmedPartner && $holiday['isEnabled']) {
+            if ($isPartner && $holiday['isEnabled']) {
                 $holidayText = "Ваша заявка на регистрацию будет рассмотрена <strong>" . $holiday['to'] . "</strong><br><br>";
             }
             $toSend = array(
@@ -206,5 +211,9 @@ class EventHandlers {
             CEvent::Send("NEW_USER2", App::SITE_ID, $toSend, 'Y');
         }
         return $arFields;
+    }
+    
+    private static function isPartnerSignup() {
+        return _::get($_REQUEST, 'user_type') === View::PARTNER_SIGNUP_TYPE;
     }
 }

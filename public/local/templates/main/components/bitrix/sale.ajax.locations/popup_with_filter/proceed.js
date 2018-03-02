@@ -373,7 +373,8 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 		}
 		else
 		{
-			t.Destroy();
+// commenting this out fixes mysterious popup disappearance bug
+//			t.Destroy();
 		}
 //		return false;
 	}

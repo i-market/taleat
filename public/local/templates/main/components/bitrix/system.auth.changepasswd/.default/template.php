@@ -27,7 +27,7 @@ $showHiddenInputs = function () use ($arResult) {
                 </div>
             <? else: ?>
                 <? $showHiddenInputs() ?>
-                <? m::showInput('USER_LOGIN', 'Логин', ['value' => $arResult['LAST_LOGIN'], 'required' => true]) ?>
+                <? m::showInput('USER_LOGIN', 'Логин', ['required' => true]) ?>
                 <? if (!v::isEmpty($arResult['USER_CHECKWORD']) && v::get($result, 'TYPE') !== 'ERROR'): ?>
                     <input type="hidden" name="USER_CHECKWORD" value="<?= $arResult['USER_CHECKWORD'] ?>">
                 <? else: ?>

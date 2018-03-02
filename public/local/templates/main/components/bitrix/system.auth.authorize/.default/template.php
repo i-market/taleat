@@ -31,7 +31,7 @@ $showHiddenInputs = function () use ($arResult) {
                 </div>
                 <? // TODO hack: on error hide everything except the login form ?>
                 <style>
-                    .content > *:not(.scroll-top):not(.content-menu-block):not(.modal-like) {
+                    main.content > *:not(.scroll-top):not(.content-menu-block):not(.modal-like) {
                         display: none;
                     }
                 </style>

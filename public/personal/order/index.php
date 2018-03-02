@@ -46,7 +46,8 @@ $_REQUEST['show_all_is_set_in'] = __FILE__; // hopefully no one will have to tra
             "list" => "index.php",
             "detail" => "detail/#ID#/",
             "cancel" => "cancel/#ID#/",
-        )
+        ),
+        "ORDER_DEFAULT_SORT" => "ID"
     ),
     false
 );?>

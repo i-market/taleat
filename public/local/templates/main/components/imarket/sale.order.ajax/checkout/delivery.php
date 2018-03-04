@@ -7,7 +7,7 @@ use App\Order;
 $deliveryServices = Order::filterDeliveryServices($arResult['DELIVERY'], $arResult['USER_VALS']['DELIVERY_LOCATION']);
 ?>
 <?
-if(!empty($arResult["DELIVERY"]))
+if(!empty($deliveryServices))
 {
 	?>
     <p class="title">Выберите вариант доставки заказа</p>
@@ -72,7 +72,7 @@ if(!empty($arResult["DELIVERY"]))
 		}
 		?>
     </div>
-    <? foreach ($arResult['DELIVERY'] as $delivery): ?>
+    <? foreach ($deliveryServices as $delivery): ?>
         <? if ($delivery['CHECKED'] === 'Y' && !v::isEmpty($delivery['DESCRIPTION'])): ?>
             <div class="editable-area allert"><?= $delivery['DESCRIPTION'] ?></div>
         <? endif ?>

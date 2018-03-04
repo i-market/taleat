@@ -1,26 +1,12 @@
-<? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
-
+<? 
 use App\View as v;
 use Core\Util;
-
-$showHiddenInputs = function () use ($arResult) {
-    ?>
-    <?=$arResult["BX_SESSION_CHECK"]?>
-    <input type="hidden" name="lang" value="<?=LANG?>" />
-    <input type="hidden" name="ID" value=<?=$arResult["ID"]?> />
-    <? // otherwise fields (passed to update) will contain nulls ?>
-    <? foreach ($arResult['PRESERVE_FIELDS'] as $field): ?>
-        <input type="hidden" name="<?= $field ?>" value="<?= $arResult['arUser'][$field] ?>">
-    <? endforeach ?>
-    <?
-};
 ?>
-<? $error = $arResult['strProfileError'] ?>
 <div class="profile">
     <div class="product-registration-edit form" <?= !v::isEmpty($error) ? 'style="display: none"' : '' ?>>
-        <? if ($arResult['DATA_SAVED'] === 'Y'): ?>
+        <? if (!v::isEmpty($message)): ?>
             <div class="form__message form__message--success">
-                Ваши изменения были сохранены
+                <?= $message ?>
             </div>
         <? endif ?>
         <div class="top">
@@ -28,28 +14,27 @@ $showHiddenInputs = function () use ($arResult) {
             <span class="edit-btn">редактировать данные</span>
         </div>
         <div class="bottom">
-            <? foreach ($arResult['FIELDS'] as $f): ?>
-                <p class="line"><?= $arResult['arUser'][$f['name']] ?></p>
+            <? foreach ($fields as $f): ?>
+                <p class="line"><?= $f['value'] ?></p>
             <? endforeach ?>
             <p class="line" style="margin-top: 2em"><a href="javascript:void(0)" class="change-password-shortcut">Сменить пароль</a></p>
         </div>
     </div>
     <div class="product-registration-hidden" <?= !v::isEmpty($error) ? 'style="display: block"' : '' ?>>
-        <form class="form validate" method="post" name="form1" action="<?=$arResult["FORM_TARGET"]?>" enctype="multipart/form-data">
+        <form class="form validate" method="post" name="form1" action="" enctype="multipart/form-data">
             <? if (!v::isEmpty($error)): ?>
                 <div class="form__message form__message--error">
                     <?= $error ?>
                 </div>
             <? endif ?>
             <p class="title">Введите контактные данные</p>
-            <? $showHiddenInputs() ?>
-            <? foreach ($arResult['FIELDS'] as $f): ?>
+            <? foreach ($fields as $f): ?>
                 <input name="<?= $f['name'] ?>"
                        type="<?= $f['type'] ?>"
                        class="input"
                        placeholder="<?= $f['label'].':'.($f['required'] ? '*' : '') ?>"
                     <?= $f['required'] ? 'required' : '' ?>
-                       value="<?= $arResult['arUser'][$f['name']] ?>">
+                       value="<?= $f['value'] ?>">
             <? endforeach ?>
             <? $showBlock = !v::isEmpty(v::get($_REQUEST, 'NEW_PASSWORD')) ?>
             <span class="simple-btn change-password" <?= $showBlock ? 'style="display: none"' : '' ?>>Сменить пароль</span>

@@ -24,15 +24,17 @@ class User {
     }
 
     static function userProps(CUser $user) {
-        $result = OrderUserProperties::getList([
+        $propsEnt = OrderUserProperties::getList([
             'order' => ['DATE_UPDATE' => 'DESC'],
             'filter' => [
                 'USER_ID' => (int)($user->GetId())
             ],
             'select' => ['*'],
             'limit' => 1
-        ]);
-        return $result->fetch();
+        ])->fetch();
+        return iter\toArray(Iblock::iter((new \CSaleOrderUserPropsValue())->GetList([], [
+            'USER_PROPS_ID' => $propsEnt['ID']
+        ])));
     }
 
     static function userPropSuggestions(CUser $user) {

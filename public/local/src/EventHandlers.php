@@ -79,7 +79,7 @@ class EventHandlers {
                 "ORDER_LIST" => Email::orderListStr($items),
                 "DELIVERY_PRICE" => SaleFormatCurrency($fieldsRef['DELIVERY_PRICE'], Product::CURRENCY),
                 'ORDER_PRICE' => SaleFormatCurrency($order->getPrice(), Product::CURRENCY),
-                'DELIVERY_NAME' => Manager::getServiceByCode($order->getFields('DELIVERY_ID'))->getName(),
+                'DELIVERY_NAME' => Manager::getServiceByCode($order->getField('DELIVERY_ID'))->getName(),
                 'PAY_SYSTEM_NAME' => $payment->getPaymentSystemName() // TODO PSA_NAME?
             ];
             // merge

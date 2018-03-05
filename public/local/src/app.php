@@ -184,7 +184,7 @@ class App extends \Core\App {
         self::getInstance()->assert($isAdded);
         $emailTo = Option::get('main', 'email_from');
         self::getInstance()->assert($emailTo);
-        $isSent = CEvent::Send(Events::CONTACT_FORM, App::SITE_ID, array_merge($fields, [
+        $isSent = CEvent::SendImmediate(Events::CONTACT_FORM, App::SITE_ID, array_merge($fields, [
             'EMAIL_TO' => $emailTo // TODO unused
         ]));
         if (self::env() !== Env::DEV) {

@@ -7,7 +7,7 @@ use Bitrix\Main\Config\Configuration;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\Loader;
 use Bitrix\Main\UserTable;
-use Bitrix\Sale\Delivery\Services\Manager;
+use Bitrix\Sale\Delivery\Services;
 use CEvent;
 use Core\Session;
 use Core\Underscore as _;
@@ -74,12 +74,18 @@ class EventHandlers {
             /** @var sale\Payment $payment */
             $payment = $order->getPaymentCollection()->current();
             $items = iter\toArray(Iblock::iter((new CSaleBasket())->GetList([], ['ORDER_ID' => $fieldsRef['ORDER_ID']])));
+            try {
+                $deliveryName = Services\Manager::getObjectById($order->getField('DELIVERY_ID'))->getName();
+            } catch (\Exception $e) {
+                $deliveryName = '[неизвестно]';
+                App::getInstance()->withRaven(function (\Raven_Client $raven) use ($e) { $raven->captureException($e); });
+            }
             $fields = [
                 "HOLIDAY" => $holidayText,
                 "ORDER_LIST" => Email::orderListStr($items),
                 "DELIVERY_PRICE" => SaleFormatCurrency($fieldsRef['DELIVERY_PRICE'], Product::CURRENCY),
                 'ORDER_PRICE' => SaleFormatCurrency($order->getPrice(), Product::CURRENCY),
-                'DELIVERY_NAME' => Manager::getServiceByCode($order->getField('DELIVERY_ID'))->getName(),
+                'DELIVERY_NAME' => $deliveryName,
                 'PAY_SYSTEM_NAME' => $payment->getPaymentSystemName() // TODO PSA_NAME?
             ];
             // merge

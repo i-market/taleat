@@ -21,6 +21,9 @@ use App\View as v;
                 <? endif ?>
                 <?= $arResult['DETAIL_TEXT'] ?>
             </div>
+            <div class="safety-bottom">
+                <a class="back" href="<?= $arResult['LIST_PAGE_URL'] ?>">Назад</a>
+            </div>
         </div>
     </div>
 </section>

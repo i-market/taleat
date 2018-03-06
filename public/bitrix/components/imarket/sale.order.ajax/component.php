@@ -7,6 +7,9 @@ use Core\Underscore as _;
 use App\Email;
 
 $validateForm = function () use (&$arResult) {
+    if (!isset($_REQUEST['DELIVERY_ID'])) {
+        $arResult['ERROR'][] = 'Не указан способ доставки';
+    }
     if (!isset($_REQUEST['privacy_policy'])) {
         $arResult['ERROR'][] = v::privacyPolicyError();
 	}

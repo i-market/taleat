@@ -95,6 +95,7 @@ class App extends \Core\App {
             '/admin',
             '/law',
             '/terms',
+            '/how-to',
 
             '/personal/index.php',
             '/personal/cart',

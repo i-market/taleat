@@ -90,14 +90,14 @@ class Components {
     static function showPersonalProfile() {
         global $USER;
         $user = \CUser::GetByID($USER->GetID())->GetNext();
-        $userValue = function ($key) use ($user) { return _::get($_REQUEST, $key, $user[$key]); };
+        $userValue = function ($key) use ($user) { return _::get($_REQUEST, $key, $user['~'.$key]); };
         $keys = ['name', 'required', 'type', 'label', 'value'];
         $userFields = [
-            ['LAST_NAME',      true,  'text',  'Фамилия', $userValue('LAST_NAME')],
-            ['NAME',           true,  'text',  'Имя', $userValue('NAME')],
+            ['LAST_NAME',      true,  'text',  'Фамилия',  $userValue('LAST_NAME')],
+            ['NAME',           true,  'text',  'Имя',      $userValue('NAME')],
             ['SECOND_NAME',    false, 'text',  'Отчество', $userValue('SECOND_NAME')],
-            ['EMAIL',          true,  'email', 'E-mail', $userValue('EMAIL')],
-            ['PERSONAL_PHONE', true,  'tel',   'Телефон', $userValue('PERSONAL_PHONE')],
+            ['EMAIL',          true,  'email', 'E-mail',   $userValue('EMAIL')],
+            ['PERSONAL_PHONE', true,  'tel',   'Телефон',  $userValue('PERSONAL_PHONE')],
         ];
         // TODO address
 //            ['PERSONAL_ZIP',    true,  'text',  'Индекс'],

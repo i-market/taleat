@@ -50,7 +50,7 @@ class App extends \Core\App {
         $sentryConfig = _::get(Configuration::getValue('app'), 'sentry');
         $server = Application::getInstance()->getContext()->getServer();
         return [
-            'isAjax' => $server->get('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest', // header set by jquery
+            'isAjax' => $server->get('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest',
             'auth' => Auth::links(),
             'catalog' => [
                 'checkoutLink' => '/personal/order/make/'

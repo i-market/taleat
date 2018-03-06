@@ -34,7 +34,7 @@ use Core\Util;
                        class="input"
                        placeholder="<?= $f['label'].':'.($f['required'] ? '*' : '') ?>"
                     <?= $f['required'] ? 'required' : '' ?>
-                       value="<?= $f['value'] ?>">
+                       value="<?= v::escAttr($f['value']) ?>">
             <? endforeach ?>
             <? $showBlock = !v::isEmpty(v::get($_REQUEST, 'NEW_PASSWORD')) ?>
             <span class="simple-btn change-password" <?= $showBlock ? 'style="display: none"' : '' ?>>Сменить пароль</span>

@@ -129,7 +129,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                         <button type="submit" class="download-btn">Отправить отзыв</button>
                     <? endif ?>
-                    <p class="reviews-allert">Если у Вас остались вопросы по поводу ремонта вашей техники, Вы можете написать их директору компании</p>
+                    <p class="reviews-allert"><? $APPLICATION->IncludeComponent(
+                            "bitrix:main.include",
+                            "",
+                            Array(
+                                "AREA_FILE_SHOW" => "file",
+                                "PATH" => v::includedArea('otzivi/contact_us.php')
+                            )
+                        ); ?></p>
                     <span class="download-btn" data-modal="contact-modal">Написать письмо директору</span>
                 </form>
             </div>

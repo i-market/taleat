@@ -60,11 +60,13 @@ use App\View as v;
             </div>
         </div>
         <div class="catalog-item-info">
+            <?/*
             <? if ($arResult['CAN_BUY']): ?>
                 <p class="catalog-item-stock hidden">В наличии</p>
             <? else: ?>
                 <p class="catalog-item-stock catalog-item-stock--out hidden">Нет в наличии</p>
             <? endif ?>
+            */?>
             <div class="wrap-catalog-hidden-block">
                 <div class="open-catalog-hidden-block">Характеристики и описание</div>
                 <div class="catalog-hidden-block">

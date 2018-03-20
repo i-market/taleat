@@ -14,9 +14,14 @@ use Core\Strings as str;
         </p>
     <? endif ?>
     <? if (v::isEmpty($arResult['SEARCH'])): ?>
-        <div class="h3">
-            По вашему запросу ничего не найдено.
-        </div>
+        <? $APPLICATION->IncludeComponent(
+            "bitrix:main.include",
+            "",
+            Array(
+                "AREA_FILE_SHOW" => "file",
+                "PATH" => v::includedArea('search/no_matches.php')
+            )
+        ); ?>
     <? endif ?>
 </div>
 <div class="search-items">

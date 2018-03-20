@@ -35,7 +35,7 @@ $showErrorMessage = function () use ($arResult) {
         <? m::showInput('REGISTER[LAST_NAME]', 'Фамилия *', ['required' => true]) ?>
         <? m::showInput('REGISTER[NAME]', 'Имя *', ['required' => true]) ?>
         <? m::showInput('REGISTER[SECOND_NAME]', 'Отчество') ?>
-        <? m::showInput('REGISTER[EMAIL]', 'E-mail *', ['required' => true, 'type' => 'email']) ?>
+        <? m::showInput('REGISTER[EMAIL]', 'E-mail (логин) *', ['required' => true, 'type' => 'email']) ?>
         <? m::showInput('REGISTER[PASSWORD]', 'Пароль', ['required' => true, 'type' => 'password']) ?>
         <? m::showInput('REGISTER[CONFIRM_PASSWORD]', 'Повторите пароль', ['required' => true, 'type' => 'password']) ?>
     <? elseif ($arParams['TYPE'] === 'service-center'): ?>
@@ -46,7 +46,7 @@ $showErrorMessage = function () use ($arResult) {
         <? m::showInput('REGISTER[WORK_COMPANY]', 'Компания *', ['required' => true]) ?>
         <? m::showInput('REGISTER[WORK_CITY]', 'Город *', ['required' => true]) ?>
         <? m::showInput('REGISTER[WORK_PHONE]', 'Телефон *', ['required' => true, 'type' => 'tel']) ?>
-        <? m::showInput('REGISTER[EMAIL]', 'E-mail *', ['required' => true, 'type' => 'email']) ?>
+        <? m::showInput('REGISTER[EMAIL]', 'E-mail (логин) *', ['required' => true, 'type' => 'email']) ?>
         <? m::showInput('REGISTER[PASSWORD]', 'Пароль', ['required' => true, 'type' => 'password']) ?>
         <? m::showInput('REGISTER[CONFIRM_PASSWORD]', 'Повторите пароль', ['required' => true, 'type' => 'password']) ?>
     <? endif ?>

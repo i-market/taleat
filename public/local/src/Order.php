@@ -30,7 +30,7 @@ class Order {
         $moscow = [5773, 6322];
         $stPetersburg = [6002, 6333];
         $rusPost = 4;
-        if (in_array($location, array_merge($moscow, $stPetersburg))) {
+        if (in_array($location, $moscow)) {
             return _::remove($xs, $rusPost);
         } else {
             return $xs;

@@ -29,7 +29,7 @@ class Order {
     static function filterDeliveryServices($xs, $location) {
         $moscow = [5773, 6322];
         $stPetersburg = [6002, 6333];
-        $rusPost = 4;
+        $rusPost = 24;
         if (in_array($location, $moscow)) {
             return _::remove($xs, $rusPost);
         } else {

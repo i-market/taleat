@@ -5,6 +5,7 @@ require $_SERVER['DOCUMENT_ROOT'].'/local/vendor/autoload.php';
 use App\App;
 use App\Email;
 use App\Iblock;
+use App\Order;
 use App\OrderStatus;
 use App\User;
 use Bitrix\Sale\Delivery\Services\Manager;
@@ -196,9 +197,16 @@ class myClass{
             }
 
             $shipment = self::shipment($ID);
+            $arFields['TRACKING'] = '';
             if ($shipment) {
-                $arFields["DELIVERY_NAME"] = $shipment->getField("DELIVERY_NAME");
-                $arFields["TRACK_NUMBER"] = $shipment->getField("TRACKING_NUMBER");
+                $trackingNumber = $shipment->getField('TRACKING_NUMBER');
+                if ($trackingNumber) {
+                    $orgInfo = Order::deliveryServiceOrgInfo($arOrder['DELIVERY_ID']);
+                    $name = $orgInfo
+                        ? '<a href="'.$orgInfo['url'].'">'.$orgInfo['name'].'</a>'
+                        : $shipment->getField('DELIVERY_NAME');
+                    $arFields['TRACKING'] = "Отслеживать статус отправления Вы можете через трек-номер {$trackingNumber} на сайте {$name}.";
+                }
             }
             $arFields["SALE_EMAIL"] = COption::GetOptionString("sale", "order_email");
             $arFields["COMMENTS"] = $arOrder["COMMENTS"];

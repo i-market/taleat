@@ -36,4 +36,18 @@ class Order {
             return $xs;
         }
     }
+    
+    static function deliveryServiceOrgInfo($id) {
+        $data = [
+            '24' => [
+                'name' => 'Почта России',
+                'url' => 'https://www.pochta.ru/'
+            ],
+            '23' => [
+                'name' => 'Курьерская служба КСЭ',
+                'url' => 'http://www.cse.ru/lang-rus/'
+            ]
+        ];
+        return _::get($data, $id);
+    }
 }

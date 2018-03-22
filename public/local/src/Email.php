@@ -15,7 +15,7 @@ class Email {
         $ret = '';
         foreach (iter\values($items) as $idx => $item) {
             $qty = strval($item['QUANTITY'] + 0); // strip trailing zeros
-            $ret .= ($idx + 1).'. '.$item['NAME'].' x '.$qty;
+            $ret .= ($idx + 1).'. '.$item['NAME'].($item['QUANTITY'] > 0 ? ' x '.$qty : '');
             $ret .= "\n<br />";
         }
         return $ret;

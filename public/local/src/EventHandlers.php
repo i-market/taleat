@@ -23,16 +23,21 @@ Loader::includeModule('subscribe');
 class EventHandlers {
     /** @var callable[] */
     private static $deferredUntilAfterUpdate = [];
+    /** @var callable[] */
+    private static $deferredUntilAfterUserAdd = [];
 
     static function attach() {
         // see also init.php
         AddEventHandler('main', 'OnBeforeUserLogin', _::func([self::class, 'onBeforeUserLogin']));
         AddEventHandler('main', 'OnBeforeUserRegister', _::func([self::class, 'onBeforeUserRegister']));
+        AddEventHandler('main', 'OnBeforeUserAdd', _::func([self::class, 'onBeforeUserAdd']));
+        AddEventHandler('main', 'OnAfterUserAdd', _::func([self::class, 'onAfterUserAdd']));
         AddEventHandler('main', 'OnAfterUserRegister', _::func([self::class, 'onAfterUserRegister']));
         AddEventHandler('main', 'OnBeforeUserUpdate', _::func([self::class, 'onBeforeUserUpdate']));
         AddEventHandler('main', 'OnBeforeEventSend', _::func([self::class, 'onBeforeEventSend']));
         AddEventHandler('iblock', 'OnBeforeIBlockElementUpdate', _::func([self::class, 'onBeforeIBlockElementUpdate']));
         AddEventHandler('iblock', 'OnAfterIBlockElementUpdate', _::func([self::class, 'onAfterIBlockElementUpdate']));
+        AddEventHandler('sale', 'OnOrderNewSendEmail', _::func([self::class, 'onOrderNewSendEmail']));
     }
 
     static function onBeforeEventSend(&$fieldsRef, &$templateRef) {
@@ -86,12 +91,15 @@ class EventHandlers {
                 "DELIVERY_PRICE" => SaleFormatCurrency($fieldsRef['DELIVERY_PRICE'], Product::CURRENCY),
                 'ORDER_PRICE' => SaleFormatCurrency($order->getPrice(), Product::CURRENCY),
                 'DELIVERY_NAME' => $deliveryName,
-                'PAY_SYSTEM_NAME' => $payment->getPaymentSystemName() // TODO PSA_NAME?
+                'PAY_SYSTEM_NAME' => $payment->getPaymentSystemName(), // TODO PSA_NAME?
+                'USER_INFO' => ''
             ];
             // merge
             foreach ($fields as $k => $v) {
                 $fieldsRef[$k] = $v;
             }
+            // mutate fields
+            self::onOrderNewSendEmail($fieldsRef);
         }
         return $fieldsRef;
     }
@@ -136,6 +144,20 @@ class EventHandlers {
         return $fields;
     }
 
+    static function onOrderNewSendEmail(&$fieldsRef) {
+        if (_::get($_SESSION, 'lastAddedUser')) {
+            $user = json_decode($_SESSION['lastAddedUser'], true);
+            $lines = [
+                '<strong>Ваш аккаунт:</strong>',
+                'Логин: '.$user['LOGIN'],
+                'Пароль: '.$user['PASSWORD']
+                // TODO security: tell the user to change their password
+            ];
+            $fieldsRef['USER_INFO'] = '<br>'.join('<br>', $lines).'<br>';
+        }
+        return $fieldsRef;
+    }
+
     static function onBeforeUserLogin(&$fieldsRef) {
         // email as login
         $byLogin = CUser::GetList($by = 'ID', $order = 'ASC', ['=LOGIN' => $fieldsRef['LOGIN']])->GetNext();
@@ -169,6 +191,27 @@ class EventHandlers {
             $fieldsRef['LOGIN'] = $fieldsRef['EMAIL'];
         }
         return $fieldsRef;
+    }
+
+    static function onBeforeUserAdd($fields) {
+        // TODO security: encrypt. https://github.com/defuse/php-encryption
+        $_SESSION['lastAddedUser'] = json_encode($fields);
+        /*
+        self::$deferredUntilAfterUserAdd =
+            function ($f) use ($fields) {
+//                if ($f['LOGIN'] === $fields['LOGIN']) {
+                $_SESSION['lastAddedUser'] = App::encrypt(json_encode($fields));
+            };
+        */
+        return $fields;
+    }
+
+    static function onAfterUserAdd($fields) {
+        foreach (self::$deferredUntilAfterUserAdd as $f) {
+            $f($fields);
+        }
+        self::$deferredUntilAfterUserAdd = [];
+        return $fields;
     }
 
     static function onAfterUserRegister(&$arFields) {

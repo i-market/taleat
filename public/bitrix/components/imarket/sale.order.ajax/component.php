@@ -2317,7 +2317,8 @@ if ($USER->IsAuthorized() || $arParams["ALLOW_AUTO_REGISTER"] == "Y" )
 
                         'ORDER_PRICE' => $arResult['ORDER_PRICE_FORMATED'],
                         'DELIVERY_NAME' => _::first($arResult['DELIVERY'])['NAME'],
-						'PAY_SYSTEM_NAME' => _::first($arResult['PAY_SYSTEM'])['PSA_NAME']
+						'PAY_SYSTEM_NAME' => _::first($arResult['PAY_SYSTEM'])['PSA_NAME'],
+						'USER_INFO' => ''
 					);
 
 					$eventName = "SALE_NEW_ORDER";

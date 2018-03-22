@@ -7,6 +7,7 @@ use Bitrix\Main\Application;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\Loader;
 use Bitrix\Main\Config\Configuration;
+use CCrypt;
 use CEvent;
 use CIBlockElement;
 use Core\Env;

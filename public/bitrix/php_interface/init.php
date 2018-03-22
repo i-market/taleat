@@ -10,6 +10,7 @@ use App\OrderStatus;
 use App\User;
 use Bitrix\Sale\Delivery\Services\Manager;
 use Core\Env;
+use Core\Strings as str;
 
 App::getInstance()->init();
 
@@ -143,10 +144,11 @@ class myClass{
                     $arFields["SROK"] = $arProps["VALUE"];
             }
             $arFields["SALE_EMAIL"] = COption::GetOptionString("sale", "order_email");
-            $arFields["COMMENTS"] = $arOrder["COMMENTS"];
             $arFields["ORDER_ID"] = $ID;
             $arFields["ORDER_DATE"] = $arOrder["DATE_INSERT"];
-            $arFields["COMMENTS"] = "Ожидаемый срок поставки товара: ".$arFields["SROK"];
+            $arFields["COMMENTS"] = !str::isEmpty($arFields["SROK"]) ?
+                "Ожидаемый срок поставки товара: ".$arFields["SROK"]
+                : '';
             $arFields['FULL_NAME'] = User::formatFullName($arFields['FAM'], $arFields['IMYA'], $arFields['OTCHESTVO']);
             $arFields['STATUS'] = CSaleStatus::GetByID($val)['NAME'];
             CEvent::SendImmediate("STATUS_OUT_OF_STOCK", "s1", $arFields);

@@ -175,6 +175,18 @@ class myClass{
             $arFields["ORDER_DATE"] = $arOrder["DATE_INSERT"];
             $arFields['FULL_NAME'] = User::formatFullName($arFields['FAM'], $arFields['IMYA'], $arFields['OTCHESTVO']);
             $arFields['STATUS'] = CSaleStatus::GetByID($val)['NAME'];
+            $arFields['DELIVERY'] = $arOrder['DELIVERY_ID'] == Order::LOCAL_PICKUP
+                ? join("<br>\n", [
+                    'Передан на приемный пункт по адресу:',
+                    '"Сервисный центр на Селезневке"',
+                    '',
+                    'м. Достоевская, м Новослободская',
+                    'г. Москва, ул. Селезневская, д. 30, корп. 1',
+                    'пн.-пт.: с 10: до 20:00',
+                    'сб.: с 10:00 до 17:00',
+                    'вск.: выходной'
+                ])
+                : '';
 
             CEvent::SendImmediate("STATUS_PAY", "s1", $arFields);
         endif;

@@ -5,6 +5,9 @@ namespace App;
 use Core\Underscore as _;
 
 class Order {
+    /** самовывоз */
+    const LOCAL_PICKUP = '2';
+
     static function isPayable($order) {
         return $order['STATUS_ID'] === OrderStatus::ACCEPTED
             && $order['PAYED'] !== 'Y'

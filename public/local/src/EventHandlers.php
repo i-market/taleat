@@ -28,16 +28,16 @@ class EventHandlers {
 
     static function attach() {
         // see also init.php
-        AddEventHandler('main', 'OnBeforeUserLogin', _::func([self::class, 'onBeforeUserLogin']));
-        AddEventHandler('main', 'OnBeforeUserRegister', _::func([self::class, 'onBeforeUserRegister']));
-        AddEventHandler('main', 'OnBeforeUserAdd', _::func([self::class, 'onBeforeUserAdd']));
-        AddEventHandler('main', 'OnAfterUserAdd', _::func([self::class, 'onAfterUserAdd']));
-        AddEventHandler('main', 'OnAfterUserRegister', _::func([self::class, 'onAfterUserRegister']));
-        AddEventHandler('main', 'OnBeforeUserUpdate', _::func([self::class, 'onBeforeUserUpdate']));
-        AddEventHandler('main', 'OnBeforeEventSend', _::func([self::class, 'onBeforeEventSend']));
+        AddEventHandler('main',   'OnBeforeUserLogin',           _::func([self::class, 'onBeforeUserLogin']));
+        AddEventHandler('main',   'OnBeforeUserRegister',        _::func([self::class, 'onBeforeUserRegister']));
+        AddEventHandler('main',   'OnBeforeUserAdd',             _::func([self::class, 'onBeforeUserAdd']));
+        AddEventHandler('main',   'OnAfterUserAdd',              _::func([self::class, 'onAfterUserAdd']));
+        AddEventHandler('main',   'OnAfterUserRegister',         _::func([self::class, 'onAfterUserRegister']));
+        AddEventHandler('main',   'OnBeforeUserUpdate',          _::func([self::class, 'onBeforeUserUpdate']));
+        AddEventHandler('main',   'OnBeforeEventSend',           _::func([self::class, 'onBeforeEventSend']));
         AddEventHandler('iblock', 'OnBeforeIBlockElementUpdate', _::func([self::class, 'onBeforeIBlockElementUpdate']));
-        AddEventHandler('iblock', 'OnAfterIBlockElementUpdate', _::func([self::class, 'onAfterIBlockElementUpdate']));
-        AddEventHandler('sale', 'OnOrderNewSendEmail', _::func([self::class, 'onOrderNewSendEmail']));
+        AddEventHandler('iblock', 'OnAfterIBlockElementUpdate',  _::func([self::class, 'onAfterIBlockElementUpdate']));
+        AddEventHandler('sale',   'OnOrderNewSendEmail',         _::func([self::class, 'onOrderNewSendEmail']));
     }
 
     static function onBeforeEventSend(&$fieldsRef, &$templateRef) {
@@ -146,12 +146,13 @@ class EventHandlers {
 
     static function onOrderNewSendEmail(&$fieldsRef) {
         if (_::get($_SESSION, 'lastAddedUser')) {
+            // TODO make sure it matches order's user
             $user = json_decode($_SESSION['lastAddedUser'], true);
             $lines = [
                 '<strong>Ваш аккаунт:</strong>',
                 'Логин: '.$user['LOGIN'],
                 'Пароль: '.$user['PASSWORD']
-                // TODO security: tell the user to change their password
+                // TODO security: tell the user to change their password asap
             ];
             $fieldsRef['USER_INFO'] = '<br>'.join('<br>', $lines).'<br>';
         }
@@ -194,15 +195,8 @@ class EventHandlers {
     }
 
     static function onBeforeUserAdd($fields) {
-        // TODO security: encrypt. https://github.com/defuse/php-encryption
+        // TODO no need to turn it into a string
         $_SESSION['lastAddedUser'] = json_encode($fields);
-        /*
-        self::$deferredUntilAfterUserAdd =
-            function ($f) use ($fields) {
-//                if ($f['LOGIN'] === $fields['LOGIN']) {
-                $_SESSION['lastAddedUser'] = App::encrypt(json_encode($fields));
-            };
-        */
         return $fields;
     }
 

@@ -226,7 +226,9 @@ class myClass{
             $arFields["ORDER_DATE"] = $arOrder["DATE_INSERT"];
             $arFields['FULL_NAME'] = User::formatFullName($arFields['FAM'], $arFields['IMYA'], $arFields['OTCHESTVO']);
 
-            CEvent::SendImmediate("STATUS_SEND", "s1", $arFields);
+            if ($arOrder['DELIVERY_ID'] != Order::LOCAL_PICKUP) {
+                CEvent::SendImmediate("STATUS_SEND", "s1", $arFields);
+            }
 
             $date = $agentsCfg['getFeedback']['requestAfter'];
             $dateAgent = $date->format('d.m.Y H:i:s');

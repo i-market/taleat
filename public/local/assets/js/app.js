@@ -67,10 +67,27 @@
 
   function initComponents($scope) {
     Mockup.initComponents($scope);
+
     cleanUpEditable($('.editable-area', $scope));
     $('form.validate', $scope).each(function () {
       $(this).validate();
     });
+
+    (function () {
+      function update($btn, state) {
+        $btn.toggleClass('active', state);
+      }
+      $('.simple-btn:has(input[type=radio])').each(function () {
+        $(this).addClass('has-radio');
+        update($(this), $('input', $(this)).is(':checked'));
+      });
+      var $inputs = $('.simple-btn input[type=radio]');
+      $inputs.on('change', function () {
+        $inputs.each(function () {
+          update($(this).parent('.simple-btn'), this.checked);
+        });
+      });
+    })();
 
     $('[data-fancybox-items]', $scope).on('click', function (evt) {
       evt.preventDefault();

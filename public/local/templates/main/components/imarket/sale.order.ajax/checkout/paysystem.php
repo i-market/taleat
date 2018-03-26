@@ -15,8 +15,8 @@ if ($arResult["PAY_FROM_ACCOUNT"]=="Y")
     foreach($arResult["PAY_SYSTEM"] as $arPaySystem)
     {
         ?>
-        <input style="display: none" type="radio" id="ID_PAY_SYSTEM_ID_<?= $arPaySystem["ID"] ?>" name="PAY_SYSTEM_ID" value="<?= $arPaySystem["ID"] ?>"<?if ($arPaySystem["CHECKED"]=="Y") echo " checked=\"checked\"";?> onclick="submitForm();" />
         <label class="simple-btn" for="ID_PAY_SYSTEM_ID_<?= $arPaySystem["ID"] ?>">
+            <input type="radio" id="ID_PAY_SYSTEM_ID_<?= $arPaySystem["ID"] ?>" name="PAY_SYSTEM_ID" value="<?= $arPaySystem["ID"] ?>"<?if ($arPaySystem["CHECKED"]=="Y") echo " checked=\"checked\"";?> onclick="submitForm();" />
             <?= $arPaySystem["PSA_NAME"] ?>
         </label>
         <?

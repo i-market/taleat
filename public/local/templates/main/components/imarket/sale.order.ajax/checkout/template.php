@@ -149,8 +149,10 @@ else
                 foreach($arResult["PERSON_TYPE"] as $v)
                 {
                     ?>
-                    <input style="display: none" type="radio" id="PERSON_TYPE_<?= $v["ID"] ?>" name="PERSON_TYPE" value="<?= $v["ID"] ?>"<?if ($v["CHECKED"]=="Y") echo " checked=\"checked\"";?> onClick="submitForm()">
-                    <label class="simple-btn" for="PERSON_TYPE_<?= $v["ID"] ?>"><?= $v["NAME"] ?></label>
+                    <label class="simple-btn" for="PERSON_TYPE_<?= $v["ID"] ?>">
+                        <input type="radio" id="PERSON_TYPE_<?= $v["ID"] ?>" name="PERSON_TYPE" value="<?= $v["ID"] ?>"<?if ($v["CHECKED"]=="Y") echo " checked=\"checked\"";?> onClick="submitForm()">
+                        <?= $v["NAME"] ?>
+                    </label>
                     <?
                 }
                 ?>

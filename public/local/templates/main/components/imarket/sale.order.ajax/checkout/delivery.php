@@ -63,8 +63,8 @@ if(!empty($deliveryServices))
             else
 			{
 				?>
-                <input style="display: none" type="radio" id="ID_DELIVERY_ID_<?= $arDelivery["ID"] ?>" name="<?=htmlspecialcharsbx($arDelivery["FIELD_NAME"])?>" value="<?= $arDelivery["ID"] ?>"<?if ($arDelivery["CHECKED"]=="Y") echo " checked";?> onclick="submitForm();" />
                 <label class="simple-btn" for="ID_DELIVERY_ID_<?= $arDelivery["ID"] ?>">
+                    <input type="radio" id="ID_DELIVERY_ID_<?= $arDelivery["ID"] ?>" name="<?=htmlspecialcharsbx($arDelivery["FIELD_NAME"])?>" value="<?= $arDelivery["ID"] ?>"<?if ($arDelivery["CHECKED"]=="Y") echo " checked";?> onclick="submitForm();" />
                     <?= htmlspecialcharsbx($arDelivery["NAME"]) ?>
                 </label>
 				<?

@@ -27,7 +27,7 @@ class EventHandlers {
     private static $deferredUntilAfterUserAdd = [];
 
     static function attach() {
-        // see also init.php
+        // see also: init.php
         AddEventHandler('main',   'OnBeforeUserLogin',           _::func([self::class, 'onBeforeUserLogin']));
         AddEventHandler('main',   'OnBeforeUserRegister',        _::func([self::class, 'onBeforeUserRegister']));
         AddEventHandler('main',   'OnBeforeUserAdd',             _::func([self::class, 'onBeforeUserAdd']));
@@ -38,6 +38,9 @@ class EventHandlers {
         AddEventHandler('iblock', 'OnBeforeIBlockElementUpdate', _::func([self::class, 'onBeforeIBlockElementUpdate']));
         AddEventHandler('iblock', 'OnAfterIBlockElementUpdate',  _::func([self::class, 'onAfterIBlockElementUpdate']));
         AddEventHandler('sale',   'OnOrderNewSendEmail',         _::func([self::class, 'onOrderNewSendEmail']));
+        AddEventHandler('sale',   'OnSaleComponentOrderOneStepComplete',
+            _::func([self::class, 'onSaleComponentOrderOneStepComplete']));
+
     }
 
     static function onBeforeEventSend(&$fieldsRef, &$templateRef) {
@@ -159,6 +162,42 @@ class EventHandlers {
         return $fieldsRef;
     }
 
+    static function onSaleComponentOrderOneStepComplete($orderId) {
+        // save full name as an order prop (not the best implementation)
+        // используется, например, в квитанциях сбербанка
+        $order = sale\Order::load($orderId);
+        $arFields = $order->getFieldValues();
+        if ($arFields['ID'] > 0 && $arFields['USER_ID'] > 0) {
+            $arFIO = array();
+            $rsProp = \CSaleOrderPropsValue::GetList(array(), array('ORDER_ID' => $arFields['ID']));
+            while ($arProp = $rsProp->Fetch()) {
+                if ($arProp['CODE'] == 'IMYA')
+                    $arFIO['NAME'] = $arProp['VALUE'];
+                elseif ($arProp['CODE'] == 'FAM')
+                    $arFIO['LAST_NAME'] = $arProp['VALUE'];
+                elseif ($arProp['CODE'] == 'OTCHESTVO')
+                    $arFIO['SECOND_NAME'] = $arProp['VALUE'];
+            }
+            $FIO = trim($arFIO['LAST_NAME'] . ' ' . $arFIO['NAME'] . ' ' . $arFIO['SECOND_NAME']);
+            if ($FIO != '') {
+                $res = \CSaleOrderProps::GetList(array(), array(
+                    'CODE' => 'F_FIO',
+                    'PERSON_TYPE_ID' => $arFields['PERSON_TYPE_ID']
+                ));
+                if ($arProp = $res->Fetch()) {
+                    $result = \CSaleOrderPropsValue::Add(array(
+                        'ORDER_ID' => $arFields['ID'],
+                        'ORDER_PROPS_ID' => $arProp['ID'],
+                        'NAME' => $arProp['NAME'],
+                        'CODE' => 'F_FIO',
+                        'VALUE' => $FIO,
+                    ));
+                    App::getInstance()->assert($result);
+                }
+            }
+        }
+    }
+
     static function onBeforeUserLogin(&$fieldsRef) {
         // email as login
         $byLogin = CUser::GetList($by = 'ID', $order = 'ASC', ['=LOGIN' => $fieldsRef['LOGIN']])->GetNext();
@@ -178,6 +217,7 @@ class EventHandlers {
         if ($fieldsRef['EMAIL']) {
             $emailExists = UserTable::getCount(['EMAIL' => $fieldsRef['EMAIL']]) > 0;
             if ($emailExists) {
+                // TODO there is `main` module option that does the same (ensures email uniqueness)
                 $APPLICATION->ThrowException('Аккаунт с таким e-mail адресом уже существует');
                 return false;
             }

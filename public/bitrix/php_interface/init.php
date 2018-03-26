@@ -21,7 +21,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/php_interface/CArcLineWorkPictur
 require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/php_interface/SendMessage.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/php_interface/func.php');
 
-// see also `App\EventHandlers`
+// see also: `App\EventHandlers`
 
 AddEventHandler("iblock", "OnBeforeIBlockSectionAdd", Array("MyResizeSectionPicturesHandlers", "ResizeElementProperty"));
 AddEventHandler("iblock", "OnBeforeIBlockSectionUpdate", Array("MyResizeSectionPicturesHandlers", "ResizeElementProperty"));

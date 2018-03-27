@@ -251,7 +251,9 @@
         });
 
         // hack
-        $section.find('.contacts-text img').addClass('fancybox');
+        $section.find('.contacts-text img')
+          .filter(function () { return this.width !== this.naturalWidth; })
+          .addClass('fancybox');
         Mockup.initComponents($section);
       }
       init($(this));

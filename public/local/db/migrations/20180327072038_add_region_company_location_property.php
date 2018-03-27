@@ -4,7 +4,7 @@ use Bitrix\Main\Application;
 use Phinx\Migration\AbstractMigration;
 use Core\Underscore as _;
 
-class AddRegionCompanyLatLngProperty extends AbstractMigration {
+class AddRegionCompanyLocationProperty extends AbstractMigration {
     function up() {
         $conn = Application::getConnection();
         $conn->startTransaction();
@@ -16,7 +16,7 @@ class AddRegionCompanyLatLngProperty extends AbstractMigration {
                 'ACTIVE' => 'Y',
                 'IS_REQUIRED' => 'N',
                 'SORT' => '500',
-                'CODE' => 'LNGLAT', // yandex maps reverse lat and long
+                'CODE' => 'LOCATION', // yandex maps reverse lat and long
                 'PROPERTY_TYPE' => 'S',
                 'USER_TYPE' => 'map_yandex',
                 'FILTRABLE' => 'N',
@@ -76,7 +76,7 @@ class AddRegionCompanyLatLngProperty extends AbstractMigration {
                 if (!$lat || !$lng) {
                     throw new \Exception(var_export($company, true));
                 }
-                CIBlockElement::SetPropertyValuesEx($company['id'], $iblockId, ['LNGLAT' => $lng.','.$lat]);
+                CIBlockElement::SetPropertyValuesEx($company['id'], $iblockId, ['LOCATION' => $lng.','.$lat]);
             }
 
             $conn->commitTransaction();

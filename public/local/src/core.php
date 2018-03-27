@@ -191,11 +191,13 @@ class Underscore extends ArraysMethods {
 
     // TODO inconsistent argument ordering
     static function keyBy($by, $array) {
-        // TODO add callable support
-        assert(is_string($by));
         $ret = [];
         foreach ($array as $x) {
-            $ret[$x[$by]] = $x;
+            if (is_callable($by)) {
+                $ret[$by($x)] = $x;
+            } else {
+                $ret[$x[$by]] = $x;
+            }
         }
         return $ret;
     }

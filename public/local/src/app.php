@@ -257,6 +257,7 @@ class Iblock extends \Core\Iblock {
     const REGION_TYPE = 'region';
     /** технические заключения */
     const REPORTS_ID = 10;
+    const REGION_COMPANIES = 7;
 
     const CONTENT_TYPE = 'content';
     const CLIENTS = 'clients';

@@ -16,7 +16,7 @@ class AddRegionCompanyLatLngProperty extends AbstractMigration {
                 'ACTIVE' => 'Y',
                 'IS_REQUIRED' => 'N',
                 'SORT' => '500',
-                'CODE' => 'LNGLAT',
+                'CODE' => 'LNGLAT', // yandex maps reverse lat and long
                 'PROPERTY_TYPE' => 'S',
                 'USER_TYPE' => 'map_yandex',
                 'FILTRABLE' => 'N',
@@ -58,7 +58,7 @@ class AddRegionCompanyLatLngProperty extends AbstractMigration {
                 })
             );
             $companies = _::map($_companies, function ($company) use ($addresses, $addressKey) {
-                $subj = $addressKey($company['text']);
+                $subj = $addressKey($company['text']); // TODO what if `text` is stale?
                 $address = _::find($addresses, function ($_, $k) use ($subj, $addressKey) {
                     return mb_strpos($subj, $k) !== false;
                 });

@@ -63,18 +63,33 @@ $ctx = Region::context($_REQUEST);
                                         <?= $service['~PREVIEW_TEXT'] ?>
                                     </div>
                                 </div>
-                                <?/*
-                                <div class="contacts-bottom">
-                                    <div class="grid">
-                                        <div class="col col-2">
-                                            <span class="simple-btn"><span>Посмотреть на большой карте</span></span>
-                                        </div>
+                                <? $location = $service['PROPERTIES']['LOCATION']['~VALUE'] ?>
+                                <? if (!v::isEmpty($location)): ?>
+                                    <div class="contacts-bottom">
+                                        <div class="grid">
+                                            <div class="col col-2">
+                                                <?
+                                                // TODO better map
+                                                list($lat, $lng) = explode(',', $location);
+                                                $point = $lng.','.$lat;
+                                                $query = http_build_query([
+                                                    'mode' => 'whatshere',
+                                                    'whatshere[point]' => $point,
+                                                    'll' => $point,
+                                                    'zoom' => 14
+                                                ]);
+                                                ?>
+                                                <? $link = 'https://yandex.ru/maps/?'.$query ?>
+                                                <a href="<?= $link ?>" target="_blank" class="simple-btn"><span>Посмотреть на большой карте</span></a>
+                                            </div>
+                                            <?/*
                                         <div class="col col-2">
                                             <span class="simple-btn"><span>Скачать схему проезда</span></span>
                                         </div>
+                                        */?>
+                                        </div>
                                     </div>
-                                </div>
-                                */?>
+                                <? endif ?>
                             </div>
                         <? endforeach ?>
                     </div>

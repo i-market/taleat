@@ -47,7 +47,7 @@ $mapId = function ($idx) { return "contacts-map-{$idx}"; }
                     <div class="col col-2">
                         <? if (!v::isEmpty($item['LAT_LONG'])): ?>
                             <?
-                            // yandex maps use the reverse "long, lat" format
+                            // TODO better map
                             $point = $item['LAT_LONG']['long'].','.$item['LAT_LONG']['lat'];
                             $query = http_build_query([
                                 'mode' => 'whatshere',

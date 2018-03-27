@@ -32,7 +32,7 @@ class Region {
 
     static function services($brandId, $cityId) {
         $result = CIBlockElement::GetList(Array("ID","NAME","PREVIEW_TEXT"), Array("IBLOCK_ID"=>7, "ACTIVE"=>"Y", "PROPERTY_CITY"=>$cityId, "PROPERTY_BRANDS"=>$brandId));
-        return Iblock::iter($result);
+        return Iblock::iterElements($result);
     }
 
     static function items() {

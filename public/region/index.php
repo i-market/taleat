@@ -56,6 +56,9 @@ $ctx = Region::context($_REQUEST);
                     </select>
                     <div class="services">
                         <? foreach (v::get($item, 'services', []) as $service): ?>
+                            <? $location = $service['PROPERTIES']['LOCATION']['~VALUE'] ?>
+                            <? $fileId = $service['PROPERTIES']['DIRECTIONS']['~VALUE'] ?>
+                            <? $directions = $fileId ? CFile::GetFileArray($fileId) : null ?>
                             <div class="rsc-inner">
                                 <div class="contacts-info">
                                     <? // <p class="contacts-name">ООО “Селена - сервис”</p> ?>
@@ -63,10 +66,9 @@ $ctx = Region::context($_REQUEST);
                                         <?= $service['~PREVIEW_TEXT'] ?>
                                     </div>
                                 </div>
-                                <? $location = $service['PROPERTIES']['LOCATION']['~VALUE'] ?>
-                                <? if (!v::isEmpty($location)): ?>
-                                    <div class="contacts-bottom">
-                                        <div class="grid">
+                                <div class="contacts-bottom">
+                                    <div class="grid">
+                                        <? if (!v::isEmpty($location)): ?>
                                             <div class="col col-2">
                                                 <?
                                                 // TODO better map
@@ -82,14 +84,18 @@ $ctx = Region::context($_REQUEST);
                                                 <? $link = 'https://yandex.ru/maps/?'.$query ?>
                                                 <a href="<?= $link ?>" target="_blank" class="simple-btn"><span>Посмотреть на большой карте</span></a>
                                             </div>
-                                            <?/*
-                                        <div class="col col-2">
-                                            <span class="simple-btn"><span>Скачать схему проезда</span></span>
-                                        </div>
-                                        */?>
-                                        </div>
+                                            <div class="col col-2 hidden-lg-up">
+                                                <a href="<?= "geo:{$lat},{$lng}" ?>" class="simple-btn"><span>Перейти в Яндекс.Навигатор</span></a>
+                                            </div>
+                                        <? endif ?>
+                                        <? if (!v::isEmpty($directions)): ?>
+                                            <div class="col col-2">
+                                                <? list($_, $ext) = \Core\Util::splitFileExtension($directions['FILE_NAME']) ?>
+                                                <a href="<?= $directions['SRC'] ?>" <?= v::attrs(v::docLinkAttrs($ext)) ?> class="simple-btn"><span>Скачать схему проезда</span></a>
+                                            </div>
+                                        <? endif ?>
                                     </div>
-                                <? endif ?>
+                                </div>
                             </div>
                         <? endforeach ?>
                     </div>

@@ -173,7 +173,7 @@
 
   function cleanUpEditable($scope) {
     function isEmpty(str) {
-      return str.replace(/\s|&nbsp;/g, '').length === 0;
+      return str.replace(/\s|&nbsp;|<br\s*\/?>/g, '').length === 0;
     }
     // clean up after the bitrix editor
     $scope.find('[style]').each(function () {
@@ -181,10 +181,13 @@
         .css('font-family', '')
         .css('font-size', '');
     });
-    $scope.find('p').each(function () {
+    $scope.find('p, div').each(function () {
       if (isEmpty($(this).html())) {
         $(this).remove();
       }
+    });
+    $scope.find('> br:last-child').each(function () {
+      $(this).remove();
     });
   }
 

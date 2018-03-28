@@ -31,14 +31,14 @@ class AddRegionCompanyLocationProperty extends AbstractMigration {
             $metadata = function ($obj) {
                 return _::get($obj, 'GeoObject.metaDataProperty.GeocoderMetaData');
             };
-            $latLng = function ($obj) {
+            $lngLat = function ($obj) {
                 return _::get($obj, 'GeoObject.Point.pos');
             };
             $addressKey = function ($address) {
                 return mb_ereg_replace('\s|&nbsp;', '', $address);
             };
             $addresses = _::keyBy(_::compose($addressKey, [_::class, 'first']),
-                _::map($_addresses, function ($item) use ($metadata, $latLng) {
+                _::map($_addresses, function ($item) use ($metadata, $lngLat) {
                     if (in_array('malformed', _::get($item, 'tags', []))) {
                         return [$item['address'], null, null];
                     }
@@ -48,12 +48,12 @@ class AddRegionCompanyLocationProperty extends AbstractMigration {
                     });
                     $obj = _::first($houseObjs); // best guess
                     if ($obj) {
-                        return [$item['address'], $metadata($obj)['text'], $latLng($obj)];
+                        return [$item['address'], $metadata($obj)['text'], $lngLat($obj)];
                     } else {
-                        if (!isset($item['latLng'])) {
+                        if (!isset($item['lngLat'])) {
                             throw new \Exception(var_export($item, true));
                         }
-                        return [$item['address'], null, $item['latLng']];
+                        return [$item['address'], null, $item['lngLat']];
                     }
                 })
             );
@@ -65,18 +65,18 @@ class AddRegionCompanyLocationProperty extends AbstractMigration {
                 if (!$address) {
                     throw new \Exception(var_export($company, true));
                 }
-                return array_merge($company, $address ? array_combine(['address', 'addressNormalized', 'latLng'], $address) : []);
+                return array_merge($company, $address ? array_combine(['address', 'addressNormalized', 'lngLat'], $address) : []);
             });
 
             foreach ($companies as $company) {
-                if ($company['latLng'] === null) { // *cough*
+                if ($company['lngLat'] === null) { // *cough*
                     continue;
                 }
-                list($lat, $lng) = explode(' ', $company['latLng']);
-                if (!$lat || !$lng) {
+                list($lng, $lat) = explode(' ', $company['lngLat']);
+                if (!$lng || !$lat) {
                     throw new \Exception(var_export($company, true));
                 }
-                CIBlockElement::SetPropertyValuesEx($company['id'], $iblockId, ['LOCATION' => $lng.','.$lat]);
+                CIBlockElement::SetPropertyValuesEx($company['id'], $iblockId, ['LOCATION' => $lat.','.$lng]);
             }
 
             $conn->commitTransaction();

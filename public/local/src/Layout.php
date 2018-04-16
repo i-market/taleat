@@ -14,7 +14,14 @@ class Layout {
                 <? self::showHeaderMenu() ?>
                 <div class="content-menu-items">
                     <a class="content-menu-item shop" href="<?= v::path('catalog') ?>">
-                        <strong class="title">Магазин</strong>
+                        <strong class="title"><? $APPLICATION->IncludeComponent(
+                                "bitrix:main.include",
+                                "",
+                                Array(
+                                    "AREA_FILE_SHOW" => "file",
+                                    "PATH" => v::includedArea('layout/mega_menu/shop_title.php')
+                                )
+                            ); ?></strong>
                         <div class="text">
                             <? $APPLICATION->IncludeComponent(
                                 "bitrix:main.include",
@@ -27,7 +34,14 @@ class Layout {
                         </div>
                     </a>
                     <a class="content-menu-item services" href="<?= v::path('region') ?>">
-                        <strong class="title">Сервисное обслуживание</strong>
+                        <strong class="title"><? $APPLICATION->IncludeComponent(
+                                "bitrix:main.include",
+                                "",
+                                Array(
+                                    "AREA_FILE_SHOW" => "file",
+                                    "PATH" => v::includedArea('layout/mega_menu/services_title.php')
+                                )
+                            ); ?></strong>
                         <div class="text">
                             <? $APPLICATION->IncludeComponent(
                                 "bitrix:main.include",
@@ -40,7 +54,14 @@ class Layout {
                         </div>
                     </a>
                     <a class="content-menu-item reception-point" href="<?= v::path('priemnie-punkti') ?>">
-                        <strong class="title">Приемные пункты</strong>
+                        <strong class="title"><? $APPLICATION->IncludeComponent(
+                                "bitrix:main.include",
+                                "",
+                                Array(
+                                    "AREA_FILE_SHOW" => "file",
+                                    "PATH" => v::includedArea('layout/mega_menu/reception_title.php')
+                                )
+                            ); ?></strong>
                         <div class="text">
                             <? $APPLICATION->IncludeComponent(
                                 "bitrix:main.include",

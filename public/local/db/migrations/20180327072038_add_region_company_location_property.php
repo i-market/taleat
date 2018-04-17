@@ -16,7 +16,7 @@ class AddRegionCompanyLocationProperty extends AbstractMigration {
                 'ACTIVE' => 'Y',
                 'IS_REQUIRED' => 'N',
                 'SORT' => '500',
-                'CODE' => 'LOCATION', // yandex maps reverse lat and long
+                'CODE' => 'LOCATION',
                 'PROPERTY_TYPE' => 'S',
                 'USER_TYPE' => 'map_yandex',
                 'FILTRABLE' => 'N',

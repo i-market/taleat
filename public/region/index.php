@@ -35,7 +35,10 @@ $ctx = Region::context($_REQUEST);
                 <? $brand = $item['brand'] ?>
                 <div class="col col-3">
                     <div class="rsc-item">
-                        <p class="title"><?= $brand['VALUE'] ?></p>
+                        <? // TODO hack ?>
+                        <? if ($brand['ID'] != 33): ?>
+                            <p class="title"><?= $brand['VALUE'] ?></p>
+                        <? endif ?>
                         <div class="editable-area description">
                             <? $APPLICATION->IncludeComponent(
                                 "bitrix:main.include",

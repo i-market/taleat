@@ -1,1 +1,1 @@
-Интернет-магазин для заказа запасных частей и аксеcсуаров к бытовой технике фирм <b>Braun, Babyliss PARIS,Delonghi, Kenwood</b><b>,&nbsp;Moser</b><br>
+Интернет-магазин для заказа запасных частей и аксеcсуаров к бытовой технике фирм <b>Braun, Babyliss PARIS, Delonghi, Kenwood</b><b>,&nbsp;Moser</b><br>

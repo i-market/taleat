@@ -22,7 +22,7 @@ class Layout {
                                     "PATH" => v::includedArea('layout/mega_menu/shop_title.php')
                                 )
                             ); ?></strong>
-                        <div class="text">
+                        <div class="text editable-area">
                             <? $APPLICATION->IncludeComponent(
                                 "bitrix:main.include",
                                 "",
@@ -42,7 +42,7 @@ class Layout {
                                     "PATH" => v::includedArea('layout/mega_menu/services_title.php')
                                 )
                             ); ?></strong>
-                        <div class="text">
+                        <div class="text editable-area">
                             <? $APPLICATION->IncludeComponent(
                                 "bitrix:main.include",
                                 "",
@@ -62,7 +62,7 @@ class Layout {
                                     "PATH" => v::includedArea('layout/mega_menu/reception_title.php')
                                 )
                             ); ?></strong>
-                        <div class="text">
+                        <div class="text editable-area">
                             <? $APPLICATION->IncludeComponent(
                                 "bitrix:main.include",
                                 "",

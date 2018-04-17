@@ -176,7 +176,8 @@
       return str.replace(/\s|&nbsp;|<br\s*\/?>/g, '').length === 0;
     }
     // clean up after the bitrix editor
-    $scope.find('[style]').each(function () {
+    // TODO refactor: .skip-cleanup hack
+    $scope.find('[style]:not(.skip-cleanup)').each(function () {
       $(this)
         .css('font-family', '')
         .css('font-size', '');

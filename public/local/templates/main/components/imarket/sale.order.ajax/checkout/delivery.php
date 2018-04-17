@@ -74,7 +74,7 @@ if(!empty($deliveryServices))
     </div>
     <? foreach ($deliveryServices as $delivery): ?>
         <? if ($delivery['CHECKED'] === 'Y' && !v::isEmpty($delivery['DESCRIPTION'])): ?>
-            <div class="editable-area allert"><?= $delivery['DESCRIPTION'] ?></div>
+            <div class="editable-area allert"><?= htmlspecialcharsback($delivery['DESCRIPTION']) ?></div>
         <? endif ?>
     <? endforeach ?>
     <?

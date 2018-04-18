@@ -8,9 +8,23 @@ roles:
     hosts: [local]
     sentry:
       enabled: false
-  stage:
+  stage-imarket:
     app_env: stage
     hosts: [imarket]
+
+  # blue-green-like deployment of pre-prod & prod
+  # $ mv taleat.ru tmp && mv prod.taleat.ru taleat.ru && mv tmp prod.taleat.ru
+  pre-prod:
+    app_env: stage
+    hosts: [fozzy]
+  prod:
+    app_env: prod
+    hosts: [fozzy]
+    ssh:
+      document_root: /var/www/taleat/data/www/taleat.ru/
+    ftp:
+      url: ftp://vm4290.fozzyhost.com/www/taleat.ru/
+
   stage-tw:
     app_env: prod
     hosts: [tw]

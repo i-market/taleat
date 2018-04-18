@@ -1,7 +1,7 @@
 <?php
 // {{ generated_message }}
 return array (
-  'utf_mode' => 
+  'utf_mode' =>
   array (
     'value' => true,
     'readonly' => true,
@@ -31,32 +31,83 @@ return array (
   'cache' =>
   array (
     'value' =>
+    {% if app_env == 'prod' %}
     array (
-      'type' => 'files',
+      'type' => 'memcache',
+      'sid' => '#taleat',
+      'memcache' =>
+      array (
+        'host' => '127.0.0.1',
+        'port' => '11211',
+      ),
     ),
+    {% else %}
+    array (
+    'type' => 'files',
+    ),
+    {% endif %}
     'readonly' => false,
   ),
   'cache_flags' =>
   array (
-    'value' => 
+    'value' =>
     array (
       'config_options' => 3600,
       'site_domain' => 3600,
     ),
     'readonly' => false,
   ),
-  'cookies' => 
+  'cookies' =>
   array (
-    'value' => 
+    'value' =>
     array (
       'secure' => false,
       'http_only' => true,
     ),
     'readonly' => false,
   ),
-  'exception_handling' => 
+  'exception_handling' =>
+  {% if app_env == 'prod' %}
+  {% if sentry.enabled %}
   array (
-    'value' => 
+    'value' =>
+    array (
+      'debug' => false,
+      'handled_errors_types' => 4437 | E_USER_WARNING,
+      'exception_errors_types' => 4437,
+      'ignore_silence' => false,
+      'assertion_throws_exception' => true,
+      'assertion_error_type' => 256,
+      'log' => array(
+        'class_name' => '\\App\\ExceptionHandlerLog',
+        'settings' => array()
+      ),
+    ),
+    'readonly' => false,
+  ),
+  {% else %}
+  array (
+    'value' =>
+    array (
+      'debug' => true,
+      'handled_errors_types' => E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE & ~E_DEPRECATED,
+      'exception_errors_types' => E_ALL & ~E_NOTICE & ~E_WARNING & ~E_STRICT & ~E_USER_WARNING & ~E_USER_NOTICE & ~E_COMPILE_WARNING,
+      'ignore_silence' => true,
+      'assertion_throws_exception' => false,
+      'assertion_error_type' => 256,
+      'log' => array (
+        'settings' => array (
+          'file' => 'bitrix/modules/error.log',
+          'log_size' => 1000000,
+        ),
+      ),
+    ),
+    'readonly' => true,
+  ),
+  {% endif %}
+  {% else %}
+  array (
+    'value' =>
     array (
       {% if app_env == 'dev' %}
       'debug' => true,
@@ -81,13 +132,18 @@ return array (
     ),
     'readonly' => false,
   ),
-  'connections' => 
+  {% endif %}
+  'connections' =>
   array (
-    'value' => 
+    'value' =>
     array (
-      'default' => 
+      'default' =>
       array (
+        {% if app_env == 'prod' %}
+        'className' => '\\Bitrix\\Main\\DB\\MysqliConnection',
+        {% else %}
         'className' => '\\Bitrix\\Main\\DB\\MysqlConnection',
+        {% endif %}
         'host' => '{{ db.host }}',
         'database' => '{{ db.name }}',
         'login' => '{{ db.user }}',

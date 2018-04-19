@@ -14,6 +14,7 @@ roles:
 
   # blue-green-like deployment of pre-prod & prod
   # $ mv taleat.ru tmp && mv prod.taleat.ru taleat.ru && mv tmp prod.taleat.ru
+  # $ fab -R ... push_configs
   pre-prod:
     app_env: stage
     hosts: [fozzy]

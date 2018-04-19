@@ -12,6 +12,9 @@ class CreateBrandsIblock extends AbstractMigration {
     ];
 
     function up() {
+        // TODO remove migration
+        return;
+
         $conn = Application::getConnection();
         $conn->startTransaction();
         try {

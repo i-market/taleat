@@ -22,8 +22,8 @@ define("BX_MEMCACHE_PORT", "11211");
 @set_time_limit(120);
 define("DBPersistent", false);
 define("MYSQL_TABLE_TYPE", "INNODB");
-define("BX_FILE_PERMISSIONS", 0600);
-define("BX_DIR_PERMISSIONS", 0700);
+define("BX_FILE_PERMISSIONS", 0644);
+define("BX_DIR_PERMISSIONS", 0755);
 ini_set("memory_limit", "512M");
 {% endif %}
 define("DELAY_DB_CONNECT", true);

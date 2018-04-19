@@ -7,6 +7,8 @@ use Core\Underscore as _;
 class Order {
     /** самовывоз */
     const LOCAL_PICKUP = '2';
+    const CSE = '27';
+    const RU_POST = '28';
 
     static function isPayable($order) {
         return $order['STATUS_ID'] === OrderStatus::ACCEPTED
@@ -42,11 +44,11 @@ class Order {
     
     static function deliveryServiceOrgInfo($id) {
         $data = [
-            '24' => [
+            self::RU_POST => [
                 'name' => 'Почта России',
                 'url' => 'https://www.pochta.ru/'
             ],
-            '23' => [
+            self::CSE => [
                 'name' => 'Курьерская служба КСЭ',
                 'url' => 'http://www.cse.ru/lang-rus/'
             ]

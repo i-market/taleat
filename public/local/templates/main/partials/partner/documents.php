@@ -19,7 +19,9 @@ global $APPLICATION, $USER;
     </div>
     <div class="tabs-inner">
         <div class="required-documents">
-            <? if (in_array(CGroup::GetIDByCode(UserGroup::BABYLISS), CUser::GetUserGroup($USER->GetID()))): ?>
+            <? $groups = CUser::GetUserGroup($USER->GetID()) ?>
+            <? if (in_array(CGroup::GetIDByCode(UserGroup::BABYLISS), $groups)
+                || in_array(CGroup::GetIDByCode(UserGroup::FULL_BRAND_ACCESS), $groups)): ?>
                 <a class="download-btn download-btn--small" href="<?= v::path('partneram/reports') ?>">Техническое заключение<span>BABYLISS</span></a>
             <? endif ?>
             <? $APPLICATION->IncludeComponent(

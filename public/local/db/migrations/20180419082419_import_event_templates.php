@@ -12,6 +12,9 @@ class ImportEventTemplates extends AbstractMigration {
             $events = _::keyBy('ID', json_decode(file_get_contents(__DIR__.'/../resources/events.json'), true));
             $result = CEventMessage::GetList($by = 'ID', $order = 'ASC');
             while ($template = $result->Fetch()) {
+                if ($template['EVENT_NAME'] === 'MAIN_MAIL_CONFIRM_CODE') {
+                    continue;
+                }
                 $data = $events[$template['ID']];
                 if (!$data) {
                     throw new Exception('missing data for: '.var_export($template, true));

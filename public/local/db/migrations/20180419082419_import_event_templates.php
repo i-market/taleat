@@ -13,6 +13,9 @@ class ImportEventTemplates extends AbstractMigration {
             $result = CEventMessage::GetList($by = 'ID', $order = 'ASC');
             while ($template = $result->Fetch()) {
                 $data = $events[$template['ID']];
+                if (!$data) {
+                    throw new Exception('missing data for: '.var_export($template, true));
+                }
                 $em = new CEventMessage();
                 $res = $em->Update($template['ID'], [
                     'EMAIL_FROM' => $data['EMAIL_FROM'],

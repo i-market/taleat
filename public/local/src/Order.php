@@ -34,9 +34,8 @@ class Order {
     static function filterDeliveryServices($xs, $location) {
         $moscow = [5773, 6322];
         $stPetersburg = [6002, 6333];
-        $rusPost = 24;
         if (in_array($location, $moscow)) {
-            return _::remove($xs, $rusPost);
+            return _::remove($xs, self::RU_POST);
         } else {
             return $xs;
         }

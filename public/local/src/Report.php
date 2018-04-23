@@ -42,7 +42,6 @@ class Report {
         $fields = array_replace_recursive($suggestions, $initial, $params);
         $products = iter\toArray(Iblock::iter(CIBlockElement::GetList([], ["IBLOCK_ID"=>11, "ACTIVE"=>"Y"], false, false, ["ID", "NAME"])));
         $productId = _::get($fields, 'IZDEL.NAME');
-        // TODO ux: natural sorting of models
         $models = is_numeric($productId)
             ? iter\toArray(Iblock::iter(CIBlockElement::GetProperty(11, $productId, "VALUE_ENUM", "asc", array("CODE"=>"MODELS"))))
             : [];
@@ -52,7 +51,7 @@ class Report {
             'result' => $result,
             'fields' => self::escapeRec($fields),
             'products' => $products,
-            'models' => $models,
+            'models' => Util::naturalSort($models, function ($m) { return $m['VALUE_ENUM']; }),
             'completeness' => $completeness,
             // hardcoded ids
             'defects' => [

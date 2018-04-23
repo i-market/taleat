@@ -133,4 +133,13 @@ class Util {
             return null;
         }
     }
+
+    static function naturalSort($xs, callable $by) {
+        $sortedRef = _::map($xs, $by);
+        natsort($sortedRef);
+        $sortedRef = array_values($sortedRef);
+        return _::sort($xs, function ($x) use ($by, $sortedRef) {
+            return array_search($by($x), $sortedRef);
+        });
+    }
 }

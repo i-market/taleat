@@ -21,6 +21,7 @@ class ImportEventTemplates extends AbstractMigration {
                 }
                 $em = new CEventMessage();
                 $res = $em->Update($template['ID'], [
+                    'ACTIVE' => $data['ACTIVE'],
                     'EMAIL_FROM' => $data['EMAIL_FROM'],
                     'EMAIL_TO' => $data['EMAIL_TO'],
                     'SUBJECT' => $data['SUBJECT'],

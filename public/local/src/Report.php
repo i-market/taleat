@@ -524,7 +524,7 @@ class Report {
             $OK = false;
         }
 
-        App::getInstance()->assert($OK);
+        App::getInstance()->assert($OK, $el->LAST_ERROR);
         return $OK;
     }
 

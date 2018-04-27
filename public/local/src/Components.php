@@ -110,7 +110,7 @@ class Components {
             'message' => null,
             'fields' => $fields
         ];
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_REQUEST['AUTH_FORM'])) {
             $u = new \CUser();
             $fs = array_reduce($fields, function ($acc, $field) {
                 $acc[$field['name']] = $field['value'];

@@ -15,7 +15,15 @@ use App\View as v;
             </p>
             <? $city = $item['PROPERTIES']['CITY']['VALUE'] ?>
             <p class="name"><?= $item['NAME'].(!v::isEmpty($city) ? " ({$city})" : '') ?></p>
-            <p class="paragraph"><?= $item['PREVIEW_TEXT'] ?></p>
+            <p class="paragraph">
+                <?= $item['PREVIEW_TEXT'] ?>
+                <? if (!v::isEmpty($item['DETAIL_TEXT'])): ?>
+                    <br><br>
+                    <strong>Ответ администратора:</strong>
+                    <br>
+                    <?= $item['DETAIL_TEXT'] ?>
+                <? endif ?>
+            </p>
             <p class="link">
                 <span class="reviews-item-link">читать полностью</span>
             </p>

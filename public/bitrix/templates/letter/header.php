@@ -3,6 +3,17 @@ if (isset($_REQUEST['dev'])) {
     $_SERVER['SERVER_NAME'] = 'taleat-staging.i-market.ru';
 }
 ?>
+<!DOCTYPE html>
+<html lang="<?= LANGUAGE_ID ?>">
+<head>
+    <? $APPLICATION->ShowHead() ?>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title><? $APPLICATION->ShowTitle() ?></title>
+</head>
+<body style="width: 100%; margin: 0; padding: 0">
+<? $APPLICATION->ShowPanel() ?>
 <div style="height: 100% !important; padding: 40px; margin: 0; font: normal 16px Arial, 'Helvetica Neue', Helvetica, sans-serif; position: relative; cursor: default; background-color: #f2f3f7;">
     <div style="float: left; margin-bottom: 20px;"><img src="<?= 'http://'.$_SERVER['SERVER_NAME'].'/local/templates/main/build/assets/images/ico/logo.png' ?>" alt="" style="height: 40px; width: auto"></div>
     <div style="float: right; margin-bottom: 20px">

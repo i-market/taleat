@@ -13,6 +13,7 @@
 /public/bitrix/templates/*
 !/public/bitrix/templates/main_page
 !/public/bitrix/templates/letter
+!/public/bitrix/templates/eshop_app
 
 !/public/bitrix/components/
 /public/bitrix/components/*

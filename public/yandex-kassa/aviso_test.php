@@ -5,7 +5,7 @@ CModule::IncludeModule('iblock');
 $arItem = CIBlockElement::GetList(Array(), Array("IBLOCK_ID"=>10, "ID"=>$_REQUEST["orderId"], "ACTIVE"=>"N"), false, false, Array("ID", "PROPERTY_DURATION", "PROPERTY_USER"))->GetNext();
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 if($_REQUEST["md5"] != $md5):?>
-    <paymentAvisoResponse performedDatetime="<?=date("c")?>" code="1" invoiceId="<?=$_REQUEST["invoiceId"]?>" shopId="<?=$_REQUEST["shopId"]?>"/>
+    <paymentAvisoResponse performedDatetime="<?=date("c")?>" code="1" invoiceId="<?=htmlspecialchars($_REQUEST["invoiceId"])?>" shopId="<?=htmlspecialchars($_REQUEST["shopId"])?>"/>
 <?elseif($arItem && $_REQUEST["orderId"]):
     $month = 0;
     $arUser = CUser::GetList(($by="id"), ($order="asc"), Array("ID"=>$arItem["PROPERTY_USER_VALUE"]), Array("FIELDS"=>Array("EMAIL", "NAME")))->GetNext();
@@ -31,7 +31,7 @@ if($_REQUEST["md5"] != $md5):?>
     $arElement->Update($_REQUEST["orderId"], $arFields);
     CEvent::Send("PAYMENT_START", "s1", $arMailFields);
     ?>
-    <paymentAvisoResponse performedDatetime="<?=date("c")?>" code="0" invoiceId="<?=$_REQUEST["invoiceId"]?>" shopId="<?=$_REQUEST["shopId"]?>"/>
+    <paymentAvisoResponse performedDatetime="<?=date("c")?>" code="0" invoiceId="<?=htmlspecialchars($_REQUEST["invoiceId"])?>" shopId="<?=htmlspecialchars($_REQUEST["shopId"])?>"/>
 <?else:?>
-    <paymentAvisoResponse performedDatetime="<?=date("c")?>" code="200" invoiceId="<?=$_REQUEST["invoiceId"]?>" shopId="<?=$_REQUEST["shopId"]?>"/>
+    <paymentAvisoResponse performedDatetime="<?=date("c")?>" code="200" invoiceId="<?=htmlspecialchars($_REQUEST["invoiceId"])?>" shopId="<?=htmlspecialchars($_REQUEST["shopId"])?>"/>
 <?endif?>

@@ -29,11 +29,11 @@ if ($_REQUEST["md5"] != $md5)  $error = 2;
 
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";?><?
 	switch($error){
-		case 0:?><checkOrderResponse performedDatetime="<?=date("c")?>" code="0" invoiceId="<?=$_REQUEST["invoiceId"]?>" shopId="<?=$_REQUEST["shopId"]?>"/>
+		case 0:?><checkOrderResponse performedDatetime="<?=date("c")?>" code="0" invoiceId="<?=htmlspecialchars($_REQUEST["invoiceId"])?>" shopId="<?=htmlspecialchars($_REQUEST["shopId"])?>"/>
 		<?break;
-		case 1:?><checkOrderResponse performedDatetime="<?=date("c")?>" code="100" invoiceId="<?=$_REQUEST["invoiceId"]?>" shopId="<?=$_REQUEST["shopId"]?>" message="Заказ не найден или уже оплачен" />		
+		case 1:?><checkOrderResponse performedDatetime="<?=date("c")?>" code="100" invoiceId="<?=htmlspecialchars($_REQUEST["invoiceId"])?>" shopId="<?=htmlspecialchars($_REQUEST["shopId"])?>" message="Заказ не найден или уже оплачен" />
 		<?break;
-		case 2:?><checkOrderResponse performedDatetime="<?=date("c")?>" code="1" invoiceId="<?=$_REQUEST["invoiceId"]?>" shopId="<?=$_REQUEST["shopId"]?>"/>
+		case 2:?><checkOrderResponse performedDatetime="<?=date("c")?>" code="1" invoiceId="<?=htmlspecialchars($_REQUEST["invoiceId"])?>" shopId="<?=htmlspecialchars($_REQUEST["shopId"])?>"/>
 		<?break;
 	}
 ?>

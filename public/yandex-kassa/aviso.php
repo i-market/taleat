@@ -45,11 +45,11 @@ if ($_REQUEST["md5"] != $md5)  $error = 2;
 
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";?><?
 	switch($error){
-		case 0:?><paymentAvisoResponse performedDatetime="<?=date("c")?>" code="0" invoiceId="<?=$_REQUEST["invoiceId"]?>" shopId="<?=$_REQUEST["shopId"]?>"/>
+		case 0:?><paymentAvisoResponse performedDatetime="<?=date("c")?>" code="0" invoiceId="<?=htmlspecialchars($_REQUEST["invoiceId"])?>" shopId="<?=htmlspecialchars($_REQUEST["shopId"])?>"/>
 		<?break;
-		case 1:?><paymentAvisoResponse performedDatetime="<?=date("c")?>" code="200" invoiceId="<?=$_REQUEST["invoiceId"]?>" shopId="<?=$_REQUEST["shopId"]?>"/>	
+		case 1:?><paymentAvisoResponse performedDatetime="<?=date("c")?>" code="200" invoiceId="<?=htmlspecialchars($_REQUEST["invoiceId"])?>" shopId="<?=htmlspecialchars($_REQUEST["shopId"])?>"/>
 		<?break;
-		case 2:?><paymentAvisoResponse performedDatetime="<?=date("c")?>" code="1" invoiceId="<?=$_REQUEST["invoiceId"]?>" shopId="<?=$_REQUEST["shopId"]?>"/>
+		case 2:?><paymentAvisoResponse performedDatetime="<?=date("c")?>" code="1" invoiceId="<?=htmlspecialchars($_REQUEST["invoiceId"])?>" shopId="<?=htmlspecialchars($_REQUEST["shopId"])?>"/>
 		<?break;
 	}
 	

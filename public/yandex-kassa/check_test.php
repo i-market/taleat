@@ -5,9 +5,9 @@ CModule::IncludeModule('iblock');
 $arItem = CIBlockElement::GetList(Array(), Array("IBLOCK_ID"=>10, "ID"=>$_REQUEST["orderId"], "ACTIVE"=>"N"), false, false, Array("ID"))->GetNext();
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 if($_REQUEST["md5"] != $md5):?>
-    <checkOrderResponse performedDatetime="<?=date("c")?>" code="1" invoiceId="<?=$_REQUEST["invoiceId"]?>" shopId="<?=$_REQUEST["shopId"]?>"/>
+    <checkOrderResponse performedDatetime="<?=date("c")?>" code="1" invoiceId="<?=htmlspecialchars($_REQUEST["invoiceId"])?>" shopId="<?=htmlspecialchars($_REQUEST["shopId"])?>"/>
 <?elseif($arItem && $_REQUEST["orderId"]):?>
-    <checkOrderResponse performedDatetime="<?=date("c")?>" code="0" invoiceId="<?=$_REQUEST["invoiceId"]?>" shopId="<?=$_REQUEST["shopId"]?>"/>
+    <checkOrderResponse performedDatetime="<?=date("c")?>" code="0" invoiceId="<?=htmlspecialchars($_REQUEST["invoiceId"])?>" shopId="<?=htmlspecialchars($_REQUEST["shopId"])?>"/>
 <?else:?>
-    <checkOrderResponse performedDatetime="<?=date("c")?>" code="100" invoiceId="<?=$_REQUEST["invoiceId"]?>" shopId="<?=$_REQUEST["shopId"]?>" message="Заказ не найден или уже оплачен" />
+    <checkOrderResponse performedDatetime="<?=date("c")?>" code="100" invoiceId="<?=htmlspecialchars($_REQUEST["invoiceId"])?>" shopId="<?=htmlspecialchars($_REQUEST["shopId"])?>" message="Заказ не найден или уже оплачен" />
 <?endif?>

@@ -60,7 +60,7 @@ class Admin {
     }
 
     static function action_import() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_REQUEST['AUTH_FORM'])) {
             if (!isset($_FILES['file'])) {
                 App::getInstance()->assert(false, 'illegal state');
                 return v::genericErrorMessageHtml();

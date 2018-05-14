@@ -20,7 +20,7 @@ $withParams = function ($params) {
 
 $result = [];
 // TODO refactor
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_REQUEST['AUTH_FORM'])) {
     $result = Review::create($_REQUEST);
     if ($result['success']) {
         LocalRedirect($withParams(['success' => '1']), false, '303 See Other');

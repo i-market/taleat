@@ -9,7 +9,7 @@ use App\View as v;
 use App\Report;
 
 $result = [];
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_REQUEST['AUTH_FORM'])) {
     $result = Report::create($_REQUEST);
     if ($result['success']) {
         LocalRedirect(v::path('partneram/reports'));

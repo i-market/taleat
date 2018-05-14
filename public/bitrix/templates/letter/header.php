@@ -4,20 +4,15 @@ if (isset($_REQUEST['dev'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?= LANGUAGE_ID ?>">
+<html>
 <head>
-    <? $APPLICATION->ShowHead() ?>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title><? $APPLICATION->ShowTitle() ?></title>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body style="width: 100%; margin: 0; padding: 0">
-<? $APPLICATION->ShowPanel() ?>
 <div style="height: 100% !important; padding: 40px; margin: 0; font: normal 16px Arial, 'Helvetica Neue', Helvetica, sans-serif; position: relative; cursor: default; background-color: #f2f3f7;">
     <div style="float: left; margin-bottom: 20px;"><img src="<?= 'http://'.$_SERVER['SERVER_NAME'].'/local/templates/main/build/assets/images/ico/logo.png' ?>" alt="" style="height: 40px; width: auto"></div>
     <div style="float: right; margin-bottom: 20px">
         <a href="<?= 'http://'.$_SERVER['SERVER_NAME'].'/personal/order/' ?>" style="display: block; height: 40px; line-height: 40px; padding: 0 25px; border: 1px solid #68c; color: #68c; font-size: 16px; text-decoration: none;">Личный кабинет</a>
     </div>
     <div style="clear: both; padding: 40px; background: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);">
-        

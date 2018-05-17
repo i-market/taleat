@@ -95,15 +95,12 @@ class EventHandlers {
                 "DELIVERY_PRICE" => SaleFormatCurrency($fieldsRef['DELIVERY_PRICE'], Product::CURRENCY),
                 'ORDER_PRICE' => SaleFormatCurrency($order->getPrice(), Product::CURRENCY),
                 'DELIVERY_NAME' => $deliveryName,
-                'PAY_SYSTEM_NAME' => $payment->getPaymentSystemName(), // TODO PSA_NAME?
-                'USER_INFO' => ''
+                'PAY_SYSTEM_NAME' => $payment->getPaymentSystemName() // TODO PSA_NAME?
             ];
             // merge
             foreach ($fields as $k => $v) {
                 $fieldsRef[$k] = $v;
             }
-            // mutate fields
-            self::mutateUserInfo($fieldsRef);
         }
         return $fieldsRef;
     }

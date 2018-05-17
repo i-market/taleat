@@ -2331,7 +2331,7 @@ if ($USER->IsAuthorized() || $arParams["ALLOW_AUTO_REGISTER"] == "Y" )
 					if($bSend)
 					{
 						$event = new CEvent;
-						$event->SendImmediate($eventName, SITE_ID, $arFields, "N");
+						$event->Send($eventName, SITE_ID, $arFields, "N");
 					}
 
 					CSaleMobileOrderPush::send("ORDER_CREATED", array("ORDER_ID" => $arFields["ORDER_ID"]));

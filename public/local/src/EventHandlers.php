@@ -79,6 +79,7 @@ class EventHandlers {
                 $holidayText = "<strong>Заказ будет обработан ".$holiday['to']."</strong><br><br>";
             }
             $order = sale\Order::load($fieldsRef['ORDER_ID']);
+            App::getInstance()->assert($order);
             /** @var sale\Payment $payment */
             $payment = $order->getPaymentCollection()->current();
             $items = iter\toArray(Iblock::iter((new CSaleBasket())->GetList([], ['ORDER_ID' => $fieldsRef['ORDER_ID']])));

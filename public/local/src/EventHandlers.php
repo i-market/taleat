@@ -103,7 +103,7 @@ class EventHandlers {
                 $fieldsRef[$k] = $v;
             }
             // mutate fields
-            self::onOrderNewSendEmail($fieldsRef);
+            self::mutateUserInfo($fieldsRef);
         }
         return $fieldsRef;
     }
@@ -148,10 +148,11 @@ class EventHandlers {
         return $fields;
     }
 
-    static function onOrderNewSendEmail(&$fieldsRef) {
+    // TODO refactor
+    private static function mutateUserInfo(&$fieldsRef) {
         if (_::get($_SESSION, 'lastAddedUser')) {
             // TODO make sure it matches order's user
-            $user = json_decode($_SESSION['lastAddedUser'], true);
+            $user = $_SESSION['lastAddedUser'];
             $lines = [
                 '<strong>Ваш аккаунт:</strong>',
                 'Логин: '.$user['LOGIN'],
@@ -161,6 +162,11 @@ class EventHandlers {
             $fieldsRef['USER_INFO'] = '<br>'.join('<br>', $lines).'<br>';
         }
         return $fieldsRef;
+    }
+
+    static function onOrderNewSendEmail($id, $eventName, &$fieldsRef) {
+        // mutate fields
+        return self::mutateUserInfo($fieldsRef);
     }
 
     static function onSaleComponentOrderOneStepComplete($orderId) {
@@ -236,8 +242,7 @@ class EventHandlers {
     }
 
     static function onBeforeUserAdd($fields) {
-        // TODO no need to turn it into a string
-        $_SESSION['lastAddedUser'] = json_encode($fields);
+        $_SESSION['lastAddedUser'] = $fields;
         return $fields;
     }
 

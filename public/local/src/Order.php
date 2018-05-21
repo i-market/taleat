@@ -3,6 +3,7 @@
 namespace App;
 
 use Core\Underscore as _;
+use Core\Util;
 
 class Order {
     /** самовывоз */
@@ -53,5 +54,53 @@ class Order {
             ]
         ];
         return _::get($data, $id);
+    }
+
+    /** квитанция сбербанка */
+    static function invoiceWriter($orderId) {
+        require_once $_SERVER["DOCUMENT_ROOT"].'/local/legacy/phpexcel/PHPExcel/IOFactory.php';
+
+        $templatePath = Util::joinPath([$_SERVER['DOCUMENT_ROOT'], 'local/resources/pd4.xls']);
+
+        $ID = $orderId;
+        /** @noinspection PhpDynamicAsStaticMethodCallInspection */
+        $order = \CSaleOrder::GetByID($ID);
+        if(!$order || $order["PAY_SYSTEM_ID"] != "5") die();
+        $date = ParseDateTime($order["DATE_INSERT"], "YYYY-MM-DD MI:SS");
+        $orderDate = $date["DD"].".".$date["MM"].".".$date["YYYY"];
+        $price = $order["PRICE"];
+        $nameProp = \CSaleOrderPropsValue::GetList(Array(), Array("ORDER_ID"=>$ID, "CODE"=>"IMYA"))->GetNext();
+        $lastnameProp = \CSaleOrderPropsValue::GetList(Array(), Array("ORDER_ID"=>$ID, "CODE"=>"FAM"))->GetNext();
+        $secondnameProp = \CSaleOrderPropsValue::GetList(Array(), Array("ORDER_ID"=>$ID, "CODE"=>"OTCHESTVO"))->GetNext();
+        $addressProp = \CSaleOrderPropsValue::GetList(Array(), Array("ORDER_ID"=>$ID, "CODE"=>"ADDRESS"))->GetNext();
+        $fio = $lastnameProp["VALUE"] . " " . $nameProp["VALUE"] . " " . $secondnameProp["VALUE"];
+        $address = $addressProp["VALUE"];
+        $book = \PHPExcel_IOFactory::load($templatePath);
+        $book->getActiveSheet()->setCellValue('E11', "Оплата заказа №".$ID." от ".$orderDate);
+        $book->getActiveSheet()->setCellValue('E31', "Оплата заказа №".$ID." от ".$orderDate);
+        $book->getActiveSheet()->setCellValue('L15', $price);
+        $book->getActiveSheet()->setCellValue('L35', $price);
+        $book->getActiveSheet()->setCellValue('N13', $fio);
+        $book->getActiveSheet()->setCellValue('N33', $fio);
+        $book->getActiveSheet()->setCellValue('N14', $address);
+        $book->getActiveSheet()->setCellValue('N34', $address);
+        $objWriter = \PHPExcel_IOFactory::createWriter($book, 'Excel5');
+        return $objWriter;
+    }
+
+    static function handleInvoice($orderId) {
+        global $APPLICATION;
+        $writer = self::invoiceWriter($orderId);
+        $filename = "pd4_{$orderId}.xls";
+        header('Content-Description: File Transfer');
+        header('Cache-Control: public, must-revalidate, max-age=0');
+        header('Pragma: public');
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+        $APPLICATION->RestartBuffer();
+        $writer->save('php://output');
+        die();
     }
 }

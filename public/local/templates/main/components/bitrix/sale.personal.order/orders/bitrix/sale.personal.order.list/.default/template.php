@@ -121,7 +121,13 @@ $showOrder = function ($order, $class) use ($arResult, $isCancellable, $orderSta
         <? if (Order::isPayable($order['ORDER'])): ?>
             <? foreach ($order['PAYMENT'] as $payment): ?>
                 <? if ($payment['PAID'] !== 'Y' && $order['ORDER']['IS_ALLOW_PAY'] !== 'N'): ?>
-                    <a target="_blank" href="<?=htmlspecialcharsbx($payment['PSA_ACTION_FILE'])?>" class="yellow-btn">
+                    <?
+                    // TODO refactor: see init.php `payUrl` function
+                    if ($order["ORDER"]["PAY_SYSTEM_ID"] == 8) $link = "/personal/order/yandex-kassa/?ORDER_ID=".$order["ORDER"]["ID"];
+                    elseif ($order["ORDER"]["PAY_SYSTEM_ID"] == 5) $link = "/personal/order/kvit/?id=".$order["ORDER"]["ID"];
+                    else $link = $payment['PSA_ACTION_FILE'];
+                    ?>
+                    <a target="_blank" href="<?= htmlspecialcharsbx($link) ?>" class="yellow-btn">
                         Оплатить <span><?= $payment['FORMATED_SUM'] ?></span>
                     </a>
                 <? endif ?>

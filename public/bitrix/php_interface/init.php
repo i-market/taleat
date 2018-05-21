@@ -72,6 +72,7 @@ function OnAfterUserAddHandler(&$arFields)
 
 AddEventHandler("sale", "OnSaleStatusOrder", Array("myClass", "StatusUpdate"));
 class myClass{
+    // TODO refactor: /local/templates/main/components/bitrix/sale.personal.order/orders/bitrix/sale.personal.order.list/.default/template.php
     static function payUrl($arOrder) {
         $ID = $arOrder['ID'];
         $url = null;
@@ -85,7 +86,7 @@ class myClass{
             $crc  = md5("$mrh_login:$out_summ:$inv_id:$mrh_pass1");
             $url = "https://auth.robokassa.ru/Merchant/Index.aspx?MrchLogin=$mrh_login&"."OutSum=$out_summ&InvId=$inv_id&Desc=$inv_desc&SignatureValue=$crc";
         elseif($arOrder["PAY_SYSTEM_ID"] == 5):
-            $url = "http://".$_SERVER["SERVER_NAME"]."/personal/order/bill/?ORDER_ID=".$ID;
+            $url = "http://".$_SERVER["SERVER_NAME"]."/personal/order/kvit/?id=".$ID;
         elseif($arOrder["PAY_SYSTEM_ID"] == 8):
             $url = "http://".$_SERVER["SERVER_NAME"]."/personal/order/yandex-kassa/?ORDER_ID=".$ID;
         endif;
@@ -95,7 +96,7 @@ class myClass{
     static function payAction($arOrder) {
         $url = self::payUrl($arOrder);
         return $arOrder["PAY_SYSTEM_ID"] == 5
-            ? '<br>Квитанция на оплату заказа – <a href="'.$url.'&download=1">скачать</a><br>'
+            ? '<br>Квитанция на оплату заказа – <a href="'.$url.'">скачать</a><br>'
             : (isset($url) ? '<br><a href="'.$url.'">Оплатить</a><br>' : ''); // TODO better text for other payment methods;
     }
 
